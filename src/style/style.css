@@ -1,0 +1,26 @@
+/*
+Theme Name: Locus
+Theme URI: https://github.com/bkfrye/Locus.git
+Author: Brandon Frye
+Author URI: https://brandonfrye.io
+Version: 1.0
+*/
+
+@import '../../node_modules/normalize.css/normalize.css';
+@import '../../node_modules/aos/dist/aos.css';
+@import 'variables';
+@import 'nprogress';
+@import 'fonts';
+@import 'button';
+@import 'inputs';
+@import 'globals';
+@import 'header';
+@import 'grid';
+@import 'menu';
+@import 'front-page';
+@import 'site-content';
+@import 'colorcode';
+@import 'search';
+@import 'sidebar';
+@import 'not-found';
+@import 'footer';
