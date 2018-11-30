@@ -1,0 +1,21 @@
+#header {
+  background-color: #042A4A;
+}
+
+nav {
+
+}
+
+#menu-main-menu {
+  display: flex;
+  padding: 0;
+
+  & li {
+    list-style-type: none;
+  }
+
+  & a {
+    color: white;
+    text-decoration: none;
+  }
+}

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
-	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-110577987-1"></script>
 	<script>
 	window.dataLayer = window.dataLayer || [];
@@ -16,20 +15,26 @@
 	<link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/img/favicon.ico" type="image/x-icon">
 </head>
 
-<body <?php body_class(); ?>>
+<body>
 <header id="header" class="header">
-	<div class="inner-content">
-		<a href="<?php echo home_url(); ?>" class="logo">
-			<img src="<?php echo get_template_directory_uri(); ?>/img/logo.svg" alt="Logo 🌈">
-			<img src="<?php echo get_template_directory_uri(); ?>/img/logo-bright.svg" alt="Logo 🌈" class="bright">
-		</a>
-
-		<nav class="navigation">
-			<a href="https://github.com/luangjokaj/wordpressify" target="_blank" class="github">
-				<img src="<?php echo get_template_directory_uri(); ?>/img/github.svg" alt="GitHub 🝓">
-				<img src="<?php echo get_template_directory_uri(); ?>/img/github-bright.svg" alt="GitHub 🝓" class="bright">
-			</a>
-		</nav>
+	<div class="header-content">
+    <div class="logo-wrapper">
+  		<a href="<?php echo home_url(); ?>" class="logo">
+  			<?php get_template_part('img/logo.svg'); ?>
+  		</a>
+    </div>
+    
+    <?php if ( has_nav_menu( 'main-menu' ) ) : ?>
+      <?php wp_nav_menu( array(
+        'theme_location' => 'main-menu',
+        'container' => 'nav',
+        'container_class' => 'main-menu',
+        'container_id' => false,
+        'menu_class' => false,
+        'menu_id' => false,
+        'menu_item_class' => false,
+      ) ); ?>
+    <?php endif; ?>
 	</div>
 </header>
 <?php edit_post_link( 'Edit', '<p class="edit-button">', '</p>' ); ?>

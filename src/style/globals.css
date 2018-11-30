@@ -9,6 +9,8 @@ html, body {
 
 body {
 	box-sizing: border-box;
+  font-family: sans-serif;
+  margin: 0;
 }
 
 * {
@@ -16,7 +18,7 @@ body {
 
 	&::selection {
 		color: var(--white);
-		background: var(--medium-blue);
+		background: var(--darkBlue);
 	}
 }
 
@@ -41,5 +43,5 @@ h2 {
 }
 
 h3 {
-	
+
 }

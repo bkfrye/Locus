@@ -1,6 +1,14 @@
 :root {
-	--primary-color: #859A00;
-	
+	--darkBlue: #181B20;
+  --blue: #1E5CE5;
+  --mediumBlue: #03487E;
+  --lightBlue: #008FD7;
+
+  --kindaWhite: #FAFAFA;
+
+
+  --textColor: #042A4A;
+
 }
 
 @define-mixin maxWidth {

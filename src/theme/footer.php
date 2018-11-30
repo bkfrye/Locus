@@ -1,79 +1,32 @@
 <footer class="footer">
-	<section class="categories">
-		<ul>
-			<?php
-				$get_parent_cats = array(
-					'parent' => '0', // get top level categories only
-				);
+	<section class="footer-contact">
+    <div class="information">
+      <h3>Contact Us</h3>
+      <p>7020 Kit Creek Road, Suite 210<br/>
+      Research Triangle Park, NC</p>
 
-				$all_categories = get_categories( $get_parent_cats );// get parent categories
+      <div class="get-directions">
+        <a href="#">Get Directions</a>
+      </div>
 
-				foreach ( $all_categories as $single_category ) {
-					// for each category, get the ID
-					$cat_id = $single_category->cat_ID;
+      <div class="contact">
+        <a href="tel:9193139648">(919) 313-9648</a>
+        <a href="mailto:info@locus-bio.com">info@locus-bio.com</a>
+      </div>
 
-					echo '<li data-aos="slow-categories" data-aos-offset="0"><h2>' . $single_category->name . '</h2>'; // category name & link
-						echo '<ul class="post-title">';
+      <div class="social"></div>
+    </div>
+    <div class="map" style="background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/img/map.png')">
+    </div>
+  </section>
 
-					$query = new WP_Query(
-						array(
-							'cat'            => $cat_id,
-							'posts_per_page' => -1,
-							'order'          => 'ASC',
-						)
-					);
-					while ( $query->have_posts() ) :
-						$query->the_post();
-						echo '<li data-aos="slow-categories" data-aos-offset="0"><a href="' . get_the_permalink() . '">' . get_the_title() . '</a></li>';
-					endwhile;
-					wp_reset_postdata();
+  <section class="footer-main">
+    <div class="footer-logo">
+      <?php get_template_part('img/logo.svg'); ?>
+    </div>
+  </section>
 
-					echo '</ul>';
-					$get_children_cats = array(
-						'child_of' => $cat_id, // get children of this parent using the cat_id variable from earlier
-					);
-
-					$child_cats = get_categories( $get_children_cats );// get children of parent category
-					echo '<ul class="children">';
-					foreach ( $child_cats as $child_cat ) {
-						// for each child category, get the ID
-						$child_id = $child_cat->cat_ID;
-
-						// for each child category, give us the link and name
-						echo '<a href=" ' . get_category_link( $child_id ) . ' ">' . $child_cat->name . '</a>';
-
-							echo '<ul class="post-title">';
-
-						$query = new WP_Query(
-							array(
-								'cat'            => $child_id,
-								'posts_per_page' => -1,
-								'order'          => 'ASC',
-							)
-						);
-						while ( $query->have_posts() ) :
-							$query->the_post();
-							echo '<li data-aos="slow-categories" data-aos-offset="0"><a href="' . get_the_permalink() . '">' . get_the_title() . '</a></li>';
-							endwhile;
-						wp_reset_postdata();
-
-						echo '</ul>';
-
-					}
-					echo '</ul></li>';
-				} //end of categories logic
-			?>
-		</ul>
-	</section>
-
-	<section class="riangle">
-		<a href="https://www.riangle.com/" target="_blank">
-			<img src="<?php echo get_template_directory_uri(); ?>/img/riangle.svg" alt="Riangle 🔺">
-		</a>
-		<p>
-			<span>Powered by <strong><a href="https://www.riangle.com/" target="_blank">Riangle</a></strong>. <?php bloginfo( 'name' ); ?></span> - &copy; <?php echo date( 'Y' ); ?></p>
-		</p>
-	</section>
+  <?php get_template_part('img/helix.svg') ?>
 
 </footer>
 <?php wp_footer(); ?>

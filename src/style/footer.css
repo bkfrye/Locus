@@ -1,0 +1,35 @@
+.footer {
+
+  & a {
+    color: white;
+  }
+
+}
+
+.footer-contact {
+  background-color: var(--mediumBlue);
+  color: white;
+  display: flex;
+
+  & .information {
+    padding: 54px 0 21px;
+    width: 35%;
+  }
+
+  & h3 {
+
+  }
+
+  & .map {
+    width: 65%;
+  }
+}
+
+.footer-main {
+  background-color: var(--darkBlue);
+}
+
+#helix {
+  width: 300px;
+  height: auto;
+}
