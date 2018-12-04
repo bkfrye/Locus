@@ -48,6 +48,12 @@ body {
 		background: #181B20;
 		background: var(--darkBlue);
 	}
+::-moz-selection {
+  background: #ffb7b7;
+}
+::selection {
+  background: #ffb7b7;
+}
 a {
 
 }
@@ -66,6 +72,14 @@ h2 {
 h3 {
 
 }
+section {
+  padding: 0 12px
+}
+section div[class$='wrapper'] {
+    max-width: 1280px;
+    margin: auto;
+    box-sizing: border-box;
+  }
 #header {
   background-color: #042A4A;
   padding: 0 12px;

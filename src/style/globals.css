@@ -22,6 +22,10 @@ body {
 	}
 }
 
+::selection {
+  background: #ffb7b7;
+}
+
 a {
 
 }
@@ -44,4 +48,12 @@ h2 {
 
 h3 {
 
+}
+
+section {
+  padding: 0 12px;
+
+  & div[class$='wrapper'] {
+    @mixin maxWidth;
+  }
 }
