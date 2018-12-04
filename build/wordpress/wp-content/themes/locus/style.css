@@ -68,16 +68,35 @@ h3 {
 }
 #header {
   background-color: #042A4A;
+  padding: 0 12px;
 }
-nav {
+.header-content {
+  align-items: center;
+  display: flex;
+  height: 60px;
+  margin: 0 auto;
+  max-width: var(--maxWidth);
+  width: 100%;
+}
+.logo-wrapper {
+  max-width: 300px;
+  width: 100%;
 
+  border: 1px solid orange;
+}
+nav.main-menu {
+  flex: 1;
+  border: 1px solid chartreuse;
 }
 #menu-main-menu {
   display: flex;
+  justify-content: flex-end;
+  margin: 0;
   padding: 0
 }
 #menu-main-menu li {
     list-style-type: none;
+    margin-left: 1.75em;
   }
 #menu-main-menu a {
     color: white;

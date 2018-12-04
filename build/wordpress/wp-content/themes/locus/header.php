@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-110577987-1"></script>
+	<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-110577987-1"></script>
 	<script>
 	window.dataLayer = window.dataLayer || [];
 	function gtag(){dataLayer.push(arguments);}
 	gtag('js', new Date());
 
 	gtag('config', 'UA-110577987-1');
-	</script>
+	</script> -->
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width">
 	<?php wp_head(); ?>
-	<link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/img/favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/img/favicon.png" type="image/png">
 </head>
 
 <body>
@@ -23,7 +23,7 @@
   			<?php get_template_part('img/logo.svg'); ?>
   		</a>
     </div>
-    
+
     <?php if ( has_nav_menu( 'main-menu' ) ) : ?>
       <?php wp_nav_menu( array(
         'theme_location' => 'main-menu',
