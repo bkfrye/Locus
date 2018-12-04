@@ -101,18 +101,24 @@ nav.main-menu {
 #menu-main-menu a {
     color: white;
     text-decoration: none;
+    text-transform: uppercase;
   }
 .no-results .inner-content {
 		margin-top: 40px;
 	}
+.footer {
+  color: white
+
+}
 .footer a {
     color: white;
   }
+.footer .footer-wrapper {
+    display: flex;
+  }
 .footer-contact {
   background-color: #03487E;
-  background-color: var(--mediumBlue);
-  color: white;
-  display: flex
+  background-color: var(--mediumBlue)
 }
 .footer-contact .information {
     padding: 54px 0 21px;
@@ -126,8 +132,12 @@ nav.main-menu {
   }
 .footer-main {
   background-color: #181B20;
-  background-color: var(--darkBlue);
+  background-color: var(--darkBlue)
 }
+.footer-main .footer-logo {
+    max-width: 300px;
+    width: 100%;
+  }
 #helix {
   width: 300px;
   height: auto;

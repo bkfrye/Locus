@@ -1,15 +1,19 @@
 .footer {
+  color: white;
 
   & a {
     color: white;
+  }
+
+  & .footer-wrapper {
+    display: flex;
   }
 
 }
 
 .footer-contact {
   background-color: var(--mediumBlue);
-  color: white;
-  display: flex;
+
 
   & .information {
     padding: 54px 0 21px;
@@ -27,6 +31,11 @@
 
 .footer-main {
   background-color: var(--darkBlue);
+
+  & .footer-logo {
+    max-width: 300px;
+    width: 100%;
+  }
 }
 
 #helix {
