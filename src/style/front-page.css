@@ -1,0 +1,101 @@
+
+
+
+
+
+.about-us {
+  background-image: url('img/bg-about-us.png');
+  background-repeat: no-repeat;
+  background-size: 50%;
+  background-position: bottom right;
+
+  & .about-us-wrapper {
+    @mixin maxWidth;
+
+    @media (width > 1000px) {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  & article,
+  & aside {
+    flex: 1;
+  }
+
+  & article {
+    max-width: 610px;
+    padding-right: 3em;
+  }
+
+  & aside {
+    max-width: 420px;
+    padding-top: 4em;
+
+    & h3 {
+      font-family: 'museo_sans700';
+      font-size: 24px;
+      line-height: 29px;
+    }
+
+    & p {
+      font-family: 'museo_sans300';
+      font-size: 14px;
+      line-height: 22px;
+    }
+  }
+}
+
+
+
+
+.overview {
+  padding: 0;
+
+  @media (width > 840px) {
+    display: flex;
+  }
+
+  & .overview-item {
+    flex: 1;
+    background-size: contain;
+
+    &:before {
+      content: '';
+      float: left;
+      padding-top: 100%;
+    }
+  }
+
+  & .overview-item-content {
+    align-items: center;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    padding: 2.25em;
+    position: relative;
+    text-align: center;
+  }
+
+  & p {
+    font-size: 14px;
+    line-height: 22px;
+  }
+
+  & .item-title {
+    font-family: 'museo_sans700';
+    font-size: 24px;
+    line-height: 30px;
+  }
+
+  & .text-link {
+    bottom: 3em;
+    position: absolute;
+  }
+
+  & a {
+    color: white;
+  }
+}

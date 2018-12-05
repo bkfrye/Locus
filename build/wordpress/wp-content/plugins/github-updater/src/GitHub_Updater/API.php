@@ -170,10 +170,10 @@ class API {
 	 * @param bool|\stdClass $repo
 	 *
 	 * @return \Fragen\GitHub_Updater\API\Bitbucket_API|
-	 *  \Fragen\GitHub_Updater\API\Bitbucket_Server_API|
-	 *  \Fragen\GitHub_Updater\API\Gitea_API|
-	 *  \Fragen\GitHub_Updater\API\GitHub_API|
-	 *  \Fragen\GitHub_Updater\API\GitLab_API $repo_api
+	 *                                                   \Fragen\GitHub_Updater\API\Bitbucket_Server_API|
+	 *                                                   \Fragen\GitHub_Updater\API\Gitea_API|
+	 *                                                   \Fragen\GitHub_Updater\API\GitHub_API|
+	 *                                                   \Fragen\GitHub_Updater\API\GitLab_API $repo_api
 	 */
 	public function get_repo_api( $git, $repo = false ) {
 		$repo_api = null;
@@ -456,7 +456,7 @@ class API {
 
 					return $this->type->enterprise_api . $endpoint;
 				}
-				if ( $download_link && 'release_asset' === self::$method ) {
+				if ( $download_link ) {
 					$type['base_download'] = $type['base_uri'];
 				}
 				break;

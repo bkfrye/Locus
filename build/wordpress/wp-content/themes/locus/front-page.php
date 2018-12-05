@@ -6,7 +6,7 @@
     <p>CRISPR-engineered precision antibacterial products
 to revolutionize the treatment of disease</p>
     <div class="btn play">
-      <a href="#">See How It Works</a>
+      <a href="#"><span>See How It Works</span></a>
     </div>
   </div>
 </section>
@@ -33,32 +33,38 @@ to revolutionize the treatment of disease</p>
       <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
 
       <div class="btn play">
-        <a href="#">Watch Video</a>
+        <a href="#"><span>Watch Video</span></a>
       </div>
     </aside>
   </div>
 </section>
 
 <section class="overview">
-  <div class="overview-item" style="background-image: url('')">
-    <p class="item-title">Our Platform</p>
-    <p>Cas3 is a powerful exonuclease that shreds targeted DNA beyond repair, leading to a designated cell’s rapid elimination</p>
-    <div class="text-link">
-      <a href="#">More</a>
+  <div class="overview-item" style="background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/img/bg-platform.png')">
+    <div class="overview-item-content">
+      <p class="item-title">Our Platform</p>
+      <p>Cas3 is a powerful exonuclease that shreds targeted DNA beyond repair, leading to a designated cell’s rapid elimination</p>
+      <div class="text-link white">
+        <a href="#">More</a>
+      </div>
     </div>
   </div>
-  <div class="overview-item" style="background-image: url('')">
-    <p class="item-title">Our Platform</p>
-    <p>Cas3 is a powerful exonuclease that shreds targeted DNA beyond repair, leading to a designated cell’s rapid elimination</p>
-    <div class="text-link">
-      <a href="#">More</a>
+  <div class="overview-item" style="background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/img/bg-cas3.png')">
+    <div class="overview-item-content">
+      <p class="item-title">Our Platform</p>
+      <p>Cas3 is a powerful exonuclease that shreds targeted DNA beyond repair, leading to a designated cell’s rapid elimination</p>
+      <div class="text-link white">
+        <a href="#">More</a>
+      </div>
     </div>
   </div>
-  <div class="overview-item" style="background-image: url('')">
-    <p class="item-title">Our Platform</p>
-    <p>Cas3 is a powerful exonuclease that shreds targeted DNA beyond repair, leading to a designated cell’s rapid elimination</p>
-    <div class="text-link">
-      <a href="#">More</a>
+  <div class="overview-item" style="background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/img/bg-bacteriophage.png')">
+    <div class="overview-item-content">
+      <p class="item-title">Our Platform</p>
+      <p>Cas3 is a powerful exonuclease that shreds targeted DNA beyond repair, leading to a designated cell’s rapid elimination</p>
+      <div class="text-link white">
+        <a href="#">More</a>
+      </div>
     </div>
   </div>
 </section>
@@ -91,7 +97,7 @@ to revolutionize the treatment of disease</p>
         <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
 
         <div class="btn play">
-          <a href="#">Watch Video</a>
+          <a href="#"><span>Watch Video</span></a>
         </div>
       </div>
     </aside>

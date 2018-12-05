@@ -1,5 +1,5 @@
 #header {
-  background-color: #042A4A;
+  background-color: var(--textColor);
   padding: 0 12px;
 }
 
