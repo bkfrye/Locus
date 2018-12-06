@@ -1,5 +1,45 @@
 
+.hero {
+  background-image: url('img/hero-placeholder.png');
+  background-size: cover;
+  background-position: center center;
+  height: calc(100vh - 60px);
 
+  & .hero-wrapper {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+  }
+
+  & .hero-content {
+    color: white;
+    max-width: 700px;
+    text-align: center;
+  }
+
+  & p {
+    font-family: 'museo_sans300';
+    font-size: 24px;
+  }
+
+  & .btn {
+    margin: 0 auto;
+  }
+
+  & .down-arrow {
+    bottom: 1.5em;
+    cursor: pointer;
+    height: 30px;
+    position: absolute;
+    width: 30px;
+
+    & svg {
+      height: 100%;
+      width: 100%;
+    }
+  }
+}
 
 
 
@@ -8,6 +48,7 @@
   background-repeat: no-repeat;
   background-size: 50%;
   background-position: bottom right;
+  padding: 104px 0;
 
   & .about-us-wrapper {
     @mixin maxWidth;
@@ -43,6 +84,10 @@
       font-size: 14px;
       line-height: 22px;
     }
+  }
+
+  & .text-link {
+    margin: 60px 0 12px;
   }
 }
 
@@ -98,4 +143,111 @@
   & a {
     color: white;
   }
+}
+
+.our-pipeline {
+  overflow: hidden;
+  padding: 104px 12px;
+
+  & .our-pipeline-wrapper {
+
+    @media (width > 900px) {
+      display: flex;
+    }
+
+  }
+
+  & article {
+    flex: 1.33;
+  }
+
+  & .our-pipeline-content {
+    padding-right: 100px;
+  }
+
+  & aside {
+    background-color: var(--blue);
+    color: white;
+    flex: 1;
+    padding: 54px 0;
+    position: relative;
+    width: 100%;
+
+    &:after {
+      background-color: var(--blue);
+      bottom: 0;
+      content: '';
+      left: -25%;
+      height: 100%;
+      position: absolute;
+      right: -25%;
+      top: 0;
+      width: 150%;
+      z-index: -1;
+
+      @media (width > 900px) {
+        left: 0;
+        height: 200%;
+        right: -100%;
+        top: -50%;
+        width: 200%;
+      }
+    }
+
+    & h3 {
+      font-family: 'museo_sans700';
+      font-size: 24px;
+      line-height: 29px;
+      margin-bottom: 24px;
+    }
+
+    & p {
+      font-size: 14px;
+      line-height: 22px;
+    }
+  }
+
+  & .aside-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: 600px;
+    width: 100%;
+  }
+
+  & .aside-image {
+    padding: 0 2.25em;
+  }
+}
+
+
+.graphs {
+  background-color: var(--textColor);
+  color: white;
+  padding: 104px 0;
+}
+
+.our-team {
+  padding: 104px 0;
+  text-align: center;
+
+  & article {
+    margin: 0 auto;
+    max-width: 800px;
+    padding: 36px;
+  }
+}
+
+
+
+
+
+
+
+.parallax-bg {
+  background-image: url('img/bg-petri-dish.png');
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  height: 400px;
 }

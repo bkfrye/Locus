@@ -1,12 +1,19 @@
 <?php get_header(); ?>
 
-<section class="hero" style="background-image: url()">
+<section class="hero">
   <div class="hero-wrapper">
-    <h1>Introducing crPhage</h1>
-    <p>CRISPR-engineered precision antibacterial products
-to revolutionize the treatment of disease</p>
-    <div class="btn play">
-      <a href="#"><span>See How It Works</span></a>
+    <div class="hero-content">
+      <h1>Introducing crPhage</h1>
+      <p>CRISPR-engineered precision antibacterial products
+  to revolutionize the treatment of disease</p>
+      <div class="btn white play">
+        <a href="#"><span>See How It Works</span></a>
+      </div>
+    </div>
+    <div class="down-arrow">
+      <svg viewBox="0 0 451.847 451.847">
+      	<path d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751   c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0   c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z" fill="#FFFFFF"/>
+      </svg>
     </div>
   </div>
 </section>
@@ -69,35 +76,38 @@ to revolutionize the treatment of disease</p>
   </div>
 </section>
 
-<section class="parallax-bg" style="background-image: url('')"></section>
+<section class="parallax-bg"></section>
 
 <section class="our-pipeline">
   <div class="our-pipeline-wrapper">
     <article>
-      <h2>Our Pipeline</h2>
-      <h3>Locus Biosciences’ crPhage platform has the potential to revolutionize medical science in two critical areas. </h3>
-      <?php // the_field('our_pipline_content'); ?>
-      <p>The first is infectious diseases.
+      <div class="our-pipeline-content">
+        <h2>Our Pipeline</h2>
+        <h3>Locus Biosciences’ crPhage platform has the potential to revolutionize medical science in two critical areas. </h3>
+        <?php // the_field('our_pipline_content'); ?>
+        <p>The first is infectious diseases.
 
-      <p>Our lead program targeting Escherichia coli will enter clinical development in the first half of 2019 with a Phase 1b clinical trial in patients colonized with E. coli in their urinary tracts. </p>
+        <p>Our lead program targeting Escherichia coli will enter clinical development in the first half of 2019 with a Phase 1b clinical trial in patients colonized with E. coli in their urinary tracts. </p>
 
-      <p>We also have crPhage development programs targeting Clostridium difficile, Pseudomonas aeruginosa, Staphylococcus aureus, and other ESKAPE pathogens.</p>
+        <p>We also have crPhage development programs targeting Clostridium difficile, Pseudomonas aeruginosa, Staphylococcus aureus, and other ESKAPE pathogens.</p>
 
-      <p>The second area is microbiome-related disease. Our additional crPhage programs are aimed at undisclosed bacterial targets relevant for inflammatory bowel disease (IBD) and other disorders causes by dysbiosis of the microbiome in gastrointestinal, immunology, oncology, and central nervous system therapy areas.</p>
+        <p>The second area is microbiome-related disease. Our additional crPhage programs are aimed at undisclosed bacterial targets relevant for inflammatory bowel disease (IBD) and other disorders causes by dysbiosis of the microbiome in gastrointestinal, immunology, oncology, and central nervous system therapy areas.</p>
+      </div>
     </article>
 
     <aside>
-      <div class="aside-image">
-        <img src="" alt="">
-      </div>
-      <div class="aside-content">
-        <h3>What we do</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <div class="aside-item">
+        <div class="aside-image">
+          <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/infectious-diseases.png" alt="">
+        </div>
+        <div class="aside-content">
+          <h3>Infectious Diseases</h3>
+          <p>Learn how our crPhage products kill pathogenic bacteria, including antibiotic-resistant “superbugs.”</p>
 
-        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
 
-        <div class="btn play">
-          <a href="#"><span>Watch Video</span></a>
+          <div class="btn white play">
+            <a href="#"><span>Watch Video</span></a>
+          </div>
         </div>
       </div>
     </aside>
@@ -113,7 +123,7 @@ to revolutionize the treatment of disease</p>
   </div>
 </section>
 
-<section class="parallax-bg" style="background-image: url('')"></section>
+<section class="parallax-bg" style=""></section>
 
 <section class="our-team">
   <div class="our-team-wrapper">
