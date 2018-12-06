@@ -48,7 +48,7 @@
   background-repeat: no-repeat;
   background-size: 50%;
   background-position: bottom right;
-  padding: 104px 0;
+  padding: 104px 12px;
 
   & .about-us-wrapper {
     @mixin maxWidth;
@@ -65,13 +65,22 @@
   }
 
   & article {
-    max-width: 610px;
+
     padding-right: 3em;
+
+    @media (width > 810px) {
+      max-width: 610px;
+    }
   }
 
   & aside {
+    margin: 0 auto;
     max-width: 420px;
     padding-top: 4em;
+
+    @media (width > 1000px) {
+      margin: 0;
+    }
 
     & h3 {
       font-family: 'museo_sans700';

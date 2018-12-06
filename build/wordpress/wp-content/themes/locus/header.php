@@ -37,4 +37,4 @@
     <?php endif; ?>
 	</div>
 </header>
-<?php edit_post_link( 'Edit', '<p class="edit-button">', '</p>' ); ?>
+<?php //edit_post_link( 'Edit', '<p class="edit-button">', '</p>' ); ?>

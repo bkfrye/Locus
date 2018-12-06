@@ -43,3 +43,12 @@ function theme_menus() {
 	) );
 }
 add_action( 'init', 'theme_menus' );
+
+
+function custom_menu_page_removing() {
+  remove_menu_page( 'edit-comments.php' );
+}
+add_action( 'admin_menu', 'custom_menu_page_removing' );
+
+
+add_filter('use_block_editor_for_post', '__return_false');

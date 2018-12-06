@@ -8,10 +8,8 @@ Version: 0.0.1
 
 @import 'variables';
 @import 'fonts';
-@import 'inputs';
 @import 'globals';
 @import 'header';
-@import 'menu';
 @import 'front-page';
 @import 'site-content';
 @import 'not-found';

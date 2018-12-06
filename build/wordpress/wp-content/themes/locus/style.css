@@ -1,5 +1,3 @@
-
-@import 'inputs';
 /*
 Theme Name: Locus
 Theme URI: https://github.com/bkfrye/Locus.git
@@ -7,6 +5,7 @@ Author: Brandon Frye
 Author URI: https://brandonfrye.io
 Version: 0.0.1
 */
+
 :root {
 	--darkBlue: #181B20;
   --blue: #1E5CE5;
@@ -19,9 +18,11 @@ Version: 0.0.1
   --textColor: #042A4A;
 
 }
+
 :root {
   --fontText: 'museo_sans500', serif;
 }
+
 @font-face {
     font-family: 'museo_sans100';
     src: url('fonts/exljbris_-_museosans-100-webfont.woff2') format('woff2'),
@@ -31,6 +32,7 @@ Version: 0.0.1
     font-style: normal;
 
 }
+
 @font-face {
     font-family: 'museo_sans100_italic';
     src: url('fonts/exljbris_-_museosans-100italic-webfont.woff2') format('woff2'),
@@ -40,6 +42,7 @@ Version: 0.0.1
     font-style: normal;
 
 }
+
 @font-face {
     font-family: 'museo_sans300';
     src: url('fonts/exljbris_-_museosans-300-webfont.woff2') format('woff2'),
@@ -49,6 +52,7 @@ Version: 0.0.1
     font-style: normal;
 
 }
+
 @font-face {
     font-family: 'museo_sans300_italic';
     src: url('fonts/exljbris_-_museosans-300italic-webfont.woff2') format('woff2'),
@@ -58,6 +62,7 @@ Version: 0.0.1
     font-style: normal;
 
 }
+
 @font-face {
     font-family: 'museo_sans500';
     src: url('fonts/exljbris_-_museosans-500-webfont.woff2') format('woff2'),
@@ -67,6 +72,7 @@ Version: 0.0.1
     font-style: normal;
 
 }
+
 @font-face {
     font-family: 'museo_sans500_italic';
     src: url('fonts/exljbris_-_museosans-500italic-webfont.woff2') format('woff2'),
@@ -76,6 +82,7 @@ Version: 0.0.1
     font-style: normal;
 
 }
+
 @font-face {
     font-family: 'museo_sans700';
     src: url('fonts/exljbris_-_museosans-700-webfont.woff2') format('woff2'),
@@ -85,6 +92,7 @@ Version: 0.0.1
     font-style: normal;
 
 }
+
 @font-face {
     font-family: 'museo_sans700_italic';
     src: url('fonts/exljbris_-_museosans-700italic-webfont.woff2') format('woff2'),
@@ -94,6 +102,7 @@ Version: 0.0.1
     font-style: normal;
 
 }
+
 @font-face {
     font-family: 'museo_sans900';
     src: url('fonts/exljbris_-_museosans-900-webfont.woff2') format('woff2'),
@@ -103,6 +112,7 @@ Version: 0.0.1
     font-style: normal;
 
 }
+
 @font-face {
     font-family: 'museo_sans900_italic';
     src: url('fonts/exljbris_-_museosans-900italic-webfont.woff2') format('woff2'),
@@ -112,6 +122,7 @@ Version: 0.0.1
     font-style: normal;
 
 }
+
 html, body {
 	background: var(--white);
 	color: #042A4A;
@@ -121,24 +132,30 @@ html, body {
 	-moz-osx-font-smoothing: grayscale;
 	height: 100%;
 }
+
 body {
   margin: 0;
 }
+
 * {
   box-sizing: border-box;
 	outline: none
 }
+
 *::-moz-selection {
 		/* color: var(--white); */
 		/* background: var(--darkBlue); */
 	}
+
 *::selection {
 		/* color: var(--white); */
 		/* background: var(--darkBlue); */
 	}
+
 a {
   font-family: 'museo_sans500', sans-serif;
 }
+
 .text-link a {
   color: #1E5CE5;
   color: var(--blue);
@@ -150,6 +167,7 @@ a {
   text-transform: uppercase;
   width: 100%;
 }
+
 .text-link a:before {
   content: url("data:image/svg+xml;charset=UTF-8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' viewBox='0 0 14.9 14.5'><path d='M6.7,1.2,7.5.5A.8.8,0,0,1,8.6.5l6.5,6.4a.9.9,0,0,1,0,1.2L8.6,14.5a.7.7,0,0,1-1.1,0l-.8-.7a.8.8,0,0,1,0-1.1l4.1-3.9H1.2A.7.7,0,0,1,.4,8V7a.7.7,0,0,1,.8-.8h9.6L6.7,2.4A.9.9,0,0,1,6.7,1.2Z' transform='translate(-0.4 -0.2)' style='fill: #1E5CE5'/></svg>");
   position: absolute;
@@ -158,16 +176,20 @@ a {
   right: -2em;
   transition: all 123ms ease-in-out;
 }
+
 .text-link a:hover:before {
   right: -2.5em;
 }
+
 .text-link.white a:before {
   content: url("data:image/svg+xml;charset=UTF-8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' viewBox='0 0 14.9 14.5'><path d='M6.7,1.2,7.5.5A.8.8,0,0,1,8.6.5l6.5,6.4a.9.9,0,0,1,0,1.2L8.6,14.5a.7.7,0,0,1-1.1,0l-.8-.7a.8.8,0,0,1,0-1.1l4.1-3.9H1.2A.7.7,0,0,1,.4,8V7a.7.7,0,0,1,.8-.8h9.6L6.7,2.4A.9.9,0,0,1,6.7,1.2Z' transform='translate(-0.4 -0.2)' style='fill: #FFFFFF'/></svg>");
 }
+
 .btn {
   height: 50px;
   width: 260px;
 }
+
 .btn a {
   align-items: center;
   border: 3px solid #1E5CE5;
@@ -183,21 +205,26 @@ a {
   text-transform: uppercase;
   transition: all 123ms ease-in-out;
 }
+
 .btn:hover a {
   background-color: #1E5CE5;
   background-color: var(--blue);
   color: white;
 }
+
 .btn.white a {
   border: 3px solid white;
   color: white;
 }
+
 .btn.white:hover a{
   background: transparent;
 }
+
 .btn.play span {
   position: relative;
 }
+
 .btn.play span:before {
   content: url("data:image/svg+xml;charset=UTF-8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' viewBox='0 0 26 29.7'><path d='M26.9,15.2,3,1.4a1.1,1.1,0,0,0-1.6.9V29.9a1.1,1.1,0,0,0,1.6.9L26.9,17A1,1,0,0,0,26.9,15.2Z' style='fill: #1e5ce5'/></svg>");
   position: absolute;
@@ -210,65 +237,81 @@ a {
   -webkit-transform-origin: 50% 50%;
           transform-origin: 50% 50%;
 }
+
 .btn.white.play span:before {
   content: url("data:image/svg+xml;charset=UTF-8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' viewBox='0 0 26 29.7'><path d='M26.9,15.2,3,1.4a1.1,1.1,0,0,0-1.6.9V29.9a1.1,1.1,0,0,0,1.6.9L26.9,17A1,1,0,0,0,26.9,15.2Z' style='fill: #FFFFFF'/></svg>");
 }
+
 .btn.play:hover span:before {
   content: url("data:image/svg+xml;charset=UTF-8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' viewBox='0 0 26 29.7'><path d='M26.9,15.2,3,1.4a1.1,1.1,0,0,0-1.6.9V29.9a1.1,1.1,0,0,0,1.6.9L26.9,17A1,1,0,0,0,26.9,15.2Z' style='fill: #FFFFFF'/></svg>");
   -webkit-transform: scale3d(1.3,1.3,1);
           transform: scale3d(1.3,1.3,1);
 }
+
 h1, h2, h3 {
 	box-sizing: border-box;
 }
+
 h3, h4, h5 {
   font-family: 'museo_sans500', sans-serif;
   font-weight: normal;
 }
+
 h1 {
   margin: 0;
 }
+
 h2, h3 {
   margin: 0.25em 0 1.75em;
 }
+
 h1, h2 {
   font-family: 'museo_sans700', sans-serif;
 }
+
 h1 {
   font-size: 60px;
 }
+
 h2 {
   color: #1E5CE5;
   color: var(--blue);
   font-size: 18px;
   line-height: 24px;
 }
+
 h3 {
   font-size: 36px;
   line-height: 48px;
 }
+
 p {
   margin: 0.25em 0 1em;
 }
+
 p, li {
   font-family: 'museo_sans300', sans-serif;
   font-size: 18px;
   font-weight: 300;
   line-height: 30px;
 }
+
 section {
   padding: 0 12px
 }
+
 section div[class$='wrapper'] {
     max-width: 1140px;
     margin: auto;
     box-sizing: border-box;
   }
+
 #header {
   background-color: #042A4A;
   background-color: var(--textColor);
   padding: 0 12px;
 }
+
 .header-content {
   align-items: center;
   display: flex;
@@ -277,55 +320,146 @@ section div[class$='wrapper'] {
   max-width: var(--maxWidth);
   width: 100%;
 }
+
 .logo-wrapper {
   max-width: 300px;
-  width: 100%;
+  width: 100%
+}
 
-  border: 1px solid orange;
-}
-nav.main-menu {
-  flex: 1;
-  border: 1px solid chartreuse;
-}
-#menu-main-menu {
+.logo-wrapper svg {
+    display: block;
+  }
+
+#header nav.main-menu {
+  align-items: center;
+  bottom: 0;
   display: flex;
-  justify-content: flex-end;
+  left: 0;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  display: none
+
+}
+
+@media (min-width: 911px) {
+
+#header nav.main-menu {
+    display: block;
+    flex: 1;
+    position: relative
+
+}
+  }
+
+#header nav.main-menu:before {
+    background-color: white;
+    bottom: 0;
+    content: '';
+    left: 0;
+    opacity: 0.8;
+    position: absolute;
+    top: 0;
+    right: 0
+  }
+
+@media (min-width: 911px) {
+
+#header nav.main-menu:before {
+      background-color: transparent
+  }
+    }
+
+#menu-main-menu {
   margin: 0;
   padding: 0
 }
+
+@media (min-width: 911px) {
+
+#menu-main-menu {
+    display: flex;
+    justify-content: flex-end
+}
+  }
+
 #menu-main-menu li {
     list-style-type: none;
-    margin-left: 1.75em;
+    margin: 1em 0
   }
+
+@media (min-width: 911px) {
+
+#menu-main-menu li {
+      margin: 0 0 0 1.75em
+  }
+    }
+
 #menu-main-menu a {
-    color: white;
+    color: #03487E;
+    color: var(--mediumBlue);
+    font-size: 21px;
+    position: relative;
     text-decoration: none;
-    text-transform: uppercase;
+    text-transform: uppercase
   }
+
+@media (min-width: 911px) {
+
+#menu-main-menu a:before {
+        bottom: -6px;
+        content: '';
+        left: 0;
+        height: 0;
+        position: absolute;
+        right: 0;
+        transition: height 163ms ease-in-out;
+        width: 100%
+    }
+      }
+
+#menu-main-menu a:hover:before {
+      height: 2px;
+    }
+
+@media (min-width: 911px) {
+
+#menu-main-menu a {
+      color: white;
+      font-size: 14px
+  }
+    }
+
 .hero {
   background-image: url('img/hero-placeholder.png');
   background-size: cover;
   background-position: center center;
   height: calc(100vh - 60px)
 }
+
 .hero .hero-wrapper {
     align-items: center;
     display: flex;
     justify-content: center;
     height: 100%;
   }
+
 .hero .hero-content {
     color: white;
     max-width: 700px;
     text-align: center;
   }
+
 .hero p {
     font-family: 'museo_sans300';
     font-size: 24px;
   }
+
 .hero .btn {
     margin: 0 auto;
   }
+
 .hero .down-arrow {
     bottom: 1.5em;
     cursor: pointer;
@@ -333,70 +467,102 @@ nav.main-menu {
     position: absolute;
     width: 30px
   }
+
 .hero .down-arrow svg {
       height: 100%;
       width: 100%;
     }
+
 .about-us {
   background-image: url('img/bg-about-us.png');
   background-repeat: no-repeat;
   background-size: 50%;
   background-position: bottom right;
-  padding: 104px 0
+  padding: 104px 12px
 }
+
 .about-us .about-us-wrapper {
     max-width: 1140px;
     margin: auto;
     box-sizing: border-box
   }
+
 @media (min-width: 1001px) {
+
 .about-us .about-us-wrapper {
       display: flex;
       justify-content: space-between
   }
     }
+
 .about-us article,
   .about-us aside {
     flex: 1;
   }
+
 .about-us article {
-    max-width: 610px;
-    padding-right: 3em;
+
+    padding-right: 3em
   }
+
+@media (min-width: 811px) {
+
+.about-us article {
+      max-width: 610px
+  }
+    }
+
 .about-us aside {
+    margin: 0 auto;
     max-width: 420px;
     padding-top: 4em
   }
+
+@media (min-width: 1001px) {
+
+.about-us aside {
+      margin: 0
+  }
+    }
+
 .about-us aside h3 {
       font-family: 'museo_sans700';
       font-size: 24px;
       line-height: 29px;
     }
+
 .about-us aside p {
       font-family: 'museo_sans300';
       font-size: 14px;
       line-height: 22px;
     }
+
 .about-us .text-link {
     margin: 60px 0 12px;
   }
+
 .overview {
   padding: 0
 }
+
 @media (min-width: 841px) {
+
 .overview {
     display: flex
 }
   }
+
 .overview .overview-item {
     flex: 1;
     background-size: contain
   }
+
 .overview .overview-item:before {
       content: '';
       float: left;
       padding-top: 100%;
     }
+
 .overview .overview-item-content {
     align-items: center;
     color: white;
@@ -408,38 +574,48 @@ nav.main-menu {
     position: relative;
     text-align: center;
   }
+
 .overview p {
     font-size: 14px;
     line-height: 22px;
   }
+
 .overview .item-title {
     font-family: 'museo_sans700';
     font-size: 24px;
     line-height: 30px;
   }
+
 .overview .text-link {
     bottom: 3em;
     position: absolute;
   }
+
 .overview a {
     color: white;
   }
+
 .our-pipeline {
   overflow: hidden;
   padding: 104px 12px
 }
+
 @media (min-width: 901px) {
+
 .our-pipeline .our-pipeline-wrapper {
       display: flex
 
   }
     }
+
 .our-pipeline article {
     flex: 1.33;
   }
+
 .our-pipeline .our-pipeline-content {
     padding-right: 100px;
   }
+
 .our-pipeline aside {
     background-color: #1E5CE5;
     background-color: var(--blue);
@@ -449,6 +625,7 @@ nav.main-menu {
     position: relative;
     width: 100%
   }
+
 .our-pipeline aside:after {
       background-color: #1E5CE5;
       background-color: var(--blue);
@@ -462,7 +639,9 @@ nav.main-menu {
       width: 150%;
       z-index: -1
     }
+
 @media (min-width: 901px) {
+
 .our-pipeline aside:after {
         left: 0;
         height: 200%;
@@ -471,16 +650,19 @@ nav.main-menu {
         width: 200%
     }
       }
+
 .our-pipeline aside h3 {
       font-family: 'museo_sans700';
       font-size: 24px;
       line-height: 29px;
       margin-bottom: 24px;
     }
+
 .our-pipeline aside p {
       font-size: 14px;
       line-height: 22px;
     }
+
 .our-pipeline .aside-item {
     display: flex;
     justify-content: space-between;
@@ -488,24 +670,29 @@ nav.main-menu {
     max-width: 600px;
     width: 100%;
   }
+
 .our-pipeline .aside-image {
     padding: 0 2.25em;
   }
+
 .graphs {
   background-color: #042A4A;
   background-color: var(--textColor);
   color: white;
   padding: 104px 0;
 }
+
 .our-team {
   padding: 104px 0;
   text-align: center
 }
+
 .our-team article {
     margin: 0 auto;
     max-width: 800px;
     padding: 36px;
   }
+
 .parallax-bg {
   background-image: url('img/bg-petri-dish.png');
   background-size: cover;
@@ -513,41 +700,231 @@ nav.main-menu {
   background-attachment: fixed;
   height: 400px;
 }
+
 .no-results .inner-content {
 		margin-top: 40px;
 	}
+
 .footer {
   color: white
 
 }
+
+.footer h3 {
+    margin: 1em 0;
+  }
+
+.footer a, .footer p, .footer li {
+    font-family: 'museo_sans300';
+    font-size: 14px;
+  }
+
+.footer p {
+    line-height: 21px;
+  }
+
+.footer li {
+    line-height: 1;
+  }
+
 .footer a {
     color: white;
+    line-height: 21px;
+    text-decoration: none
   }
+
+.footer a:hover {
+      color: #cccccc;
+    }
+
+@media (min-width: 721px) {
+
 .footer .footer-wrapper {
-    display: flex;
+      display: flex
   }
+    }
+
+.footer .social .icon {
+      display: inline-block;
+      margin-right: 1em;
+    }
+
+.footer svg {
+    fill: white;
+    height: 32px;
+    width: 32px;
+  }
+
+.footer .copyright {
+    text-align: right
+  }
+
+.footer .copyright p {
+      font-size: 10px;
+      margin: 41px 0 0;
+    }
+
 .footer-contact {
   background-color: #03487E;
   background-color: var(--mediumBlue)
 }
+
 .footer-contact .information {
-    padding: 54px 0 21px;
-    width: 35%;
+    padding: 54px 0;
+    text-align: center;
+    width: 100%
   }
-.footer-contact h3 {
+
+@media (min-width: 721px) {
+
+.footer-contact .information {
+      text-align: left;
+      width: 35%
+  }
+    }
+
+.footer-contact .map {
+    background-position: center center;
+    background-size: cover;
+    padding-bottom: 200px;
+
+    width: 100%
 
   }
+
+@media (min-width: 721px) {
+
 .footer-contact .map {
-    width: 65%;
+
+      width: 65%
+
   }
+    }
+
+.footer-contact .get-directions {
+    margin-bottom: 30px
+  }
+
+.footer-contact .get-directions a {
+      font-family: 'museo_sans700';
+      text-transform: uppercase;
+    }
+
+.footer-contact .contact {
+    padding: 0
+  }
+
+.footer-contact .contact li {
+      line-height: 1;
+      list-style-type: none;
+    }
+
+.footer-contact .social {
+    margin-top: 54px;
+  }
+
 .footer-main {
   background-color: #181B20;
-  background-color: var(--darkBlue)
+  background-color: var(--darkBlue);
+  padding: 52px 12px
 }
-.footer-main .footer-logo {
-    max-width: 300px;
-    width: 100%;
+
+.footer-main ul {
+    padding: 0
   }
+
+.footer-main ul li {
+      list-style-type: none;
+    }
+
+.footer-main-left-col {
+  text-align: center
+}
+
+@media (min-width: 721px) {
+
+.footer-main-left-col {
+    text-align: left
+}
+  }
+
+.footer-main-left-col .footer-logo {
+    margin: 0 auto 38px;
+    width: 300px
+  }
+
+.footer-main-left-col .footer-logo svg {
+      height: 100%;
+      width: 100%;
+    }
+
+.footer-main-left-col .contact-links {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: 330px;
+    width: 100%
+  }
+
+@media (min-width: 721px) {
+
+.footer-main-left-col .contact-links {
+      margin: 0
+  }
+    }
+
+.footer-main-left-col .contact {
+    padding: 0
+  }
+
+.footer-main-left-col .contact li {
+      line-height: 1;
+      list-style-type: none;
+    }
+
+.footer-main-right-col {
+  border-top: 1px solid #03487E;
+  border-top: 1px solid var(--mediumBlue);
+  display: flex;
+  justify-content: space-between;
+  margin: 54px auto 0;
+  max-width: 500px;
+  padding-top: 20px;
+  width: 100%
+}
+
+@media (min-width: 721px) {
+
+.footer-main-right-col {
+    border: 0;
+    justify-content: flex-end;
+    margin: 0;
+    max-width: 100%;
+    padding: 0;
+    text-align: right
+}
+  }
+
+.footer-main-right-col nav {
+    margin-left: 70px
+  }
+
+@media (min-width: 721px) {
+
+.footer-main-right-col nav {
+      text-align: right
+  }
+    }
+
+.footer-main-right-col nav a {
+      font-family: 'museo_sans700';
+    }
+
+.footer-main-right-col .main-menu {
+    text-transform: uppercase;
+  }
+
 #helix {
   width: 300px;
   height: auto;

@@ -1,12 +1,59 @@
 .footer {
   color: white;
 
+  & h3 {
+    margin: 1em 0;
+  }
+
+  & a, & p, & li {
+    font-family: 'museo_sans300';
+    font-size: 14px;
+  }
+
+  & p {
+    line-height: 21px;
+  }
+
+  & li {
+    line-height: 1;
+  }
+
   & a {
     color: white;
+    line-height: 21px;
+    text-decoration: none;
+
+    &:hover {
+      color: #cccccc;
+    }
   }
 
   & .footer-wrapper {
-    display: flex;
+    @media (width > 720px) {
+      display: flex;
+    }
+  }
+
+  & .social {
+    & .icon {
+      display: inline-block;
+      margin-right: 1em;
+    }
+  }
+
+  & svg {
+    fill: white;
+    height: 32px;
+    width: 32px;
+  }
+
+  & .copyright {
+    text-align: right;
+
+    & p {
+      font-size: 10px;
+      margin: 41px 0 0;
+    }
   }
 
 }
@@ -14,29 +61,140 @@
 .footer-contact {
   background-color: var(--mediumBlue);
 
-
   & .information {
-    padding: 54px 0 21px;
-    width: 35%;
-  }
-
-  & h3 {
-
+    padding: 54px 0;
+    text-align: center;
+    width: 100%;
+    @media (width > 720px) {
+      text-align: left;
+      width: 35%;
+    }
   }
 
   & .map {
-    width: 65%;
+    background-position: center center;
+    background-size: cover;
+    padding-bottom: 200px;
+
+    width: 100%;
+    @media (width > 720px) {
+
+      width: 65%;
+    }
+
+  }
+
+  & .get-directions {
+    margin-bottom: 30px;
+
+    & a {
+      font-family: 'museo_sans700';
+      text-transform: uppercase;
+    }
+  }
+
+  & .contact {
+    padding: 0;
+
+    & li {
+      line-height: 1;
+      list-style-type: none;
+    }
+  }
+
+  & .social {
+    margin-top: 54px;
   }
 }
 
 .footer-main {
   background-color: var(--darkBlue);
+  padding: 52px 12px;
 
-  & .footer-logo {
-    max-width: 300px;
-    width: 100%;
+  & ul {
+    padding: 0;
+
+    & li {
+      list-style-type: none;
+    }
   }
 }
+
+.footer-main-left-col {
+  text-align: center;
+
+  @media (width > 720px) {
+    text-align: left;
+  }
+
+  & .footer-logo {
+    margin: 0 auto 38px;
+    width: 300px;
+
+    & svg {
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  & .contact-links {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: 330px;
+    width: 100%;
+
+    @media (width > 720px) {
+      margin: 0;
+    }
+  }
+
+  & .contact {
+    padding: 0;
+
+    & li {
+      line-height: 1;
+      list-style-type: none;
+    }
+  }
+}
+
+.footer-main-right-col {
+  border-top: 1px solid var(--mediumBlue);
+  display: flex;
+  justify-content: space-between;
+  margin: 54px auto 0;
+  max-width: 500px;
+  padding-top: 20px;
+  width: 100%;
+
+  @media (width > 720px) {
+    border: 0;
+    justify-content: flex-end;
+    margin: 0;
+    max-width: 100%;
+    padding: 0;
+    text-align: right;
+  }
+
+  & nav {
+    margin-left: 70px;
+
+    @media (width > 720px) {
+      text-align: right;
+    }
+
+    & a {
+      font-family: 'museo_sans700';
+    }
+  }
+
+  & .main-menu {
+    text-transform: uppercase;
+  }
+}
+
 
 #helix {
   width: 300px;
