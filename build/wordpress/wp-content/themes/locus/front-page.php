@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 
-<section class="hero">
+<section id="top" class="hero">
   <div class="hero-wrapper">
     <div class="hero-content">
       <h1>Introducing crPhage</h1>
@@ -11,14 +11,16 @@
       </div>
     </div>
     <div class="down-arrow">
-      <svg viewBox="0 0 451.847 451.847">
-      	<path d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751   c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0   c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z" fill="#FFFFFF"/>
-      </svg>
+      <a href="#about-us">
+        <svg viewBox="0 0 451.847 451.847">
+        	<path d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751   c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0   c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z" fill="#FFFFFF"/>
+        </svg>
+      </a>
     </div>
   </div>
 </section>
 
-<section class="about-us">
+<section id="about-us" class="about-us">
   <div class="about-us-wrapper">
     <article>
       <h2>About Us</h2>
@@ -46,7 +48,7 @@
   </div>
 </section>
 
-<section class="overview">
+<section id="overview" class="overview">
   <div class="overview-item" style="background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/img/bg-platform.png')">
     <div class="overview-item-content">
       <p class="item-title">Our Platform</p>
@@ -78,7 +80,7 @@
 
 <section class="parallax-bg"></section>
 
-<section class="our-pipeline">
+<section id="our-pipeline" class="our-pipeline">
   <div class="our-pipeline-wrapper">
     <article>
       <div class="our-pipeline-content">
@@ -114,42 +116,50 @@
   </div>
 </section>
 
-<section class="graphs">
+<section id="graphs" class="graphs">
   <div class="graph-wrapper">
     <div class="graph-item">
       <h3>Infectious Disease</h3>
-      <img src="" alt="">
+      <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/infectious-disease.png" alt="">
+    </div>
+    <div class="graph-item">
+      <h3>Microbiome</h3>
+      <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/microbiome.png" alt="">
     </div>
   </div>
 </section>
 
 <section class="parallax-bg" style=""></section>
 
-<section class="our-team">
+<section id="our-team" class="our-team">
   <div class="our-team-wrapper">
     <article>
       <h2>Our Team</h2>
       <h3>Locus Biosciences has assembled an experienced team of leaders in CRISPR, antibacterial drug development, and biotech finance to drive our products into clinical development.</h3>
     </article>
 
-    <?php echo do_shortcode('[a-team-showcase id="103"]') ?>
+    <div id="team-wrapper">
+      <?php echo do_shortcode('[a-team-showcase id="103"]') ?>
+    </div>
   </div>
 </section>
 
-<section class="careers" style="background-image: url('')">
+<section id="careers" class="careers" style="background-image: url('<?php echo get_stylesheet_directory_uri() ?>/img/bg-careers.png')">
   <div class="careers-content">
     <h4>Help us revolutionize medical science</h4>
-    <div class="btn">
+    <div class="btn white">
       <a href="#">Our Current Openings</a>
     </div>
   </div>
 </section>
 
-<section class="partners">
-  <div class="partners wrapper">
+<section id="partners" class="partners">
+  <div class="partners-wrapper">
     <h4>Our Investors & Partners</h4>
     <ul class="partner-list">
-      <li><img src="" alt=""></li>
+      <li>
+        <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/logo-abstract-ventures.png" alt="">
+      </li>
     </ul>
     <div class="btn">
       <a href="#">Partner with us</a>

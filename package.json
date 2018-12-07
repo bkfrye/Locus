@@ -48,6 +48,7 @@
 		"stylelint-config-standard": "^18.2.0"
 	},
 	"dependencies": {
+		"smoothscroll-polyfill": "^0.4.3",
 		"video.js": "^7.3.0"
 	}
 }

@@ -1,6 +1,7 @@
 <footer class="footer">
-  <?php if (is_front_page) : ?>
+  <?php if (is_front_page()) : ?>
   	<section class="footer-contact">
+      <div id="contact"></div>
       <div class="footer-wrapper">
         <div class="information">
           <h3>Contact Us</h3>

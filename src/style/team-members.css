@@ -5,3 +5,62 @@
 .team-field-content {
   line-height: 1.4;
 }
+
+
+#team-wrapper {
+  border-top: 1px solid var(--lightGray);
+  margin: 0 auto;
+  padding-top: 34px;
+  width: calc(100% - 2.5%);
+
+  & .filter-controls {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+
+  & .filter-item {
+    &:nth-child(1) {
+      display: none;
+      order: 25;
+    }
+
+    &:nth-child(2) {
+      order: 2;
+    }
+    &:nth-child(3) {
+      order: 1;
+    }
+    &:nth-child(4) {
+      order: 3;
+    }
+    &:nth-child(5) {
+      order: 4;
+    }
+    &:nth-child(6) {
+      order: 5;
+    }
+  }
+
+  & .ats-button {
+    background-color: transparent!important;
+    font-family: 'museo_sans700';
+    font-size: 14px;
+    text-transform: uppercase;
+    transition: color 123ms ease-in-out;
+
+    &:hover {
+      color: gray !important;
+    }
+  }
+
+  & .ats-button.ats-button-active {
+    color: var(--blue)!important;
+  }
+}
+
+.ats-employer-panel-clean .ats-employer-panel-head {
+  font-family: 'museo_sans500' !important;
+}

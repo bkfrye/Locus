@@ -72,6 +72,11 @@ a {
   transition: all 123ms ease-in-out;
 }
 
+.btn.white a {
+  border: 3px solid white;
+  color: white;
+}
+
 .btn:hover a {
   background-color: var(--blue);
   color: white;
@@ -165,4 +170,9 @@ section {
   & div[class$='wrapper'] {
     @mixin maxWidth;
   }
+}
+
+img {
+  align-self: center;
+  max-width: 100%;
 }

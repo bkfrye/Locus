@@ -1,6 +1,5 @@
 #header {
   background-color: var(--textColor);
-  padding: 0 12px;
 }
 
 .header-content {
@@ -9,7 +8,12 @@
   height: 60px;
   margin: 0 auto;
   max-width: var(--maxWidth);
+  padding: 0 12px;
   width: 100%;
+
+  @media (width > 840px) {
+    padding: 0 20px;
+  }
 }
 
 .logo-wrapper {
@@ -32,7 +36,7 @@
   right: 0;
   display: none;
 
-  @media (width > 910px) {
+  @media (width > 924px) {
     display: block;
     flex: 1;
     position: relative;
@@ -48,7 +52,7 @@
     top: 0;
     right: 0;
 
-    @media (width > 910px) {
+    @media (width > 924px) {
       background-color: transparent;
     }
   }
@@ -59,7 +63,7 @@
   margin: 0;
   padding: 0;
 
-  @media (width > 910px) {
+  @media (width > 924px) {
     display: flex;
     justify-content: flex-end;
   }
@@ -68,7 +72,7 @@
     list-style-type: none;
     margin: 1em 0;
 
-    @media (width > 910px) {
+    @media (width > 924px) {
       margin: 0 0 0 1.75em;
     }
   }
@@ -81,7 +85,7 @@
     text-transform: uppercase;
 
     &:before {
-      @media (width > 910px) {
+      @media (width > 924px) {
         bottom: -6px;
         content: '';
         left: 0;
@@ -97,7 +101,7 @@
       height: 2px;
     }
 
-    @media (width > 910px) {
+    @media (width > 924px) {
       color: white;
       font-size: 14px;
     }
