@@ -21,14 +21,12 @@ function wordpressify_setup() {
 
 	// Add featured image support
 	add_theme_support( 'post-thumbnails' );
-	add_image_size( 'small-thumbnail', 720, 720, true );
-	add_image_size( 'square-thumbnail', 80, 80, true );
-	add_image_size( 'banner-image', 1024, 1024, true );
+	add_image_size( 'team_member', 250, 250, true );
 }
 
 add_action( 'after_setup_theme', 'wordpressify_setup' );
 
-// show_admin_bar( false );
+show_admin_bar( true );
 
 // Checks if there are any posts in the results
 function is_search_has_results() {
@@ -52,3 +50,6 @@ add_action( 'admin_menu', 'custom_menu_page_removing' );
 
 
 add_filter('use_block_editor_for_post', '__return_false');
+
+
+

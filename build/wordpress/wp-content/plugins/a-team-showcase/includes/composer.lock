@@ -1,0 +1,44 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "6bd5c5ddf8e588ea2c51d8c1fab5e739",
+    "content-hash": "d8b34b688a40609349e26e68b584e9fd",
+    "packages": [
+        {
+            "name": "looks_awesome/common",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/whitesunset/wp_awesome.git",
+                "reference": "88b8f675c94b0f25f4cd77244f001af895e2384f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/whitesunset/wp_awesome/zipball/88b8f675c94b0f25f4cd77244f001af895e2384f",
+                "reference": "88b8f675c94b0f25f4cd77244f001af895e2384f",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "LooksAwesome\\Common\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2016-02-29 17:00:54"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "looks_awesome/common": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

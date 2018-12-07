@@ -11,6 +11,7 @@ Version: 0.0.1
 @import 'globals';
 @import 'header';
 @import 'front-page';
+@import 'team-members';
 @import 'site-content';
 @import 'not-found';
 @import 'footer';

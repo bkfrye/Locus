@@ -683,14 +683,14 @@ section div[class$='wrapper'] {
 }
 
 .our-team {
-  padding: 104px 0;
-  text-align: center
+  padding: 104px 0
 }
 
 .our-team article {
     margin: 0 auto;
     max-width: 800px;
     padding: 36px;
+    text-align: center;
   }
 
 .parallax-bg {
@@ -699,6 +699,15 @@ section div[class$='wrapper'] {
   background-position: center center;
   background-attachment: fixed;
   height: 400px;
+}
+
+.employer_name  .team-field-content {
+  color: #1E5CE5;
+  color: var(--blue);
+}
+
+.team-field-content {
+  line-height: 1.4;
 }
 
 .no-results .inner-content {

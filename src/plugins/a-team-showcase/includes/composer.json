@@ -1,0 +1,5 @@
+{
+    "require": {
+        "looks_awesome/common": "dev-master"
+    }
+}

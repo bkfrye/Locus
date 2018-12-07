@@ -1,0 +1,15 @@
+{
+  "name": "looks_awesome/common",
+  "version": "1.0.0",
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/whitesunset/wp_awesome"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "LooksAwesome\\Common\\": "src"
+    }
+  }
+}

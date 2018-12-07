@@ -132,7 +132,7 @@
       <h3>Locus Biosciences has assembled an experienced team of leaders in CRISPR, antibacterial drug development, and biotech finance to drive our products into clinical development.</h3>
     </article>
 
-    <?php get_template_part('template_parts/team-members'); ?>
+    <?php echo do_shortcode('[a-team-showcase id="103"]') ?>
   </div>
 </section>
 

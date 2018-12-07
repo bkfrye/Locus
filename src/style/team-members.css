@@ -1,0 +1,7 @@
+.employer_name  .team-field-content {
+  color: var(--blue);
+}
+
+.team-field-content {
+  line-height: 1.4;
+}

@@ -238,12 +238,12 @@
 
 .our-team {
   padding: 104px 0;
-  text-align: center;
-
+  
   & article {
     margin: 0 auto;
     max-width: 800px;
     padding: 36px;
+    text-align: center;
   }
 }
 
