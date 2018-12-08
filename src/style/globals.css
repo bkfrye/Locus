@@ -9,6 +9,10 @@ html, body {
 
 body {
   margin: 0;
+
+  &.js-no-transition {
+    transition: none !important;
+  }
 }
 
 * {

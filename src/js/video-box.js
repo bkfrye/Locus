@@ -1,7 +1,7 @@
 $('.btn-content').click( function(ev) {
   var URL = $(this).data('url');
 
-  $('#video-player').append("<video id='video' class='video-js'></video>")
+  $('#video-player').append("<div class='video-wrapper'><video id='video' class='video-js'></video></div>")
 
   var player = videojs('video', {
     controls: true,
@@ -22,6 +22,7 @@ $('.btn-content').click( function(ev) {
 
   var closeVideo = function() {
     player.dispose();
+    $('.video-wrapper').remove();
     $('#video-player').removeClass('js-show-video');
     document.querySelector('body').style.overflow = 'scroll';
   };

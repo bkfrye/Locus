@@ -150,8 +150,13 @@ html, body {
 
 
 body {
-  margin: 0;
+  margin: 0
 }
+
+
+body.js-no-transition {
+    transition: none !important;
+  }
 
 
 * {
@@ -441,7 +446,6 @@ img {
   transition: all 333ms ease-in-out;
   right: 0;
   z-index: -10
-
 }
 
 
@@ -449,12 +453,11 @@ img {
 
 
 #header nav.main-menu {
-    display: block;
     flex: 1;
+    justify-content: flex-end;
     opacity: 1;
     position: relative;
     z-index: 1
-
 }
   }
 
@@ -465,29 +468,30 @@ img {
   }
 
 
-#header nav.main-menu:before {
-    background-color: white;
-    bottom: 0;
-    content: '';
-    left: 0;
-    opacity: 0.95;
-    position: absolute;
-    top: 0;
-    right: 0
-  }
+#header .js-open.main-menu:before {
+  background-color: white;
+  bottom: 0;
+  content: '';
+  left: 0;
+  opacity: 0.95;
+  position: absolute;
+  top: 0;
+  right: 0
+}
 
 
 @media (min-width: 925px) {
 
 
-#header nav.main-menu:before {
-      background-color: transparent
+#header .js-open.main-menu:before {
+    background-color: transparent
+}
   }
-    }
 
 
 #menu-main-menu {
   margin: 0;
+  opacity: 0;
   padding: 0
 }
 
@@ -497,7 +501,8 @@ img {
 
 #menu-main-menu {
     display: flex;
-    justify-content: flex-end
+    justify-content: flex-end;
+    opacity: 1
 }
   }
 
@@ -567,6 +572,11 @@ img {
       font-size: 14px
   }
     }
+
+
+.js-open.main-menu #menu-main-menu {
+  opacity: 1;
+}
 
 
 #menu-btn {
@@ -724,16 +734,18 @@ section .anchor-link {
 
 
 .about-us article {
-
-    padding-right: 3em
+    margin: 0 auto;
+    max-width: 720px
   }
 
 
-@media (min-width: 811px) {
+@media (min-width: 1001px) {
 
 
 .about-us article {
-      max-width: 610px
+      margin: 0;
+      max-width: 610px;
+      padding-right: 3em
   }
     }
 
@@ -868,7 +880,17 @@ section .anchor-link {
 
 .our-pipeline article {
     flex: 1.33;
+    padding-bottom: 54px
   }
+
+
+@media (min-width: 901px) {
+
+
+.our-pipeline article {
+      padding-bottom: 0
+  }
+    }
 
 
 .our-pipeline .our-pipeline-content {
@@ -1211,13 +1233,12 @@ section .anchor-link {
 
 #video-player {
   align-items: center;
-  background-color: rgba(0,0,0,0.87);
+  background-color: rgba(4,42,74,0.95);
   bottom: 0;
   display: flex;
   justify-content: center;
   left: 0;
   opacity: 0;
-  padding: 0 35px;
   position: fixed;
   top: 0;
   transition: opacity 333ms ease-in-out;
@@ -1233,6 +1254,13 @@ section .anchor-link {
     visibility: visible;
     z-index: 10;
   }
+
+
+.video-wrapper {
+  height: auto;
+  max-width: 1080px;
+  width: 80vw;
+}
 
 
 .footer {

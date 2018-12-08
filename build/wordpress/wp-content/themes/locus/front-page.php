@@ -42,7 +42,7 @@
       <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
 
       <div class="btn play">
-        <div class="btn-content" data-url="https://vjs.zencdn.net/v/oceans.mp4"><span>Watch Video</span></div>
+        <div class="btn-content" data-url="http://localhost:3000/wp-content/themes/locus/img/phage.mp4"><span>Watch Video</span></div>
       </div>
     </aside>
   </div>
@@ -108,7 +108,9 @@
 
 
           <div class="btn white play">
-            <a href="#"><span>Watch Video</span></a>
+            <div class="btn-content" data-url="http://localhost:3000/wp-content/themes/locus/img/phage.mp4">
+              <span>Watch Video</span>
+            </div>
           </div>
         </div>
       </div>

@@ -1,7 +1,18 @@
 "use strict";
 
 document.addEventListener("DOMContentLoaded", function () {
-  // Select all links with hashes
+  var resizeTimer;
+  var width;
+  $(window).on('resize', function (e) {
+    $('body').addClass('js-no-transition');
+    width = $(window).width();
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      $('body').removeClass('js-no-transition');
+      $('.js-open').removeClass('js-open');
+    }, 250);
+  }); // Select all links with hashes
+
   $('a[href*="#"]').not('[href="#"]').not('[href="#0"]').click(function (event) {
     if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
       var target = $(this.hash);
@@ -52,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 $('.btn-content').click(function (ev) {
   var URL = $(this).data('url');
-  $('#video-player').append("<video id='video' class='video-js'></video>");
+  $('#video-player').append("<div class='video-wrapper'><video id='video' class='video-js'></video></div>");
   var player = videojs('video', {
     controls: true,
     autoplay: true,
@@ -70,6 +81,7 @@ $('.btn-content').click(function (ev) {
 
   var closeVideo = function closeVideo() {
     player.dispose();
+    $('.video-wrapper').remove();
     $('#video-player').removeClass('js-show-video');
     document.querySelector('body').style.overflow = 'scroll';
   };

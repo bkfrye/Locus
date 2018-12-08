@@ -1,5 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+  var resizeTimer;
+
+  var width;
+
+  $(window).on('resize', function(e) {
+    $('body').addClass('js-no-transition');
+    width = $(window).width();
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      $('body').removeClass('js-no-transition');
+
+      $('.js-open').removeClass('js-open');
+    }, 250);
+
+  });
+
+
   // Select all links with hashes
   $('a[href*="#"]')
   	.not('[href="#"]')
