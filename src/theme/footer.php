@@ -140,6 +140,9 @@
     </div>
   </section>
 </footer>
+
+<?php get_template_part('template_parts/video-box'); ?>
+
 <?php wp_footer(); ?>
 </body>
 </html>

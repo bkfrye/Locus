@@ -1,0 +1,23 @@
+#video-player {
+  align-items: center;
+  background-color: rgba(0,0,0,0.87);
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  left: 0;
+  opacity: 0;
+  padding: 0 35px;
+  position: fixed;
+  top: 0;
+  transition: opacity 333ms ease-in-out;
+  right: 0;
+  width: 100%;
+  visibility: none;
+  z-index: -5;
+
+  &.js-show-video {
+    opacity: 1;
+    visibility: visible;
+    z-index: 10;
+  }
+}

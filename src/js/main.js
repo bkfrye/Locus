@@ -1,4 +1,4 @@
-jQuery(document).ready() {
+document.addEventListener("DOMContentLoaded", () => {
 
   // Select all links with hashes
   $('a[href*="#"]')
@@ -29,8 +29,30 @@ jQuery(document).ready() {
   		}
   	});
 
+  const logo = $('.logo-wrapper');
+  const menu = $('#header .main-menu');
+  $('#menu-btn').click( function() {
+
+    if ( $('#menu-btn').hasClass('js-open') ) {
+      $(this).removeClass('js-open');
+      menu.removeClass('js-open');
+      logo.removeClass('js-open');
+    } else {
+      menu.addClass('js-open');
+      logo.addClass('js-open');
+
+      setTimeout(function() {
+        $('#menu-btn').addClass('js-open');
+      }, 203);
+    }
+  });
+
+  $('#menu-main-menu a').click( function(e) {
+    logo.removeClass('js-open');
+    menu.removeClass('js-open');
+    $('#menu-btn').removeClass('js-open');
+  });
 
 
 
-
-}
+});

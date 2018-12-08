@@ -1,8 +1,9 @@
 <?php
 function wordpressify_resources() {
+  wp_enqueue_style( 'video-style', 'https://vjs.zencdn.net/7.3.0/video-js.css', null, '', false );
 	wp_enqueue_style( 'style', get_stylesheet_uri() );
-	wp_enqueue_script( 'header_js', get_template_directory_uri() . '/js/header-bundle.js', null, 1.0, false );
-	wp_enqueue_script( 'footer_js', get_template_directory_uri() . '/js/footer-bundle.js', null, 1.0, true );
+	wp_enqueue_script( 'header_js', get_template_directory_uri() . '/js/header-bundle.js', null, '', false );
+	wp_enqueue_script( 'footer_js', get_template_directory_uri() . '/js/footer-bundle.js', null, '', true );
 }
 
 add_action( 'wp_enqueue_scripts', 'wordpressify_resources' );
@@ -26,7 +27,7 @@ function wordpressify_setup() {
 
 add_action( 'after_setup_theme', 'wordpressify_setup' );
 
-show_admin_bar( true );
+// show_admin_bar( true );
 
 // Checks if there are any posts in the results
 function is_search_has_results() {

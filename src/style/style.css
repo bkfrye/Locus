@@ -6,6 +6,7 @@ Author URI: https://brandonfrye.io
 Version: 0.0.1
 */
 
+
 @import 'variables';
 @import 'fonts';
 @import 'globals';
@@ -14,4 +15,5 @@ Version: 0.0.1
 @import 'team-members';
 @import 'site-content';
 @import 'not-found';
+@import 'video';
 @import 'footer';

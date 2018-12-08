@@ -64,6 +64,7 @@ Header & Footer JavaScript Boundles
 const headerJS = [
 	'node_modules/jquery/dist/jquery.js',
   'node_modules/video.js/dist/video.min.js',
+  'node_modules/luminous-lightbox/dist/luminous.min.js',
 ];
 const footerJS = ['src/js/**'];
 

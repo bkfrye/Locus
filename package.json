@@ -48,6 +48,7 @@
 		"stylelint-config-standard": "^18.2.0"
 	},
 	"dependencies": {
+		"luminous-lightbox": "^2.3.2",
 		"smoothscroll-polyfill": "^0.4.3",
 		"video.js": "^7.3.0"
 	}

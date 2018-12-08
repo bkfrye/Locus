@@ -120,7 +120,8 @@ section .anchor-link {
 
   & .overview-item {
     flex: 1;
-    background-size: contain;
+    background-size: cover;
+    background-repeat: no-repeat;
 
     &:before {
       content: '';

@@ -57,10 +57,12 @@ a {
   height: 50px;
   width: 260px;
 }
-.btn a {
+.btn a,
+.btn .btn-content {
   align-items: center;
   border: 3px solid var(--blue);
   border-radius: 25px;
+  cursor: pointer;
   display: flex;
   justify-content: center;
   font-size: 14px;
@@ -72,22 +74,33 @@ a {
   transition: all 123ms ease-in-out;
 }
 
-.btn.white a {
+.btn.white a,
+.btn.white .btn-content {
   border: 3px solid white;
   color: white;
+  font-family: 'museo_sans300', sans-serif;
 }
 
-.btn:hover a {
+.btn .btn-content {
+  border: 3px solid var(--blue);
+  color: var(--blue);
+  font-family: 'museo_sans300', sans-serif;
+}
+
+.btn:hover a,
+.btn:hover .btn-content {
   background-color: var(--blue);
   color: white;
 }
 
-.btn.white a {
+.btn.white a,
+.btn:hover .btn-content {
   border: 3px solid white;
   color: white;
 }
 
-.btn.white:hover a{
+.btn.white:hover a,
+.btn.white:hover .btn-content {
   background: transparent;
 }
 
