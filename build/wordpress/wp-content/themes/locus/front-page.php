@@ -7,7 +7,7 @@
       <p>CRISPR-engineered precision antibacterial products
   to revolutionize the treatment of disease</p>
       <div class="btn white play">
-        <div class="btn-content" data-url="http://localhost:3000/wp-content/themes/locus/img/phage.mp4"><span>See How It Works</span></div>
+        <div class="btn-content" data-url="<?php echo get_stylesheet_directory_uri(); ?>/img/phage.mp4"><span>See How It Works</span></div>
       </div>
     </div>
     <div class="down-arrow">
@@ -42,7 +42,7 @@
       <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
 
       <div class="btn play">
-        <div class="btn-content" data-url="http://localhost:3000/wp-content/themes/locus/img/phage.mp4"><span>Watch Video</span></div>
+        <div class="btn-content" data-url="<?php echo get_stylesheet_directory_uri(); ?>/img/phage.mp4"><span>Watch Video</span></div>
       </div>
     </aside>
   </div>
@@ -108,7 +108,7 @@
 
 
           <div class="btn white play">
-            <div class="btn-content" data-url="http://localhost:3000/wp-content/themes/locus/img/phage.mp4">
+            <div class="btn-content" data-url="<?php echo get_stylesheet_directory_uri(); ?>/img/phage.mp4">
               <span>Watch Video</span>
             </div>
           </div>
