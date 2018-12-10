@@ -8,15 +8,10 @@ function wordpressify_resources() {
 
 add_action( 'wp_enqueue_scripts', 'wordpressify_resources' );
 
-// Customize excerpt word count length
-function custom_excerpt_length() {
-	return 22;
-}
-
-add_filter( 'excerpt_length', 'custom_excerpt_length' );
-
 // Theme setup
 function wordpressify_setup() {
+
+  // add_editor_style('editor-style.css');
 	// Handle Titles
 	add_theme_support( 'title-tag' );
 

@@ -1,14 +1,20 @@
 <?php get_header(); ?>
 
-<section id="top" class="hero">
+<section id="top" class="hero" style="background-image: url('<?php the_field('hero_background_image'); ?>')">
   <div class="hero-wrapper">
     <div class="hero-content">
-      <h1>Introducing crPhage</h1>
-      <p>CRISPR-engineered precision antibacterial products
-  to revolutionize the treatment of disease</p>
-      <div class="btn white play">
-        <div class="btn-content" data-url="<?php echo get_stylesheet_directory_uri(); ?>/img/phage.mp4"><span>See How It Works</span></div>
-      </div>
+      <h1><?php the_field('headline'); ?></h1>
+      <p><?php the_field('sub-headline'); ?></p>
+
+      <?php if ( get_field('video_link') ) : ?>
+        <div class="btn white play">
+          <div class="btn-content" data-url="<?php the_field('video_link'); ?>"><span>See How It Works</span></div>
+        </div>
+      <?php else : ?>
+        <div class="btn white play">
+          <div class="btn-content" data-url="<?php echo get_stylesheet_directory_uri(); ?>/img/phage.mp4"><span>See How It Works</span></div>
+        </div>
+      <?php endif; ?>
     </div>
     <div class="down-arrow">
       <a href="#about-us">
@@ -23,59 +29,42 @@
 <section id="about-us" class="about-us">
   <div class="about-us-wrapper">
     <article>
-      <h2>About Us</h2>
-      <h3>Locus Biosciences’ CRISPR-Phage (“crPhage”) platform combines the proven safety of bacteriophage with the antibacterial power of CRISPR-Cas3 to create the most innovative antibacterial therapies in decades.</h3>
-      <?php // the_field('about_us_content'); ?>
-      <p>crPhage is designed to rapidly respond to emerging antibiotic resistant pathogenic threats at the site of infection.</p>
-
-      <p>By selectively removing unwanted bacteria, while leaving the many species of good bacteria intact, crPhage can address the growing list of diseases related to the human microbiome.</p>
+      <h2><?php echo __('About Us'); ?></h2>
+      <?php the_field('about_content'); ?>
 
       <div class="text-link">
-        <a href="#">Read More on Our Technology</a>
+        <a href="<?php echo get_site_url(); ?>/technology">Read More on Our Technology</a>
       </div>
     </article>
 
     <aside>
-      <h3>What we do</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <h3><?php the_field('about_side_column_title'); ?></h3>
+      <?php the_field('about_side_column_content'); ?>
 
-      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
-
-      <div class="btn play">
-        <div class="btn-content" data-url="<?php echo get_stylesheet_directory_uri(); ?>/img/phage.mp4"><span>Watch Video</span></div>
-      </div>
+      <?php if ( get_field('include_video') == 1 ) : ?>
+        <div class="btn play">
+          <div class="btn-content" data-url="<?php the_field('video_button'); ?>"><span>Watch Video</span></div>
+        </div>
+      <?php endif; ?>
     </aside>
   </div>
 </section>
 
 <section id="overview" class="overview">
-  <div class="overview-item" style="background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/img/bg-platform.png')">
+
+  <?php $item = get_field('overview_items'); ?>
+
+
+  <div class="overview-item" style="background-image: url('<?php // ?>)">
     <div class="overview-item-content">
       <p class="item-title">Our Platform</p>
       <p>Cas3 is a powerful exonuclease that shreds targeted DNA beyond repair, leading to a designated cell’s rapid elimination</p>
       <div class="text-link white">
-        <a href="#">More</a>
+        <a href="<?php $item['link']; ?>">More</a>
       </div>
     </div>
   </div>
-  <div class="overview-item" style="background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/img/bg-cas3.png')">
-    <div class="overview-item-content">
-      <p class="item-title">Our Platform</p>
-      <p>Cas3 is a powerful exonuclease that shreds targeted DNA beyond repair, leading to a designated cell’s rapid elimination</p>
-      <div class="text-link white">
-        <a href="#">More</a>
-      </div>
-    </div>
-  </div>
-  <div class="overview-item" style="background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/img/bg-bacteriophage.png')">
-    <div class="overview-item-content">
-      <p class="item-title">Our Platform</p>
-      <p>Cas3 is a powerful exonuclease that shreds targeted DNA beyond repair, leading to a designated cell’s rapid elimination</p>
-      <div class="text-link white">
-        <a href="#">More</a>
-      </div>
-    </div>
-  </div>
+
 </section>
 
 <section class="parallax-bg"></section>

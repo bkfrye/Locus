@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (teamEl) {
     $('.ats-button').removeClass('ats-button-active');
-    $('.filter-item:nth-child(4) .ats-button').addClass('ats-button-active');
+    $('.filter-item:eq(4) .ats-button').click();
     console.log('updated team');
   } // ats-button ats-button-active
 
