@@ -14,6 +14,7 @@ const gulp = require('gulp');
 const gutil = require('gulp-util');
 const imagemin = require('gulp-imagemin');
 const inject = require('gulp-inject-string');
+const merge = require('merge-stream');
 const partialimport = require('postcss-easy-import');
 const plumber = require('gulp-plumber');
 const postcss = require('gulp-postcss');
@@ -176,14 +177,23 @@ gulp.task('copy-fonts-dev', () => {
 });
 
 gulp.task('style-dev', () => {
-	return gulp
-		.src('src/style/style.css')
+	const style = gulp.src('src/style/style.css')
 		.pipe(plumber({ errorHandler: onError }))
 		.pipe(sourcemaps.init())
 		.pipe(postcss(pluginsDev))
 		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('build/wordpress/wp-content/themes/' + themeName))
 		.pipe(browserSync.stream({ match: '**/*.css' }));
+
+  const editorStyle = gulp.src('src/style/editor-style.css')
+		.pipe(plumber({ errorHandler: onError }))
+		.pipe(sourcemaps.init())
+		.pipe(postcss(pluginsDev))
+		.pipe(sourcemaps.write('.'))
+		.pipe(gulp.dest('build/wordpress/wp-content/themes/' + themeName))
+		.pipe(browserSync.stream({ match: '**/*.css' }));
+
+  return merge(style, editorStyle);
 });
 
 gulp.task('header-scripts-dev', () => {
