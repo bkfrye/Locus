@@ -39,6 +39,7 @@
 		"gulp-zip": "^4.2.0",
 		"isotope-layout": "^3.0.6",
 		"jquery": "^3.3.1",
+		"merge-stream": "^1.0.1",
 		"normalize.css": "^8.0.1",
 		"nprogress": "^0.2.0",
 		"postcss-easy-import": "^3.0.0",
