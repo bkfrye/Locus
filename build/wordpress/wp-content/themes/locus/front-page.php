@@ -141,7 +141,7 @@
     </article>
 
     <div id="team-wrapper">
-      <?php echo do_shortcode('[a-team-showcase id="103"]') ?>
+      <?php echo do_shortcode('[a-team-showcase id="5564"]') ?>
     </div>
   </div>
 </section>

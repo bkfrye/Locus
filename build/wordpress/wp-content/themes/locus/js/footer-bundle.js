@@ -57,7 +57,16 @@ document.addEventListener("DOMContentLoaded", function () {
     logo.removeClass('js-open');
     menu.removeClass('js-open');
     $('#menu-btn').removeClass('js-open');
-  });
+  }); // update team filter active links
+
+  var teamEl = $('.ats-layout');
+
+  if (teamEl) {
+    $('.ats-button').removeClass('ats-button-active');
+    $('.filter-item:nth-child(4) .ats-button').addClass('ats-button-active');
+    console.log('updated team');
+  } // ats-button ats-button-active
+
 });
 "use strict";
 
