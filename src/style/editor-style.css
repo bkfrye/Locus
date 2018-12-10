@@ -1,0 +1,12 @@
+@import 'variables';
+@import 'fonts';
+@import 'globals';
+
+& ::selection {
+  background-color: black;
+}
+#tinymce{
+  padding: 1em;
+
+
+}
