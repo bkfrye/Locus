@@ -316,6 +316,11 @@ img {
 }
 
 
+.hero {
+  margin-top: 60px;
+}
+
+
 & ::-moz-selection {
   background-color: black;
 }

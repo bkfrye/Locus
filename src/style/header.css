@@ -1,5 +1,10 @@
 #header {
   background-color: var(--textColor);
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 8;
 }
 
 .header-content {

@@ -325,9 +325,19 @@ img {
 }
 
 
+.hero {
+  margin-top: 60px;
+}
+
+
 #header {
   background-color: #042A4A;
   background-color: var(--textColor);
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 8;
 }
 
 
