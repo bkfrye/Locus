@@ -243,13 +243,17 @@ section .anchor-link {
   & .aside-item {
     display: flex;
     justify-content: space-between;
-    margin: 0 auto;
+    margin: 0 auto 54px;
     max-width: 600px;
     width: 100%;
   }
 
   & .aside-image {
     padding: 0 2.25em;
+  }
+
+  & .aside-content {
+    width: 70%;
   }
 }
 

@@ -1,0 +1,21 @@
+#technology {
+  & .hero {
+
+  }
+
+  & .hero-btn-wrapper {
+
+    @media (width > 800px) {
+      display: flex;
+    }
+  }
+
+  & .btn {
+    width: 330px;
+  }
+
+  & .btn.white:hover a {
+    background: white;
+    color: var(--blue);
+  }
+}

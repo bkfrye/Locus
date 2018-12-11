@@ -1,129 +1,44 @@
-:root {
-  --fontText: 'museo_sans500', serif;
-}
 @font-face {
-    font-family: 'museo_sans100';
-    src: url('fonts/exljbris_-_museosans-100-webfont.woff2') format('woff2'),
-         url('fonts/exljbris_-_museosans-100-webfont.woff') format('woff'),
-         url('fonts/exljbris_-_museosans-100-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-
+  font-family: 'museo_sans300';
+  src: url('fonts/exljbris_-_museosans-300-webfont.woff2') format('woff2'),
+    url('fonts/exljbris_-_museosans-300-webfont.woff') format('woff'),
+    url('fonts/exljbris_-_museosans-300-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
-
-
-
 @font-face {
-    font-family: 'museo_sans100_italic';
-    src: url('fonts/exljbris_-_museosans-100italic-webfont.woff2') format('woff2'),
-         url('fonts/exljbris_-_museosans-100italic-webfont.woff') format('woff'),
-         url('fonts/exljbris_-_museosans-100italic-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-
+  font-family: 'museo_sans300_italic';
+  src: url('fonts/exljbris_-_museosans-300italic-webfont.woff2') format('woff2'),
+    url('fonts/exljbris_-_museosans-300italic-webfont.woff') format('woff'),
+    url('fonts/exljbris_-_museosans-300italic-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
-
-
-
 @font-face {
-    font-family: 'museo_sans300';
-    src: url('fonts/exljbris_-_museosans-300-webfont.woff2') format('woff2'),
-         url('fonts/exljbris_-_museosans-300-webfont.woff') format('woff'),
-         url('fonts/exljbris_-_museosans-300-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-
+  font-family: 'museo_sans500';
+  src: url('fonts/exljbris_-_museosans-500-webfont.woff2') format('woff2'),
+    url('fonts/exljbris_-_museosans-500-webfont.woff') format('woff'),
+    url('fonts/exljbris_-_museosans-500-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
-
-
-
 @font-face {
-    font-family: 'museo_sans300_italic';
-    src: url('fonts/exljbris_-_museosans-300italic-webfont.woff2') format('woff2'),
-         url('fonts/exljbris_-_museosans-300italic-webfont.woff') format('woff'),
-         url('fonts/exljbris_-_museosans-300italic-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-
+  font-family: 'museo_sans500_italic';
+  src: url('fonts/exljbris_-_museosans-500italic-webfont.woff2') format('woff2'),
+    url('fonts/exljbris_-_museosans-500italic-webfont.woff') format('woff'),
+    url('fonts/exljbris_-_museosans-500italic-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
-
-
-
 @font-face {
-    font-family: 'museo_sans500';
-    src: url('fonts/exljbris_-_museosans-500-webfont.woff2') format('woff2'),
-         url('fonts/exljbris_-_museosans-500-webfont.woff') format('woff'),
-         url('fonts/exljbris_-_museosans-500-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-
-
-
-@font-face {
-    font-family: 'museo_sans500_italic';
-    src: url('fonts/exljbris_-_museosans-500italic-webfont.woff2') format('woff2'),
-         url('fonts/exljbris_-_museosans-500italic-webfont.woff') format('woff'),
-         url('fonts/exljbris_-_museosans-500italic-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-
-
-
-@font-face {
-    font-family: 'museo_sans700';
-    src: url('fonts/exljbris_-_museosans-700-webfont.woff2') format('woff2'),
-         url('fonts/exljbris_-_museosans-700-webfont.woff') format('woff'),
-         url('fonts/exljbris_-_museosans-700-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-
-
-
-@font-face {
-    font-family: 'museo_sans700_italic';
-    src: url('fonts/exljbris_-_museosans-700italic-webfont.woff2') format('woff2'),
-         url('fonts/exljbris_-_museosans-700italic-webfont.woff') format('woff'),
-         url('fonts/exljbris_-_museosans-700italic-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-
-
-
-@font-face {
-    font-family: 'museo_sans900';
-    src: url('fonts/exljbris_-_museosans-900-webfont.woff2') format('woff2'),
-         url('fonts/exljbris_-_museosans-900-webfont.woff') format('woff'),
-         url('fonts/exljbris_-_museosans-900-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-
-
-
-@font-face {
-    font-family: 'museo_sans900_italic';
-    src: url('fonts/exljbris_-_museosans-900italic-webfont.woff2') format('woff2'),
-         url('fonts/exljbris_-_museosans-900italic-webfont.woff') format('woff'),
-         url('fonts/exljbris_-_museosans-900italic-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-
+  font-family: 'museo_sans700';
+  src: url('fonts/exljbris_-_museosans-700-webfont.woff2') format('woff2'),
+    url('fonts/exljbris_-_museosans-700-webfont.woff') format('woff'),
+    url('fonts/exljbris_-_museosans-700-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }

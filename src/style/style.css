@@ -8,12 +8,12 @@ Version: 0.0.1
 
 
 @import 'variables';
-@import 'fonts';
 @import 'globals';
 @import 'header';
-@import 'front-page';
-@import 'team-members';
 @import 'site-content';
+@import 'front-page';
+@import 'technology';
+@import 'team-members';
 @import 'not-found';
 @import 'video';
 @import 'footer';

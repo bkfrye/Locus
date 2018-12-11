@@ -1,6 +1,7 @@
 <?php
 function wordpressify_resources() {
   wp_enqueue_style( 'video-style', 'https://vjs.zencdn.net/7.3.0/video-js.css', null, '', false );
+  wp_enqueue_style( 'fonts', get_template_directory_uri() . '/fonts.css', null, '', false );
 	wp_enqueue_style( 'style', get_stylesheet_uri() );
 	wp_enqueue_script( 'header_js', get_template_directory_uri() . '/js/header-bundle.js', null, '', false );
 	wp_enqueue_script( 'footer_js', get_template_directory_uri() . '/js/footer-bundle.js', null, '', true );
@@ -11,7 +12,7 @@ add_action( 'wp_enqueue_scripts', 'wordpressify_resources' );
 // Theme setup
 function wordpressify_setup() {
 
-  // add_editor_style('editor-style.css');
+  add_editor_style('editor-style.css');
 	// Handle Titles
 	add_theme_support( 'title-tag' );
 

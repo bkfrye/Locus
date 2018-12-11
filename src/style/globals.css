@@ -29,6 +29,10 @@ a {
   font-family: 'museo_sans500', sans-serif;
 }
 
+.wrapper {
+  @mixin maxWidth;
+}
+
 .text-link a {
   color: var(--blue);
   font-family: 'museo_sans700', sans-serif;
@@ -38,6 +42,10 @@ a {
   text-decoration: none;
   text-transform: uppercase;
   width: 100%;
+
+  &:visited {
+    color: var(--blue);
+  }
 }
 
 .text-link a:before {
@@ -53,19 +61,27 @@ a {
   right: -2.5em;
 }
 
+.text-link.white a {
+  &:visited {
+    color: white;
+  }
+}
+
 .text-link.white a:before {
   content: url("data:image/svg+xml;charset=UTF-8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' viewBox='0 0 14.9 14.5'><path d='M6.7,1.2,7.5.5A.8.8,0,0,1,8.6.5l6.5,6.4a.9.9,0,0,1,0,1.2L8.6,14.5a.7.7,0,0,1-1.1,0l-.8-.7a.8.8,0,0,1,0-1.1l4.1-3.9H1.2A.7.7,0,0,1,.4,8V7a.7.7,0,0,1,.8-.8h9.6L6.7,2.4A.9.9,0,0,1,6.7,1.2Z' transform='translate(-0.4 -0.2)' style='fill: #FFFFFF'/></svg>");
 }
 
 .btn {
   height: 50px;
-  width: 260px;
+  width: 265px;
 }
+
 .btn a,
 .btn .btn-content {
   align-items: center;
   border: 3px solid var(--blue);
   border-radius: 25px;
+  color: var(--blue);
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -76,6 +92,10 @@ a {
   text-decoration: none;
   text-transform: uppercase;
   transition: all 123ms ease-in-out;
+
+  &:visited {
+    color: var(--blue);
+  }
 }
 
 .btn.white a,
@@ -83,6 +103,10 @@ a {
   border: 3px solid white;
   color: white;
   font-family: 'museo_sans300', sans-serif;
+
+  &:visited {
+    color: white;
+  }
 }
 
 .btn .btn-content {
