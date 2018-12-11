@@ -88,7 +88,6 @@ document.addEventListener("DOMContentLoaded", function () {
   if (teamEl) {
     $('.ats-button').removeClass('ats-button-active');
     $('.filter-item:nth-child(4) .ats-button').click();
-    console.log('updated team');
   } // Manage accordion on careers page
 
 
@@ -100,9 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     return false;
-  }); // setup animation scrolling
-
-  AOS.init();
+  });
 });
 "use strict";
 

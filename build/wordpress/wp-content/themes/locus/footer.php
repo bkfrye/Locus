@@ -148,8 +148,8 @@
 <?php get_template_part('template_parts/video-box'); ?>
 
 <?php wp_footer(); ?>
-<script type="text/javascript">
+<!-- <script type="text/javascript">
   AOS.init();
-</script>
+</script> -->
 </body>
 </html>

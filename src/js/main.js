@@ -78,8 +78,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (teamEl) {
     $('.ats-button').removeClass('ats-button-active');
     $('.filter-item:nth-child(4) .ats-button').click();
-
-    console.log('updated team');
   }
 
 
@@ -93,9 +91,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     return false;
   });
-
-  // setup animation scrolling
-  AOS.init();
-
-
 });

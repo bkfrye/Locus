@@ -33,9 +33,11 @@
               <?php elseif ( get_row_layout() == 'video' ) : the_sub_field('text'); ?>
                 <?php $i++; ?>
               	<?php $file = get_sub_field('poster');  $video = get_sub_field('url'); ?>
-                <div class="inline-video" data-url="<?php echo $video; ?>" data-poster="<?php echo $file['url']; ?>">
-                  <video id='inline-video-<?php echo $i;?>' class='video-js'></video>
-                </div>
+                <?php if ($video && $file) : ?>
+                  <div class="inline-video" data-url="<?php echo $video; ?>" data-poster="<?php echo $file['url']; ?>">
+                    <video id='inline-video-<?php echo $i;?>' class='video-js'></video>
+                  </div>
+                <?php endif; ?>
               <?php endif; ?>
             <?php endwhile; ?>
           <?php endif;?>
