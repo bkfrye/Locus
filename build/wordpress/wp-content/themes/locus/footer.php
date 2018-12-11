@@ -5,8 +5,7 @@
       <div class="footer-wrapper">
         <div class="information">
           <h3>Contact Us</h3>
-          <p>7020 Kit Creek Road, Suite 210<br/>
-          Research Triangle Park, NC</p>
+          <p>523 Davis Drive <br>Suite 350 <br>Morrisville NC 27603</p>
 
           <div class="get-directions">
             <div class="text-link white">
@@ -16,7 +15,7 @@
 
           <ul class="contact">
             <li>
-              <a href="tel:9193139648">(919) 313-9648</a>
+              <a href="tel:9194954510">(919) 495-4510</a>
             </li>
             <li>
               <a href="mailto:info@locus-bio.com">info@locus-bio.com</a>

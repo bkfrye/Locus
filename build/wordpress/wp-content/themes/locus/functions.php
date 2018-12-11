@@ -31,6 +31,12 @@ add_action( 'after_setup_theme', 'wordpressify_setup' );
 
 // show_admin_bar( true );
 
+add_filter( 'wp_title', 'customize_title_tag', 10, 3 );
+function customize_title_tag( $title, $sep, $seplocation ) {
+  $title = str_replace( '|', '-', $title );
+  return $title;
+}
+
 // Checks if there are any posts in the results
 function is_search_has_results() {
 	return 0 != $GLOBALS['wp_query']->found_posts;
