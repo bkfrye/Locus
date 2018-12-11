@@ -6,7 +6,7 @@
     <section id="top" class="hero" style="background-color: gray;">
   <?php endif; ?>
     <div class="hero-wrapper">
-      <div class="hero-content">
+      <div class="hero-content fade-in load-hidden">
         <h1><?php the_title(); ?></h1>
         <p><?php the_field('sub-headline'); ?></p>
 
@@ -33,7 +33,7 @@
 
   <section id="platform" class="our-platform">
     <div class="wrapper">
-      <article>
+      <article class="fade-in load-hidden">
         <h2>Our Platform</h2>
         <h3><?php the_field('platform_headline'); ?></h3>
       </article>
@@ -41,13 +41,13 @@
   </section>
 
   <section class="featured-items">
-    <div class="item">
+    <div class="item fade-in load-hidden">
       <div class="header-image" style="background-image: url('<?php echo get_field('dap_header_image')['url']; ?>')">
       </div>
       <p class="title"><?php the_field('discovery_title'); ?></p>
       <?php the_field('discovery_content') ?>
     </div>
-    <div class="item">
+    <div class="item fade-in load-hidden">
       <div class="header-image" style="background-image: url('<?php echo get_field('methods_header_image')['url']; ?>')">
       </div>
       <p class="title light-blue"><?php the_field('methods_title'); ?></p>

@@ -2,7 +2,7 @@
 
 
 
-<section id="top" class="hero" style="background-color: gray;">
+<section id="top" class="hero" style="background-color: #03487E;">
   <div class="hero-wrapper">
     <div class="hero-content fade-in load-hidden">
       <h1><?php the_field('headline'); ?></h1>
@@ -133,13 +133,13 @@
       <?php $logos = get_field('logos'); ?>
       <?php if ( $logos ): ?>
         <?php foreach ($logos as $logo) : ?>
-          <li class="fade-in">
+          <li class="fade-in load-hidden">
             <img src="<?php echo $logo['image']['url']?>" alt="<?php echo $logo['image']['alt']?>">
           </li>
         <?php endforeach; ?>
       <?php endif; ?>
     </ul>
-    <div class="btn">
+    <div class="btn fade-in load-hidden">
       <a href="#contact">Partner with us</a>
     </div>
   </div>

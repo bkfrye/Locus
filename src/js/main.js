@@ -98,8 +98,6 @@ document.addEventListener("DOMContentLoaded", () => {
   var fadeIn = $('.sr .fade-in');
   fadeArray = fadeIn;
 
-  console.log(fadeArray);
-
   fadeArray.each(function() {
     ScrollReveal().reveal($(this), {
       reset: true,
