@@ -94,5 +94,8 @@ document.addEventListener("DOMContentLoaded", () => {
     return false;
   });
 
+  // setup animation scrolling
+  AOS.init();
+
 
 });

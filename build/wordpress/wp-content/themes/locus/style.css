@@ -464,6 +464,8 @@ img {
     position: relative;
     text-decoration: none;
     text-transform: uppercase
+
+
   }
 
 
@@ -471,9 +473,10 @@ img {
 
 
 #menu-main-menu a {
-      color: #03487E;
-      color: var(--mediumBlue);
-      font-size: 21px
+      color: white;
+      font-size: 14px
+
+
   }
     }
 
@@ -482,6 +485,7 @@ img {
 
 
 #menu-main-menu a:before {
+        background-color: white;
         bottom: -6px;
         content: '';
         left: 0;
@@ -496,16 +500,6 @@ img {
 
 #menu-main-menu a:hover:before {
       height: 2px;
-    }
-
-
-@media (min-width: 925px) {
-
-
-#menu-main-menu a {
-      color: white;
-      font-size: 14px
-  }
     }
 
 
@@ -1364,13 +1358,14 @@ section .anchor-link {
 
 
 #careers .accordion {
+    margin: 104px auto 0;
+    max-width: 900px;
     padding: 0
   }
 
 
-#careers .accordion li {
-      border: 1px solid #1E5CE5;
-      border: 1px solid var(--blue);
+#careers .accordion .job-item {
+      border: 1px solid rgba(0,0,0,0.25);
       list-style-type: none;
       margin-bottom: 12px;
     }
@@ -1382,12 +1377,18 @@ section .anchor-link {
       color: white;
       cursor: pointer;
       padding: 1em;
+      transition: all 221ms ease-in-out;
     }
 
 
 #careers .accordion .accordion-content {
-      padding: 1em;
+      padding: 1em 2em;
     }
+
+
+#careers .clickable:hover {
+    background-color: #1f6ca9;
+  }
 
 
 .employer_name  .team-field-content {

@@ -3,10 +3,12 @@
   padding-top: 104px;
 
   & .accordion {
+    margin: 104px auto 0;
+    max-width: 900px;
     padding: 0;
 
-    & li {
-      border: 1px solid var(--blue);
+    & .job-item {
+      border: 1px solid rgba(0,0,0,0.25);
       list-style-type: none;
       margin-bottom: 12px;
     }
@@ -16,10 +18,15 @@
       color: white;
       cursor: pointer;
       padding: 1em;
+      transition: all 221ms ease-in-out;
     }
 
     & .accordion-content {
-      padding: 1em;
+      padding: 1em 2em;
     }
+  }
+
+  & .clickable:hover {
+    background-color: #1f6ca9;
   }
 }

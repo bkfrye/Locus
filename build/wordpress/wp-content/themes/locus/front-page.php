@@ -4,7 +4,7 @@
 
 <section id="top" class="hero" style="background-color: gray;">
   <div class="hero-wrapper">
-    <div class="hero-content">
+    <div class="hero-content" data-aos="fade-in">
       <h1><?php the_field('headline'); ?></h1>
       <p><?php the_field('sub-headline'); ?></p>
 
@@ -29,7 +29,7 @@
 </section>
 
 <section id="about-us" class="about-us">
-  <div class="about-us-wrapper">
+  <div class="about-us-wrapper" data-aos="fade-up">
     <article>
       <h2><?php echo __('About Us'); ?></h2>
       <?php the_field('about_content'); ?>
@@ -56,7 +56,7 @@
 <section class="parallax-bg"></section>
 
 <section id="our-pipeline" class="our-pipeline">
-  <div class="our-pipeline-wrapper">
+  <div class="our-pipeline-wrapper" data-aos="fade-up">
     <article>
       <div class="our-pipeline-content">
         <h2><?php echo __('Our Pipeline'); ?></h2>
@@ -96,7 +96,7 @@
   <section id="graphs" class="graphs">
     <div class="graph-wrapper">
       <?php foreach ( $graphs as $graph ) : ?>
-        <div class="graph-item">
+        <div class="graph-item" data-aos="fade-up">
           <h3><?php echo $graph['title']; ?></h3>
           <img src="<?php echo $graph['image']['url']; ?>" alt="<?php echo $graph['image']['alt']; ?>">
         </div>
@@ -107,7 +107,7 @@
 <section class="parallax-bg" style="background-image: url('<?php the_field('parallax_image_2'); ?>')"></section>
 
 <section id="our-team" class="our-team">
-  <div class="our-team-wrapper">
+  <div class="our-team-wrapper" data-aos="fade-up">
     <article>
       <h2><?php echo __('Our Team'); ?></h2>
       <h3><?php the_field('team_content'); ?></h3>
@@ -120,7 +120,7 @@
 </section>
 
 <section id="careers" class="careers" style="background-image: url('<?php echo get_stylesheet_directory_uri() ?>/img/bg-careers.png')">
-  <div class="careers-content">
+  <div class="careers-content" data-aos="fade-up">
     <h4>Help us revolutionize medical science</h4>
     <div class="btn white">
       <a href="<?php the_field('careers_link'); ?>">Our Current Openings</a>
@@ -135,7 +135,7 @@
       <?php $logos = get_field('logos'); ?>
       <?php if ( $logos ): ?>
         <?php foreach ($logos as $logo) : ?>
-          <li>
+          <li data-aos="fade-up">
             <img src="<?php echo $logo['image']['url']?>" alt="<?php echo $logo['image']['alt']?>">
           </li>
         <?php endforeach; ?>

@@ -106,12 +106,13 @@
     text-transform: uppercase;
 
     @media (width > 924px) {
-      color: var(--mediumBlue);
-      font-size: 21px;
+      color: white;
+      font-size: 14px;
     }
 
     &:before {
       @media (width > 924px) {
+        background-color: white;
         bottom: -6px;
         content: '';
         left: 0;
@@ -127,10 +128,7 @@
       height: 2px;
     }
 
-    @media (width > 924px) {
-      color: white;
-      font-size: 14px;
-    }
+
   }
 }
 

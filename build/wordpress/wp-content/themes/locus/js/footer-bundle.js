@@ -100,7 +100,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     return false;
-  });
+  }); // setup animation scrolling
+
+  AOS.init();
 });
 "use strict";
 
