@@ -12,10 +12,6 @@
         <div class="btn white play">
           <div class="btn-content" data-url="<?php the_field('video_link'); ?>"><span><?php echo __('See How It Works'); ?></span></div>
         </div>
-      <?php else : ?>
-        <div class="btn white play">
-          <div class="btn-content" data-url="<?php echo get_stylesheet_directory_uri(); ?>/img/phage.mp4"><span><?php echo __('See How It Works'); ?></span></div>
-        </div>
       <?php endif; ?>
     </div>
     <div class="down-arrow">
