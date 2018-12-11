@@ -99,6 +99,17 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     return false;
+  }); // animate elements in on scroll
+
+  var fadeArray = [];
+  var fadeIn = $('.sr .fade-in');
+  fadeArray = fadeIn;
+  console.log(fadeArray);
+  fadeArray.each(function () {
+    ScrollReveal().reveal($(this), {
+      reset: true,
+      delay: 250
+    });
   });
 });
 "use strict";

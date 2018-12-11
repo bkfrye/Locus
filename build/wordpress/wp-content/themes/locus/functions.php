@@ -1,13 +1,15 @@
 <?php
 function wordpressify_resources() {
 
-  wp_enqueue_style( 'wow', 'https://unpkg.com/aos@next/dist/aos.css', null, '', false );
+  // wp_enqueue_style( 'wow', 'https://unpkg.com/aos@next/dist/aos.css', null, '', false );
+  wp_enqueue_script( 'wow', 'https://unpkg.com/scrollreveal', null, '', false );
+
   wp_enqueue_style( 'video-style', 'https://vjs.zencdn.net/7.3.0/video-js.css', null, '', false );
   wp_enqueue_style( 'fonts', get_template_directory_uri() . '/fonts.css', null, '', false );
 	wp_enqueue_style( 'style', get_stylesheet_uri() );
 	wp_enqueue_script( 'header_js', get_template_directory_uri() . '/js/header-bundle.js', null, '', false );
 
-  wp_enqueue_script( 'footer_js', 'https://unpkg.com/aos@2.3.0/dist/aos.js', null, '', true );
+  // wp_enqueue_script( 'footer_js', 'https://unpkg.com/aos@2.3.0/dist/aos.js', null, '', true );
 	wp_enqueue_script( 'footer_js', get_template_directory_uri() . '/js/footer-bundle.js', null, '', true );
 }
 

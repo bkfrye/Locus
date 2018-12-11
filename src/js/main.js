@@ -91,4 +91,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     return false;
   });
+
+
+  // animate elements in on scroll
+  let fadeArray = [];
+  var fadeIn = $('.sr .fade-in');
+  fadeArray = fadeIn;
+
+  console.log(fadeArray);
+
+  fadeArray.each(function() {
+    ScrollReveal().reveal($(this), {
+      reset: true,
+      delay: 250,
+    });
+  })
+
 });

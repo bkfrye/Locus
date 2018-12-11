@@ -4,7 +4,7 @@
 
 <section id="top" class="hero" style="background-color: gray;">
   <div class="hero-wrapper">
-    <div class="hero-content" data-aos="fade-in">
+    <div class="hero-content fade-in load-hidden">
       <h1><?php the_field('headline'); ?></h1>
       <p><?php the_field('sub-headline'); ?></p>
 
@@ -25,8 +25,8 @@
 </section>
 
 <section id="about-us" class="about-us">
-  <div class="about-us-wrapper" data-aos="fade-up">
-    <article>
+  <div class="about-us-wrapper">
+    <article class="fade-in load-hidden">
       <h2><?php echo __('About Us'); ?></h2>
       <?php the_field('about_content'); ?>
       <div class="text-link">
@@ -35,14 +35,16 @@
     </article>
 
     <aside>
-      <h3><?php the_field('about_side_column_title'); ?></h3>
-      <?php the_field('about_side_column_content'); ?>
+      <div class="fade-in load-hidden">
+        <h3><?php the_field('about_side_column_title'); ?></h3>
+        <?php the_field('about_side_column_content'); ?>
 
-      <?php if ( get_field('include_video') == 1 ) : ?>
-        <div class="btn play">
-          <div class="btn-content" data-url="<?php the_field('video_button'); ?>"><span><?php echo __('Watch Video'); ?></span></div>
-        </div>
-      <?php endif; ?>
+        <?php if ( get_field('include_video') == 1 ) : ?>
+          <div class="btn play">
+            <div class="btn-content" data-url="<?php the_field('video_button'); ?>"><span><?php echo __('Watch Video'); ?></span></div>
+          </div>
+        <?php endif; ?>
+      </div>
     </aside>
   </div>
 </section>
@@ -52,8 +54,8 @@
 <section class="parallax-bg"></section>
 
 <section id="our-pipeline" class="our-pipeline">
-  <div class="our-pipeline-wrapper" data-aos="fade-up">
-    <article>
+  <div class="our-pipeline-wrapper">
+    <article class="fade-in load-hidden">
       <div class="our-pipeline-content">
         <h2><?php echo __('Our Pipeline'); ?></h2>
         <?php the_field('pipeline_content'); ?>
@@ -64,7 +66,7 @@
       <?php $infos = get_field('aside_content'); ?>
       <?php if ( $infos ) : ?>
         <?php foreach ( $infos as $info ) : ?>
-          <div class="aside-item">
+          <div class="aside-item fade-in load-hidden">
             <div class="aside-image">
               <img src="<?php echo $info['icon_image']; ?>" alt="icon">
             </div>
@@ -92,7 +94,7 @@
   <section id="graphs" class="graphs">
     <div class="graph-wrapper">
       <?php foreach ( $graphs as $graph ) : ?>
-        <div class="graph-item" data-aos="fade-up">
+        <div class="graph-item fade-in load-hidden" >
           <h3><?php echo $graph['title']; ?></h3>
           <img src="<?php echo $graph['image']['url']; ?>" alt="<?php echo $graph['image']['alt']; ?>">
         </div>
@@ -103,7 +105,7 @@
 <section class="parallax-bg" style="background-image: url('<?php the_field('parallax_image_2'); ?>')"></section>
 
 <section id="our-team" class="our-team">
-  <div class="our-team-wrapper" data-aos="fade-up">
+  <div class="our-team-wrapper fade-in">
     <article>
       <h2><?php echo __('Our Team'); ?></h2>
       <h3><?php the_field('team_content'); ?></h3>
@@ -116,7 +118,7 @@
 </section>
 
 <section id="careers" class="careers" style="background-image: url('<?php echo get_stylesheet_directory_uri() ?>/img/bg-careers.png')">
-  <div class="careers-content" data-aos="fade-up">
+  <div class="careers-content fade-in">
     <h4>Help us revolutionize medical science</h4>
     <div class="btn white">
       <a href="<?php the_field('careers_link'); ?>">Our Current Openings</a>
@@ -131,7 +133,7 @@
       <?php $logos = get_field('logos'); ?>
       <?php if ( $logos ): ?>
         <?php foreach ($logos as $logo) : ?>
-          <li data-aos="fade-up">
+          <li class="fade-in">
             <img src="<?php echo $logo['image']['url']?>" alt="<?php echo $logo['image']['alt']?>">
           </li>
         <?php endforeach; ?>

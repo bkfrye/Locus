@@ -35,6 +35,11 @@ html, body {
 }
 
 
+html.sr .load-hidden {
+  visibility: hidden;
+}
+
+
 body {
   margin: 0
 }
