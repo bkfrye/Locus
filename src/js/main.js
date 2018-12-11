@@ -77,12 +77,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (teamEl) {
     $('.ats-button').removeClass('ats-button-active');
-    $('.filter-item:eq(4) .ats-button').click();
+    $('.filter-item:nth-child(4) .ats-button').click();
 
     console.log('updated team');
   }
 
-// ats-button ats-button-active
+
+
+  // Manage accordion on careers page
+  var allPanels = $('.accordion .accordion-content').hide();
+  $('.accordion .clickable').click(function() {
+    if ( !$(this).parent().find($('.accordion-content')).is(':visible') ) {
+      allPanels.slideUp();
+      $(this).parent().find($('.accordion-content')).slideDown();
+    }
+    return false;
+  });
 
 
 });

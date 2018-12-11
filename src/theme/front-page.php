@@ -123,7 +123,7 @@
   <div class="careers-content">
     <h4>Help us revolutionize medical science</h4>
     <div class="btn white">
-      <a href="#">Our Current Openings</a>
+      <a href="<?php the_field('careers_link'); ?>">Our Current Openings</a>
     </div>
   </div>
 </section>

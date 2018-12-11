@@ -217,3 +217,20 @@ img {
   align-self: center;
   max-width: 100%;
 }
+
+
+
+.content-video {
+  background-color: var(--kindaWhite);
+  padding: 104px 12px;
+
+
+  & .wrapper {
+    max-width: 800px;
+  }
+}
+
+.inline-video {
+  margin: 54px auto;
+  max-width: 500px;
+}

@@ -1,5 +1,29 @@
 "use strict";
 
+function loadInlineVideos(el, i) {
+  var URL = el.closest('.inline-video').data('url');
+  var poster = el.closest('.inline-video').data('poster');
+  var id = el.attr('id');
+  console.log(id); // el.append("<video id='inline-video' class='video-js'></video>")
+
+  var player = videojs(id, {
+    controls: true,
+    autoplay: false,
+    preload: 'auto',
+    fluid: true,
+    sources: [URL.toString()],
+    poster: poster
+  });
+  player.removeChild('BigPlayButton');
+}
+
+var inlineVid = $('.video-js');
+console.log(inlineVid);
+inlineVid.each(function () {
+  loadInlineVideos($(this));
+});
+"use strict";
+
 document.addEventListener("DOMContentLoaded", function () {
   var resizeTimer;
   var width;
@@ -63,10 +87,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (teamEl) {
     $('.ats-button').removeClass('ats-button-active');
-    $('.filter-item:eq(4) .ats-button').click();
+    $('.filter-item:nth-child(4) .ats-button').click();
     console.log('updated team');
-  } // ats-button ats-button-active
+  } // Manage accordion on careers page
 
+
+  var allPanels = $('.accordion .accordion-content').hide();
+  $('.accordion .clickable').click(function () {
+    if (!$(this).parent().find($('.accordion-content')).is(':visible')) {
+      allPanels.slideUp();
+      $(this).parent().find($('.accordion-content')).slideDown();
+    }
+
+    return false;
+  });
 });
 "use strict";
 

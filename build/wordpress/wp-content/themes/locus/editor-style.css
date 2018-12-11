@@ -293,6 +293,24 @@ img {
 }
 
 
+.content-video {
+  background-color: #FAFAFA;
+  background-color: var(--kindaWhite);
+  padding: 104px 12px
+}
+
+
+.content-video .wrapper {
+    max-width: 800px;
+  }
+
+
+.inline-video {
+  margin: 54px auto;
+  max-width: 500px;
+}
+
+
 & ::-moz-selection {
   background-color: black;
 }

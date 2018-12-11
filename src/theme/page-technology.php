@@ -10,6 +10,7 @@
         <h1><?php the_title(); ?></h1>
         <p><?php the_field('sub-headline'); ?></p>
 
+        <?php global $wp; $currentURL = home_url( $wp->request ); ?>
         <div class="hero-btn-wrapper">
           <?php if ( get_field('button_1') ) : ?>
             <div class="btn white">
@@ -30,7 +31,7 @@
     </div>
   </section>
 
-  <section class="our-platform">
+  <section id="platform" class="our-platform">
     <div class="wrapper">
       <article>
         <h2>Our Platform</h2>
@@ -39,51 +40,24 @@
     </div>
   </section>
 
-  <section class="platform-methods">
-    <div class="wrapper">
-      <div class="content-wrapper">
-        <div class="content discovery">
-          <div class="content-image">
-            <img src="<?php echo get_field('dap_header_image')['url']; ?>" alt="">
-          </div>
-          <p><?php the_field('discovery_title'); ?></p>
-          <?php the_field('discovery_content'); ?>
-        </div>
-        <div class="content methods">
-          <img src="<?php the_field('image_2'); ?>" alt="">
-          <p><?php the_field('methods_title'); ?></p>
-          <?php the_field('methods_content'); ?>
-        </div>
+  <section class="featured-items">
+    <div class="item">
+      <div class="header-image" style="background-image: url('<?php echo get_field('dap_header_image')['url']; ?>')">
       </div>
-      <h3><?php the_field('development_time'); ?></h3>
+      <p class="title"><?php the_field('discovery_title'); ?></p>
+      <?php the_field('discovery_content') ?>
+    </div>
+    <div class="item">
+      <div class="header-image" style="background-image: url('<?php echo get_field('methods_header_image')['url']; ?>')">
+      </div>
+      <p class="title light-blue"><?php the_field('methods_title'); ?></p>
+      <?php the_field('methods_content'); ?>
     </div>
   </section>
 
-  <section class="dap tech-info">
-    <header>
-      <h3><?php the_field('discovery_title'); ?></h3>
-      <div class="header-image">
-        <?php $img = get_field('dap_header_image'); ?>
-        <img src="<?php echo $img['url']; ?>" alt="">
-      </div>
-    </header>
-    <div class="article-wrapper">
-      <?php $articles = get_field('dap_articles'); ?>
-      <?php if ( $articles ) : ?>
-        <?php foreach ( $articles as $article ) : ?>
-          <div class="article-item">
-            <article>
-              <h2><?php echo $article['title']; ?></h2>
-              <?php echo $article['content']; ?>
-            </article>
-            <div class="article-image">
-              <img src="<?php echo $article['image']['url']; ?>" alt="<?php echo $article['image']['alt']; ?>">
-            </div>
-          </div>
-        <?php endforeach; ?>
-      <?php endif; ?>
-    </div>
-  </section>
+  <?php get_template_part('template_parts/dap'); ?>
+
+  <?php get_template_part('template_parts/sbm'); ?>
 
 
 

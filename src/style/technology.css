@@ -14,8 +14,201 @@
     width: 330px;
   }
 
-  & .btn.white:hover a {
+  & .btn.white a:hover {
     background: white;
     color: var(--blue);
+  }
+}
+
+.our-platform {
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 104px 12px;
+  text-align: center;
+}
+
+.featured-items {
+  background-color: var(--mediumBlue);
+  color: white;
+  padding: 72px 12px;
+  width: 100%;
+
+  @media (width > 840px) {
+    align-items: center;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  & .item {
+    align-items: center;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    margin-bottom: 27px;
+    padding-bottom: 27px;
+    text-align: center;
+
+    &:first-child {
+      border-bottom: 1px solid var(--lightBlue);
+
+      @media (width > 840px) {
+        border-bottom: 0;
+        border-right: 1px solid var(--lightBlue);
+      }
+    }
+  }
+
+  & .header-image {
+    background-position: center center;
+    background-size: cover;
+    border: 2px solid white;
+    border-radius: 60px;
+    height: 120px;
+    margin-bottom: 24px;
+    width: 120px;
+  }
+
+  & p {
+    font-size: 13px;
+    line-height: 23px;
+    text-transform: uppercase;
+  }
+
+  & p.title {
+    font-family: 'museo_sans700';
+    font-size: 24px;
+    max-width: 400px;
+    padding-bottom: 1.5em;
+    position: relative;
+    text-transform: none;
+    width: 100%;
+
+    @media (width > 840px) {
+      width: 400px;
+    }
+
+    &:after {
+      bottom: 0;
+      background-color: var(--blue);
+      content: '';
+      left: 0;
+      height: 6px;
+      position: absolute;
+      right: 0;
+    }
+  }
+
+  & p.title.light-blue {
+    &:after {
+      background-color: #008FD7;
+    }
+  }
+}
+
+
+.tech-info {
+  overflow: hidden;
+
+  & header {
+    align-items: center;
+    border-top: 4px solid white;
+    color: white;
+    display: flex;
+    justify-content: center;
+    height: 250px;
+    position: relative;
+
+    &:before {
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-top: 20px solid white;
+      content: '';
+      height: 0;
+      left: 0;
+      margin: 0 auto;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 0;
+    }
+
+    & h3 {
+      margin: 0;
+    }
+  }
+
+  & .header-image {
+    background-position: center center;
+    background-size: cover;
+    bottom: -60px;
+    border: 2px solid white;
+    border-radius: 60px;
+    left: 0;
+    height: 120px;
+    margin: 0 auto;
+    position: absolute;
+    right: 0;
+    width: 120px;
+  }
+
+  & .article-wrapper {
+
+  }
+
+}
+
+#technology .article-item {
+  padding: 104px 0px 0px;
+
+  @media (width > 960px) {
+    align-items: center;
+    display: flex;
+  }
+
+  & article {
+    @media (width > 960px) {
+      width: 50%;
+    }
+  }
+
+  & .article-image {
+    @media (width > 960px) {
+      width: 50%;
+    }
+
+    & img {
+      margin: 0 auto;
+      @media (width > 960px) {
+        margin-left: 12%;
+      }
+    }
+  }
+}
+
+#technology .article-item:nth-child(even) {
+  & article {
+    order: 2;
+  }
+  & .article-image {
+    order: 1;
+
+    & img {
+      margin-left: -12%;
+    }
+  }
+}
+
+.tech-info {
+  & header {
+    margin-left: -12px;
+    width: calc(100% + 24px);
+  }
+
+  &.dap header {
+    background-color: var(--blue);
+  }
+
+  &.sbm header {
+    background-color: #008FD7;
   }
 }

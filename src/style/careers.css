@@ -1,0 +1,25 @@
+#careers {
+  @mixin maxWidth;
+  padding-top: 104px;
+
+  & .accordion {
+    padding: 0;
+
+    & li {
+      border: 1px solid var(--blue);
+      list-style-type: none;
+      margin-bottom: 12px;
+    }
+
+    & .clickable {
+      background-color: var(--mediumBlue);
+      color: white;
+      cursor: pointer;
+      padding: 1em;
+    }
+
+    & .accordion-content {
+      padding: 1em;
+    }
+  }
+}
