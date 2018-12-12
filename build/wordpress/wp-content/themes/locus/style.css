@@ -587,7 +587,6 @@ section .anchor-link {
 
 
 .hero {
-  background-image: url('img/hero-placeholder.png');
   background-size: cover;
   background-position: center center;
   height: calc(100vh - 60px)

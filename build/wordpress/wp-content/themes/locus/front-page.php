@@ -1,8 +1,9 @@
 <?php get_header(); ?>
-
-
-
-<section id="top" class="hero" style="background-color: #03487E;">
+<?php if ( get_field( 'hero_background_image' ) ) : ?>
+  <section id="top" class="hero" style="background-image: url('<?php the_field( 'hero_background_image' ); ?>')">
+<?php else : ?>
+  <section id="top" class="hero" style="background-color: #03487E;">
+<?php endif; ?>
   <div class="hero-wrapper">
     <div class="hero-content fade-in load-hidden">
       <h1><?php the_field('headline'); ?></h1>
