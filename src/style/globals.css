@@ -89,6 +89,7 @@ a {
   cursor: pointer;
   display: flex;
   justify-content: center;
+  font-family: 'museo_sans700';
   font-size: 14px;
   height: 100%;
   margin: 60px 0;
@@ -106,7 +107,6 @@ a {
 .btn.white .btn-content {
   border: 3px solid white;
   color: white;
-  font-family: 'museo_sans300', sans-serif;
 
   &:visited {
     color: white;
@@ -116,7 +116,6 @@ a {
 .btn .btn-content {
   border: 3px solid var(--blue);
   color: var(--blue);
-  font-family: 'museo_sans300', sans-serif;
 }
 
 .btn:hover a,
@@ -176,7 +175,7 @@ h1 {
 }
 
 h2, h3 {
-  margin: 0.25em 0 1.75em;
+  margin: 0.25em 0 1em;
 }
 
 h1, h2 {
@@ -185,6 +184,7 @@ h1, h2 {
 
 h1 {
   font-size: 60px;
+  margin-bottom: 0.5em;
 }
 
 h2 {

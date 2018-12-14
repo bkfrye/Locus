@@ -105,6 +105,7 @@
 
   & a {
     color: var(--blue);
+    font-family: 'museo_sans700';
     font-size: 28px;
     position: relative;
     text-decoration: none;
@@ -118,7 +119,7 @@
     &:before {
       @media (width > 924px) {
         background-color: white;
-        bottom: -6px;
+        bottom: -21px;
         content: '';
         left: 0;
         height: 0;

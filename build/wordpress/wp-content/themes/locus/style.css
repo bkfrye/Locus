@@ -15,6 +15,7 @@ Version: 0.1.0
   --lightBlue: #008FD7;
 
   --lightGray: #D8D8D8;
+  --gray: #979797;
 
   --kindaWhite: #FAFAFA;
 
@@ -141,6 +142,7 @@ a {
   cursor: pointer;
   display: flex;
   justify-content: center;
+  font-family: 'museo_sans700';
   font-size: 14px;
   height: 100%;
   margin: 60px 0;
@@ -160,8 +162,7 @@ a {
 .btn.white a,
 .btn.white .btn-content {
   border: 3px solid white;
-  color: white;
-  font-family: 'museo_sans300', sans-serif
+  color: white
 }
 
 
@@ -175,7 +176,6 @@ a {
   border: 3px solid var(--blue);
   color: #1E5CE5;
   color: var(--blue);
-  font-family: 'museo_sans300', sans-serif;
 }
 
 
@@ -248,7 +248,7 @@ h1 {
 
 
 h2, h3 {
-  margin: 0.25em 0 1.75em;
+  margin: 0.25em 0 1em;
 }
 
 
@@ -259,6 +259,7 @@ h1, h2 {
 
 h1 {
   font-size: 60px;
+  margin-bottom: 0.5em;
 }
 
 
@@ -475,6 +476,7 @@ img {
 #menu-main-menu a {
     color: #1E5CE5;
     color: var(--blue);
+    font-family: 'museo_sans700';
     font-size: 28px;
     position: relative;
     text-decoration: none;
@@ -501,7 +503,7 @@ img {
 
 #menu-main-menu a:before {
         background-color: white;
-        bottom: -6px;
+        bottom: -21px;
         content: '';
         left: 0;
         height: 0;
@@ -943,6 +945,8 @@ section .anchor-link {
 
 
 .our-team article {
+    border-bottom: 1px solid #D8D8D8;
+    border-bottom: 1px solid var(--lightGray);
     margin: 0 auto;
     max-width: 800px;
     padding: 0 36px 36px;
@@ -968,8 +972,7 @@ section .anchor-link {
     display: flex;
     flex-direction: column;
     justify-content: center;
-
-    padding: 5em 2.5em;
+    padding: 5em;
 
   }
 
@@ -1136,12 +1139,12 @@ section .anchor-link {
 @media (min-width: 841px) {
 
 
-.featured-items {
-    align-items: center;
-    display: flex;
-    justify-content: space-around
-}
+.featured-items .featured-items-wrapper {
+      align-items: center;
+      display: flex;
+      justify-content: space-around
   }
+    }
 
 
 .featured-items .item {
@@ -1156,8 +1159,8 @@ section .anchor-link {
 
 
 .featured-items .item:first-child {
-      border-bottom: 1px solid #008FD7;
-      border-bottom: 1px solid var(--lightBlue)
+      border-bottom: 1px solid #979797;
+      border-bottom: 1px solid var(--gray)
     }
 
 
@@ -1166,9 +1169,24 @@ section .anchor-link {
 
 .featured-items .item:first-child {
         border-bottom: 0;
-        border-right: 1px solid #008FD7;
-        border-right: 1px solid var(--lightBlue)
+        border-right: 1px solid #979797;
+        border-right: 1px solid var(--gray)
     }
+      }
+
+
+.featured-items .item a {
+      color: white;
+      font-family: 'museo_sans700';
+      font-size: 13px;
+      line-height: 23px;
+      text-decoration: none;
+      text-transform: uppercase
+    }
+
+
+.featured-items .item a:hover {
+        text-decoration: underline;
       }
 
 
@@ -1180,13 +1198,6 @@ section .anchor-link {
     height: 120px;
     margin-bottom: 24px;
     width: 120px;
-  }
-
-
-.featured-items p {
-    font-size: 13px;
-    line-height: 23px;
-    text-transform: uppercase;
   }
 
 
@@ -1216,7 +1227,7 @@ section .anchor-link {
       background-color: var(--blue);
       content: '';
       left: 0;
-      height: 6px;
+      height: 10px;
       position: absolute;
       right: 0;
     }
@@ -1224,6 +1235,27 @@ section .anchor-link {
 
 .featured-items p.title.light-blue:after {
       background-color: #008FD7;
+    }
+
+
+.featured-items .development-time {
+    align-items: center;
+    display: flex;
+    justify-content: center
+  }
+
+
+.featured-items .development-time svg {
+      height: 19px;
+      margin-right: 16px;
+      width: 19px;
+    }
+
+
+.featured-items .development-time h4 {
+      font-family: 'museo_sans700';
+      font-size: 13px;
+      line-height: 23px;
     }
 
 
@@ -1279,11 +1311,6 @@ section .anchor-link {
   }
 
 
-.tech-info .article-wrapper {
-
-  }
-
-
 #technology .article-item {
   padding: 104px 0px 0px
 }
@@ -1296,6 +1323,11 @@ section .anchor-link {
     align-items: center;
     display: flex
 }
+  }
+
+
+#technology .article-item:last-child {
+    padding-bottom: 104px;
   }
 
 
@@ -1363,29 +1395,76 @@ section .anchor-link {
   }
 
 
-#careers {
-  max-width: 1140px;
-  margin: auto;
-  box-sizing: border-box;
-  padding-top: 104px
+.end-section {
+  background-color: #FAFAFA;
+  background-color: var(--kindaWhite);
+  padding: 0 0 54px
 }
 
 
-#careers .accordion {
+.end-section .btn {
+    margin: 0 auto;
+  }
+
+
+.end-section a {
+    margin: 0;
+  }
+
+
+#careers-page {
+  max-width: 1140px;
+  margin: auto;
+  box-sizing: border-box;
+  padding: 104px 12px
+}
+
+
+@media (min-width: 1001px) {
+
+
+#careers-page {
+    display: flex
+}
+  }
+
+
+#careers-page .careers-content,
+  #careers-page .careers-listing {
+    flex: 1;
+  }
+
+
+#careers-page .careers-content {
+    margin-right: 104px;
+  }
+
+
+#careers-page .careers-listing {
+    padding-top: 54px;
+  }
+
+
+#careers-page h1 {
+    margin-bottom: 100px;
+  }
+
+
+#careers-page .accordion {
     margin: 104px auto 0;
     max-width: 900px;
     padding: 0
   }
 
 
-#careers .accordion .job-item {
+#careers-page .accordion .job-item {
       border: 1px solid rgba(0,0,0,0.25);
       list-style-type: none;
       margin-bottom: 12px;
     }
 
 
-#careers .accordion .clickable {
+#careers-page .accordion .clickable {
       background-color: #03487E;
       background-color: var(--mediumBlue);
       color: white;
@@ -1395,12 +1474,12 @@ section .anchor-link {
     }
 
 
-#careers .accordion .accordion-content {
+#careers-page .accordion .accordion-content {
       padding: 1em 2em;
     }
 
 
-#careers .clickable:hover {
+#careers-page .clickable:hover {
     background-color: #1f6ca9;
   }
 
@@ -1417,9 +1496,7 @@ section .anchor-link {
 
 
 #team-wrapper {
-  border-top: 1px solid #D8D8D8;
-  border-top: 1px solid var(--lightGray);
-  margin: 0 auto;
+  margin: 20px auto;
   padding-top: 34px;
   width: calc(100% - 2.5%)
 }

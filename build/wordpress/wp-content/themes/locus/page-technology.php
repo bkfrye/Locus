@@ -41,17 +41,39 @@
   </section>
 
   <section class="featured-items">
-    <div class="item fade-in load-hidden">
-      <div class="header-image" style="background-image: url('<?php echo get_field('dap_header_image')['url']; ?>')">
+    <div class="featured-items-wrapper">
+      <div class="item fade-in load-hidden">
+        <div class="header-image" style="background-image: url('<?php echo get_field('dap_header_image')['url']; ?>')">
+        </div>
+        <p class="title"><?php the_field('discovery_title'); ?></p>
+        <?php $links = get_field('dap_articles'); ?>
+        <?php if ( $links ) : ?>
+          <?php foreach( $links as $link ) : ?>
+            <a href="#<?php echo convertToAnchor($link['title']) ?>">
+              <?php echo $link['title']; ?>
+            </a>
+          <?php endforeach; ?>
+        <?php endif; ?>
       </div>
-      <p class="title"><?php the_field('discovery_title'); ?></p>
-      <?php the_field('discovery_content') ?>
+      <div class="item fade-in load-hidden">
+        <div class="header-image" style="background-image: url('<?php echo get_field('methods_header_image')['url']; ?>')">
+        </div>
+        <p class="title light-blue"><?php the_field('methods_title'); ?></p>
+        <?php $links = get_field('sbm_articles'); ?>
+        <?php if ( $links ) : ?>
+          <?php foreach( $links as $link ) : ?>
+            <a href="#<?php echo convertToAnchor($link['title']) ?>">
+              <?php echo $link['title']; ?>
+            </a>
+          <?php endforeach; ?>
+        <?php endif; ?>
+      </div>
     </div>
-    <div class="item fade-in load-hidden">
-      <div class="header-image" style="background-image: url('<?php echo get_field('methods_header_image')['url']; ?>')">
-      </div>
-      <p class="title light-blue"><?php the_field('methods_title'); ?></p>
-      <?php the_field('methods_content'); ?>
+    <div class="development-time">
+      <?php get_template_part('img/stopwatch.svg'); ?>
+      <h4>
+        <?php the_field('development_time'); ?>
+      </h4>
     </div>
   </section>
 
@@ -59,8 +81,11 @@
 
   <?php get_template_part('template_parts/sbm'); ?>
 
-
-
+  <div class="end-section">
+    <div class="btn">
+      <a href="#top">Back to Top</a>
+    </div>
+  </div>
 </div>
 
 <?php get_footer(); ?>

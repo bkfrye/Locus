@@ -6,6 +6,7 @@
   --lightBlue: #008FD7;
 
   --lightGray: #D8D8D8;
+  --gray: #979797;
 
   --kindaWhite: #FAFAFA;
 
@@ -132,6 +133,7 @@ a {
   cursor: pointer;
   display: flex;
   justify-content: center;
+  font-family: 'museo_sans700';
   font-size: 14px;
   height: 100%;
   margin: 60px 0;
@@ -151,8 +153,7 @@ a {
 .btn.white a,
 .btn.white .btn-content {
   border: 3px solid white;
-  color: white;
-  font-family: 'museo_sans300', sans-serif
+  color: white
 }
 
 
@@ -166,7 +167,6 @@ a {
   border: 3px solid var(--blue);
   color: #1E5CE5;
   color: var(--blue);
-  font-family: 'museo_sans300', sans-serif;
 }
 
 
@@ -239,7 +239,7 @@ h1 {
 
 
 h2, h3 {
-  margin: 0.25em 0 1.75em;
+  margin: 0.25em 0 1em;
 }
 
 
@@ -250,6 +250,7 @@ h1, h2 {
 
 h1 {
   font-size: 60px;
+  margin-bottom: 0.5em;
 }
 
 

@@ -7,7 +7,7 @@
     <?php $articles = get_field('sbm_articles'); ?>
     <?php if ( $articles ) : ?>
       <?php foreach ( $articles as $article ) : ?>
-        <div class="article-item fade-in load-hidden">
+        <div id="<?php echo convertToAnchor($article['title']); ?>" class="article-item fade-in load-hidden">
           <article>
             <h2><?php echo $article['title']; ?></h2>
             <h3><?php echo $article['sub-title']; ?></h3>

@@ -8,8 +8,7 @@
 
 
 #team-wrapper {
-  border-top: 1px solid var(--lightGray);
-  margin: 0 auto;
+  margin: 20px auto;
   padding-top: 34px;
   width: calc(100% - 2.5%);
 

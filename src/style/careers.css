@@ -1,7 +1,27 @@
-#careers {
+#careers-page {
   @mixin maxWidth;
-  padding-top: 104px;
+  padding: 104px 12px;
 
+  @media (width > 1000px) {
+    display: flex;
+  }
+
+  & .careers-content,
+  & .careers-listing {
+    flex: 1;
+  }
+
+  & .careers-content {
+    margin-right: 104px;
+  }
+
+  & .careers-listing {
+    padding-top: 54px;
+  }
+
+  & h1 {
+    margin-bottom: 100px;
+  }
   & .accordion {
     margin: 104px auto 0;
     max-width: 900px;

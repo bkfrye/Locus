@@ -33,10 +33,14 @@
   padding: 72px 12px;
   width: 100%;
 
-  @media (width > 840px) {
-    align-items: center;
-    display: flex;
-    justify-content: space-around;
+
+
+  & .featured-items-wrapper {
+    @media (width > 840px) {
+      align-items: center;
+      display: flex;
+      justify-content: space-around;
+    }
   }
 
   & .item {
@@ -49,11 +53,24 @@
     text-align: center;
 
     &:first-child {
-      border-bottom: 1px solid var(--lightBlue);
+      border-bottom: 1px solid var(--gray);
 
       @media (width > 840px) {
         border-bottom: 0;
-        border-right: 1px solid var(--lightBlue);
+        border-right: 1px solid var(--gray);
+      }
+    }
+
+    & a {
+      color: white;
+      font-family: 'museo_sans700';
+      font-size: 13px;
+      line-height: 23px;
+      text-decoration: none;
+      text-transform: uppercase;
+
+      &:hover {
+        text-decoration: underline;
       }
     }
   }
@@ -66,12 +83,6 @@
     height: 120px;
     margin-bottom: 24px;
     width: 120px;
-  }
-
-  & p {
-    font-size: 13px;
-    line-height: 23px;
-    text-transform: uppercase;
   }
 
   & p.title {
@@ -92,7 +103,7 @@
       background-color: var(--blue);
       content: '';
       left: 0;
-      height: 6px;
+      height: 10px;
       position: absolute;
       right: 0;
     }
@@ -101,6 +112,24 @@
   & p.title.light-blue {
     &:after {
       background-color: #008FD7;
+    }
+  }
+
+  & .development-time {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+
+    & svg {
+      height: 19px;
+      margin-right: 16px;
+      width: 19px;
+    }
+
+    & h4 {
+      font-family: 'museo_sans700';
+      font-size: 13px;
+      line-height: 23px;
     }
   }
 }
@@ -151,10 +180,6 @@
     width: 120px;
   }
 
-  & .article-wrapper {
-
-  }
-
 }
 
 #technology .article-item {
@@ -163,6 +188,10 @@
   @media (width > 960px) {
     align-items: center;
     display: flex;
+  }
+
+  &:last-child {
+    padding-bottom: 104px;
   }
 
   & article {
@@ -210,5 +239,18 @@
 
   &.sbm header {
     background-color: #008FD7;
+  }
+}
+
+.end-section {
+  background-color: var(--kindaWhite);
+  padding: 0 0 54px;
+
+  & .btn {
+    margin: 0 auto;
+  }
+
+  & a {
+    margin: 0;
   }
 }
