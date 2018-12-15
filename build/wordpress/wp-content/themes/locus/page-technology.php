@@ -8,7 +8,7 @@
     <div class="hero-wrapper">
       <div class="hero-content fade-in load-hidden">
         <h1><?php the_title(); ?></h1>
-        <p><?php the_field('sub-headline'); ?></p>
+        <p><?php the_field('tech_sub_headline'); ?></p>
 
         <?php global $wp; $currentURL = home_url( $wp->request ); ?>
         <div class="hero-btn-wrapper">

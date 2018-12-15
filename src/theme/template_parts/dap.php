@@ -36,8 +36,8 @@
                 <?php $i++; ?>
               	<?php $file = get_sub_field('poster');  $video = get_sub_field('url'); ?>
                 <?php if ($video && $file) : ?>
-                  <div class="inline-video fade-in load-hidden" data-url="<?php echo $video; ?>" data-poster="<?php echo $file['url']; ?>">
-                    <video id='inline-video-<?php echo $i;?>' class='video-js'></video>
+                  <div class="inline-video fade-in load-hidden" data-poster="<?php echo $file['url']; ?>" data-url="<?php echo $video; ?>">
+                    <img src="<?php echo $file['url']; ?>" alt="poster image">
                   </div>
                 <?php endif; ?>
               <?php endif; ?>

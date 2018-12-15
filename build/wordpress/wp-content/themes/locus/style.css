@@ -312,6 +312,7 @@ img {
 
 sup {
   font-size: 0.5em;
+  line-height: 1;
 }
 
 
@@ -328,9 +329,25 @@ sup {
 
 
 .inline-video {
+  height: auto;
   margin: 54px auto;
   max-width: 500px;
+  position: relative
 }
+
+
+.inline-video img {
+    cursor: pointer;
+  }
+
+
+.inline-video iframe {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
 
 
 .hero {

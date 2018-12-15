@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   fadeArray.each(function() {
     ScrollReveal().reveal($(this), {
-      reset: true,
+      reset: false,
       delay: 250,
     });
   });
