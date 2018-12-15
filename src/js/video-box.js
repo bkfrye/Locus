@@ -1,32 +1,40 @@
-$('.btn-content').click( function(ev) {
-  var URL = $(this).data('url');
 
-  $('#video-player').append("<div class='video-wrapper'><video id='video' class='video-js'></video></div>")
+/**
+ * Custom YouTube Video Functionality
+ *
+ * @package WordPress
+ * @subpackage Carlyle
+ * @since Carlyle 0.0.1
+ */
 
-  var player = videojs('video', {
-    controls: true,
-    autoplay: true,
-    preload: 'none',
-    fluid: true,
-    sources: [URL.toString()],
-  });
+function YouTubeGetID(url){
+ url = url.split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
+ return (url[2] !== undefined) ? url[2].split(/[^0-9a-z_\-]/i)[0] : url[0];
+}
 
-  player.on('ready', function () {
-    $('#video-player').addClass('js-show-video');
-    document.querySelector('body').style.overflow = 'hidden';
-  });
 
-  player.on('ended', function() {
-    closeVideo;
-  });
+// Load and play video on click
+$( '.btn-content' ).click( function() {
+  var videoURL = YouTubeGetID( $(this).data( 'url' ) );
+  var iframe = document.createElement( 'iframe' );
 
-  var closeVideo = function() {
-    player.dispose();
-    $('.video-wrapper').remove();
-    $('#video-player').removeClass('js-show-video');
-    document.querySelector('body').style.overflow = 'scroll';
-  };
+  iframe.setAttribute( 'frameborder', '0' );
+  iframe.setAttribute( 'allowfullscreen', '' );
+  iframe.setAttribute( 'height', '100%' );
+  iframe.setAttribute( 'width', '100%' );
+  iframe.setAttribute( 'src', 'https://www.youtube.com/embed/'
+    + videoURL
+    + '?rel=0&modestbranding=1&autoplay=1&controls=1&rel=0'
+  );
 
-  var button = player.addChild('CloseButton');
-  button.on('click', closeVideo);
-});
+  $('#player').append( iframe );
+  $('#player-wrapper').addClass('js-show-video');
+  $('body').css({'overflow' : 'hidden'});
+} );
+
+// Close video box
+$('#close-video').click( function() {
+  $('#player-wrapper').removeClass('js-show-video');
+  $('body').css({'overflow' : 'inherit'});
+  $('#player iframe').remove();
+} );

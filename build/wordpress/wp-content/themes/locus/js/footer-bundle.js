@@ -88,15 +88,22 @@ document.addEventListener("DOMContentLoaded", function () {
   } // Manage accordion on careers page
 
 
-  var allPanels = $('.accordion .accordion-content').hide();
-  $('.accordion .clickable').click(function () {
-    if (!$(this).parent().find($('.accordion-content')).is(':visible')) {
-      allPanels.slideUp();
-      $(this).parent().find($('.accordion-content')).slideDown();
-    }
+  var allPanels = $('.accordion .accordion-content');
 
-    return false;
-  }); // animate elements in on scroll
+  if (allPanels) {
+    allPanels.hide();
+    $('.accordion .clickable').click(function () {
+      if (!$(this).parent().find($('.accordion-content')).is(':visible')) {
+        allPanels.slideUp();
+        $(this).parent().find($('.accordion-content')).slideDown();
+      } else {
+        $(this).parent().find($('.accordion-content')).slideUp();
+      }
+
+      return false;
+    });
+  } // animate elements in on scroll
+
 
   var fadeArray = [];
   var fadeIn = $('.sr .fade-in');
@@ -107,35 +114,51 @@ document.addEventListener("DOMContentLoaded", function () {
       delay: 250
     });
   });
+  $('iframe[src*="youtube.com"]').each(function () {
+    $(this).wrap('<div class="video-wrapper"/>');
+  }); // Add superscript tag to any relevant symbols
+
+  $('body :not(script)').contents().filter(function () {
+    return this.nodeType === 3;
+  }).replaceWith(function () {
+    return this.nodeValue.replace(/[™®©]/g, '<sup>$&</sup>');
+  });
 });
 "use strict";
 
-$('.btn-content').click(function (ev) {
-  var URL = $(this).data('url');
-  $('#video-player').append("<div class='video-wrapper'><video id='video' class='video-js'></video></div>");
-  var player = videojs('video', {
-    controls: true,
-    autoplay: true,
-    preload: 'none',
-    fluid: true,
-    sources: [URL.toString()]
-  });
-  player.on('ready', function () {
-    $('#video-player').addClass('js-show-video');
-    document.querySelector('body').style.overflow = 'hidden';
-  });
-  player.on('ended', function () {
-    closeVideo;
-  });
+/**
+ * Custom YouTube Video Functionality
+ *
+ * @package WordPress
+ * @subpackage Carlyle
+ * @since Carlyle 0.0.1
+ */
+function YouTubeGetID(url) {
+  url = url.split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
+  return url[2] !== undefined ? url[2].split(/[^0-9a-z_\-]/i)[0] : url[0];
+} // Load and play video on click
 
-  var closeVideo = function closeVideo() {
-    player.dispose();
-    $('.video-wrapper').remove();
-    $('#video-player').removeClass('js-show-video');
-    document.querySelector('body').style.overflow = 'scroll';
-  };
 
-  var button = player.addChild('CloseButton');
-  button.on('click', closeVideo);
+$('.btn-content').click(function () {
+  var videoURL = YouTubeGetID($(this).data('url'));
+  var iframe = document.createElement('iframe');
+  iframe.setAttribute('frameborder', '0');
+  iframe.setAttribute('allowfullscreen', '');
+  iframe.setAttribute('height', '100%');
+  iframe.setAttribute('width', '100%');
+  iframe.setAttribute('src', 'https://www.youtube.com/embed/' + videoURL + '?rel=0&modestbranding=1&autoplay=1&controls=1&rel=0');
+  $('#player').append(iframe);
+  $('#player-wrapper').addClass('js-show-video');
+  $('body').css({
+    'overflow': 'hidden'
+  });
+}); // Close video box
+
+$('#close-video').click(function () {
+  $('#player-wrapper').removeClass('js-show-video');
+  $('body').css({
+    'overflow': 'inherit'
+  });
+  $('#player iframe').remove();
 });
 //# sourceMappingURL=footer-bundle.js.map

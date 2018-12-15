@@ -64,7 +64,8 @@ Header & Footer JavaScript Boundles
 -------------------------------------------------------------------------------------------------- */
 const headerJS = [
 	'node_modules/jquery/dist/jquery.js',
-  'node_modules/video.js/dist/video.min.js',
+  // 'node_modules/video.js/dist/video.min.js',
+  // 'node_modules/videojs-youtube/dist/Youtube.js',
 ];
 const footerJS = ['src/js/**'];
 

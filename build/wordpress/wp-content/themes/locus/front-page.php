@@ -15,13 +15,13 @@
         </div>
       <?php endif; ?>
     </div>
-    <div class="down-arrow">
-      <a href="#about-us">
-        <svg viewBox="0 0 451.847 451.847">
-        	<path d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751   c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0   c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z" fill="#FFFFFF"/>
-        </svg>
-      </a>
-    </div>
+  </div>
+  <div class="down-arrow">
+    <a href="#about-us">
+      <svg viewBox="0 0 451.847 451.847">
+        <path d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751   c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0   c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z" fill="#FFFFFF"/>
+      </svg>
+    </a>
   </div>
 </section>
 
@@ -63,11 +63,11 @@
       </div>
     </article>
 
-    <aside>
+    <aside class="fade-in load-hidden">
       <?php $infos = get_field('aside_content'); ?>
       <?php if ( $infos ) : ?>
         <?php foreach ( $infos as $info ) : ?>
-          <div class="aside-item fade-in load-hidden">
+          <div class="aside-item">
             <div class="aside-image">
               <img src="<?php echo $info['icon_image']; ?>" alt="icon">
             </div>
@@ -77,7 +77,7 @@
 
               <?php if ( get_field('video_link') ) : ?>
                 <div class="btn white play">
-                  <div class="btn-content" data-url="<?php echo get_field('video_link'); ?>">
+                  <div class="btn-content" data-url="<?php echo $info['video_link']; ?>">
                     <span><?php echo __('Watch Video'); ?></span>
                   </div>
                 </div>
@@ -128,19 +128,19 @@
 </section>
 
 <section id="partners" class="partners">
-  <div class="partners-wrapper">
+  <div class="partners-wrapper fade-in load-hidden">
     <h4>Our Investors & Partners</h4>
     <ul class="partner-list">
       <?php $logos = get_field('logos'); ?>
       <?php if ( $logos ): ?>
         <?php foreach ($logos as $logo) : ?>
-          <li class="fade-in load-hidden">
+          <li >
             <img src="<?php echo $logo['image']['url']?>" alt="<?php echo $logo['image']['alt']?>">
           </li>
         <?php endforeach; ?>
       <?php endif; ?>
     </ul>
-    <div class="btn fade-in load-hidden">
+    <div class="btn">
       <a href="#contact">Partner with us</a>
     </div>
   </div>

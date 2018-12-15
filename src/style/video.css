@@ -1,4 +1,4 @@
-#video-player {
+#player-wrapper {
   align-items: center;
   background-color: rgba(4,42,74,0.95);
   bottom: 0;
@@ -19,10 +19,45 @@
     visibility: visible;
     z-index: 10;
   }
+
+  @media (width > 840px) {
+    padding: 104px;
+  }
 }
 
-.video-wrapper {
-  height: auto;
-  max-width: 1080px;
-  width: 80vw;
+#player {
+  height: 0;
+  margin: 0 auto;
+  max-width: 1280px;
+  padding-top: 56.25%;
+  position: relative;
+  width: 100%;
+
+  & iframe {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+
+#close-video {
+  cursor: pointer;
+  height: 21px;
+  position: absolute;
+  right: 0;
+  top: -24px;
+  width: 21px;
+}
+
+iframe {
+
+  & .ytp-button.ytp-share-button {
+    display: none!important;
+  }
+
+  & .ytp-watch-later-button.ytp-button {
+    display: none!important;
+  }
 }

@@ -83,14 +83,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   // Manage accordion on careers page
-  var allPanels = $('.accordion .accordion-content').hide();
-  $('.accordion .clickable').click(function() {
-    if ( !$(this).parent().find($('.accordion-content')).is(':visible') ) {
-      allPanels.slideUp();
-      $(this).parent().find($('.accordion-content')).slideDown();
-    }
-    return false;
-  });
+  var allPanels = $('.accordion .accordion-content');
+  if ( allPanels ) {
+    allPanels.hide();
+    $('.accordion .clickable').click(function() {
+      if ( !$(this).parent().find($('.accordion-content')).is(':visible') ) {
+        allPanels.slideUp();
+        $(this).parent().find($('.accordion-content')).slideDown();
+      } else {
+        $(this).parent().find($('.accordion-content')).slideUp();
+      }
+      return false;
+    });
+
+  }
+
 
 
   // animate elements in on scroll
@@ -103,6 +110,19 @@ document.addEventListener("DOMContentLoaded", () => {
       reset: true,
       delay: 250,
     });
-  })
+  });
 
+
+
+
+  $('iframe[src*="youtube.com"]').each(function() {
+    $(this).wrap('<div class="video-wrapper"/>');
+  });
+
+  // Add superscript tag to any relevant symbols
+  $('body :not(script)').contents().filter(function() {
+    return this.nodeType === 3;
+  }).replaceWith(function() {
+    return this.nodeValue.replace(/[™®©]/g, '<sup>$&</sup>');
+  });
 });

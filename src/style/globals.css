@@ -24,8 +24,8 @@ body {
 	outline: none;
 
 	&::selection {
-		/* color: var(--white); */
-		/* background: var(--darkBlue); */
+		color: var(--white);
+		background: var(--darkBlue);
 	}
 }
 
@@ -222,6 +222,10 @@ img {
   max-width: 100%;
 }
 
+sup {
+  font-size: 0.5em;
+}
+
 
 
 .content-video {
@@ -241,4 +245,5 @@ img {
 
 .hero {
   margin-top: 60px;
+  min-height: 500px;
 }

@@ -7,6 +7,7 @@ section .anchor-link {
   background-size: cover;
   background-position: center center;
   height: calc(100vh - 60px);
+  position: relative;
 
   & .hero-wrapper {
     align-items: center;
@@ -29,12 +30,14 @@ section .anchor-link {
   & .btn {
     margin: 0 auto;
   }
-
   & .down-arrow {
     animation: bounce 3s ease-in-out infinite;
     bottom: 1.5em;
+    left: 0;
     height: 30px;
+    margin: 0 auto;
     position: absolute;
+    right: 0;
     width: 30px;
 
     & svg {
@@ -42,6 +45,7 @@ section .anchor-link {
       width: 100%;
     }
   }
+
 }
 
 
@@ -249,6 +253,11 @@ section .anchor-link {
 
   & .aside-image {
     padding: 0 2.25em;
+
+    & img {
+      height: auto;
+      width: 76px;
+    }
   }
 
   & .aside-content {
@@ -290,10 +299,11 @@ section .anchor-link {
 
 .careers {
   align-items: center;
-  background-position: fixed;
+  background-attachment: fixed;
+  background-position: center center;
   background-size: cover;
   display: flex;
-  height: 550px;
+  height: 100vh;
   justify-content: center;
 
   & .careers-content {

@@ -49,14 +49,16 @@ body.js-no-transition {
 
 
 *::-moz-selection {
-		/* color: var(--white); */
-		/* background: var(--darkBlue); */
+		color: var(--white);
+		background: #181B20;
+		background: var(--darkBlue);
 	}
 
 
 *::selection {
-		/* color: var(--white); */
-		/* background: var(--darkBlue); */
+		color: var(--white);
+		background: #181B20;
+		background: var(--darkBlue);
 	}
 
 
@@ -299,6 +301,11 @@ img {
 }
 
 
+sup {
+  font-size: 0.5em;
+}
+
+
 .content-video {
   background-color: #FAFAFA;
   background-color: var(--kindaWhite);
@@ -319,6 +326,7 @@ img {
 
 .hero {
   margin-top: 60px;
+  min-height: 500px;
 }
 
 
