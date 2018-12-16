@@ -9,7 +9,7 @@
 
           <div class="get-directions">
             <div class="text-link white">
-              <a href="#">Get Directions</a>
+              <a href="https://goo.gl/maps/uv4BWhGKo342" target="_blank">Get Directions</a>
             </div>
           </div>
 
@@ -67,7 +67,8 @@
             </div>
           </div>
         </div>
-        <div class="map" style="background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/img/map.png')">
+        <div class="map">
+          <?php echo do_shortcode(get_field('map', 'options')); ?>
         </div>
       </div>
     </section>
