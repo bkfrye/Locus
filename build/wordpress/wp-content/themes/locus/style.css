@@ -328,28 +328,6 @@ sup {
   }
 
 
-.inline-video {
-  height: auto;
-  margin: 54px auto;
-  max-width: 500px;
-  position: relative
-}
-
-
-.inline-video img {
-    cursor: pointer;
-  }
-
-
-.inline-video iframe {
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-
-
 .hero {
   margin-top: 60px;
   min-height: 500px;
@@ -1682,6 +1660,60 @@ iframe .ytp-button.ytp-share-button {
 
 iframe .ytp-watch-later-button.ytp-button {
     display: none!important;
+  }
+
+
+.inline-video-container {
+  margin: 0 auto;
+  max-width: 500px;
+  width: 100%;
+}
+
+
+.inline-video {
+  background-position: center;
+  background-size: cover;
+  height: 0;
+  margin: 54px auto;
+  /* max-width: 500px; */
+  padding-top: 56.25%;
+  position: relative;
+  width: 100%
+}
+
+
+.inline-video .play-youtube {
+    cursor: pointer;
+    left: 0;
+    height: 100px;
+    margin: 0 auto;
+    padding: 12px;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+    width: 100px
+
+  }
+
+
+.inline-video .play-youtube:hover svg {
+      fill: #cccccc;
+    }
+
+
+.inline-video .play-youtube svg {
+      fill: white;
+    }
+
+
+.inline-video iframe {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
   }
 
 

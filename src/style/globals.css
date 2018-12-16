@@ -239,25 +239,6 @@ sup {
   }
 }
 
-.inline-video {
-  height: auto;
-  margin: 54px auto;
-  max-width: 500px;
-  position: relative;
-
-  & img {
-    cursor: pointer;
-  }
-
-  & iframe {
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-}
-
 .hero {
   margin-top: 60px;
   min-height: 500px;

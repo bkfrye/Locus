@@ -61,3 +61,52 @@ iframe {
     display: none!important;
   }
 }
+
+
+
+.inline-video-container {
+  margin: 0 auto;
+  max-width: 500px;
+  width: 100%;
+}
+
+.inline-video {
+  background-position: center;
+  background-size: cover;
+  height: 0;
+  margin: 54px auto;
+  /* max-width: 500px; */
+  padding-top: 56.25%;
+  position: relative;
+  width: 100%;
+
+  & .play-youtube {
+    cursor: pointer;
+    left: 0;
+    height: 100px;
+    margin: 0 auto;
+    padding: 12px;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100px;
+
+    &:hover svg {
+      fill: #cccccc;
+    }
+
+    & svg {
+      fill: white;
+    }
+
+  }
+
+  & iframe {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
