@@ -3,7 +3,7 @@ Theme Name: Locus
 Theme URI: https://github.com/bkfrye/Locus.git
 Author: Brandon Frye
 Author URI: https://brandonfrye.io
-Version: 0.1.1
+Version: 0.1.3
 */
 
 
@@ -1546,39 +1546,45 @@ section .anchor-link {
     display: flex;
     justify-content: center;
     margin: 0 auto;
-    width: 100%;
+    width: 100%
   }
 
 
-#team-wrapper .filter-item:nth-child(1) {
-      display: none;
-      order: 25;
-    }
+#team-wrapper .filter-controls .filter-item:nth-child(1) {
+        display: none;
+        order: 25;
+      }
 
 
-#team-wrapper .filter-item:nth-child(2) {
-      order: 4;
-    }
+#team-wrapper .employers-box .filter-item:nth-child(1) {
+        display: none;
+        order: 25;
+      }
 
 
-#team-wrapper .filter-item:nth-child(3) {
-      order: 2;
-    }
+#team-wrapper .employers-box .filter-item:nth-child(2) {
+        order: 4;
+      }
 
 
-#team-wrapper .filter-item:nth-child(4) {
-      order: 1;
-    }
+#team-wrapper .employers-box .filter-item:nth-child(3) {
+        order: 2;
+      }
 
 
-#team-wrapper .filter-item:nth-child(5) {
-      order: 3;
-    }
+#team-wrapper .employers-box .filter-item:nth-child(4) {
+        order: 1;
+      }
 
 
-#team-wrapper .filter-item:nth-child(6) {
-      order: 5;
-    }
+#team-wrapper .employers-box .filter-item:nth-child(5) {
+        order: 3;
+      }
+
+
+#team-wrapper .employers-box .filter-item:nth-child(6) {
+        order: 5;
+      }
 
 
 #team-wrapper .ats-button {
