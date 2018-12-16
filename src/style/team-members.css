@@ -23,16 +23,6 @@
         display: none;
         order: 25;
       }
-    }
-  }
-
-  & .employers-box {
-    & .filter-item {
-      &:nth-child(1) {
-        display: none;
-        order: 25;
-      }
-
       &:nth-child(2) {
         order: 4;
       }
@@ -50,6 +40,7 @@
       }
     }
   }
+
 
   & .ats-button {
     background-color: transparent!important;
