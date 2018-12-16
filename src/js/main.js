@@ -95,7 +95,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       return false;
     });
-
   }
 
 
@@ -125,4 +124,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }).replaceWith(function() {
     return this.nodeValue.replace(/[™®©]/g, '<sup>$&</sup>');
   });
+
+  // $grid.isotope({ filter: '.metal' });
+  setTimeout(function () {
+    $('#team-wrapper .filter-item:eq(3) .ats-button').click();
+  }, 1000);
+
 });
