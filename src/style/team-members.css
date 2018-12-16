@@ -9,6 +9,7 @@
 
 #team-wrapper {
   margin: 20px auto;
+  max-width: 1440px;
   padding-top: 34px;
   width: calc(100% - 2.5%);
 
