@@ -208,7 +208,8 @@ gulp.task('header-scripts-dev', () => {
 		.src(headerJS)
 		.pipe(plumber({ errorHandler: onError }))
 		.pipe(sourcemaps.init())
-		.pipe(concat('header-bundle.js'))
+    .pipe(concat('header-bundle.js'))
+		.pipe(uglify())
 		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('build/wordpress/wp-content/themes/' + themeName + '/js'));
 });
@@ -223,7 +224,8 @@ gulp.task('footer-scripts-dev', () => {
 				presets: ['@babel/preset-env'],
 			}),
 		)
-		.pipe(concat('footer-bundle.js'))
+    .pipe(concat('footer-bundle.js'))
+		.pipe(uglify())
 		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('build/wordpress/wp-content/themes/' + themeName + '/js'));
 });

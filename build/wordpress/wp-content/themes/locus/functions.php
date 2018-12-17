@@ -1,23 +1,33 @@
 <?php
 function wordpressify_resources() {
-  wp_enqueue_style( 'video-style', 'https://vjs.zencdn.net/7.3.0/video-js.css', null, '', false );
-  wp_enqueue_style( 'fonts', get_template_directory_uri() . '/fonts.css', null, '', false );
-	wp_enqueue_style( 'style', get_stylesheet_uri() );
-
-  wp_enqueue_script( 'scroll-reveal', 'https://unpkg.com/scrollreveal', null, '', false );
-	wp_enqueue_script( 'header_js', get_template_directory_uri() . '/js/header-bundle.js', null, '', false );
-	wp_enqueue_script( 'footer_js', get_template_directory_uri() . '/js/footer-bundle.js', null, '', true );
+  wp_enqueue_style( 'video-style', 'https://vjs.zencdn.net/7.3.0/video-js.css', null, false, false );
+  wp_enqueue_style( 'fonts', get_template_directory_uri() . '/fonts.css', null, false, false );
+	wp_enqueue_style( 'style', get_stylesheet_uri(), null, false, false );
+  wp_enqueue_script( 'scroll-reveal', 'https://unpkg.com/scrollreveal@4.0.5/dist/scrollreveal.js', null, false, true );
+	wp_enqueue_script( 'header_js', get_template_directory_uri() . '/js/header-bundle.js', null, false, true );
+	wp_enqueue_script( 'footer_js', get_template_directory_uri() . '/js/footer-bundle.js', null, false, true );
 }
-
 add_action( 'wp_enqueue_scripts', 'wordpressify_resources' );
+
+// remove version from head
+remove_action('wp_head', 'wp_generator');
+// remove version from rss
+add_filter('the_generator', '__return_empty_string');
+// remove version from scripts and styles
+function remove_version_scripts_styles($src) {
+	if (strpos($src, 'ver=')) {
+		$src = remove_query_arg('ver', $src);
+	}
+	return $src;
+}
+add_filter('style_loader_src', 'remove_version_scripts_styles', 9999);
+add_filter('script_loader_src', 'remove_version_scripts_styles', 9999);
 
 // Theme setup
 function wordpressify_setup() {
-
   add_editor_style('editor-style.css');
 	// Handle Titles
 	add_theme_support( 'title-tag' );
-
 	// Add featured image support
 	add_theme_support( 'post-thumbnails' );
 }
@@ -25,11 +35,7 @@ function wordpressify_setup() {
 add_action( 'after_setup_theme', 'wordpressify_setup' );
 
 
-// add_filter( 'wp_title', 'customize_title_tag', 10, 3 );
-// function customize_title_tag( $title, $sep, $seplocation ) {
-//   $title = str_replace( '|', '-', $title );
-//   return $title;
-// }
+
 
 // Checks if there are any posts in the results
 function is_search_has_results() {
