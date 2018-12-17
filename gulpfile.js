@@ -64,8 +64,7 @@ Header & Footer JavaScript Boundles
 -------------------------------------------------------------------------------------------------- */
 const headerJS = [
 	'node_modules/jquery/dist/jquery.js',
-  // 'node_modules/video.js/dist/video.min.js',
-  // 'node_modules/videojs-youtube/dist/Youtube.js',
+  'node_modules/scrollreveal/dist/scrollreveal.min.js',
 ];
 const footerJS = ['src/js/**'];
 
@@ -191,7 +190,6 @@ gulp.task('style-dev', () => {
 		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('build/wordpress/wp-content/themes/' + themeName))
 		.pipe(browserSync.stream({ match: '**/*.css' }));
-
   const editorStyle = gulp.src('src/style/editor-style.css')
 		.pipe(plumber({ errorHandler: onError }))
 		.pipe(sourcemaps.init())
@@ -301,11 +299,23 @@ gulp.task('process-images', ['copy-theme-prod'], () => {
 });
 
 gulp.task('style-prod', () => {
-	return gulp
-		.src('src/style/style.css')
-		.pipe(plumber({ errorHandler: onError }))
-		.pipe(postcss(pluginsProd))
-		.pipe(gulp.dest('dist/themes/' + themeName));
+
+  const fonts = gulp.src('src/style/fonts.css')
+    .pipe(plumber({ errorHandler: onError }))
+    .pipe(postcss(pluginsProd))
+    .pipe(gulp.dest('dist/themes/' + themeName));
+
+	const style = gulp.src('src/style/style.css')
+    .pipe(plumber({ errorHandler: onError }))
+    .pipe(postcss(pluginsProd))
+    .pipe(gulp.dest('dist/themes/' + themeName));
+
+  const editorStyle = gulp.src('src/style/editor-style.css')
+    .pipe(plumber({ errorHandler: onError }))
+    .pipe(postcss(pluginsProd))
+    .pipe(gulp.dest('dist/themes/' + themeName));
+
+  return merge(fonts, style, editorStyle);
 });
 
 gulp.task('header-scripts-prod', () => {
