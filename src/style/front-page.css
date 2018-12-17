@@ -266,6 +266,7 @@ section .anchor-link {
 
     @media (width > 900px) {
       display: flex;
+      text-align: left;
     }
   }
 
@@ -345,8 +346,10 @@ section .anchor-link {
     padding: 3em;
     width: calc(100% + 24px);
 
+
     @media( width >= 840px ) {
       padding: 5em;
+      width: auto;
     }
 
   }
@@ -409,19 +412,13 @@ section .anchor-link {
   }
 }
 
-
-
-
-
-
-
 .parallax-bg {
   background-size: cover;
   background-position: center center;
   height: 200px;
 
   @media (width > 840px) {
-    background-attachment: cover;
+    background-attachment: fixed;
     height: 400px;
   }
 }

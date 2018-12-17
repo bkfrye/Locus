@@ -960,7 +960,8 @@ section .anchor-link {
 
 
 .our-pipeline .aside-item {
-      display: flex
+      display: flex;
+      text-align: left
   }
     }
 
@@ -1072,7 +1073,8 @@ section .anchor-link {
 
 
 .careers .careers-content {
-      padding: 5em
+      padding: 5em;
+      width: auto
 
   }
     }
@@ -1163,7 +1165,7 @@ section .anchor-link {
 
 
 .parallax-bg {
-    background-attachment: cover;
+    background-attachment: fixed;
     height: 400px
 }
   }
