@@ -416,7 +416,6 @@ section .anchor-link {
 
 
 .parallax-bg {
-  background-image: url('img/bg-petri-dish.png');
   background-size: cover;
   background-position: center center;
   height: 200px;

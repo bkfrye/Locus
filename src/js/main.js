@@ -130,4 +130,24 @@ document.addEventListener("DOMContentLoaded", () => {
     $('#team-wrapper .filter-item:eq(3) .ats-button').click();
   }, 1000);
 
+
+
+  var badBacteria = $('.st1');
+  var index = 0;
+
+  badBacteria.click(function() {
+    $('#alive-text').hide();
+    $('#kill-text').show();
+    $('#bacteria-key').addClass( 'kill-bacteria' );
+    var delay = setInterval( function(){
+      if ( index <= badBacteria.length ) {
+        $( badBacteria[ index ] ).addClass( 'kill-bacteria' );
+        // $( badBacteria[ index ] ).fadeTo( 150, 0 )
+        index += 1;
+      } else {
+        clearInterval( delay );
+      }
+    }, 150 );
+  });
+
 });

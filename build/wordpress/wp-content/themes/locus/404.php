@@ -1,16 +1,22 @@
 <?php get_header(); ?>
-<!-- container -->
-<div class="wrapper">
-	<div id="primary" class="not-found">
-		<section class="error-404 not-found">
-			<h1 class="page-title"><?php _e( 'Oops! That page can&rsquo;t be found.', 'wordpressify' ); ?></h1>
-			<div class="page-content">
-				<p><?php _e( 'It looks like nothing was found at this location. Maybe try a search?', 'wordpressify' ); ?></p>
 
-				<?php get_search_form(); ?>
-			</div>
-		</section>
+<section class="not-found">
+	<div class="wrapper">
+    <div class="content">
+		  <h1><?php _e( 'Oops! That page either can&rsquo;t be found or doesn&rsquo;t exist!', 'wordpressify' ); ?></h1>
+      <div class="link-out">
+        <div class="btn">
+          <a href="/">Go to Homepage</a>
+        </div>
+        <div class="btn">
+          <a href="/technology">Learn about our Technology</a>
+        </div>
+      </div>
+    </div>
+    <div class="bacteria">
+      <?php get_template_part('img/404-asset.svg'); ?>
+    </div>
+
 	</div>
-</div>
-<!-- /container -->
+</section>
 <?php get_footer(); ?>

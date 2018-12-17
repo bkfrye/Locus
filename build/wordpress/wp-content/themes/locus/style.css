@@ -1153,7 +1153,6 @@ section .anchor-link {
 
 
 .parallax-bg {
-  background-image: url('img/bg-petri-dish.png');
   background-size: cover;
   background-position: center center;
   height: 200px
@@ -2143,4 +2142,123 @@ iframe .ytp-watch-later-button.ytp-button {
 .acf-map img {
    max-width: inherit !important;
 }
+
+
+.not-found {
+  margin-top: 100px;
+  min-height: 470px
+}
+
+
+.not-found .wrapper {
+    max-width: 1000px
+  }
+
+
+@media (min-width: 840px) {
+
+
+.not-found .wrapper {
+      display: flex
+  }
+    }
+
+
+.not-found .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around
+  }
+
+
+@media (min-width: 840px) {
+
+
+.not-found .content {
+      max-width: 40%
+  }
+    }
+
+
+.not-found .content h1 {
+      font-size: 36px;
+      text-align: center
+    }
+
+
+@media (min-width: 840px) {
+
+
+.not-found .content h1 {
+        text-align: left
+    }
+      }
+
+
+.not-found .st0 {
+    fill:#1E5CE5;
+  }
+
+
+.not-found .st1 {
+    cursor: pointer;
+    fill: #F2C014;
+    stroke: #F2C014;
+    stroke-miterlimit: 10;
+    transition: fill 300ms ease-out
+  }
+
+
+.not-found .st1.kill-bacteria {
+      fill: white;
+    }
+
+
+.not-found .st2 {
+    fill:none;
+  }
+
+
+.not-found .bacteria {
+    display: none;
+    max-height: 450px;
+    width: 100%
+  }
+
+
+@media (min-width: 840px) {
+
+
+.not-found .bacteria {
+      display: block
+  }
+    }
+
+
+.not-found .bacteria svg {
+      height: 100%;
+      width: 100%;
+    }
+
+
+.not-found .link-out {
+    margin: 54px auto;
+  }
+
+
+.not-found .btn a {
+      margin: 1em 0;
+    }
+
+
+#bacteria-key {
+  cursor: default;
+  fill: #F2C014;
+  stroke: #F2C014
+}
+
+
+#bacteria-key.kill-bacteria {
+    fill: white;
+  }
 /*# sourceMappingURL=style.css.map */
