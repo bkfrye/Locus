@@ -15,9 +15,14 @@
 
   & .filter-controls {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     margin: 0 auto;
     width: 100%;
+
+    @media (width >=840px) {
+      flex-direction: row;
+    }
 
     & .filter-item {
       &:nth-child(1) {

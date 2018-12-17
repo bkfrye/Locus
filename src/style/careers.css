@@ -12,7 +12,9 @@
   }
 
   & .careers-content {
-    margin-right: 104px;
+    @media ( width >= 840px ) {
+      margin-right: 104px;
+    }
   }
 
   & .careers-listing {
@@ -23,9 +25,13 @@
     margin-bottom: 100px;
   }
   & .accordion {
-    margin: 104px auto 0;
+    margin: 0 auto;
     max-width: 900px;
     padding: 0;
+
+    @media (width >=960px) {
+      margin: 104px auto 0;
+    }
 
     & .job-item {
       border: 1px solid rgba(0,0,0,0.25);

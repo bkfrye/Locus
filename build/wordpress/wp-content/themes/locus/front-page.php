@@ -52,7 +52,7 @@
 
 <?php get_template_part('template_parts/overview'); ?>
 
-<section class="parallax-bg"></section>
+<section class="parallax-bg" style="background-image: url(<?php the_field('parallax_image_1'); ?>)"></section>
 
 <section id="our-pipeline" class="our-pipeline">
   <div class="our-pipeline-wrapper">

@@ -50,15 +50,15 @@ body.js-no-transition {
 
 *::-moz-selection {
 		color: var(--white);
-		background: #181B20;
-		background: var(--darkBlue);
+		background: #1E5CE5;
+		background: var(--blue);
 	}
 
 
 *::selection {
 		color: var(--white);
-		background: #181B20;
-		background: var(--darkBlue);
+		background: #1E5CE5;
+		background: var(--blue);
 	}
 
 
@@ -265,9 +265,19 @@ h2 {
 
 
 h3 {
-  font-size: 36px;
-  line-height: 48px;
+  font-size: 26px;
+  line-height: 32px
 }
+
+
+@media (min-width: 840px) {
+
+
+h3 {
+    font-size: 36px;
+    line-height: 48px
+}
+  }
 
 
 p {

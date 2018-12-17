@@ -25,7 +25,7 @@ body {
 
 	&::selection {
 		color: var(--white);
-		background: var(--darkBlue);
+		background: var(--blue);
 	}
 }
 
@@ -194,8 +194,13 @@ h2 {
 }
 
 h3 {
-  font-size: 36px;
-  line-height: 48px;
+  font-size: 26px;
+  line-height: 32px;
+
+  @media ( width >=840px ) {
+    font-size: 36px;
+    line-height: 48px;
+  }
 }
 
 p {

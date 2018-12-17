@@ -1,8 +1,4 @@
 #technology {
-  & .hero {
-
-  }
-
   & .hero-btn-wrapper {
 
     @media (width > 800px) {
@@ -12,6 +8,14 @@
 
   & .btn {
     width: 330px;
+
+    & a {
+      margin: 1em 0;
+
+      @media( width > 800px ) {
+        margin: inherit;
+      }
+    }
   }
 
   & .btn.white a:hover {
@@ -163,6 +167,11 @@
 
     & h3 {
       margin: 0;
+      text-align: center;
+
+      @media (width > 960px) {
+        text-align: center;
+      }
     }
   }
 
