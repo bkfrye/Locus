@@ -119,7 +119,7 @@
 </section>
 
 <section id="careers" class="careers" style="background-image: url('<?php echo get_stylesheet_directory_uri() ?>/img/bg-careers.png')">
-  <div class="careers-content fade-in">
+  <div class="careers-content fade-in load-hidden">
     <h4>Help us revolutionize medical science</h4>
     <div class="btn white">
       <a href="<?php the_field('careers_link'); ?>">Our Current Openings</a>
