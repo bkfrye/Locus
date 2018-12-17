@@ -33,6 +33,12 @@
   position: relative;
   width: 100%;
 
+  @media (width > 1440px) {
+    height: 720px;
+    padding: 0;
+    width: 1280px;
+  }
+
   & iframe {
     bottom: 0;
     left: 0;

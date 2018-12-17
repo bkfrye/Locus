@@ -1778,6 +1778,17 @@ section .anchor-link {
 }
 
 
+@media (min-width: 1441px) {
+
+
+#player {
+    height: 720px;
+    padding: 0;
+    width: 1280px
+}
+  }
+
+
 #player iframe {
     bottom: 0;
     left: 0;
