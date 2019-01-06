@@ -1,15 +1,6 @@
 <?php get_header(); ?>
-<!-- container -->
-<div class="documentation">
-	<div class="side-navigation">
-		<nav>
-			<?php get_search_form(); ?>
-			<h6>Quick Navigation</h6>
-		</nav>
-	</div>
-
-	<!-- site-content -->
-	<div class="site-content single">
+<section class="wrapper">
+	<div class="site-content single" style="padding: 15px;margin-top: 100px;">
 		<?php
 		if ( have_posts() ) :
 			while ( have_posts() ) :
@@ -25,7 +16,5 @@
 		endif;
 		?>
 	</div>
-	<!-- /site-content -->
-</div>
-<!-- container -->
+</section>
 <?php get_footer(); ?>

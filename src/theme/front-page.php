@@ -1,6 +1,14 @@
 <?php get_header(); ?>
-<?php if ( get_field( 'hero_background_image' ) ) : ?>
-  <section id="top" class="hero" style="background-image: url('<?php the_field( 'hero_background_image' ); ?>')">
+
+<style>
+  .bg-image img.loaded {
+    display: none;
+  }
+</style>
+
+<?php $img = get_field( 'hero_background_image' ); ?>
+<?php if ( $img ) : ?>
+  <section id="top" class="hero bg-image" style="background-image: url(<?php echo $img; ?>)">
 <?php else : ?>
   <section id="top" class="hero" style="background-color: #03487E;">
 <?php endif; ?>
@@ -97,7 +105,8 @@
       <?php foreach ( $graphs as $graph ) : ?>
         <div class="graph-item fade-in load-hidden" >
           <h3><?php echo $graph['title']; ?></h3>
-          <img src="<?php echo $graph['image']['url']; ?>" alt="<?php echo $graph['image']['alt']; ?>">
+          <!-- <img src="<?//php echo $graph['image']['url']; ?>" alt="<?php echo $graph['image']['alt']; ?>"> -->
+          <img <?php responsive_image( $graph['image']['id'],'device','1440px'); ?> alt="<?php echo $graph['image']['title']; ?>">
         </div>
       <?php endforeach; ?>
     </div>

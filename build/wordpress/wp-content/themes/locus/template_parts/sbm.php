@@ -1,4 +1,4 @@
-<section class="sbm tech-info">
+<section id="synthetic-biology-methods" class="sbm tech-info">
   <header class="fade-in load-hidden">
     <h3><?php the_field('methods_title'); ?></h3>
     <div class="header-image" style="background-image: url(<?php echo get_field('methods_header_image')['url']; ?>)"></div>
@@ -14,7 +14,7 @@
             <?php echo $article['content']; ?>
           </article>
           <div class="article-image">
-            <img src="<?php echo $article['image']['url']; ?>" alt="<?php echo $article['image']['alt']; ?>">
+            <img <?php responsive_image( $article['image']['id'],'device','1440px'); ?> alt="<?php echo $article['image']['title']; ?>">
           </div>
         </div>
       <?php endforeach; ?>

@@ -1,0 +1,146 @@
+#news {
+  margin-top: 100px;
+  padding: 0 2em;
+
+  & h2 {
+    color: var(--textColor);
+    font-family: 'museo_sans300';
+    font-size: 24px;
+    line-height: 31px;
+  }
+
+  & h3 {
+    color: var(--mediumBlue);
+    font-family: 'museo_sans700';
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  & .news-date {
+    color: var(--blue);
+    font-size: 15px;
+    line-height: 21px;
+    text-transform: uppercase;
+  }
+
+  & .grid {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  & .post {
+    margin: 50px 2%;
+
+    @media (width >= 1000px) {
+      width: 46%;
+    }
+  }
+
+  & .tags a {
+    color: var(--textColor);
+    font-size: 11px;
+    text-decoration: none;
+
+    display: none;
+  }
+
+  & .pagination {
+    margin: 100px auto;
+  }
+}
+
+.page-numbers {
+  margin: 0 8px;
+  text-decoration: none;
+}
+
+.page-numbers,
+.page-numbers:visited {
+  color: var(--blue);
+}
+.page-numbers.current {
+  font-family: 'museo_sans700';
+  font-size: 21px;
+}
+
+.inner-content {
+
+  & p {
+    font-size: 14px;
+    line-height: 21px;
+  }
+  & a {
+    text-decoration: none;
+    transition: border 123ms ease-in-out;
+  }
+  & a:hover {
+    & .news-card {
+      box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+    }
+
+    & h3 {
+      text-decoration: underline;
+    }
+  }
+}
+
+.news-card {
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 6px;
+  padding: 0.5em;
+
+  & h3 {
+    margin-bottom: 0.25em;
+    transition: all 100ms ease-in;
+  }
+  & p {
+    color: var(--gray);
+    font-size: 13px;
+    line-height: 18px;
+  }
+
+  & .news-card-image {
+    min-width: 200px;
+    width: 100%;
+
+  }
+
+  & .news-card-content {
+    padding-left: 1em;
+  }
+}
+
+
+.single {
+  & header {
+    margin-bottom: 54px;
+    padding-bottom: 14px;
+    position: relative;
+
+    & p {
+      color: var(--gray);
+    }
+  }
+
+  & header:before {
+    background-color: var(--blue);
+    bottom: 0;
+    content: '';
+    left: 0;
+    height: 6px;
+    position: absolute;
+    width: 300px;
+  }
+
+  & .post-inner-content {
+    max-width: 840px;
+  }
+
+
+}
+
+h1.single-title {
+  color: var(--textColor);
+  font-size: 31px;
+  max-width: 710px;
+}

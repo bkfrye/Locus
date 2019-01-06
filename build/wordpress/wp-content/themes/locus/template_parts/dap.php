@@ -1,4 +1,4 @@
-<section class="dap tech-info">
+<section id="discovery-automation-platform" class="dap tech-info">
   <header class="fade-in load-hidden">
     <h3><?php the_field('discovery_title'); ?></h3>
     <div class="header-image" style="background-image: url(<?php echo get_field('dap_header_image')['url']; ?>)"></div>
@@ -14,7 +14,7 @@
             <?php echo $article['content']; ?>
           </article>
           <div class="article-image fade-in load-hidden">
-            <img src="<?php echo $article['image']['url']; ?>" alt="<?php echo $article['image']['alt']; ?>">
+            <img <?php responsive_image( $article['image']['id'],'device','1440px'); ?> alt="<?php echo $article['image']['title']; ?>">
           </div>
         </div>
       <?php endforeach; ?>

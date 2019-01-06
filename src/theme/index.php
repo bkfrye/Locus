@@ -1,10 +1,8 @@
 <?php get_header(); ?>
-<!-- container -->
-<div class="container">
-	<!-- site-content -->
+<section id="news" class="wrapper">
+  <h1>News</h1>
 	<div class="site-content">
 
-		<!-- main-column -->
 		<div class="main-column grid">
 			<?php
 			if ( have_posts() ) :
@@ -14,7 +12,6 @@
 				endwhile;
 				?>
 		</div>
-		<!-- /main-column -->
 
 		<?php
 		else :
@@ -26,8 +23,6 @@
 			<?php echo paginate_links(); ?>
 		</div>
 	</div>
-	<!-- /site-content -->
-</div>
-<!-- /container -->
+</section>
 
 <?php get_footer(); ?>

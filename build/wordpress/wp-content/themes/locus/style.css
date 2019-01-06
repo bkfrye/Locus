@@ -414,7 +414,7 @@ sup {
 }
 
 
-@media (min-width: 925px) {
+@media (min-width: 1021px) {
 
 
 #header nav.main-menu {
@@ -447,7 +447,7 @@ sup {
 }
 
 
-@media (min-width: 925px) {
+@media (min-width: 1021px) {
 
 
 #header .js-open.main-menu:before {
@@ -463,7 +463,7 @@ sup {
 }
 
 
-@media (min-width: 925px) {
+@media (min-width: 1021px) {
 
 
 #menu-main-menu {
@@ -480,7 +480,7 @@ sup {
   }
 
 
-@media (min-width: 925px) {
+@media (min-width: 1021px) {
 
 
 #menu-main-menu li {
@@ -502,7 +502,7 @@ sup {
   }
 
 
-@media (min-width: 925px) {
+@media (min-width: 1021px) {
 
 
 #menu-main-menu a {
@@ -514,7 +514,7 @@ sup {
     }
 
 
-@media (min-width: 925px) {
+@media (min-width: 1021px) {
 
 
 #menu-main-menu a:before {
@@ -553,7 +553,7 @@ sup {
 }
 
 
-@media (min-width: 925px) {
+@media (min-width: 1021px) {
 
 
 #menu-btn {
@@ -2154,6 +2154,186 @@ iframe .ytp-watch-later-button.ytp-button {
 
 .acf-map img {
    max-width: inherit !important;
+}
+
+
+#news {
+  margin-top: 100px;
+  padding: 0 2em
+}
+
+
+#news h2 {
+    color: #042A4A;
+    color: var(--textColor);
+    font-family: 'museo_sans300';
+    font-size: 24px;
+    line-height: 31px;
+  }
+
+
+#news h3 {
+    color: #03487E;
+    color: var(--mediumBlue);
+    font-family: 'museo_sans700';
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+
+#news .news-date {
+    color: #1E5CE5;
+    color: var(--blue);
+    font-size: 15px;
+    line-height: 21px;
+    text-transform: uppercase;
+  }
+
+
+#news .grid {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+
+#news .post {
+    margin: 50px 2%
+  }
+
+
+@media (min-width: 1000px) {
+
+
+#news .post {
+      width: 46%
+  }
+    }
+
+
+#news .tags a {
+    color: #042A4A;
+    color: var(--textColor);
+    font-size: 11px;
+    text-decoration: none;
+
+    display: none;
+  }
+
+
+#news .pagination {
+    margin: 100px auto;
+  }
+
+
+.page-numbers {
+  margin: 0 8px;
+  text-decoration: none;
+}
+
+
+.page-numbers,
+.page-numbers:visited {
+  color: #1E5CE5;
+  color: var(--blue);
+}
+
+
+.page-numbers.current {
+  font-family: 'museo_sans700';
+  font-size: 21px;
+}
+
+
+.inner-content p {
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+
+.inner-content a {
+    text-decoration: none;
+    transition: border 123ms ease-in-out;
+  }
+
+
+.inner-content a:hover .news-card {
+      box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+    }
+
+
+.inner-content a:hover h3 {
+      text-decoration: underline;
+    }
+
+
+.news-card {
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 6px;
+  padding: 0.5em
+}
+
+
+.news-card h3 {
+    margin-bottom: 0.25em;
+    transition: all 100ms ease-in;
+  }
+
+
+.news-card p {
+    color: #979797;
+    color: var(--gray);
+    font-size: 13px;
+    line-height: 18px;
+  }
+
+
+.news-card .news-card-image {
+    min-width: 200px;
+    width: 100%;
+
+  }
+
+
+.news-card .news-card-content {
+    padding-left: 1em;
+  }
+
+
+.single header {
+    margin-bottom: 54px;
+    padding-bottom: 14px;
+    position: relative
+  }
+
+
+.single header p {
+      color: #979797;
+      color: var(--gray);
+    }
+
+
+.single header:before {
+    background-color: #1E5CE5;
+    background-color: var(--blue);
+    bottom: 0;
+    content: '';
+    left: 0;
+    height: 6px;
+    position: absolute;
+    width: 300px;
+  }
+
+
+.single .post-inner-content {
+    max-width: 840px;
+  }
+
+
+h1.single-title {
+  color: #042A4A;
+  color: var(--textColor);
+  font-size: 31px;
+  max-width: 710px;
 }
 
 
