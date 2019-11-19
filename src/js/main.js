@@ -149,4 +149,17 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }, 150 );
   });
+
+
+  $('.close-news-banner').click( () => {
+    $('.global-news-banner').css('display', 'none');
+    localStorage.setItem('bannerClosed', true);
+  });
+
+  if (!localStorage.getItem('bannerClosed')) {
+    $('.global-news-banner').css('display', 'block');
+  } else {
+    $('.global-news-banner').css('display', 'none');
+  }
+
 });

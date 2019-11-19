@@ -5,7 +5,7 @@
       <div class="footer-wrapper">
         <div class="information">
           <h3>Contact Us</h3>
-          <p>523 Davis Drive Suite 350 <br>Morrisville NC 27603</p>
+          <p>523 Davis Drive Suite 350 <br>Morrisville NC 27560</p>
 
           <div class="get-directions">
             <div class="text-link white">
@@ -81,7 +81,7 @@
         </div>
         <div class="footer-main-contact">
           <div class="information">
-            <p>523 Davis Drive Suite 350 <br>Morrisville NC 27603</p>
+            <p>523 Davis Drive Suite 350 <br>Morrisville NC 27560</p>
 
             <div class="contact-links">
               <ul class="contact">

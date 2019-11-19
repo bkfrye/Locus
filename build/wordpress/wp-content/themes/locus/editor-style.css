@@ -38,6 +38,7 @@ body {
 
 
 body.js-no-transition {
+    -webkit-transition: none !important;
     transition: none !important;
   }
 
@@ -64,6 +65,11 @@ body.js-no-transition {
 
 a {
   font-family: 'museo_sans500', sans-serif;
+}
+
+
+.global-wrapper {
+	position: relative;
 }
 
 
@@ -99,6 +105,7 @@ a {
   height: auto;
   width: 12px;
   right: -2em;
+  -webkit-transition: all 123ms ease-in-out;
   transition: all 123ms ease-in-out;
 }
 
@@ -126,15 +133,18 @@ a {
 
 .btn a,
 .btn .btn-content {
-  align-items: center;
+  -webkit-box-align: center;
+          align-items: center;
   border: 3px solid #1E5CE5;
   border: 3px solid var(--blue);
   border-radius: 25px;
   color: #1E5CE5;
   color: var(--blue);
   cursor: pointer;
+  display: -webkit-box;
   display: flex;
-  justify-content: center;
+  -webkit-box-pack: center;
+          justify-content: center;
   font-family: 'museo_sans700';
   font-size: 14px;
   height: 100%;
@@ -142,6 +152,7 @@ a {
   padding: 0 1em;
   text-decoration: none;
   text-transform: uppercase;
+  -webkit-transition: all 123ms ease-in-out;
   transition: all 123ms ease-in-out
 }
 
@@ -206,6 +217,7 @@ a {
   line-height: 9px;
   width: 9px;
   left: -2em;
+  -webkit-transition: all 200ms ease-in-out;
   transition: all 200ms ease-in-out;
   -webkit-transform-origin: 50% 50%;
           transform-origin: 50% 50%;
