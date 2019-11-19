@@ -33,6 +33,10 @@ a {
   font-family: 'museo_sans500', sans-serif;
 }
 
+.global-wrapper {
+	position: relative;
+}
+
 .wrapper {
   @mixin maxWidth;
 }
