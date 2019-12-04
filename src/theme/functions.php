@@ -150,7 +150,13 @@ function getMetaData($url) {
 
   echo '<div class="news-card">';
     echo '<div class="news-card-image">';
-      echo '<img src="' . $tags['twitter:image'] . '" alt="' . $tags['twitter:title'] . '">';
+        echo '<div class="news-card-image">';
+            if ( $tags['twitter:image:src'] ) :
+                echo '<img src="' . $tags['twitter:image:src'] . '" alt="' . $tags['twitter:title'] . '">';
+            else:
+                echo '<img src="' . $tags['twitter:image'] . '" alt="' . $tags['twitter:title'] . '">';
+            endif;
+        echo '</div>';
     echo '</div>';
 
     if ( $tags['twitter:title'] ) :
