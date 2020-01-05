@@ -1,7 +1,7 @@
 <?php get_header(); ?>
 
 <!-- container -->
-<div class="container">	
+<div class="container">
 	<!-- site-content -->
 	<div class="site-content">
 		<?php if ( have_posts() ) : ?>
@@ -28,7 +28,7 @@
 		</h1>
 
 		<!-- main-column -->
-		<div class="main-column grid 
+		<div class="main-column grid
 		<?php
 		if ( ! is_search_has_results() ) {
 			echo 'no-result'; }

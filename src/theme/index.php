@@ -1,6 +1,6 @@
 <?php get_header(); ?>
-<section id="news" class="wrapper">
-  <h1>News</h1>
+<section id="media" class="wrapper">
+  <h1>Media</h1>
 	<div class="site-content">
 
 		<div class="main-column grid">

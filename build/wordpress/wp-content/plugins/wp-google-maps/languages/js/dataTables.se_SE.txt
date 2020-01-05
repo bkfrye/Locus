@@ -1,4 +1,4 @@
-﻿{
+{
     "sEmptyTable":     "Ingen data finns tillgänglig i tabellen",
     "sInfo":           "Visar _START_ till _END_ av _TOTAL_ inlägg",
     "sInfoEmpty":      "Visar 0 till 0 av 0 inlägg",
