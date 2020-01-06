@@ -7,26 +7,13 @@
   <?php endif; ?>
     <div class="hero-wrapper">
       <div class="hero-content fade-in load-hidden">
-        <h1><?php the_title(); ?></h1>
+        <h1>crPhage<sup>TM</sup> Technology</h1>
         <p><?php the_field('tech_sub_headline'); ?></p>
-
-        <?php global $wp; $currentURL = home_url( $wp->request ); ?>
-        <div class="hero-btn-wrapper">
-          <?php if ( get_field('button_1') ) : ?>
-            <div class="btn white">
-              <a href="#bacteriophage">
-                <?php the_field('button_1'); ?>
-              </a>
-            </div>
-          <?php endif; ?>
-          <?php if ( get_field('button_2') ) : ?>
-            <div class="btn white">
-              <a href="#cas-3">
-                <?php the_field('button_2'); ?>
-              </a>
-            </div>
-          <?php endif; ?>
+        <div class="btn white">
+          <a href="#">Watch Video</a>
         </div>
+
+        <?php //global $wp; $currentURL = home_url( $wp->request ); ?>
       </div>
     </div>
   </section>
@@ -42,6 +29,7 @@
 
   <section class="featured-items">
     <div class="featured-items-wrapper">
+
       <div class="item fade-in load-hidden">
         <div class="header-image" style="background-image: url('<?php echo get_field('dap_header_image')['url']; ?>')">
         </div>
@@ -55,6 +43,7 @@
           <?php endforeach; ?>
         <?php endif; ?>
       </div>
+
       <div class="item fade-in load-hidden">
         <div class="header-image" style="background-image: url('<?php echo get_field('methods_header_image')['url']; ?>')">
         </div>
@@ -68,18 +57,32 @@
           <?php endforeach; ?>
         <?php endif; ?>
       </div>
-    </div>
-    <div class="development-time">
-      <?php get_template_part('img/stopwatch.svg'); ?>
-      <h4>
-        <?php the_field('development_time'); ?>
-      </h4>
+
+
+      <div class="item fade-in load-hidden">
+        <div class="header-image" style="background-image: url('<?php echo get_field('manufacturing_header_image')['url']; ?>')">
+        </div>
+        <p class="title medium-blue"><?php the_field('manufacturing_title'); ?></p>
+        <?php $links = get_field('manufacturing_articles'); ?>
+        <?php if ( $links ) : ?>
+          <?php foreach( $links as $link ) : ?>
+            <a href="#<?php echo convertToAnchor($link['title']) ?>">
+              <?php echo $link['title']; ?>
+            </a>
+          <?php endforeach; ?>
+        <?php endif; ?>
+      </div>
+
+
+
     </div>
   </section>
 
   <?php get_template_part('template_parts/dap'); ?>
 
   <?php get_template_part('template_parts/sbm'); ?>
+
+  <?php get_template_part('template_parts/am'); ?>
 
   <div class="end-section">
     <div class="btn">

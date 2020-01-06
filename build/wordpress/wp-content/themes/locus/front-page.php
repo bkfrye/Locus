@@ -1,10 +1,10 @@
 <?php get_header(); ?>
 
-<style>
+<!-- <style>
   .bg-image img.loaded {
     display: none;
   }
-</style>
+</style> -->
 
 <?php $img = get_field( 'hero_background_image' ); ?>
 <?php if ( $img ) : ?>
@@ -12,6 +12,11 @@
 <?php else : ?>
   <section id="top" class="hero" style="background-color: #03487E;">
 <?php endif; ?>
+  <div class="bg-video">
+    <video autoplay loop>
+      <source src="<?php echo get_stylesheet_directory_uri(); ?>/img/video.mp4" type="video/mp4">
+    </video>
+  </div>
   <div class="hero-wrapper">
     <div class="hero-content fade-in load-hidden">
       <h1><?php the_field('headline'); ?></h1>
@@ -24,43 +29,46 @@
       <?php endif; ?>
     </div>
   </div>
-  <div class="down-arrow">
-    <a href="#about-us">
-      <svg viewBox="0 0 451.847 451.847">
-        <path d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751   c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0   c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z" fill="#FFFFFF"/>
-      </svg>
-    </a>
-  </div>
 </section>
 
-<section id="about-us" class="about-us">
-  <div class="about-us-wrapper">
-    <article class="fade-in load-hidden">
-      <h2><?php echo __('About Us'); ?></h2>
-      <?php the_field('about_content'); ?>
-      <div class="text-link">
-        <a href="<?php the_field('about_link'); ?>"><?php echo __('Read More on Our Technology'); ?></a>
-      </div>
-    </article>
-
-    <aside>
-      <div class="fade-in load-hidden">
-        <h3><?php the_field('about_side_column_title'); ?></h3>
-        <?php the_field('about_side_column_content'); ?>
-
-        <?php if ( get_field('include_video') == 1 ) : ?>
-          <div class="btn play">
-            <div class="btn-content" data-url="<?php the_field('video_button'); ?>"><span><?php echo __('Watch Video'); ?></span></div>
+<section id="featured-news-callout">
+  <div class="callout-wrapper">
+    <h2>Featured news</h2>
+    <?php
+      $post_object = get_field('featured_item');
+      if( $post_object ):
+      	$post = $post_object;
+      	setup_postdata( $post );
+      	?>
+          <div>
+          	<h3><?php the_title(); ?></h3>
+            <div class="btn">
+              <a href="<?php the_field('news_url'); ?>" target="_blank">Learn More</a>
+            </div>
           </div>
-        <?php endif; ?>
-      </div>
-    </aside>
+      <?php wp_reset_postdata(); ?>
+    <?php endif; ?>
   </div>
 </section>
 
-<?php get_template_part('template_parts/overview'); ?>
+<section id="cr-phage">
+  <div class="cr-phage-wrapper">
+    <div class="cr-phage-content">
+      <h2><?php the_field('cr-phage_title'); ?></h2>
+      <p><?php the_field('cr-phage_content'); ?></p>
+    </div>
+    <div class="cr-phage-image">
+      <?php
+        $image = get_field('cr-phage_image');
+        $size = 'full'; //
+        if( $image ) {
+          echo wp_get_attachment_image( $image, $size );
+        }
+      ?>
+    </div>
+  </div>
 
-<section class="parallax-bg" style="background-image: url(<?php the_field('parallax_image_1'); ?>)"></section>
+</section>
 
 <section id="our-pipeline" class="our-pipeline">
   <div class="our-pipeline-wrapper">
@@ -70,62 +78,17 @@
         <?php the_field('pipeline_content'); ?>
       </div>
     </article>
-
-    <aside class="fade-in load-hidden">
-      <?php $infos = get_field('aside_content'); ?>
-      <?php if ( $infos ) : ?>
-        <?php foreach ( $infos as $info ) : ?>
-          <div class="aside-item">
-            <div class="aside-image">
-              <img src="<?php echo $info['icon_image']; ?>" alt="icon">
-            </div>
-            <div class="aside-content">
-              <h3><?php echo $info['title']; ?></h3>
-              <p><?php echo $info['content']; ?></p>
-
-              <?php if ( get_field('video_link') ) : ?>
-                <div class="btn white play">
-                  <div class="btn-content" data-url="<?php echo $info['video_link']; ?>">
-                    <span><?php echo __('Watch Video'); ?></span>
-                  </div>
-                </div>
-              <?php endif; ?>
-            </div>
-          </div>
-        <?php endforeach; ?>
-      <?php endif; ?>
-    </aside>
   </div>
 </section>
 
-<?php $graphs = get_field('graphs'); ?>
-<?php if ( $graphs ) : ?>
-  <section id="graphs" class="graphs">
-    <div class="graph-wrapper">
-      <?php foreach ( $graphs as $graph ) : ?>
-        <div class="graph-item fade-in load-hidden" >
-          <h3><?php echo $graph['title']; ?></h3>
-          <!-- <img src="<?//php echo $graph['image']['url']; ?>" alt="<?php echo $graph['image']['alt']; ?>"> -->
-          <img <?php responsive_image( $graph['image']['id'],'device','1440px'); ?> alt="<?php echo $graph['image']['title']; ?>">
-        </div>
-      <?php endforeach; ?>
-    </div>
-  </section>
-<?php endif; ?>
-<section class="parallax-bg" style="background-image: url('<?php the_field('parallax_image_2'); ?>')"></section>
-
-<section id="our-team" class="our-team">
-  <div class="our-team-wrapper fade-in">
-    <article>
-      <h2><?php echo __('Our Team'); ?></h2>
-      <h3><?php the_field('team_content'); ?></h3>
-    </article>
-
-    <div id="team-wrapper">
-      <?php echo do_shortcode('[a-team-showcase id="5564"]') ?>
-    </div>
+<section id="graphs" class="graphs">
+  <div class="graph-wrapper">
+      <div class="graph-item fade-in load-hidden" >
+        graph image
+      </div>
   </div>
 </section>
+
 
 <section id="careers" class="careers" style="background-image: url('<?php echo get_stylesheet_directory_uri() ?>/img/bg-careers.png')">
   <div class="careers-content">

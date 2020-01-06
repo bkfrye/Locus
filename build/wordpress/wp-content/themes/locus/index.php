@@ -1,6 +1,17 @@
 <?php get_header(); ?>
 <section id="media" class="wrapper">
-  <h1>Media</h1>
+  <div class="media-hero">
+    <div class="featured-news">
+      <h1>Featured News</h1>
+
+      <h2>POST TITLE</h2>
+    </div>
+    <div class="media-kit">
+      <h3>Media Kit</h3>
+      <h2>Looking for media kit?</h2>
+    </div>
+  </div>
+
 	<div class="site-content">
 
 		<div class="main-column grid">

@@ -12,4 +12,9 @@ RewriteRule . /index.php [L]
   Header always set Access-Control-Allow-Origin "*"
 </FilesMatch>
 
+php_value upload_max_filesize 12M
+php_value post_max_size 12M
+php_value max_execution_time 300
+php_value max_input_time 300
+
 # END WordPress

@@ -1,11 +1,31 @@
 <?php get_header(); ?>
-  <section id="careers-page">
+  <div id="careers-page">
+    <section class="careers-hero">
+      <h1></h1>
+    </section>
     <div class="careers-content">
-      <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
-        <h1><?php the_title(); ?></h1>
-      	<?php the_content(); ?>
-      <?php endwhile; endif; ?>
+      <h3><?php the_title(); ?></h3>
+      <h2>Why work with us?</h2>
+
+      <video src="#" autoplay poster="">
+
+      </video>
     </div>
+
+    <section class="blockquote">
+      <p>quote</p>
+
+      <div class="quote-author-bio">
+        <img src="" alt="">
+        <p>paul garrafalo</p>
+      </div>
+    </section>
+
+
+
+
+
+
 
     <div class="careers-listing">
       <?php $jobs = get_field('jobs'); ?>
@@ -24,5 +44,5 @@
         </ul>
       <?php endif; ?>
     </div>
-  </section>
+  </div>
 <?php get_footer(); ?>

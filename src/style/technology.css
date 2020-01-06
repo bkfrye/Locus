@@ -1,27 +1,20 @@
 #technology {
-  & .hero-btn-wrapper {
 
-    @media (width > 800px) {
-      display: flex;
-    }
+  & .hero {
+    text-align: center;
+  }
+
+
+  & .hero-content {
+    margin: 0 auto;
+    max-width: 800px;
+    width: 100%;
   }
 
   & .btn {
-    width: 330px;
-
-    & a {
-      margin: 1em 0;
-
-      @media( width > 800px ) {
-        margin: inherit;
-      }
-    }
+    margin: 0 auto;
   }
 
-  & .btn.white a:hover {
-    background: white;
-    color: var(--blue);
-  }
 }
 
 .our-platform {
@@ -37,13 +30,11 @@
   padding: 72px 12px;
   width: 100%;
 
-
-
   & .featured-items-wrapper {
     @media (width > 840px) {
-      align-items: center;
+      align-items: flex-start;
       display: flex;
-      justify-content: space-around;
+      justify-content: space-between;
     }
   }
 
@@ -52,18 +43,10 @@
     display: flex;
     flex: 1;
     flex-direction: column;
+    height: 100%;
     margin-bottom: 27px;
     padding-bottom: 27px;
     text-align: center;
-
-    &:first-child {
-      border-bottom: 1px solid var(--gray);
-
-      @media (width > 840px) {
-        border-bottom: 0;
-        border-right: 1px solid var(--gray);
-      }
-    }
 
     & a {
       color: white;
@@ -90,16 +73,15 @@
   }
 
   & p.title {
+    display: inline;
     font-family: 'museo_sans700';
     font-size: 24px;
-    max-width: 400px;
     padding-bottom: 1.5em;
     position: relative;
     text-transform: none;
-    width: 100%;
 
     @media (width > 840px) {
-      width: 400px;
+
     }
 
     &:after {
@@ -119,21 +101,9 @@
     }
   }
 
-  & .development-time {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-
-    & svg {
-      height: 19px;
-      margin-right: 16px;
-      width: 19px;
-    }
-
-    & h4 {
-      font-family: 'museo_sans700';
-      font-size: 13px;
-      line-height: 23px;
+  & p.title.medium-blue {
+    &:after {
+      background-color: #0E5C99;
     }
   }
 }
@@ -195,8 +165,9 @@
   padding: 104px 0px 0px;
 
   @media (width > 960px) {
-    align-items: center;
+    /* align-items: center; */
     display: flex;
+    justify-content: space-between;
   }
 
   &:last-child {
@@ -205,13 +176,13 @@
 
   & article {
     @media (width > 960px) {
-      width: 50%;
+      width: 55%;
     }
   }
 
   & .article-image {
     @media (width > 960px) {
-      width: 50%;
+      width: 40%;
     }
 
     & img {
@@ -249,6 +220,18 @@
   &.sbm header {
     background-color: #008FD7;
   }
+
+  &.am header {
+    background-color: #0E5C99;
+  }
+}
+
+.cas3-cas9 {
+  background-image: url('img/bg-abstract.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  padding-bottom: 30px;
+  text-align: center;
 }
 
 .end-section {

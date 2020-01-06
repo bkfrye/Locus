@@ -6,8 +6,8 @@
 function locus_resources() {
   wp_enqueue_style( 'fonts', get_template_directory_uri() . '/fonts.css', null, false, false );
 	wp_enqueue_style( 'style', get_stylesheet_uri(), null, false, false );
-	wp_enqueue_script( 'header_js', get_template_directory_uri() . '/js/header-bundle.js', array(), false, true );
-	wp_enqueue_script( 'footer_js', get_template_directory_uri() . '/js/footer-bundle.js', array(), false, true );
+	wp_enqueue_script( 'header_js', get_template_directory_uri() . '/js/header-bundle.js', array('jquery'), false, true );
+	wp_enqueue_script( 'footer_js', get_template_directory_uri() . '/js/footer-bundle.js', array('jquery'), false, true );
 }
 add_action( 'wp_enqueue_scripts', 'locus_resources' );
 
@@ -48,6 +48,10 @@ function locus_setup() {
 }
 add_action( 'after_setup_theme', 'locus_setup' );
 
+
+// @ini_set( 'upload_max_size' , '64M' );
+// @ini_set( 'post_max_size', '64M');
+// @ini_set( 'max_execution_time', '300' );
 
 /**
  * Register Theme menus function

@@ -1,0 +1,81 @@
+.about-us-hero {
+  align-items: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  display: flex;
+  height: 702px;
+  margin-top: 60px;
+
+  & .about-hero-wrapper {
+    @mixin maxWidth;
+    display: block;
+    color: white;
+    width: 100%;
+  }
+
+  & h1 {
+    font-size: 60px;
+    line-height: 68px;
+  }
+
+  & h3 {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  & h1,
+  & h3 {
+    max-width: 580px;
+  }
+}
+
+.about-us {
+
+  padding: 104px 12px 0;
+
+  @media (width > 840px) {
+    padding: 104px 20px 0;
+  }
+
+  & .about-us-wrapper {
+    @mixin maxWidth;
+
+    @media (width > 1000px) {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    & article {
+      width: 50%;
+    }
+
+    & aside {
+      width: 40%;
+    }
+  }
+}
+
+
+
+.our-team {
+  padding: 104px 0;
+
+  & article {
+    border-bottom: 1px solid var(--lightGray);
+    margin: 0 auto;
+    max-width: 800px;
+    padding: 0 36px 36px;
+    text-align: center;
+  }
+}
+
+.work-for-us {
+  background-color: var(--kindaWhite);
+  padding: 64px 0;
+  text-align: center;
+
+  & .btn {
+    margin: 0 auto;
+  }
+}

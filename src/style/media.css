@@ -1,0 +1,25 @@
+.media-list-item {
+  border-bottom: 2px solid #D2D2D2;
+  display: flex;
+  padding: 18px 0 24px;
+  max-width: 910px;
+  width: 100%;
+
+  & .list-item-content {
+    max-width: 632px;
+    padding-left: 64px;
+    width: 70%;
+  }
+
+  & .inline-link {
+    width: 30%;
+  }
+  & .news-date {
+    font-size: 18px;
+  }
+
+  & h2 {
+    font-size: 24px;
+    color: #042A4A;
+  }
+}
