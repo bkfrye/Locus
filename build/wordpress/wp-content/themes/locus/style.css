@@ -1395,6 +1395,111 @@ section .anchor-link {
   }
 
 
+#media {
+  margin: 60px 0 120px
+}
+
+
+#media h1,
+  #media .media-kit h3 {
+    color: white;
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+
+#media h1 {
+    margin-bottom: 1.25em;
+  }
+
+
+#media .featured-headline {
+    color: white;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 48px;
+  }
+
+
+#media .pagination {
+    max-width: 910px;
+    padding: 1em 0;
+    text-align: center;
+  }
+
+
+.media-hero {
+  background-color: #03487E;
+  background-color: var(--mediumBlue);
+  margin: 0 auto;
+  min-height: 400px;
+}
+
+
+.media-hero-wrapper {
+  max-width: 1140px;
+  margin: auto;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 5
+
+}
+
+
+@media (min-width: 980px) {
+
+
+.media-hero-wrapper {
+    display: -webkit-box;
+    display: flex
+
+}
+  }
+
+
+.media-hero-wrapper .featured-news {
+    margin-bottom: 3em;
+    overflow: visible;
+    padding: 3em 2em 1em 12px
+  }
+
+
+@media (min-width: 980px) {
+
+
+.media-hero-wrapper .featured-news {
+      width: 65%
+  }
+    }
+
+
+.media-hero-wrapper .media-kit {
+    background-color: #008FD7;
+    background-color: var(--lightBlue);
+
+    padding: 3em 1em 2em 12px
+  }
+
+
+@media (min-width: 980px) {
+
+
+.media-hero-wrapper .media-kit {
+      min-height: 400px;
+      padding: 3em 1em 2em 3em;
+      width: 35%
+  }
+    }
+
+
+.media-hero-wrapper .media-kit h2 {
+      color: white;
+      font-weight: 500;
+      font-size: 36px;
+      line-height: 48px;
+    }
+
+
 .media-list-item {
   border-bottom: 2px solid #D2D2D2;
   display: -webkit-box;
@@ -1413,8 +1518,38 @@ section .anchor-link {
 
 
 .media-list-item .inline-link {
-    width: 30%;
+    -webkit-box-align: center;
+            align-items: center;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+            flex-direction: row;
+    -webkit-box-pack: end;
+            justify-content: flex-end;
+    padding-right: 2em;
+    width: 30%
   }
+
+
+.media-list-item .inline-link a {
+      -webkit-box-align: center;
+              align-items: center;
+      display: -webkit-box;
+      display: flex;
+      text-decoration: none;
+    }
+
+
+.media-list-item .inline-link span {
+      padding-left: 1.5em;
+    }
+
+
+.media-list-item .inline-link a:visited {
+      color: #1E5CE5;
+      color: var(--blue);
+    }
 
 
 .media-list-item .news-date {
