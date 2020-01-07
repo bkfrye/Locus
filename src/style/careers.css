@@ -1,50 +1,111 @@
-#careers-page {
-  @mixin maxWidth;
-  padding: 104px 12px;
+.careers-hero {
+  align-items: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 70% center;
+  display: flex;
+  height: 702px;
+  margin-top: 60px;
+  padding: 0 12px;
 
-  @media (width > 1000px) {
-    display: flex;
-  }
-
-  & .careers-content,
-  & .careers-listing {
-    flex: 1;
-  }
-
-  & .careers-content {
-    @media ( width >= 840px ) {
-      margin-right: 104px;
-    }
-  }
-
-  & .careers-listing {
-    padding-top: 54px;
+  & .careers-hero-wrapper {
+    @mixin maxWidth;
+    display: block;
+    color: white;
+    width: 100%;
   }
 
   & h1 {
-    margin-bottom: 100px;
+    font-size: 60px;
+    line-height: 68px;
   }
+
+  & p {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  & h1,
+  & p {
+    max-width: 580px;
+  }
+
+}
+
+.careers-page-content {
+  padding: 64px 0;
+
+  & .careers-content {
+    @media (width > 910px) {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  & .careers-content-copy {
+    @media (width > 910px) {
+      width: 50%;
+    }
+  }
+
+  & .careers-video {
+
+
+
+    @media (width > 910px) {
+      margin-right: 0;
+      width: 40%;
+    }
+  }
+}
+
+.careers-listing {
+  @mixin maxWidth;
+  padding-top: 84px;
+
   & .accordion {
-    margin: 0 auto;
-    max-width: 900px;
     padding: 0;
 
     @media (width >=960px) {
-      margin: 104px auto 0;
+      margin: 0;
+      max-width: 840px;
     }
 
     & .job-item {
-      border: 1px solid rgba(0,0,0,0.25);
+      border-bottom: 2px solid rgba(0,0,0,0.25);
       list-style-type: none;
       margin-bottom: 12px;
+      margin-left: -1em;
     }
 
     & .clickable {
-      background-color: var(--mediumBlue);
-      color: white;
+      display: flex;
+      justify-content: space-between;
       cursor: pointer;
       padding: 1em;
       transition: all 221ms ease-in-out;
+    }
+
+    & .job-info {
+
+      @media (width >=960px) {
+        display: flex;
+        flex: 1;
+      }
+
+      & p {
+        padding-right: 2em;
+        margin: 0;
+      }
+    }
+
+    & h3 {
+      font-size: 24px;
+      margin-bottom: 0.5em;
+    }
+
+    & p {
+      font-size: 14px;
     }
 
     & .accordion-content {
@@ -53,6 +114,24 @@
   }
 
   & .clickable:hover {
-    background-color: #1f6ca9;
+    background-color: var(--kindaWhite);
   }
 }
+
+.list-item-link {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+
+  & p {
+    color: var(--blue);
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  & span {
+    margin-left: 1em;
+  }
+
+}
+

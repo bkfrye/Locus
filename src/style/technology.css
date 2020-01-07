@@ -146,6 +146,7 @@
   }
 
   & .header-image {
+    background: white;
     background-position: center center;
     background-size: cover;
     bottom: -60px;
@@ -235,7 +236,6 @@
 }
 
 .end-section {
-  background-color: var(--kindaWhite);
   padding: 0 0 54px;
 
   & .btn {

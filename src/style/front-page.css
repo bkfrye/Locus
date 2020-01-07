@@ -28,6 +28,14 @@ section .anchor-link {
     z-index: 5;
   }
 
+  & h1 {
+    font-size: 48px;
+
+    @media ( width >= 910px) {
+      font-size: 60px;
+    }
+  }
+
   & p {
     font-family: 'museo_sans300';
     font-size: 24px;
@@ -73,8 +81,15 @@ section .anchor-link {
 #cr-phage {
   background: linear-gradient(180deg, #00203F 0%, #001937 90%, #001937 100%);
   /* background-color: #001937; */
+  background-size: cover;
+  background-position: 60% center;
+  background-repeat: no-repeat;
   color: white;
   padding: 0;
+
+  @media (width >= 800px) {
+    background-position: right center;
+  }
 
   & .cr-phage-wrapper {
     padding: 0 12px ;
@@ -85,20 +100,10 @@ section .anchor-link {
 
   & .cr-phage-content {
     padding: 130px 0;
+    width: 70%;
     @media (width >= 1000px) {
+      padding: 200px 0;
       width: 50%;
-    }
-  }
-
-  & .cr-phage-image {
-
-    @media (width >= 1000px) {
-      width: 50%;
-    }
-
-    & img {
-      height: auto;
-      width: 100%;
     }
   }
 
@@ -146,7 +151,7 @@ section .anchor-link {
 
 .careers {
   align-items: center;
-  background-position: center center;
+  background-position: 80%;
   background-size: cover;
   display: flex;
   height: 700px;

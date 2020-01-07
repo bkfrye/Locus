@@ -67,7 +67,10 @@
       line-height: 48px;
     }
   }
+}
 
+.link-wrapper {
+  margin-top: 84px;
 }
 
 .media-list-item {
@@ -113,3 +116,4 @@
     color: #042A4A;
   }
 }
+

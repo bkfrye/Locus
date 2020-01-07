@@ -127,9 +127,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // $grid.isotope({ filter: '.metal' });
-  setTimeout(function () {
-    $('#team-wrapper .filter-item:eq(3) .ats-button').click();
-  }, 1000);
+  // setTimeout(function () {
+  //   $('#team-wrapper .filter-item:eq(3) .ats-button').click();
+  // }, 1000);
 
 
 
@@ -150,17 +150,5 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }, 150 );
   });
-
-
-  $('.close-news-banner').click( () => {
-    $('.global-news-banner').css('display', 'none');
-    localStorage.setItem('bannerClosed', true);
-  });
-
-  if (!localStorage.getItem('bannerClosed')) {
-    $('.global-news-banner').css('display', 'block');
-  } else {
-    $('.global-news-banner').css('display', 'none');
-  }
 
 });

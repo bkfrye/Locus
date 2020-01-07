@@ -5,13 +5,12 @@
     <h1><?php the_field('about_main_headline'); ?></h1>
     <h3><?php the_field('about_main_sub-headline'); ?></h3>
     <div class="btn white">
-      <a href="#">Read More</a>
+      <a href="#about">Read More</a>
     </div>
   </div>
 
 </div>
-<section class="about-us">
-
+<section id="about" class="about-us">
   <div class="about-us-wrapper">
     <article class="fade-in load-hidden">
       <h2><?php echo __('About Us'); ?></h2>
@@ -41,11 +40,30 @@
   </div>
 
   <div class="learn-more">
-    <div class="learn-more-wrapper">
+    <div class="wrapper">
       <div class="card">
         <h3>crPhage</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod ultrices tempus. Curabitur id laoreet sapien.</p>
-        <a href="#">More</a>
+        <p>Our CRISPR-Cas3 enhanced bacteriophage products kill target bacteria by irreversibly destroying their DNA, while leaving the many species of good bacteria in the body unharmed</p>
+
+        <div class="inline-link">
+    			<a href="<?php echo site_url(); ?>/technology"  target="_blank">More
+    				<span>
+    					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><g fill="none"><g fill="#1E5CE5"><path d="M7 1.7L7.7 1C8.1 0.7 8.6 0.7 8.9 1L15.3 7.4C15.7 7.7 15.7 8.3 15.3 8.6L8.9 15C8.6 15.3 8.1 15.3 7.7 15L7 14.3C6.7 14 6.7 13.5 7 13.2L11 9.3 1.5 9.3C1 9.3 0.7 9 0.7 8.5L0.7 7.5C0.7 7 1 6.7 1.5 6.7L11 6.7 7 2.8C6.7 2.5 6.7 2 7 1.7Z"/></g></g></svg>
+    				</span>
+    			</a>
+    		</div>
+      </div>
+      <div class="card">
+        <h3>Pipeline</h3>
+        <p>Robust asset pipeline that hits both infectious disease and microbiome targets</p>
+
+        <div class="inline-link">
+    			<a href="<?php echo site_url(); ?>/#pipeline" target="_blank">More
+    				<span>
+    					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><g fill="none"><g fill="#1E5CE5"><path d="M7 1.7L7.7 1C8.1 0.7 8.6 0.7 8.9 1L15.3 7.4C15.7 7.7 15.7 8.3 15.3 8.6L8.9 15C8.6 15.3 8.1 15.3 7.7 15L7 14.3C6.7 14 6.7 13.5 7 13.2L11 9.3 1.5 9.3C1 9.3 0.7 9 0.7 8.5L0.7 7.5C0.7 7 1 6.7 1.5 6.7L11 6.7 7 2.8C6.7 2.5 6.7 2 7 1.7Z"/></g></g></svg>
+    				</span>
+    			</a>
+    		</div>
       </div>
     </div>
   </div>
@@ -67,10 +85,15 @@
     <div class="wrapper">
       <h3>Want to work with us?</h3>
       <div class="btn">
-        <a href="#careers">view our openings</a>
+        <a href="<?php echo site_url(); ?>/careers">view our openings</a>
       </div>
     </div>
   </div>
 </section>
 
+<script type="text/javascript">
+setTimeout(function () {
+  jQuery('#team-wrapper .filter-item:eq(3) .ats-button').click();
+}, 1000);
+</script>
 <?php get_footer(); ?>

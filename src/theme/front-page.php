@@ -51,26 +51,22 @@
   </div>
 </section>
 
-<section id="cr-phage">
+<section id="cr-phage"  style="background-image: url('<?php the_field('cr-phage_image'); ?>')">
   <div class="cr-phage-wrapper">
     <div class="cr-phage-content">
       <h2><?php the_field('cr-phage_title'); ?></h2>
       <p><?php the_field('cr-phage_content'); ?></p>
-    </div>
-    <div class="cr-phage-image">
-      <?php
-        $image = get_field('cr-phage_image');
-        $size = 'full'; //
-        if( $image ) {
-          echo wp_get_attachment_image( $image, $size );
-        }
-      ?>
+      <?php if ( get_field('cr-phage_video_link') ) : ?>
+        <div class="btn white play">
+          <div class="btn-content" data-url="<?php the_field('cr-phage_video_link'); ?>"><span><?php echo __('Play Video'); ?></span></div>
+        </div>
+      <?php endif; ?>
+      <h4>LEARN MORE ABOUT US</h4>
     </div>
   </div>
-
 </section>
 
-<section id="our-pipeline" class="our-pipeline">
+<section id="pipeline" class="our-pipeline">
   <div class="our-pipeline-wrapper">
     <article class="fade-in load-hidden">
       <div class="our-pipeline-content">
@@ -113,7 +109,7 @@
       <?php endif; ?>
     </ul>
     <div class="btn">
-      <a href="#contact">Partner with us</a>
+      <a href="/about-us">Partner with us</a>
     </div>
   </div>
 </section>

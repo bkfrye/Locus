@@ -9,9 +9,11 @@
       <div class="hero-content fade-in load-hidden">
         <h1>crPhage<sup>TM</sup> Technology</h1>
         <p><?php the_field('tech_sub_headline'); ?></p>
-        <div class="btn white">
-          <a href="#">Watch Video</a>
-        </div>
+        <?php if ( get_field('tech_video_link') ) : ?>
+          <div class="btn white play">
+            <div class="btn-content" data-url="<?php the_field('tech_video_link'); ?>"><span><?php echo __('Play Video'); ?></span></div>
+          </div>
+        <?php endif; ?>
 
         <?php //global $wp; $currentURL = home_url( $wp->request ); ?>
       </div>

@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-61920224-2"></script>
-<script>
+<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-61920224-2"></script> -->
+<!-- <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
   gtag('config', 'UA-61920224-2');
-</script>
+</script> -->
 
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width">
@@ -18,15 +18,6 @@
 
 <body>
   <header id="header" class="header">
-    <div class="global-news-banner">
-      <p>Locus makes CNBCs Top 100 list of <b>most promising startup</b> companies in the world!</p>
-      <div class="btn">
-        <a href="https://www.cnbc.com/2019/11/12/locus-biosciences-cnbc-upstart-100.html?utm_source=locus-biosciences" target="_blank">Learn why</a>
-      </div>
-      <div class="close-news-banner">
-        <svg focusable="false" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" style="will-change: transform;"><path d="M24 9.4L22.6 8 16 14.6 9.4 8 8 9.4l6.6 6.6L8 22.6 9.4 24l6.6-6.6 6.6 6.6 1.4-1.4-6.6-6.6L24 9.4z"></path><title>Close</title></svg>
-      </div>
-    </div>
   	<div class="header-content">
       <div class="logo-wrapper">
     		<a href="<?php echo home_url(); ?>" class="logo">

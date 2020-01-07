@@ -22,7 +22,7 @@
         <h3>Media Kit</h3>
         <h2>Looking for media kit?</h2>
         <div class="btn white">
-          <a href="#">Download here</a>
+          <a href="#" target="_blank">Download here</a>
         </div>
       </div>
     </div>
@@ -30,7 +30,7 @@
 
 	<div class="site-content wrapper">
 
-		<section class="main-column grid">
+		<section class="link-wrapper">
 			<?php
 			if ( have_posts() ) :
 				while ( have_posts() ) :
