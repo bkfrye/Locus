@@ -8,17 +8,13 @@
 
 <?php $img = get_field( 'hero_background_image' ); ?>
 <?php if ( $img ) : ?>
-  <section id="top" class="hero bg-image" style="background-image: url(<?php echo $img; ?>)">
+  <section id="top" class="hero bg-image" style="background-image: url('<?php echo $img; ?>')">
 <?php else : ?>
   <section id="top" class="hero" style="background-color: #03487E;">
 <?php endif; ?>
-  <div class="bg-video">
-    <video autoplay loop>
-      <source src="<?php echo get_stylesheet_directory_uri(); ?>/img/video.mp4" type="video/mp4">
-    </video>
-  </div>
+  <div id="bg-video"></div>
   <div class="hero-wrapper">
-    <div class="hero-content fade-in load-hidden">
+    <div class="hero-content">
       <h1><?php the_field('headline'); ?></h1>
       <p><?php the_field('sub-headline'); ?></p>
 
@@ -68,7 +64,7 @@
 
 <section id="pipeline" class="our-pipeline">
   <div class="our-pipeline-wrapper">
-    <article class="fade-in load-hidden">
+    <article>
       <div class="our-pipeline-content">
         <h2><?php echo __('Our Pipeline'); ?></h2>
         <?php the_field('pipeline_content'); ?>
@@ -79,8 +75,8 @@
 
 <section id="graphs" class="graphs">
   <div class="graph-wrapper">
-      <div class="graph-item fade-in load-hidden" >
-        graph image
+      <div class="graph-item">
+        <h2>COMING SOON</h2>
       </div>
   </div>
 </section>
@@ -116,3 +112,17 @@
 
 
 <?php get_footer(); ?>
+<script type="text/javascript">
+var bgVideo = new BackgroundVideo({
+  container: 'bg-video',
+
+  video: [
+    {
+      file: "wp-content/themes/locus/img/video.mp4"
+    }
+  ],
+
+  mobileImg: "wp-content/themes/locus/img/home-bg-image.jpg"
+});
+
+</script>

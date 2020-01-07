@@ -3,7 +3,7 @@ Theme Name: Locus
 Theme URI: https://github.com/bkfrye/Locus.git
 Author: Brandon Frye
 Author URI: https://brandonfrye.io
-Version: 1.0.1
+Version: 1.1.0
 */
 
 
@@ -668,7 +668,7 @@ section .anchor-link {
 
 
 .hero h1 {
-    font-size: 48px
+    font-size: 42px
   }
 
 
@@ -687,30 +687,59 @@ section .anchor-link {
   }
 
 
-.bg-video {
+#bg-video {
   bottom: 0;
-  display: none;
   position: absolute;
   left: 0;
   top: 0;
   right: 0;
-  z-index: 1
+  z-index: 1;
+  display: none
 }
 
 
-@media (min-width: 1000px) {
+@media (min-width: 1080px) {
 
 
-.bg-video {
+#bg-video {
     display: block
 }
   }
 
 
-.bg-video video {
+#bg-video {
+
+  .flexible {
+    position: absolute;
+    -o-object-fit: cover;
+       object-fit: cover;
+    z-index: -999;
+    top: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
     height: 100%;
-    width: 100%;
+    width: 100%
   }
+
+    @media (min-width: 1080px) {
+
+  .flexible {
+      height: 100%;
+      width: 100%
+  }
+    }
+}
+
+
+@media (min-width: 1080px) {
+
+
+#bg-video video {
+      height: 100%;
+      width: 100%
+  }
+    }
 
 
 #featured-news-callout {
@@ -730,9 +759,9 @@ section .anchor-link {
 
 
 #cr-phage {
+  background-color: #001937;
   background: -webkit-gradient(linear, left top, left bottom, from(#00203F), color-stop(90%, #001937), to(#001937));
   background: linear-gradient(180deg, #00203F 0%, #001937 90%, #001937 100%);
-  /* background-color: #001937; */
   background-size: cover;
   background-position: 60% center;
   background-repeat: no-repeat;
@@ -2690,46 +2719,6 @@ h1.single-title {
 
 #bacteria-key.kill-bacteria {
     fill: white;
-  }
-
-
-#header .global-news-banner {
-  background-color: #fff;
-  display: none;
-  -webkit-transition: all 220ms ease-out;
-  transition: all 220ms ease-out;
-}
-
-
-.global-news-banner {
-  padding: 1em 4em;
-  position: relative;
-  text-align: center
-}
-
-
-.global-news-banner p {
-    font-size: 21px;
-  }
-
-
-.global-news-banner .btn {
-    margin: 0 auto;
-  }
-
-
-.global-news-banner a {
-    margin: 0;
-  }
-
-
-.global-news-banner .close-news-banner {
-    cursor: pointer;
-    position: absolute;
-    right: 1em;
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-            transform: translateY(-50%);
   }
 
 /*# sourceMappingURL=style.css.map */

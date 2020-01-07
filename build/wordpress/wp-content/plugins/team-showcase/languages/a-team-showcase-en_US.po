@@ -1,0 +1,65 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Team Builder\n"
+"POT-Creation-Date: 2015-10-29 13:44+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Looks Awesome | http://team.looks-awesome.com/\n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.4\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+"X-Poedit-SearchPathExcluded-0: ../node_modules\n"
+
+#: ../build/demo/includes/Activator.php:34
+#: ../build/production/includes/Activator.php:34 ../includes/Activator.php:34
+#, php-format
+msgid "Plugin <b>%1$s</b> require PHP version %2$s or higher."
+msgstr ""
+
+#: ../build/demo/includes/Plugin.php:122
+#: ../build/production/includes/Plugin.php:122 ../includes/Plugin.php:122
+msgid "Awesome thumbnail"
+msgstr ""
+
+#: ../build/demo/includes/Plugin.php:293
+#: ../build/production/includes/Plugin.php:293 ../includes/Plugin.php:293
+msgid "Add a shiny team made with Team Builder"
+msgstr ""
+
+#: ../build/demo/includes/Plugin.php:301
+#: ../build/production/includes/Plugin.php:301 ../includes/Plugin.php:301
+msgid "Choose team"
+msgstr ""
+
+#: ../build/demo/includes/vendor/Awesome/Validator.php:19
+#: ../build/production/includes/vendor/Awesome/Validator.php:19
+#: ../includes/vendor/Awesome/Validator.php:19
+#, php-format
+msgid "%1$s %2$s is required."
+msgstr ""
+
+#: ../build/demo/public/partials/parts/filter.php:29
+#: ../build/production/public/partials/parts/filter.php:29
+#: ../public/partials/parts/filter.php:29
+msgid "Everyone"
+msgstr ""
+
+#: ../build/demo/public/partials/parts/panels/blocks/body.php:6
+#: ../build/production/public/partials/parts/panels/blocks/body.php:6
+#: ../public/partials/parts/panels/blocks/body.php:6
+msgid "Try to add some panel text for this employee ;)"
+msgstr ""
+
+#: ../build/demo/public/partials/parts/panels/blocks/title.php:4
+#: ../build/production/public/partials/parts/panels/blocks/title.php:4
+#: ../public/partials/parts/panels/blocks/title.php:4
+msgid "Close"
+msgstr ""

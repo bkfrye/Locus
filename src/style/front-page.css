@@ -29,7 +29,7 @@ section .anchor-link {
   }
 
   & h1 {
-    font-size: 48px;
+    font-size: 42px;
 
     @media ( width >= 910px) {
       font-size: 60px;
@@ -43,22 +43,41 @@ section .anchor-link {
 
 }
 
-.bg-video {
+#bg-video {
   bottom: 0;
-  display: none;
   position: absolute;
   left: 0;
   top: 0;
   right: 0;
   z-index: 1;
+  display: none;
 
-  @media (width >= 1000px) {
+  @media ( width >= 1080px) {
     display: block;
   }
 
-  & video {
+  .flexible {
+    position: absolute;
+    object-fit: cover;
+    z-index: -999;
+    top: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
     height: 100%;
     width: 100%;
+
+    @media ( width >= 1080px) {
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  & video {
+    @media ( width >= 1080px) {
+      height: 100%;
+      width: 100%;
+    }
   }
 }
 
@@ -79,8 +98,8 @@ section .anchor-link {
 
 
 #cr-phage {
+  background-color: #001937;
   background: linear-gradient(180deg, #00203F 0%, #001937 90%, #001937 100%);
-  /* background-color: #001937; */
   background-size: cover;
   background-position: 60% center;
   background-repeat: no-repeat;

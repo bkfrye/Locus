@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   });
 
-
+  
   // Select all links with hashes
   $('a[href*="#"]')
   	.not('[href="#"]')
@@ -78,7 +78,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (teamEl) {
     $('.ats-button').removeClass('ats-button-active');
     $('.filter-item:nth-child(4) .ats-button').click();
-    console.log('updated');
   }
 
 
@@ -101,16 +100,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   // animate elements in on scroll
-  let fadeArray = [];
-  var fadeIn = $('.sr .fade-in');
-  fadeArray = fadeIn;
-
-  fadeArray.each(function() {
-    ScrollReveal().reveal($(this), {
-      reset: false,
-      delay: 250,
-    });
-  });
+  // let fadeArray = [];
+  // var fadeIn = $('.sr .fade-in');
+  // fadeArray = fadeIn;
+  //
+  // fadeArray.each(function() {
+  //   ScrollReveal().reveal($(this), {
+  //     reset: false,
+  //     delay: 250,
+  //   });
+  // });
 
 
 
@@ -125,12 +124,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }).replaceWith(function() {
     return this.nodeValue.replace(/[™®©]/g, '<sup>$&</sup>');
   });
-
-  // $grid.isotope({ filter: '.metal' });
-  // setTimeout(function () {
-  //   $('#team-wrapper .filter-item:eq(3) .ats-button').click();
-  // }, 1000);
-
 
 
   var badBacteria = $('.st1');

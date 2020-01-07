@@ -22,7 +22,7 @@
         <h3>Media Kit</h3>
         <h2>Looking for media kit?</h2>
         <div class="btn white">
-          <a href="#" target="_blank">Download here</a>
+          <a href="//dev.locus-bio.com/wp-content/Locus_Biosciences_Media_Kit.zip" target="_blank">Download here</a>
         </div>
       </div>
     </div>

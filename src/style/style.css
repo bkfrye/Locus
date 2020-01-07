@@ -3,7 +3,7 @@ Theme Name: Locus
 Theme URI: https://github.com/bkfrye/Locus.git
 Author: Brandon Frye
 Author URI: https://brandonfrye.io
-Version: 1.0.1
+Version: 1.1.0
 */
 
 
@@ -21,4 +21,3 @@ Version: 1.0.1
 @import 'footer';
 @import 'news';
 @import '404';
-@import 'global-news-banner';

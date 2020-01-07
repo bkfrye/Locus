@@ -2,7 +2,7 @@
 <?php $about_bg = get_field('about_hero_image'); ?>
 <div class="about-us-hero" style="background-image: url('<?php echo $about_bg; ?>')">
   <div class="about-hero-wrapper">
-    <h1><?php the_field('about_main_headline'); ?></h1>
+    <h1 class=""><?php the_field('about_main_headline'); ?></h1>
     <h3><?php the_field('about_main_sub-headline'); ?></h3>
     <div class="btn white">
       <a href="#about">Read More</a>
@@ -41,7 +41,7 @@
 
   <div class="learn-more">
     <div class="wrapper">
-      <div class="card">
+      <div class="card fade-in load-hidden">
         <h3>crPhage</h3>
         <p>Our CRISPR-Cas3 enhanced bacteriophage products kill target bacteria by irreversibly destroying their DNA, while leaving the many species of good bacteria in the body unharmed</p>
 
@@ -53,7 +53,7 @@
     			</a>
     		</div>
       </div>
-      <div class="card">
+      <div class="card fade-in load-hidden">
         <h3>Pipeline</h3>
         <p>Robust asset pipeline that hits both infectious disease and microbiome targets</p>
 
@@ -69,8 +69,8 @@
   </div>
 
   <section id="our-team" class="our-team">
-    <div class="our-team-wrapper fade-in">
-      <article>
+    <div class="our-team-wrapper">
+      <article class="fade-in load-hidden">
         <h2><?php echo __('Our Team'); ?></h2>
         <h3><?php the_field('team_headline'); ?></h3>
       </article>
@@ -82,7 +82,7 @@
   </section>
 
   <div class="work-for-us">
-    <div class="wrapper">
+    <div class="wrapper fade-in load-hidden">
       <h3>Want to work with us?</h3>
       <div class="btn">
         <a href="<?php echo site_url(); ?>/careers">view our openings</a>
@@ -91,9 +91,4 @@
   </div>
 </section>
 
-<script type="text/javascript">
-setTimeout(function () {
-  jQuery('#team-wrapper .filter-item:eq(3) .ats-button').click();
-}, 1000);
-</script>
 <?php get_footer(); ?>
