@@ -20,7 +20,18 @@
 
       <?php if ( get_field('video_link') ) : ?>
         <div class="btn white play">
-          <div class="btn-content" data-url="<?php the_field('video_link'); ?>"><span><?php echo __('See How It Works'); ?></span></div>
+          <div class="btn-content" data-url="<?php the_field('video_link'); ?>">
+            <span style="margin-right: 9px;margin-bottom: -2px;display: block;">
+              <svg width="12px" height="14px" viewBox="0 0 12 14">
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g transform="translate(-673.000000, -525.000000)" fill="#FFFFFF">
+                    <polygon id="Triangle" transform="translate(679.000000, 532.000000) rotate(-270.000000) translate(-679.000000, -532.000000) " points="679 526 686 538 672 538"></polygon>
+                  </g>
+                </g>
+              </svg>
+            </span>
+            <?php echo __('See How It Works'); ?></span>
+          </div>
         </div>
       <?php endif; ?>
     </div>
@@ -54,7 +65,18 @@
       <p><?php the_field('cr-phage_content'); ?></p>
       <?php if ( get_field('cr-phage_video_link') ) : ?>
         <div class="btn white play">
-          <div class="btn-content" data-url="<?php the_field('cr-phage_video_link'); ?>"><span><?php echo __('Play Video'); ?></span></div>
+          <div class="btn-content" data-url="<?php the_field('cr-phage_video_link'); ?>">
+            <span style="margin-right: 9px;margin-bottom: -2px;display: block;">
+              <svg width="12px" height="14px" viewBox="0 0 12 14">
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g transform="translate(-673.000000, -525.000000)" fill="#FFFFFF">
+                    <polygon id="Triangle" transform="translate(679.000000, 532.000000) rotate(-270.000000) translate(-679.000000, -532.000000) " points="679 526 686 538 672 538"></polygon>
+                  </g>
+                </g>
+              </svg>
+            </span>
+            <?php echo __('Play Video'); ?>
+          </div>
         </div>
       <?php endif; ?>
       <h4>LEARN MORE ABOUT US</h4>
@@ -77,7 +99,7 @@
 
 
 <section id="careers" class="careers" style="background-image: url('<?php echo get_stylesheet_directory_uri() ?>/img/bg-careers.png')">
-  <div class="careers-content">
+  <div class="careers-content wrapper">
     <h4>Help us revolutionize medical science</h4>
     <div class="btn white">
       <a href="<?php the_field('careers_link'); ?>">Our Current Openings</a>

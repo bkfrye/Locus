@@ -4,24 +4,40 @@
   <div class="careers-hero-wrapper">
     <h1><?php the_field('careers_headline'); ?></h1>
     <p><?php the_field('careers_content'); ?></p>
+    <div class="btn white play">
+      <div class="btn-content" data-url="<?php the_field('work_video_url'); ?>">
+        <span style="margin-right: 9px;margin-bottom: -2px;display: block;">
+          <svg width="12px" height="14px" viewBox="0 0 12 14">
+              <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g transform="translate(-673.000000, -525.000000)" fill="#03487E">
+                      <polygon id="Triangle" transform="translate(679.000000, 532.000000) rotate(-270.000000) translate(-679.000000, -532.000000) " points="679 526 686 538 672 538"></polygon>
+                  </g>
+              </g>
+          </svg>
+        </span>
+        <?php echo __('Hear from the team'); ?>
+      </div>
+    </div>
+
     <div class="btn white">
       <a href="#listing">View our openings</a>
     </div>
   </div>
 </div>
 
+
   <div class="careers-page-content">
-    <section class="careers-content wrapper">
+    <!-- <section class="careers-content wrapper">
       <div class="careers-content-copy">
-        <h2><?php the_title(); ?></h2>
+        <h2><?php //the_title(); ?></h2>
         <h3>Why work with us?</h3>
-        <?php the_field('why_work_content'); ?>
+        <?php// the_field('why_work_content'); ?>
       </div>
 
-      <?php $video = get_field('work_video_url'); ?>
-      <?php if ( $video ) : ?>
+      <?php //$video = get_field('work_video_url'); ?>
+      <?php //if ( $video ) : ?>
         <div class="inline-video-container careers-video">
-          <div class="inline-video" data-url="<?php echo $video; ?>">
+          <div class="inline-video" data-url="<?php //echo $video; ?>">
             <div class="play-youtube">
               <svg viewBox="0 0 41.999 41.999">
                 <path d="M36.068,20.176l-29-20C6.761-0.035,6.363-0.057,6.035,0.114C5.706,0.287,5.5,0.627,5.5,0.999v40
@@ -31,8 +47,8 @@
             </div>
           </div>
         </div>
-      <?php endif ?>
-    </section>
+      <?php //endif ?>
+    </section> -->
 
     <!-- <section class="blockquote">
       <p>quote</p>
@@ -42,11 +58,6 @@
         <p>paul garrafalo</p>
       </div>
     </section> -->
-
-
-
-
-
 
 
     <section id="listing" class="careers-listing">

@@ -17,14 +17,18 @@ section .anchor-link {
     align-items: center;
     display: flex;
     height: 100%;
-    padding-top: 0;
   }
 
   & .hero-content {
     color: white;
     max-width: 551px;
+    padding-top: 120px;
     position: relative;
     z-index: 5;
+
+    @media (width >= 1080px) {
+      padding-top: 0;
+    }
   }
 
   & h1 {
@@ -163,8 +167,211 @@ section .anchor-link {
 
 
 .graphs {
+  display: none;
+  margin-bottom: 86px;
+
+  @media (width > 840px) {
+    display: block
+  }
+
+  & * {
+    font-size: 14px;
+  }
+  & h3 {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  & .graph-label {
+    & p {
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+  }
+}
+
+.graph-wrapper {
+
+
+  @media (width > 910px) {
+    display: flex;
+  }
+
+  & .graph-item {
+    width: 90%
+  }
+
+  & .graph-partner {
+    background-color: #D9ECFC;
+    margin: 60px 0 86px;
+    text-align: center;
+    padding: 1em;
+
+    @media (width > 910px) {
+    }
+
+    & p {
+      line-height: 1.4;
+    }
+  }
+}
+
+.graph-item {
+  margin-bottom: 86px;
+  & .graph-row {
+    display: flex;
+    padding: 0 2em;
+    transition: all 200ms;
+  }
+
+  & .cell {
+    flex: 1;
+    padding: 0.5em;
+
+    & p {
+      line-height: 1.4;
+      margin-top: 8px;
+    }
+
+    & b{
+      padding-right: 12px;
+    }
+  }
+
+  & .cell.bars {
+    border-left: 2px solid var(--lightGray);
+    flex: 4;
+    padding: 0.5em 0;
+  }
+}
+
+.cell.pathogen {
+  & p {
+    font-style: italic;
+    line-height: 1.8;
+  }
+}
+
+.graph-header {
+  & .cell {
+    text-align: center;
+  }
+}
+
+.graph-content {
+  &:nth-child(even) {
+    background-color: var(--kindaWhite);
+  }
+}
+
+.row-content {
+
 
 }
+
+.row-details {
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 0.5em 0;
+
+
+  & .detail-info {
+    width: 35%;
+  }
+
+  & .detail-info:nth-child(3) {
+    padding: 0 1em;
+    text-align: center;
+    width: 100%;
+  }
+
+}
+
+.row-details,
+.row-content {
+  display: flex;
+  width: 100%;
+
+  & .cell {
+    flex: 1;
+    position: relative;
+  }
+}
+
+.bar-line {
+  background-color: #A4D1F9;
+  height: 20px;
+  margin: 0.75em 0 1.5em 0;
+  width: 0;
+
+  &.blue {
+    background-color: #2296E7;
+  }
+
+  &.dark-blue {
+    background-color: #5B86D3;
+  }
+}
+
+
+.uti {
+  & .one {
+    width: 62.5%;
+  }
+
+  & .two {
+    width: 12.5%;
+  }
+}
+
+.respiratory {
+  & .one {
+    width: 37.5%;
+  }
+  & .two {
+    width: 12.5%;
+  }
+}
+
+.cdi {
+  & .one {
+    width: 37.5%;
+  }
+}
+
+.crohns {
+  & .one {
+    width: 37.5%;
+  }
+
+  & .two {
+    width: 12.5%;
+  }
+
+  & .three {
+    width: 12.5%;
+  }
+}
+
+.immune {
+  & .one {
+    width: 12.5%;
+  }
+}
+
+
+#graphs .click {
+  cursor: pointer;
+  &.active {
+
+  }
+}
+
+
+.graph-row.click:hover {
+  background-color: #e9f5ff;
+}
+
 
 
 
@@ -191,7 +398,6 @@ section .anchor-link {
 
     @media( width >= 840px ) {
       padding: 5em;
-      width: 60%;
     }
 
   }
@@ -205,6 +411,7 @@ section .anchor-link {
     @media( width >= 840px ) {
       font-size: 60px;
       line-height: 68px;
+      max-width: 620px;
     }
   }
 

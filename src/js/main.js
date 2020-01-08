@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   });
 
-  
+
   // Select all links with hashes
   $('a[href*="#"]')
   	.not('[href="#"]')
@@ -97,6 +97,21 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+
+  var pipelines = $('.collapse');
+
+  if ( pipelines ) {
+    pipelines.hide();
+    $('.graph-row.click').click(function() {
+      if ( !$(this).parent().find($('.collapse')).is(':visible') ) {
+        pipelines.slideUp();
+        $(this).parent().find($('.collapse')).slideDown();
+      } else {
+        $(this).parent().find($('.collapse')).slideUp();
+      }
+      return false;
+    });
+  }
 
 
   // animate elements in on scroll

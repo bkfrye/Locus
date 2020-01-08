@@ -57,6 +57,7 @@
 }
 
 .learn-more {
+  margin-top: 84px;
   & .wrapper {
 
     @media (width > 910px) {
