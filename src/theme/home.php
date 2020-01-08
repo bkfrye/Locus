@@ -9,7 +9,7 @@
           if( $post_link ): $link = $post_link; setup_postdata( $link );
         ?>
             <h1>Featured News</h1>
-              <div>
+              <div class="featured-news-content">
               	<h2 class="featured-headline"><?php echo $link->post_title; ?></h2>
                 <div class="btn white">
                   <a href="<?php echo $post_link -> news_url ?>" target="_blank">Read More</a>

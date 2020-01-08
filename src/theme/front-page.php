@@ -73,13 +73,7 @@
   </div>
 </section>
 
-<section id="graphs" class="graphs">
-  <div class="graph-wrapper">
-      <div class="graph-item">
-        <h2>COMING SOON</h2>
-      </div>
-  </div>
-</section>
+<?php get_template_part('template_parts/pipeline'); ?>
 
 
 <section id="careers" class="careers" style="background-image: url('<?php echo get_stylesheet_directory_uri() ?>/img/bg-careers.png')">

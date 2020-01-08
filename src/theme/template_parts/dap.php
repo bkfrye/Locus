@@ -1,5 +1,5 @@
 <section id="discovery-automation-platform" class="dap tech-info">
-  <header class="fade-in load-hidden">
+  <header>
     <h3><?php the_field('discovery_title'); ?></h3>
     <div class="header-image" style="background-image: url(<?php echo get_field('dap_header_image')['url']; ?>)"></div>
   </header>
@@ -7,7 +7,7 @@
     <?php $articles = get_field('dap_articles'); ?>
     <?php if ( $articles ) : ?>
       <?php foreach ( $articles as $article ) : ?>
-        <div id="<?php echo convertToAnchor($article['title']); ?>" class="article-item fade-in load-hidden">
+        <div id="<?php echo convertToAnchor($article['title']); ?>" class="article-item">
           <article>
             <h2><?php echo $article['title']; ?></h2>
             <h3><?php echo $article['sub-title']; ?></h3>
@@ -15,11 +15,11 @@
           </article>
 
 
-          <div class="article-image fade-in load-hidden">
+          <div class="article-image">
             <?php $video = $article['video']; ?>
             <?php if ( $video ) : ?>
               <div class="inline-video-container">
-                <div class="inline-video fade-in load-hidden" data-url="<?php echo $video; ?>">
+                <div class="inline-video" data-url="<?php echo $video; ?>">
                   <div class="play-youtube">
                     <svg viewBox="0 0 41.999 41.999">
                       <path d="M36.068,20.176l-29-20C6.761-0.035,6.363-0.057,6.035,0.114C5.706,0.287,5.5,0.627,5.5,0.999v40

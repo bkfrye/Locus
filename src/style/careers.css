@@ -110,6 +110,10 @@
 
     & .accordion-content {
       padding: 1em 2em;
+
+      & p {
+        font-size: 18px;
+      }
     }
   }
 
@@ -125,7 +129,7 @@
 
   & p {
     color: var(--blue);
-    font-weight: 800;
+    font-family: 'museo_sans700';
     text-transform: uppercase;
   }
 

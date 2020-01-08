@@ -25,6 +25,10 @@
   }
 }
 
+.featured-news-content {
+  max-width: 520px;
+}
+
 .media-hero {
   background-color: var(--mediumBlue);
   margin: 0 auto;

@@ -13,7 +13,7 @@ function BackgroundVideo(options) {
         if (options.mobileImg !== undefined) {
             this.container.style.backgroundImage = "url(" + options.mobileImg + ")";
             this.container.style.backgroundSize = "cover";
-            this.container.style.backgroundPostion = "center center";
+            this.container.style.backgroundPostion = "80% center";
         }
         this.isMobile = true;
         return;

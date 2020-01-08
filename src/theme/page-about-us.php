@@ -12,7 +12,7 @@
 </div>
 <section id="about" class="about-us">
   <div class="about-us-wrapper">
-    <article class="fade-in load-hidden">
+    <article>
       <h2><?php echo __('About Us'); ?></h2>
       <h3><?php the_field('about_headline'); ?></h3>
       <?php the_field('about_content'); ?>
@@ -20,7 +20,7 @@
     </article>
 
     <aside>
-      <div class="fade-in load-hidden">
+      <div>
         <?php $video = get_field('about_video'); ?>
         <?php if ( $video ) : ?>
           <div class="inline-video-container">
@@ -41,7 +41,7 @@
 
   <div class="learn-more">
     <div class="wrapper">
-      <div class="card fade-in load-hidden">
+      <div class="card">
         <h3>crPhage</h3>
         <p>Our CRISPR-Cas3 enhanced bacteriophage products kill target bacteria by irreversibly destroying their DNA, while leaving the many species of good bacteria in the body unharmed</p>
 
@@ -53,7 +53,7 @@
     			</a>
     		</div>
       </div>
-      <div class="card fade-in load-hidden">
+      <div class="card">
         <h3>Pipeline</h3>
         <p>Robust asset pipeline that hits both infectious disease and microbiome targets</p>
 
@@ -70,7 +70,7 @@
 
   <section id="our-team" class="our-team">
     <div class="our-team-wrapper">
-      <article class="fade-in load-hidden">
+      <article>
         <h2><?php echo __('Our Team'); ?></h2>
         <h3><?php the_field('team_headline'); ?></h3>
       </article>
@@ -82,7 +82,7 @@
   </section>
 
   <div class="work-for-us">
-    <div class="wrapper fade-in load-hidden">
+    <div class="wrapper">
       <h3>Want to work with us?</h3>
       <div class="btn">
         <a href="<?php echo site_url(); ?>/careers">view our openings</a>

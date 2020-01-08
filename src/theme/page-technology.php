@@ -6,7 +6,7 @@
     <section id="top" class="hero" style="background-color: gray;">
   <?php endif; ?>
     <div class="hero-wrapper">
-      <div class="hero-content fade-in load-hidden">
+      <div class="hero-content">
         <h1>crPhage<sup>TM</sup> Technology</h1>
         <p><?php the_field('tech_sub_headline'); ?></p>
         <?php if ( get_field('tech_video_link') ) : ?>
@@ -22,7 +22,7 @@
 
   <section id="platform" class="our-platform">
     <div class="wrapper">
-      <article class="fade-in load-hidden">
+      <article>
         <h2>Our Platform</h2>
         <h3><?php the_field('platform_headline'); ?></h3>
       </article>
@@ -32,7 +32,7 @@
   <section class="featured-items">
     <div class="featured-items-wrapper">
 
-      <div class="item fade-in load-hidden">
+      <div class="item">
         <div class="header-image" style="background-image: url('<?php echo get_field('dap_header_image')['url']; ?>')">
         </div>
         <p class="title"><?php the_field('discovery_title'); ?></p>
@@ -46,7 +46,7 @@
         <?php endif; ?>
       </div>
 
-      <div class="item fade-in load-hidden">
+      <div class="item">
         <div class="header-image" style="background-image: url('<?php echo get_field('methods_header_image')['url']; ?>')">
         </div>
         <p class="title light-blue"><?php the_field('methods_title'); ?></p>
@@ -61,7 +61,7 @@
       </div>
 
 
-      <div class="item fade-in load-hidden">
+      <div class="item">
         <div class="header-image" style="background-image: url('<?php echo get_field('manufacturing_header_image')['url']; ?>')">
         </div>
         <p class="title medium-blue"><?php the_field('manufacturing_title'); ?></p>
