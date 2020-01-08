@@ -81,17 +81,6 @@
             'menu_item_class' => false,
           ) ); ?>
         <?php endif; ?>
-        <?php if ( has_nav_menu( 'secondary-menu' ) ) : ?>
-          <?php wp_nav_menu( array(
-            'theme_location' => 'secondary-menu',
-            'container' => 'nav',
-            'container_class' => 'secondary-menu',
-            'container_id' => false,
-            'menu_class' => false,
-            'menu_id' => false,
-            'menu_item_class' => false,
-          ) ); ?>
-        <?php endif; ?>
       </div>
     </div>
     <div class="copyright">

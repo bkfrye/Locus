@@ -79,7 +79,7 @@
           </div>
         </div>
       <?php endif; ?>
-      <h4>LEARN MORE ABOUT US</h4>
+      <h4><a href="<?php echo site_url(); ?>/technology">LEARN MORE ABOUT US</a></h4>
     </div>
   </div>
 </section>
@@ -120,9 +120,9 @@
         <?php endforeach; ?>
       <?php endif; ?>
     </ul>
-    <div class="btn">
+    <!-- <div class="btn">
       <a href="/about-us">Partner with us</a>
-    </div>
+    </div> -->
   </div>
 </section>
 

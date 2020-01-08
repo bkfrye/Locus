@@ -827,6 +827,16 @@ section .anchor-link {
   }
 
 
+#cr-phage h4 a {
+    color: white
+  }
+
+
+#cr-phage h4 a:visited {
+      color: white;
+    }
+
+
 .our-pipeline {
   overflow: hidden;
   padding: 104px 12px 0
@@ -837,7 +847,7 @@ section .anchor-link {
 
 
 .our-pipeline {
-    padding: 104px 12px
+    padding: 104px 12px 36px
 }
   }
 

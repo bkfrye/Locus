@@ -42,7 +42,7 @@
       <?php $crisprVideo = get_field('crispr_video'); ?>
       <?php if ( $crisprVideo ) : ?>
         <div class="inline-video-container">
-          <div class="inline-video" data-url="<?php echo $video; ?>">
+          <div class="inline-video" data-url="<?php echo $crisprVideo; ?>">
             <div class="play-youtube">
               <svg viewBox="0 0 41.999 41.999">
                 <path d="M36.068,20.176l-29-20C6.761-0.035,6.363-0.057,6.035,0.114C5.706,0.287,5.5,0.627,5.5,0.999v40

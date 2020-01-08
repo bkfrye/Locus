@@ -139,6 +139,14 @@ section .anchor-link {
   & p {
     font-size: 24px;
   }
+
+  & h4 a {
+    color: white;
+
+    &:visited {
+      color: white;
+    }
+  }
 }
 
 
@@ -147,7 +155,7 @@ section .anchor-link {
   padding: 104px 12px 0;
 
   @media (width > 900px) {
-    padding: 104px 12px;
+    padding: 104px 12px 36px;
   }
 
   & article {
