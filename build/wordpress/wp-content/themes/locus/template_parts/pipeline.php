@@ -90,7 +90,7 @@
                 </div>
                 <div class="cell pathogen">
                   <p>E. coli</p>
-                  <p>K. penumoniae</p>
+                  <p>K. pneumoniae</p>
                 </div>
                 <div class="cell bars uti">
                   <div class="bar-line one blue"></div>
@@ -103,14 +103,15 @@
               <div class="row-details">
                 <div class="detail-info">
                   <p><b>Description:</b></p>
-                  <p>LBP-EC01 is a cocktail of CRISP/Cas3-engineered bacteriophage (crPhage<sup>TM</sup>) designed to eradicate <i>E. coli and K. pneumoniae</i> causing urinary tract infections</p>
+                  <p>A cocktail of CRISPR/Cas3-engineered bacteriophage (crPhage<sup>TM</sup>) designed to eradicate <i>E. coli and K. pneumoniae</i> causing urinary tract infections</p>
                 </div>
                 <div class="detail-info">
                   <p><b>Ownership:</b></p>
                   <p>Global development and commercialization rights owned by Locus Biosciences</p>
                 </div>
                 <div class="detail-info">
-                  <p>For more information about the Phase 1b trial for LBP-EC01 in patients with UTI, please <a href="#" target="_blank">click here</a></p>
+                  <p>For more information about the Phase 1b trial for LBP-EC01 in patients with UTI, please <a href="https://clinicaltrials.gov/ct2/show/NCT04191148?term=Locus+Biosciences&draw=2&rank=1" target="_blank">visit the study.</a></p>
+
                 </div>
               </div>
             </div>
@@ -139,7 +140,7 @@
               <div class="row-details">
                 <div class="detail-info">
                   <p><b>Description:</b></p>
-                  <p>LBP-XX01 is a cocktail of CRISPR/Cas3-engineered bacteriophage (crPhage<sup>TM</sup>) designed to eradicate undisclosed bacterial targets</p>
+                  <p>A cocktail of CRISPR/Cas3-engineered bacteriophage (crPhage<sup>TM</sup>) designed to eradicate undisclosed bacterial targets</p>
                 </div>
                 <div class="detail-info">
                   <p><b>Ownership:</b></p>
@@ -168,11 +169,11 @@
               <div class="row-details">
                 <div class="detail-info">
                   <p><b>Description:</b></p>
-                  <p>LBP-CD01 is a cocktail of CRISPR/Cas3-engineered bacteriophage (crPhage<sup>TM</sup>) designed to eradicate <i>C. difficile</i> causing recurrent and persistent <i>C. difficile enterocolitis</i></p>
+                  <p>A cocktail of CRISPR/Cas3-engineered bacteriophage (crPhage<sup>TM</sup>) designed to eradicate <i>C. difficile</i> causing recurrent and persistent <i>C. difficile enterocolitis</i></p>
                 </div>
                 <div class="detail-info">
                   <p><b>Ownership:</b></p>
-                  <p>Global development and commercialization rights licensed to Janssen Pharmaceuticals</p>
+                  <p>Global development and commercialization rights owned by Locus Biosciences</p>
                 </div>
               </div>
             </div>
@@ -286,7 +287,7 @@
                 </div>
                 <div class="cell pathogen">
                   <p>E. coli (AIEC)</p>
-                  <p>K. penumoniae</p>
+                  <p>K. pneumoniae</p>
                   <p style="font-style:normal">Multiple Bacteria</p>
                 </div>
                 <div class="cell bars crohns">
@@ -301,14 +302,11 @@
               <div class="row-details">
                 <div class="detail-info">
                   <p><b>Description:</b></p>
-                  <p>LBP-EC01 is a cocktail of CRISP/Cas3-engineered bacteriophage (crPhage<sup>TM</sup>) designed to eradicate <i>E. coli and K. pneumoniae</i> causing urinary tract infections</p>
+                  <p>A cocktail of CRISPR/Cas3-engineered bacteriophage (crPhage<sup>TM</sup>) designed to eradicate <i>E. coli and K. pneumoniae</i> causing urinary tract infections</p>
                 </div>
                 <div class="detail-info">
                   <p><b>Ownership:</b></p>
                   <p>Global development and commercialization rights owned by Locus Biosciences</p>
-                </div>
-                <div class="detail-info">
-                  <p>For more information about the Phase 1b trial for LBP-EC01 in patients with UTI, please <a href="#" target="_blank">click here</a></p>
                 </div>
               </div>
             </div>
@@ -335,11 +333,11 @@
               <div class="row-details">
                 <div class="detail-info">
                   <p><b>Description:</b></p>
-                  <p>LBP-XX01 is a cocktail of CRISPR/Cas3-engineered bacteriophage (crPhage<sup>TM</sup>) designed to eradicate undisclosed bacterial targets</p>
+                  <p>A cocktail of CRISPR/Cas3-engineered bacteriophage (crPhage<sup>TM</sup>) designed to eradicate undisclosed bacterial targets</p>
                 </div>
                 <div class="detail-info">
                   <p><b>Ownership:</b></p>
-                  <p>Global development and commercialization rights licensed to Janssen Pharmaceuticals</p>
+                  <p>Global development and commercialization rights owned by Locus Biosciences</p>
                 </div>
               </div>
             </div>

@@ -200,6 +200,10 @@ section .anchor-link {
 
 .graph-wrapper {
 
+  & a:visited {
+    color: var(--blue);
+  }
+
 
   @media (width > 910px) {
     display: flex;
@@ -221,6 +225,14 @@ section .anchor-link {
     & p {
       line-height: 1.4;
     }
+  }
+
+  & .trial-partners {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
   }
 }
 

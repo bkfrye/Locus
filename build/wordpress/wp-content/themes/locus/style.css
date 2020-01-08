@@ -905,6 +905,12 @@ section .anchor-link {
     }
 
 
+.graph-wrapper a:visited {
+    color: #1E5CE5;
+    color: var(--blue);
+  }
+
+
 @media (min-width: 911px) {
 
 
@@ -939,6 +945,20 @@ section .anchor-link {
 .graph-wrapper .graph-partner p {
       line-height: 1.4;
     }
+
+
+.graph-wrapper .trial-partners {
+    -webkit-box-align: center;
+            align-items: center;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+            flex-direction: column;
+    -webkit-box-pack: center;
+            justify-content: center;
+    height: 100%;
+  }
 
 
 .graph-item {
