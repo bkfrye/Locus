@@ -71,17 +71,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
-
-  // update team filter active links
-  var teamEl = $('.ats-layout');
-
-  if (teamEl) {
-    $('.ats-button').removeClass('ats-button-active');
-    $('.filter-item:nth-child(4) .ats-button').click();
-  }
-
-
-
   // Manage accordion on careers page
   var allPanels = $('.accordion .accordion-content');
   if ( allPanels ) {
@@ -114,21 +103,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  // animate elements in on scroll
-  // let fadeArray = [];
-  // var fadeIn = $('.sr .fade-in');
-  // fadeArray = fadeIn;
-  //
-  // fadeArray.each(function() {
-  //   ScrollReveal().reveal($(this), {
-  //     reset: false,
-  //     delay: 250,
-  //   });
-  // });
-
-
-
-
   $('iframe[src*="youtube.com"]').each(function() {
     $(this).wrap('<div class="video-wrapper"/>');
   });
@@ -158,5 +132,20 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }, 150 );
   });
+
+
+  $('.team-navigation li').click( function() {
+    if ( $('.team-navigation li').hasClass('js-active') ) {
+      $('.team-navigation li').removeClass('js-active')
+    }
+    var el = $(this).data('section');
+    $(this).addClass('js-active');
+    console.log(el);
+
+    if ( $('.employee-section').hasClass('js-active') ) {
+      $('.employee-section').removeClass('js-active');
+      $(el).addClass('js-active');
+    }
+  })
 
 });

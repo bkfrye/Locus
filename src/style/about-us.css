@@ -11,6 +11,7 @@
     @mixin maxWidth;
     display: block;
     color: white;
+    padding: 0 16px;
     width: 100%;
   }
 
@@ -47,11 +48,15 @@
     }
 
     & article {
-      width: 50%;
+      @media (width > 1000px) {
+        width: 50%;
+      }
     }
 
     & aside {
-      width: 40%;
+      @media (width > 1000px) {
+        width: 40%;
+      }
     }
   }
 }

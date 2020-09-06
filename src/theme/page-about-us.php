@@ -68,18 +68,7 @@
     </div>
   </div>
 
-  <section id="our-team" class="our-team">
-    <div class="our-team-wrapper">
-      <article>
-        <h2><?php echo __('Our Team'); ?></h2>
-        <h3><?php the_field('team_headline'); ?></h3>
-      </article>
-
-      <div id="team-wrapper">
-        <?php echo do_shortcode('[a-team-showcase id="5564"]') ?>
-      </div>
-    </div>
-  </section>
+  <?php get_template_part('template_parts/employees/index'); ?>
 
   <div class="work-for-us">
     <div class="wrapper">
