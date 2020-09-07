@@ -15,23 +15,18 @@
 
     <div id="team-wrapper">
       <div id="management" class="employee-section js-active">
-        <p>management</p>
         <?php get_template_part('template_parts/employees/management'); ?>
       </div>
       <div id="board" class="employee-section">
-        <p>board</p>
         <?php get_template_part('template_parts/employees/board-of-directors'); ?>
       </div>
       <div id="founders" class="employee-section">
-        <p>founders</p>
         <?php get_template_part('template_parts/employees/scientific-founders'); ?>
       </div>
       <div id="advisors" class="employee-section">
-        <p>advisors</p>
         <?php get_template_part('template_parts/employees/advisors'); ?>
       </div>
       <div id="team" class="employee-section">
-        <p>team</p
         <?php get_template_part('template_parts/employees/team'); ?>
       </div>
     </div>

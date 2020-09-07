@@ -1,9 +1,14 @@
 .team-navigation {
-  display: flex;
-  justify-content: center;
+
   margin: 2em auto 0;
   padding: 0;
+  text-align: center;
   width: 100%;
+
+  @media (min-width: 840px) {
+    display: flex;
+    justify-content: center;
+  }
 
 
   & li {
@@ -27,9 +32,6 @@
   padding-top: 34px;
   width: calc(100% - 2.5%);
 
-
-  border: 2px solid purple;
-
   & .employee-section {
     display: none;
 
@@ -44,13 +46,17 @@
   background-color: #fff;
   bottom: 0;
   box-shadow: 3px 0 6px rgba(0,0,0,0.28);
-  /* display: none; */
   height: 100%;
   position: fixed;
   transition: right 330ms ease-out;
-  right: -35%;
+  right: -100%;
   top: 60px;
-  width: 35%;
+  width: 100%;
+
+  @media (min-width: 840px) {
+    right: -35%;
+    width: 35%;
+  }
 
 
   &.js-open {
@@ -80,9 +86,15 @@
   & .employee-image {
     border: 1px solid white;
     border-radius: 100px;
-    height: 200px;
+    display: inline-block;
+    height: 100%;
     margin: 0 auto;
-    width: 200px;
+    min-width: 100%;
+    width: 100%;
+
+    & img {
+      align-self: center;
+    }
   }
 
   & .employee-role {
@@ -104,6 +116,51 @@
     max-width: 80%;
   }
 }
+
+.employee-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0;
+
+  & .employee-list-item {
+    list-style-type: none;
+    text-align: center;
+    padding-bottom: 1.4em;
+    flex-basis: 50%;
+
+
+
+    @media (min-width: 840px) {
+      flex-basis: 25%;
+    }
+
+    @media (min-width: 1080px) {
+      flex-basis: 20%;
+    }
+  }
+
+  & .image img {
+    border: 1px solid #ffffff;
+    border-radius: 50%;
+    display: inline;
+    margin: 0;
+  }
+
+  & .name {
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+
+  & .role {
+    font-size: 11px;
+    line-height: 16px;
+    margin: 0 auto;
+    max-width: 85%;
+  }
+
+}
+
 
 #overlay.js-open {
   background-color: rgba(0,0,0,0.25);

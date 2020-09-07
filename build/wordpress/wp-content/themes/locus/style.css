@@ -2193,14 +2193,24 @@ section .anchor-link {
 
 
 .team-navigation {
-  display: -webkit-box;
-  display: flex;
-  -webkit-box-pack: center;
-          justify-content: center;
+
   margin: 2em auto 0;
   padding: 0;
+  text-align: center;
   width: 100%
 }
+
+
+@media (min-width: 840px) {
+
+
+.team-navigation {
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-pack: center;
+            justify-content: center
+}
+  }
 
 
 .team-navigation li {
@@ -2223,10 +2233,7 @@ section .anchor-link {
   margin: 20px auto;
   max-width: 1440px;
   padding-top: 34px;
-  width: calc(100% - 2.5%);
-
-
-  border: 2px solid purple
+  width: calc(100% - 2.5%)
 }
 
 
@@ -2244,15 +2251,24 @@ section .anchor-link {
   background-color: #fff;
   bottom: 0;
   box-shadow: 3px 0 6px rgba(0,0,0,0.28);
-  /* display: none; */
   height: 100%;
   position: fixed;
   -webkit-transition: right 330ms ease-out;
   transition: right 330ms ease-out;
-  right: -35%;
+  right: -100%;
   top: 60px;
-  width: 35%
+  width: 100%
 }
+
+
+@media (min-width: 840px) {
+
+
+#bio-view {
+    right: -35%;
+    width: 35%
+}
+  }
 
 
 #bio-view.js-open {
@@ -2285,10 +2301,17 @@ section .anchor-link {
 #bio-view .employee-image {
     border: 1px solid white;
     border-radius: 100px;
-    height: 200px;
+    display: inline-block;
+    height: 100%;
     margin: 0 auto;
-    width: 200px;
+    min-width: 100%;
+    width: 100%
   }
+
+
+#bio-view .employee-image img {
+      align-self: center;
+    }
 
 
 #bio-view .employee-role {
@@ -2311,6 +2334,65 @@ section .anchor-link {
     font-weight: 600;
     margin: 0 auto;
     max-width: 80%;
+  }
+
+
+.employee-list {
+  display: -webkit-box;
+  display: flex;
+  flex-wrap: wrap;
+  -webkit-box-pack: center;
+          justify-content: center;
+  padding: 0
+
+}
+
+
+.employee-list .employee-list-item {
+    list-style-type: none;
+    text-align: center;
+    padding-bottom: 1.4em;
+    flex-basis: 50%
+  }
+
+
+@media (min-width: 840px) {
+
+
+.employee-list .employee-list-item {
+      flex-basis: 25%
+  }
+    }
+
+
+@media (min-width: 1080px) {
+
+
+.employee-list .employee-list-item {
+      flex-basis: 20%
+  }
+    }
+
+
+.employee-list .image img {
+    border: 1px solid #ffffff;
+    border-radius: 50%;
+    display: inline;
+    margin: 0;
+  }
+
+
+.employee-list .name {
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+
+
+.employee-list .role {
+    font-size: 11px;
+    line-height: 16px;
+    margin: 0 auto;
+    max-width: 85%;
   }
 
 

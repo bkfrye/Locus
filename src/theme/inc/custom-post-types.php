@@ -154,7 +154,7 @@ function employees_founders() {
 		'add_new_item'          => __( 'Add New Scientific Founder', 'locus' ),
 		'add_new'               => __( 'Add New', 'locus' ),
 		'new_item'              => __( 'New Scientific Founder', 'locus' ),
-		'edit_item'             => __( 'Edit Scientific Founderr', 'locus' ),
+		'edit_item'             => __( 'Edit Scientific Founder', 'locus' ),
 		'update_item'           => __( 'Update Scientific Founder', 'locus' ),
 		'view_item'             => __( 'View Scientific Founder', 'locus' ),
 		'view_items'            => __( 'View Scientific Founders', 'locus' ),

@@ -192,7 +192,13 @@ function load_posts_by_ajax_callback() {
         <div class="employee-bio-wrapper">
           <header class="employee-bio">
             <div class="employee-image">
-              <img src="<?php the_field('profile_image');?>" alt="profile image">
+              <?php
+                $image = get_field('profile_image');
+                $size = 'medium'; // (thumbnail, medium, large, full or custom size)
+                if( $image ) {
+                  echo wp_get_attachment_image( $image, $size );
+                }
+              ?>
             </div>
             <p class="employee-role"><?php echo str_replace('_', ' ', $type);?></p>
             <?php the_title('<h3 class="employee-name">','</h3>'); ?>

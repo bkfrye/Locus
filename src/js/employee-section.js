@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  $('.employee-item').click(function() {
+  $('.employee-list-item').click(function() {
     var id = $(this).data('id');
     var type = $(this).data('type');
     var data = {
