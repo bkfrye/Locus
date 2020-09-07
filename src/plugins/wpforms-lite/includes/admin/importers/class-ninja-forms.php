@@ -2,11 +2,7 @@
 /**
  * Ninja Forms Importer class.
  *
- * @package    WPForms
- * @author     WPForms
- * @since      1.4.2
- * @license    GPL-2.0+
- * @copyright  Copyright (c) 2017, WPForms LLC
+ * @since 1.4.2
  */
 class WPForms_Ninja_Forms extends WPForms_Importer {
 
@@ -96,7 +92,7 @@ class WPForms_Ninja_Forms extends WPForms_Importer {
 		check_ajax_referer( 'wpforms-admin', 'nonce' );
 
 		// Check for permissions.
-		if ( ! wpforms_current_user_can() ) {
+		if ( ! wpforms_current_user_can( 'create_forms' ) ) {
 			wp_send_json_error();
 		}
 
@@ -122,13 +118,13 @@ class WPForms_Ninja_Forms extends WPForms_Importer {
 				'form_desc'              => '',
 				'submit_text'            => esc_html__( 'Submit', 'wpforms-lite' ),
 				'submit_text_processing' => esc_html__( 'Sending', 'wpforms-lite' ),
-				'honeypot'               => '1',
+				'antispam'               => '1',
 				'notification_enable'    => '1',
 				'notifications'          => array(
 					1 => array(
 						'notification_name' => esc_html__( 'Notification 1', 'wpforms-lite' ),
 						'email'             => '{admin_email}',
-						/* translators: %s - Ninja Forms form name. */
+						/* translators: %s - form name. */
 						'subject'           => sprintf( esc_html__( 'New Entry: %s', 'wpforms-lite' ), $nf_form_name ),
 						'sender_name'       => get_bloginfo( 'name' ),
 						'sender_address'    => '{admin_email}',
@@ -405,7 +401,7 @@ class WPForms_Ninja_Forms extends WPForms_Importer {
 		$action_defaults = array(
 			'notification_name' => esc_html__( 'Notification', 'wpforms-lite' ) . " $action_count",
 			'email'             => '{admin_email}',
-			/* translators: %s - Ninja Forms form name. */
+			/* translators: %s - form name. */
 			'subject'           => sprintf( esc_html__( 'New Entry: %s', 'wpforms-lite' ), $nf_form_name ),
 			'sender_name'       => get_bloginfo( 'name' ),
 			'sender_address'    => '{admin_email}',

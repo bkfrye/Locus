@@ -1,13 +1,4 @@
 <?php
-/**
- * Contains various WPForms integrations.
- *
- * @package    WPForms
- * @author     WPForms
- * @since      1.3.0
- * @license    GPL-2.0+
- * @copyright  Copyright (c) 2016, WPForms LLC
- */
 
 /**
  * Register and setup WPForms as a Visual Composer element.
@@ -81,7 +72,7 @@ function wpforms_visual_composer_shortcode() {
 						esc_html__( 'Yes', 'wpforms-lite' ) => 'true',
 					),
 					'save_always' => true,
-					'description' => esc_html__( 'Would you like to display the forms description?', 'wpforms-lite' ),
+					'description' => esc_html__( 'Would you like to display the form description?', 'wpforms-lite' ),
 					'dependency'  => array(
 						'element'   => 'id',
 						'not_empty' => true,

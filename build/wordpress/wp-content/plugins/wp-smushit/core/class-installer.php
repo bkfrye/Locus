@@ -12,7 +12,7 @@
 
 namespace Smush\Core;
 
-use Smush\WP_Smush;
+use WP_Smush;
 
 if ( ! defined( 'WPINC' ) ) {
 	die;
@@ -46,7 +46,7 @@ class Installer {
 
 		$version = get_site_option( WP_SMUSH_PREFIX . 'version' );
 
-		if ( ! class_exists( 'Settings' ) ) {
+		if ( ! class_exists( '\\Smush\\Core\\Settings' ) ) {
 			/* @noinspection PhpIncludeInspection */
 			require_once WP_SMUSH_DIR . 'core/class-settings.php';
 		}
@@ -105,24 +105,16 @@ class Installer {
 				define( 'WP_SMUSH_UPGRADING', true );
 			}
 
-			if ( version_compare( $version, '3.0', '<' ) ) {
-				self::upgrade_3_0();
-			}
-
-			if ( version_compare( $version, '3.2.0', '<' ) ) {
-				self::upgrade_3_2_0();
-			}
-
-			if ( version_compare( $version, '3.2.2', '<' ) ) {
-				self::upgrade_3_2_2();
-			}
-
-			if ( version_compare( $version, '3.2.2.1', '<' ) ) {
-				self::upgrade_3_2_2_1();
-			}
-
 			if ( version_compare( $version, '3.3.2', '<' ) ) {
 				self::upgrade_3_3_2();
+			}
+
+			if ( version_compare( $version, '3.4.0', '<' ) ) {
+				self::upgrade_3_4();
+			}
+
+			if ( version_compare( $version, '3.6.2', '<' ) ) {
+				self::upgrade_3_6_2();
 			}
 
 			// Create/upgrade directory smush table.
@@ -154,96 +146,28 @@ class Installer {
 
 		// Create/upgrade directory smush table.
 		WP_Smush::get_instance()->core()->mod->dir->create_table();
-
-		// Run the directory smush table update.
-		WP_Smush::get_instance()->core()->db()->update_dir_path_hash();
 	}
 
 	/**
-	 * Update settings to new structure.
+	 * Show notice on upgrade.
 	 *
-	 * @since 3.0
+	 * @since 3.3.2
+	 * @deprecated
 	 */
-	private static function upgrade_3_0() {
-		$keys = array(
-			'networkwide',
-			'auto',
-			'lossy',
-			'strip_exif',
-			'resize',
-			'detection',
-			'original',
-			'backup',
-			'png_to_jpg',
-			'nextgen',
-			'gutenberg',
-			's3',
-		);
-
-		if ( is_multisite() && ! get_site_option( WP_SMUSH_PREFIX . 'networkwide' ) ) {
-			global $wpdb;
-
-			$offset = 0;
-			$limit  = 100;
-
-			while ( $blogs = $wpdb->get_results( "SELECT blog_id FROM {$wpdb->blogs} LIMIT $offset, $limit", ARRAY_A ) ) {
-				if ( $blogs ) {
-					foreach ( $blogs as $blog ) {
-						switch_to_blog( $blog['blog_id'] );
-
-						$settings = get_option( WP_SMUSH_PREFIX . 'last_settings', array() );
-						$settings = array_merge( Settings::get_instance()->get(), maybe_unserialize( $settings ) );
-						update_option( WP_SMUSH_PREFIX . 'settings', $settings );
-						// Remove previous data.
-						delete_option( WP_SMUSH_PREFIX . 'last_settings' );
-
-						foreach ( $keys as $key ) {
-							delete_option( WP_SMUSH_PREFIX . $key );
-						}
-					}
-					restore_current_blog();
-				}
-				$offset += $limit;
-			}
-		} else {
-			// last_settings will be an array if user had any custom settings.
-			$settings = get_site_option( WP_SMUSH_PREFIX . 'last_settings', array() );
-			if ( is_array( $settings ) ) {
-				$settings = array_merge( Settings::get_instance()->get(), $settings );
-			} else {
-				// last_settings will be a string if the Smush page hasn't been visited => get the new defaults.
-				$settings = Settings::get_instance()->get();
-			}
-
-			update_site_option( WP_SMUSH_PREFIX . 'settings', $settings );
-			// Remove previous data.
-			delete_site_option( WP_SMUSH_PREFIX . 'last_settings' );
-
-			foreach ( $keys as $key ) {
-				delete_site_option( WP_SMUSH_PREFIX . $key );
-			}
+	private static function upgrade_3_3_2() {
+		$install_type = get_site_option( 'wp-smush-install-type', false );
+		if ( 'existing' === $install_type ) {
+			set_site_transient( 'wp-smush-update-modal', true, 3600 );
 		}
 	}
 
 	/**
-	 * Upgrade to 3.2.0.
+	 * Adds new lazy load iframe setting.
 	 *
-	 * @since 3.2.0
+	 * @since 3.4.0
+	 * @deprecated
 	 */
-	private static function upgrade_3_2_0() {
-		// Not used.
-		delete_option( 'smush_option' );
-	}
-
-	/**
-	 * Upgrade to 3.2.2
-	 *
-	 * @since 3.2.2
-	 */
-	private static function upgrade_3_2_2() {
-		// Show the upgrade notice for everyone.
-		delete_site_option( WP_SMUSH_PREFIX . 'hide_upgrade_notice' );
-
+	private static function upgrade_3_4() {
 		// Add new lazy-load options.
 		$lazy = Settings::get_instance()->get_setting( WP_SMUSH_PREFIX . 'lazy_load' );
 
@@ -251,63 +175,18 @@ class Installer {
 			return;
 		}
 
-		$selected = 'fadein';
-		if ( $lazy['animation']['spinner'] ) {
-			$selected = 'spinner';
-		} elseif ( $lazy['animation']['disabled'] ) {
-			$selected = false;
-		}
-
-		$animation = array(
-			'selected'    => $selected,
-			'fadein'      => array(
-				'duration' => isset( $lazy['animation']['duration'] ) ? $lazy['animation']['duration'] : 400,
-				'delay'    => isset( $lazy['animation']['delay'] ) ? $lazy['animation']['delay'] : 0,
-			),
-			'spinner'     => array(
-				'selected' => 1,
-				'custom'   => array(),
-			),
-			'placeholder' => array(
-				'selected' => 1,
-				'custom'   => array(),
-				'color'    => '#F3F3F3',
-			),
-		);
-
-		$lazy['animation'] = $animation;
+		$lazy['format']['iframe'] = true;
 
 		Settings::get_instance()->set_setting( WP_SMUSH_PREFIX . 'lazy_load', $lazy );
 	}
 
 	/**
-	 * Upgrade to 3.2.2.1
+	 * Upgrade to 3.6.2
 	 *
-	 * Fix the network wide access upgrade.
-	 *
-	 * @since 3.2.2.1
+	 * @since 3.6.2
 	 */
-	private static function upgrade_3_2_2_1() {
-		if ( ! is_multisite() ) {
-			return;
-		}
-
-		wp_cache_flush();
-		$network_enabled = get_site_option( WP_SMUSH_PREFIX . 'networkwide' );
-		update_site_option( WP_SMUSH_PREFIX . 'networkwide', ! ( '1' === $network_enabled ) );
-		wp_cache_flush();
-	}
-
-	/**
-	 * Show notice on upgrade.
-	 *
-	 * @since 3.3.2
-	 */
-	private static function upgrade_3_3_2() {
-		$install_type = get_site_option( 'wp-smush-install-type', false );
-		if ( 'existing' === $install_type ) {
-			set_site_transient( 'wp-smush-update-modal', true, 3600 );
-		}
+	private static function upgrade_3_6_2() {
+		delete_site_option( WP_SMUSH_PREFIX . 'run_recheck' );
 	}
 
 }

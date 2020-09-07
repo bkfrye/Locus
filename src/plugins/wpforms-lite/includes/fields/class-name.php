@@ -3,11 +3,7 @@
 /**
  * Name text field.
  *
- * @package    WPForms
- * @author     WPForms
- * @since      1.0.0
- * @license    GPL-2.0+
- * @copyright  Copyright (c) 2016, WPForms LLC
+ * @since 1.0.0
  */
 class WPForms_Field_Name extends WPForms_Field {
 
@@ -131,8 +127,10 @@ class WPForms_Field_Name extends WPForms_Field {
 
 		$properties = array_merge_recursive( $properties, $props );
 
+		$has_common_error = ! empty( $properties['error']['value'] ) && is_string( $properties['error']['value'] );
+
 		// Input First: add error class if needed.
-		if ( ! empty( $properties['error']['value']['first'] ) ) {
+		if ( ! empty( $properties['error']['value']['first'] ) || $has_common_error ) {
 			$properties['inputs']['first']['class'][] = 'wpforms-error';
 		}
 
@@ -144,8 +142,13 @@ class WPForms_Field_Name extends WPForms_Field {
 		// Input First: add column class.
 		$properties['inputs']['first']['block'][] = 'first-last' === $format ? 'wpforms-one-half' : 'wpforms-two-fifths';
 
+		// Input Middle: add error class if needed.
+		if ( $has_common_error ) {
+			$properties['inputs']['middle']['class'][] = 'wpforms-error';
+		}
+
 		// Input Last: add error class if needed.
-		if ( ! empty( $properties['error']['value']['last'] ) ) {
+		if ( ! empty( $properties['error']['value']['last'] ) || $has_common_error ) {
 			$properties['inputs']['last']['class'][] = 'wpforms-error';
 		}
 
@@ -465,7 +468,7 @@ class WPForms_Field_Name extends WPForms_Field {
 	}
 
 	/**
-	 * Validates field on form submit.
+	 * Validate field on form submit.
 	 *
 	 * @since 1.0.0
 	 *
@@ -497,7 +500,7 @@ class WPForms_Field_Name extends WPForms_Field {
 	}
 
 	/**
-	 * Formats field.
+	 * Format and sanitize field.
 	 *
 	 * @since 1.0.0
 	 *

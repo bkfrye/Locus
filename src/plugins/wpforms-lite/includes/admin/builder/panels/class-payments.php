@@ -3,11 +3,7 @@
 /**
  * Payments panel.
  *
- * @package    WPForms
- * @author     WPForms
- * @since      1.0.0
- * @license    GPL-2.0+
- * @copyright  Copyright (c) 2016, WPForms LLC
+ * @since 1.0.0
  */
 class WPForms_Builder_Panel_Payments extends WPForms_Builder_Panel {
 
@@ -27,7 +23,7 @@ class WPForms_Builder_Panel_Payments extends WPForms_Builder_Panel {
 	}
 
 	/**
-	 * Outputs the Payments panel sidebar.
+	 * Output the Payments panel sidebar.
 	 *
 	 * @since 1.0.0
 	 */
@@ -44,7 +40,7 @@ class WPForms_Builder_Panel_Payments extends WPForms_Builder_Panel {
 	}
 
 	/**
-	 * Outputs the Payments panel primary content.
+	 * Output the Payments panel primary content.
 	 *
 	 * @since 1.0.0
 	 */
@@ -82,7 +78,7 @@ class WPForms_Builder_Panel_Payments extends WPForms_Builder_Panel {
 			echo '<a href="' . esc_url( wpforms_admin_upgrade_link( 'builder-payments' ) ) . '" class="wpforms-btn wpforms-btn-orange wpforms-btn-lg" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Upgrade to PRO', 'wpforms-lite' ) . '</a>';
 			echo '</div>';
 
-		} else if ( empty( $payments_active ) ) {
+		} elseif ( empty( $payments_active ) ) {
 
 			// Check for active payment addons. When no payment addons are
 			// activated let the user know they need to install/activate an

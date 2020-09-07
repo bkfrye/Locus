@@ -3,11 +3,7 @@
 /**
  * Blank form template.
  *
- * @package    WPForms
- * @author     WPForms
- * @since      1.0.0
- * @license    GPL-2.0+
- * @copyright  Copyright (c) 2016, WPForms LLC
+ * @since 1.0.0
  */
 class WPForms_Template_Blank extends WPForms_Template {
 
@@ -29,7 +25,7 @@ class WPForms_Template_Blank extends WPForms_Template {
 			'field_id' => '1',
 			'fields'   => array(),
 			'settings' => array(
-				'honeypot'                    => '1',
+				'antispam'                    => '1',
 				'confirmation_message_scroll' => '1',
 				'submit_text_processing'      => esc_html__( 'Sending...', 'wpforms-lite' ),
 			),

@@ -24,7 +24,7 @@ $upgrade_url = add_query_arg(
 				<p><?php esc_html_e( 'Get Smush Pro and bulk optimize every image you’ve ever added to your site with one-click. Save 2x more with lossy Super-Smush. Serve stunning, high-quality images from 45 locations around the globe with our blazing-fast CDN.', 'wp-smushit' ); ?></p>
 				<p><?php esc_html_e( 'Automatically compress and resize huge photos up to 32MB. Double your savings and fix your Google PageSpeed with the best image optimizer WordPress has ever known.', 'wp-smushit' ); ?></p>
 				<a href="<?php echo esc_url( add_query_arg( 'utm_campaign', 'smush_propage_topbutton', $upgrade_url ) ); ?>" class="sui-button sui-button-lg sui-button-purple" target="_blank">
-					<?php esc_html_e( 'Try Free for 30 Days', 'wp-smushit' ); ?>
+					<?php esc_html_e( 'Try Smush Pro for Free', 'wp-smushit' ); ?>
 				</a>
 				<div class="sui-reviews">
 					<span class="sui-reviews__stars"></span>
@@ -52,6 +52,45 @@ $upgrade_url = add_query_arg(
 			<div class="smush-stats-description">Total Savings</div>
 		</div>
 	</div>
+
+	<div class="sui-upgrade-page-features">
+		<div class="sui-upgrade-page-features__header" style="margin-top: 70px">
+			<h2><?php esc_html_e( 'Optimize unlimited images with Smush Pro', 'wp-smushit' ); ?></h2>
+			<p><?php esc_html_e( 'Learn why Smush Pro is the best image optimization plugin.', 'wp-smushit' ); ?></p>
+			<div class="thumbnail-container">
+				<img src="https://premium.wpmudev.org/wp-content/themes/wpmudev-2015-1/assets/img/projects/Smush-Thumbnail@2x.png?v=2" alt="<?php esc_attr_e( 'Play', 'wp-smushit' ); ?>" id="wistia-play-button" role="button">
+			</div>
+			<span id="wistia_oegnwrdag1"></span>
+			<script>
+				document.addEventListener("DOMContentLoaded", function() {
+					var trigger = document.getElementById("wistia-play-button");
+
+					window.wistiaSmushEmbed = null;
+					window.wistiaInit = function(Wistia) {
+						window.wistiaSmushEmbed = Wistia.embed("oegnwrdag1", {
+							version: "v2",
+							videoWidth: 1280,
+							videoHeight: 720,
+							playerColor: "14485f",
+							videoQuality: "hd-only",
+							popover: true,
+							popoverPreventScroll: true
+						});
+					};
+
+					if (trigger) {
+						trigger.addEventListener("click", function(e) {
+							e.preventDefault();
+							if (window.wistiaSmushEmbed) {
+								window.wistiaSmushEmbed.play();
+							}
+						});
+					}
+				});
+			</script>
+		</div>
+	</div>
+
 	<div class="sui-upgrade-page-features">
 		<div class="sui-upgrade-page-features__header">
 			<h2><?php esc_html_e( 'Pro Features', 'wp-smushit' ); ?></h2>
@@ -64,7 +103,7 @@ $upgrade_url = add_query_arg(
 			<div class="sui-upgrade-page-features__item">
 				<i class="sui-icon-unlock" aria-hidden="true"></i>
 				<h3><?php esc_html_e( 'No limits, no restrictions', 'wp-smushit' ); ?></h3>
-				<p><?php esc_html_e( "Need a one-click bulk optimization solution for compressing your entire existing image library fast and easy? Pro unlocks unlimited bulk smushing, and lifts the image size limit from 5Mb to 32Mb. Did somebody say 'retina'? Yes, please.", 'wp-smushit' ); ?></p>
+				<p><?php esc_html_e( 'Need a one-click bulk optimization solution for compressing your entire existing image library fast and easy? Pro unlocks unlimited bulk smushing, and lifts the image size limit from 5Mb to 32Mb.', 'wp-smushit' ); ?></p>
 			</div>
 			<div class="sui-upgrade-page-features__item">
 				<i class="sui-icon-graph-line" aria-hidden="true"></i>
@@ -99,7 +138,7 @@ $upgrade_url = add_query_arg(
 			<div class="sui-upgrade-page-features__item">
 				<i class="sui-icon-hub" aria-hidden="true"></i>
 				<h3><?php esc_html_e( 'The Hub - Manage unlimited WordPress sites', 'wp-smushit' ); ?></h3>
-				<p><?php esc_html_e( 'You can manage unlimited WordPress sites with automated updates, backups, security, and performance! – checks, all in one place. All of this can be whitelabeled for your clients, and you even get our 24/7 live WordPress support.', 'wp-smushit' ); ?></p>
+				<p><?php esc_html_e( 'You can manage unlimited WordPress sites with automated updates, backups, security, and performance! – checks, all in one place. All of this can be white labeled for your clients, and you even get our 24/7 live WordPress support.', 'wp-smushit' ); ?></p>
 			</div>
 			<div class="sui-upgrade-page-features__item">
 				<i class="sui-icon-help-support" aria-hidden="true"></i>
@@ -109,19 +148,19 @@ $upgrade_url = add_query_arg(
 			<div class="sui-upgrade-page-features__item">
 				<i class="sui-icon-wpmudev-logo" aria-hidden="true"></i>
 				<h3><?php esc_html_e( 'The WPMU DEV Guarantee', 'wp-smushit' ); ?></h3>
-				<p><?php esc_html_e( "You'll be delighted with Smush Pro. You've got a 30-day free trial to test the WPMU DEV Membership, and if you continue but change your mind, you can cancel any time.", 'wp-smushit' ); ?></p>
+				<p><?php esc_html_e( "You'll be delighted with Smush Pro. You've got a no risk free trial to test the WPMU DEV Membership, and if you continue but change your mind, you can cancel any time.", 'wp-smushit' ); ?></p>
 			</div>
 		</div>
 	</div>
 	<div class="sui-upgrade-page-cta">
 		<div class="sui-upgrade-page-cta__inner">
 			<h2><?php esc_html_e( 'Join 771,093 Happy Members', 'wp-smushit' ); ?></h2>
-			<p><?php esc_html_e( "97% of customers are happy with WPMU DEV's service, and it’s a great time to join them: as a Smush user you’ll get a free 30-day trial, so you can see what all the fuss is about.", 'wp-smushit' ); ?></p>
+			<p><?php esc_html_e( "97% of customers are happy with WPMU DEV's service, and it’s a great time to join them: as a Smush user you’ll get a free trial, so you can see what all the fuss is about.", 'wp-smushit' ); ?></p>
 			<a href="<?php echo esc_url( add_query_arg( 'utm_campaign', 'smush_propage_bottombutton', $upgrade_url ) ); ?>" class="sui-button sui-button-lg sui-button-purple" target="_blank">
 				<?php esc_html_e( 'Get Smush Pro, and get a faster WordPress', 'wp-smushit' ); ?>
 			</a>
 			<a href="<?php echo esc_url( add_query_arg( 'utm_campaign', 'smush_propage_bottombutton', $upgrade_url ) ); ?>" target="_blank">
-				<?php esc_html_e( 'Try it free for 30 days', 'wp-smushit' ); ?>
+				<?php esc_html_e( 'Try it for free', 'wp-smushit' ); ?>
 			</a>
 		</div>
 	</div>

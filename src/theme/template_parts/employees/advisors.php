@@ -12,7 +12,9 @@ if( $items->have_posts() ) :
       while( $items->have_posts() ) :
         $items->the_post();
         ?>
-          <li><?php printf( '%1$s - %2$s', the_title() );  ?></li>
+          <li class="employee-item" data-id="<?php echo the_id();?>" data-type="advisors">
+            <?php the_title();  ?>
+          </li>
         <?php
       endwhile;
       wp_reset_postdata();

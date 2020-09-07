@@ -1,13 +1,11 @@
 <?php
 
+use WPForms\Tasks\Meta;
+
 /**
- * Handles plugin installation upon activation.
+ * Handle plugin installation upon activation.
  *
- * @package    WPForms
- * @author     WPForms
- * @since      1.0.0
- * @license    GPL-2.0+
- * @copyright  Copyright (c) 2016, WPForms LLC
+ * @since 1.0.0
  */
 class WPForms_Install {
 
@@ -20,17 +18,22 @@ class WPForms_Install {
 
 		// When activated, trigger install method.
 		register_activation_hook( WPFORMS_PLUGIN_FILE, array( $this, 'install' ) );
+		register_deactivation_hook( WPFORMS_PLUGIN_FILE, array( $this, 'deactivate' ) );
 
 		// Watch for new multisite blogs.
 		add_action( 'wpmu_new_blog', array( $this, 'new_multisite_blog' ), 10, 6 );
+
+		// Watch for delayed admin install.
+		add_action( 'admin_init', array( $this, 'admin' ) );
 	}
 
 	/**
-	 * Let's get the party started.
+	 * Perform certain actions on plugin activation.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param boolean $network_wide
+	 * @param bool $network_wide Whether to enable the plugin for all sites in the network
+	 *                           or just the current site. Multisite only. Default is false.
 	 */
 	public function install( $network_wide = false ) {
 
@@ -38,34 +41,26 @@ class WPForms_Install {
 		if ( is_multisite() && $network_wide ) {
 
 			// Multisite - go through each subsite and run the installer.
-			if ( function_exists( 'get_sites' ) && class_exists( 'WP_Site_Query', false ) ) {
+			$sites = get_sites(
+				[
+					'fields' => 'ids',
+					'number' => 0,
+				]
+			);
 
-				// WP 4.6+.
-				$sites = get_sites();
-
-				foreach ( $sites as $site ) {
-					switch_to_blog( $site->blog_id );
-					$this->run_install();
-					restore_current_blog();
-				}
-			} else {
-
-				$sites = wp_get_sites( array( 'limit' => 0 ) );
-
-				foreach ( $sites as $site ) {
-					switch_to_blog( $site['blog_id'] );
-					$this->run_install();
-					restore_current_blog();
-				}
+			foreach ( $sites as $blog_id ) {
+				switch_to_blog( $blog_id );
+				$this->run();
+				restore_current_blog();
 			}
 		} else {
 
 			// Normal single site.
-			$this->run_install();
+			$this->run();
 		}
 
 		// Abort so we only set the transient for single site installs.
-		if ( is_network_admin() || isset( $_GET['activate-multi'] ) ) {
+		if ( isset( $_GET['activate-multi'] ) || is_network_admin() ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return;
 		}
 
@@ -74,23 +69,78 @@ class WPForms_Install {
 	}
 
 	/**
+	 * Run manual installation.
+	 *
+	 * @since 1.5.4.2
+	 *
+	 * @param bool $silent Silent install, disables welcome page.
+	 */
+	public function manual( $silent = false ) {
+
+		$this->install( is_plugin_active_for_network( plugin_basename( WPFORMS_PLUGIN_FILE ) ) );
+
+		if ( $silent ) {
+			delete_transient( 'wpforms_activation_redirect' );
+		}
+	}
+
+	/**
+	 * Perform certain actions on plugin deactivation.
+	 *
+	 * @since 1.5.9
+	 */
+	public function deactivate() {
+
+		// Unschedule all ActionScheduler actions by group.
+		wpforms()->get( 'tasks' )->cancel_all();
+	}
+
+	/**
+	 * Watch for delayed install procedure from WPForms admin.
+	 *
+	 * @since 1.5.4.2
+	 */
+	public function admin() {
+
+		if ( ! is_admin() ) {
+			return;
+		}
+
+		$install = get_option( 'wpforms_install', false );
+
+		if ( empty( $install ) ) {
+			return;
+		}
+
+		$this->manual( true );
+
+		delete_option( 'wpforms_install' );
+	}
+
+	/**
 	 * Run the actual installer.
 	 *
-	 * @since 1.3.0
+	 * @since 1.5.4.2
 	 */
-	public function run_install() {
+	protected function run() {
 
-		$wpforms_install          = new stdClass();
-		$wpforms_install->preview = new WPForms_Preview();
+		$meta = new Meta();
 
-		// Create form preview page.
-		$wpforms_install->preview->form_preview_check();
+		// Create the table if it doesn't exist.
+		if ( ! $meta->table_exists() ) {
+			$meta->create_table();
+		}
 
 		// Hook for Pro users.
 		do_action( 'wpforms_install' );
 
-		// Set current version, to be referenced in future updates.
+		/*
+		 * Set current version, to be referenced in future updates.
+		 */
+		// Used by Pro migrations.
 		update_option( 'wpforms_version', WPFORMS_VERSION );
+		// Used by Lite migrations.
+		update_option( 'wpforms_version_lite', WPFORMS_VERSION );
 
 		// Store the date when the initial activation was performed.
 		$type      = class_exists( 'WPForms_Lite', false ) ? 'lite' : 'pro';
@@ -107,21 +157,19 @@ class WPForms_Install {
 	 *
 	 * @since 1.3.0
 	 *
-	 * @param int $blog_id
-	 * @param int $user_id
-	 * @param string $domain
-	 * @param string $path
-	 * @param int $site_id
-	 * @param array $meta
+	 * @param int    $blog_id Blog ID.
+	 * @param int    $user_id User ID.
+	 * @param string $domain  Site domain.
+	 * @param string $path    Site path.
+	 * @param int    $site_id Site ID. Only relevant on multi-network installs.
+	 * @param array  $meta    Meta data. Used to set initial site options.
 	 */
 	public function new_multisite_blog( $blog_id, $user_id, $domain, $path, $site_id, $meta ) {
 
 		if ( is_plugin_active_for_network( plugin_basename( WPFORMS_PLUGIN_FILE ) ) ) {
-
 			switch_to_blog( $blog_id );
-			$this->run_install();
+			$this->run();
 			restore_current_blog();
-
 		}
 	}
 }

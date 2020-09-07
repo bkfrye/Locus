@@ -152,7 +152,7 @@ abstract class AIOSEOP_Graph {
 
 		// Encode to json string, and remove string type around shortcodes.
 		if ( version_compare( PHP_VERSION, '5.4', '>=' ) ) {
-			$schema_data = wp_json_encode( (object) $schema_data, JSON_UNESCAPED_SLASHES ); // phpcs:ignore PHPCompatibility.Constants.NewConstants.json_unescaped_slashesFound
+			$schema_data = wp_json_encode( (object) $schema_data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ); // phpcs:ignore PHPCompatibility.Constants.NewConstants
 		} else {
 			// PHP <= 5.3 compatibility.
 			$schema_data = wp_json_encode( (object) $schema_data );
@@ -226,7 +226,10 @@ abstract class AIOSEOP_Graph {
 	 */
 	protected function get_site_image_data( $image_id ) {
 		if ( ! is_numeric( $image_id ) ) {
-			return false;
+			$image_id = attachment_url_to_postid( $image_id );
+			if ( ! $image_id ) {
+				return false;
+			}
 		}
 
 		// Defaults.

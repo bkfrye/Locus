@@ -17,8 +17,9 @@ use C_Gallery_Storage;
 use C_NextGen_Serializable;
 use Exception;
 use Ngg_Serializable;
+use Smush\App\Media_Library;
 use Smush\Core\Integrations\NextGen;
-use Smush\WP_Smush;
+use WP_Smush;
 
 if ( ! defined( 'WPINC' ) ) {
 	die;
@@ -70,6 +71,78 @@ class Stats extends NextGen {
 	public function image_count() {
 		// Force the cache refresh for top-commented posts.
 		self::total_count( true );
+	}
+
+	/**
+	 * Returns/Updates the number of images Super Smushed.
+	 *
+	 * @param array $attachments  Optional, By default Media attachments will be fetched.
+	 *
+	 * @return array|mixed
+	 *
+	 * @todo Refactor Method, Separate Media Library and Nextgen, moreover nextgen functionality is broken
+	 */
+	public function nextgen_super_smushed_count( $attachments = array() ) {
+		$key = 'wp-smush-super_smushed_nextgen';
+
+		// Clear up the stats, if there are no images.
+		if ( method_exists( 'Smush\\Core\\Integrations\\NextGen\\Stats', 'total_count' ) && 0 === self::total_count() ) {
+			delete_option( $key );
+		}
+
+		// Flag to check if we need to re-evaluate the count.
+		$reevaluate = false;
+
+		$super_smushed = get_option( $key, false );
+
+		// Check if need to revalidate.
+		if ( ! $super_smushed || empty( $super_smushed ) || empty( $super_smushed['ids'] ) ) {
+			$super_smushed = array(
+				'ids' => array(),
+			);
+
+			$reevaluate = true;
+		} else {
+			$last_checked = $super_smushed['timestamp'];
+
+			$diff = $last_checked - current_time( 'timestamp' );
+
+			// Difference in hour.
+			$diff_h = $diff / 3600;
+
+			// if last checked was more than 1 hours.
+			if ( $diff_h > 1 ) {
+				$reevaluate = true;
+			}
+		}
+
+		// Do not reevaluate stats if nextgen attachments are not provided.
+		if ( empty( $attachments ) && $reevaluate ) {
+			$reevaluate = false;
+		}
+
+		// Need to scan all the image.
+		if ( $reevaluate ) {
+			// Get all the Smushed attachments ids
+			// Note: Wrong Method called, it'll fetch media images and not NextGen images
+			// Should be $attachments, in place of $super_smushed_images.
+			$super_smushed_images = WP_Smush::get_instance()->core()->get_super_smushed_attachments();
+
+			if ( ! empty( $super_smushed_images ) && is_array( $super_smushed_images ) ) {
+				// Iterate over all the attachments to check if it's already there in list, else add it.
+				foreach ( $super_smushed_images as $id ) {
+					if ( ! in_array( $id, $super_smushed['ids'], true ) ) {
+						$super_smushed['ids'][] = $id;
+					}
+				}
+			}
+
+			$super_smushed['timestamp'] = current_time( 'timestamp' );
+
+			update_option( $key, $super_smushed, false );
+		}
+
+		return ! empty( $super_smushed['ids'] ) ? count( $super_smushed['ids'] ) : 0;
 	}
 
 	/**
@@ -132,12 +205,12 @@ class Stats extends NextGen {
 				foreach ( $attachments as $attachment ) {
 					// Check if it has `wp_smush` key.
 					if ( class_exists( 'Ngg_Serializable' ) ) {
-						$serializer = new Ngg_Serializable();
-						$meta       = $serializer->unserialize( $attachment->meta_data );
+						$meta = ( new Ngg_Serializable() )->unserialize( $attachment->meta_data );
 					} elseif ( class_exists( 'C_NextGen_Serializable' ) && method_exists( 'C_NextGen_Serializable', 'unserialize' ) ) {
 						$meta = C_NextGen_Serializable::unserialize( $attachment->meta_data );
 					} else {
-						$meta = unserialize( $attachment->meta_data );
+						// If you can't parse it without NextGen - don't parse at all.
+						continue;
 					}
 
 					// Store pid in image meta.
@@ -186,24 +259,18 @@ class Stats extends NextGen {
 	 * @param int        $pid            Image Id stored in nextgen table.
 	 * @param bool|array $wp_smush_data  Stats, stored after smushing the image.
 	 * @param string     $image_type     Used for determining if not gif, to show the Super Smush button.
-	 * @param bool       $text_only      Return only text instead of button (Useful for Ajax).
-	 * @param bool       $echo           Whether to echo the stats or not.
 	 *
 	 * @uses Admin::column_html(), WP_Smush::get_restore_link(), WP_Smush::get_resmush_link()
 	 *
 	 * @return bool|array|string
 	 */
-	public function show_stats( $pid, $wp_smush_data = false, $image_type = '', $text_only = false, $echo = true ) {
+	public function show_stats( $pid, $wp_smush_data = false, $image_type = '' ) {
 		if ( empty( $wp_smush_data ) ) {
 			return false;
 		}
 		$button_txt   = '';
-		$stats        = '';
 		$show_button  = false;
 		$show_resmush = false;
-		$show_restore = false;
-
-		$mush = WP_Smush::get_instance()->core()->mod->smush;
 
 		$bytes          = isset( $wp_smush_data['stats']['bytes'] ) ? $wp_smush_data['stats']['bytes'] : 0;
 		$bytes_readable = ! empty( $bytes ) ? size_format( $bytes, 1 ) : '';
@@ -214,21 +281,24 @@ class Stats extends NextGen {
 		if ( isset( $wp_smush_data['stats']['size_before'] ) && $wp_smush_data['stats']['size_before'] == 0 && ! empty( $wp_smush_data['sizes'] ) ) {
 			$status_txt = __( 'Already Optimized', 'wp-smushit' );
 		} else {
-			if ( $bytes == 0 || $percent == 0 ) {
+			if ( 0 === (int) $bytes || 0 === (int) $percent ) {
 				$status_txt = __( 'Already Optimized', 'wp-smushit' );
 
 				// Add resmush option if needed.
 				$show_resmush = $this->show_resmush( $show_resmush, $wp_smush_data );
 				if ( $show_resmush ) {
-					$status_txt .= '<br />' . $mush->get_resmsuh_link( $pid, 'nextgen' );
+					$status_txt .= '<div class="sui-smush-media smush-status-links">';
+					$status_txt .= Media_Library::get_resmsuh_link( $pid, 'nextgen' );
+					$status_txt .= '</div>';
 				}
 			} elseif ( ! empty( $percent ) && ! empty( $bytes_readable ) ) {
-				$status_txt = sprintf( __( 'Reduced by %1$s (  %2$01.1f%% )', 'wp-smushit' ), $bytes_readable, number_format_i18n( $percent, 2 ) );
+				$status_txt  = sprintf( __( 'Reduced by %1$s (%2$01.1f%%)', 'wp-smushit' ), $bytes_readable, number_format_i18n( $percent, 2 ) );
+				$status_txt .= '<div class="sui-smush-media smush-status-links">';
 
 				$show_resmush = $this->show_resmush( $show_resmush, $wp_smush_data );
 
 				if ( $show_resmush ) {
-					$status_txt .= '<br />' . $mush->get_resmsuh_link( $pid, 'nextgen' );
+					$status_txt .= Media_Library::get_resmsuh_link( $pid, 'nextgen' );
 				}
 
 				// Restore Image: Check if we need to show the restore image option.
@@ -238,11 +308,8 @@ class Stats extends NextGen {
 					if ( $show_resmush ) {
 						// Show Separator.
 						$status_txt .= ' | ';
-					} else {
-						// Show the link in next line.
-						$status_txt .= '<br />';
 					}
-					$status_txt .= $mush->get_restore_link( $pid, 'nextgen' );
+					$status_txt .= Media_Library::get_restore_link( $pid, 'nextgen' );
 				}
 				// Show detailed stats if available.
 				if ( ! empty( $wp_smush_data['sizes'] ) ) {
@@ -277,9 +344,8 @@ class Stats extends NextGen {
 					// Stats.
 					$stats = $this->get_detailed_stats( $pid, $wp_smush_data, array( 'sizes' => $sizes ), $full_image );
 
-					if ( ! $text_only ) {
-						$status_txt .= $stats;
-					}
+					$status_txt .= $stats;
+					$status_txt .= '</div>';
 				}
 			}
 		}
@@ -299,19 +365,9 @@ class Stats extends NextGen {
 			$button_txt  = __( 'Super-Smush', 'wp-smushit' );
 			$show_button = true;
 		}
-		if ( $text_only ) {
-			// For ajax response.
-			return array(
-				'status' => $status_txt,
-				'stats'  => $stats,
-			);
-		}
 
 		// If show button is true for some reason, column html can print out the button for us.
-		$text = WP_Smush::get_instance()->core()->nextgen->ng_admin->column_html( $pid, $status_txt, $button_txt, $show_button, true, $echo );
-		if ( ! $echo ) {
-			return $text;
-		}
+		return WP_Smush::get_instance()->core()->nextgen->ng_admin->column_html( $pid, $status_txt, $button_txt, $show_button, true );
 	}
 
 	/**
@@ -499,7 +555,7 @@ class Stats extends NextGen {
 					$skip_class = 'size_limit' === $img_data['reason'] ? ' error' : '';
 					$stats     .= '<tr>
 				<td>' . strtoupper( $img_data['size'] ) . '</td>
-				<td class="smush-skipped' . $skip_class . '">' . WP_Smush::get_instance()->core()->mod->smush->skip_reason( $img_data['reason'] ) . '</td>
+				<td class="smush-skipped' . $skip_class . '">' . WP_Smush::get_instance()->library()->skip_reason( $img_data['reason'] ) . '</td>
 			</tr>';
 				}
 			}

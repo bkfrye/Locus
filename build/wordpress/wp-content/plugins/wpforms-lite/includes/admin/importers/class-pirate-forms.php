@@ -3,11 +3,7 @@
 /**
  * Pirate Forms Importer class.
  *
- * @package    WPForms
- * @author     WPForms
- * @since      1.4.9
- * @license    GPL-2.0+
- * @copyright  Copyright (c) 2018, WPForms LLC
+ * @since 1.4.9
  */
 class WPForms_Pirate_Forms extends WPForms_Importer {
 
@@ -142,7 +138,7 @@ class WPForms_Pirate_Forms extends WPForms_Importer {
 		check_ajax_referer( 'wpforms-admin', 'nonce' );
 
 		// Check for permissions.
-		if ( ! wpforms_current_user_can() ) {
+		if ( ! wpforms_current_user_can( 'create_forms' ) ) {
 			wp_send_json_error();
 		}
 
@@ -438,13 +434,12 @@ class WPForms_Pirate_Forms extends WPForms_Importer {
 				'form_desc'              => '',
 				'submit_text'            => stripslashes( $pf_form['pirateformsopt_label_submit_btn'] ),
 				'submit_text_processing' => esc_html__( 'Sending', 'wpforms-lite' ),
-				'honeypot'               => empty( $pf_form['pirateformsopt_recaptcha_field'] ) ? '0' : '1',
 				'notification_enable'    => '1',
 				'notifications'          => array(
 					1 => array(
 						'notification_name' => esc_html__( 'Default Notification', 'wpforms-lite' ),
 						'email'             => $pf_form['pirateformsopt_email_recipients'],
-						/* translators: %s - PirateForms form name. */
+						/* translators: %s - form name. */
 						'subject'           => sprintf( esc_html__( 'New Entry: %s', 'wpforms-lite' ), $pf_form_name ),
 						'sender_name'       => get_bloginfo( 'name' ),
 						'sender_address'    => $this->get_smarttags( $pf_form['pirateformsopt_email'], $fields ),
@@ -639,15 +634,11 @@ class WPForms_Pirate_Forms extends WPForms_Importer {
 			return false;
 		}
 
-		// We do not need any extra credentials if we have gotten this far, so let's install the plugin.
-		require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-		require_once dirname( __FILE__ ) . '/class-install-silent-skin.php';
-
 		// Do not allow WordPress to search/download translations, as this will break JS output.
 		remove_action( 'upgrader_process_complete', array( 'Language_Pack_Upgrader', 'async_upgrade' ), 20 );
 
 		// Create the plugin upgrader with our custom skin.
-		$installer = new Plugin_Upgrader( new WPForms_Install_Silent_Skin() );
+		$installer = new \WPForms\Helpers\PluginSilentUpgrader( new \WPForms\Helpers\PluginSilentUpgraderSkin() );
 
 		// Error check.
 		if ( ! method_exists( $installer, 'install' ) ) {

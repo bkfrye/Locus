@@ -3,11 +3,7 @@
 /**
  * Base panel class.
  *
- * @package    WPForms
- * @author     WPForms
- * @since      1.0.0
- * @license    GPL-2.0+
- * @copyright  Copyright (c) 2016, WPForms LLC
+ * @since 1.0.0
  */
 abstract class WPForms_Builder_Panel {
 
@@ -15,6 +11,7 @@ abstract class WPForms_Builder_Panel {
 	 * Full name of the panel.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var string
 	 */
 	public $name;
@@ -23,6 +20,7 @@ abstract class WPForms_Builder_Panel {
 	 * Slug.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var string
 	 */
 	public $slug;
@@ -31,6 +29,7 @@ abstract class WPForms_Builder_Panel {
 	 * Font Awesome Icon used for the editor button, eg "fa-list".
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var mixed
 	 */
 	public $icon = false;
@@ -39,7 +38,8 @@ abstract class WPForms_Builder_Panel {
 	 * Priority order the field button should show inside the "Add Fields" tab.
 	 *
 	 * @since 1.0.0
-	 * @var integer
+	 *
+	 * @var int
 	 */
 	public $order = 50;
 
@@ -47,22 +47,25 @@ abstract class WPForms_Builder_Panel {
 	 * If panel contains a sidebar element or is full width.
 	 *
 	 * @since 1.0.0
-	 * @var boolean
+	 *
+	 * @var bool
 	 */
 	public $sidebar = false;
 
 	/**
-	 * Contains form object if we have one.
+	 * Contain form object if we have one.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var object
 	 */
 	public $form;
 
 	/**
-	 * Contains array of the form data (post_content).
+	 * Contain array of the form data (post_content).
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var array
 	 */
 	public $form_data;
@@ -130,7 +133,7 @@ abstract class WPForms_Builder_Panel {
 	}
 
 	/**
-	 * Outputs the contents of the panel.
+	 * Output the contents of the panel.
 	 *
 	 * @since 1.0.0
 	 *
@@ -182,7 +185,7 @@ abstract class WPForms_Builder_Panel {
 	}
 
 	/**
-	 * Outputs the panel's sidebar if we have one.
+	 * Output the panel's sidebar if we have one.
 	 *
 	 * @since 1.0.0
 	 */
@@ -190,7 +193,7 @@ abstract class WPForms_Builder_Panel {
 	}
 
 	/**
-	 * Outputs panel sidebar sections.
+	 * Output panel sidebar sections.
 	 *
 	 * @since 1.0.0
 	 *
@@ -218,7 +221,7 @@ abstract class WPForms_Builder_Panel {
 	}
 
 	/**
-	 * Outputs the panel's primary content.
+	 * Output the panel's primary content.
 	 *
 	 * @since 1.0.0
 	 */

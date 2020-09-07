@@ -2,11 +2,7 @@
 /**
  * Base field template.
  *
- * @package    WPForms
- * @author     WPForms
- * @since      1.0.0
- * @license    GPL-2.0+
- * @copyright  Copyright (c) 2016, WPForms LLC
+ * @since 1.0.0
  */
 abstract class WPForms_Field {
 
@@ -42,7 +38,7 @@ abstract class WPForms_Field {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @var integer
+	 * @var int
 	 */
 	public $order = 1;
 
@@ -74,13 +70,31 @@ abstract class WPForms_Field {
 	public $form_id;
 
 	/**
-	 * Current form data in.
+	 * Current field ID.
+	 *
+	 * @since 1.5.6
+	 *
+	 * @var int
+	 */
+	public $field_id;
+
+	/**
+	 * Current form data.
 	 *
 	 * @since 1.1.1
 	 *
 	 * @var array
 	 */
 	public $form_data;
+
+	/**
+	 * Current field data.
+	 *
+	 * @since 1.5.6
+	 *
+	 * @var array
+	 */
+	public $field_data;
 
 	/**
 	 * Primary class constructor.
@@ -96,10 +110,18 @@ abstract class WPForms_Field {
 		}
 
 		// The form ID is to be accessed in the builder.
-		$this->form_id = isset( $_GET['form_id'] ) ? absint( $_GET['form_id'] ) : false;
+		$this->form_id = isset( $_GET['form_id'] ) ? (int) $_GET['form_id'] : false; // phpcs:ignore WordPress.Security.NonceVerification
 
 		// Bootstrap.
 		$this->init();
+
+		// Temporary solution to get an object of the field class.
+		add_filter(
+			"wpforms_fields_get_field_object_{$this->type}",
+			function () {
+				return $this;
+			}
+		);
 
 		// Add fields tab.
 		add_filter( 'wpforms_builder_fields_buttons', array( $this, 'field_button' ), 15 );
@@ -124,6 +146,9 @@ abstract class WPForms_Field {
 
 		// Prefill.
 		add_filter( 'wpforms_field_properties', array( $this, 'field_prefill_value_property' ), 10, 3 );
+
+		// Change the choice's value while saving entries.
+		add_filter( 'wpforms_process_before_form_data', [ $this, 'field_fill_empty_choices' ] );
 	}
 
 	/**
@@ -136,7 +161,7 @@ abstract class WPForms_Field {
 
 	/**
 	 * Prefill field value with either fallback or dynamic data.
-	 * Needs to be public (although internal) to be used in WordPress hooks.
+	 * This needs to be public (although internal) to be used in WordPress hooks.
 	 *
 	 * @since 1.5.0
 	 *
@@ -173,11 +198,15 @@ abstract class WPForms_Field {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param array $field Field data and settings.
+	 * @param array $field      Field data and settings.
 	 * @param array $properties Properties we are modifying.
 	 */
-	protected function field_prefill_remove_choices_defaults( $field, &$properties ) {
+	public function field_prefill_remove_choices_defaults( $field, &$properties ) {
 
+		// Skip this step on admin page.
+		if ( is_admin() && ! wpforms_is_admin_page( 'entries', 'edit' ) ) {
+			return;
+		}
 		if (
 			! empty( $field['dynamic_choices'] ) ||
 			! empty( $field['choices'] )
@@ -187,6 +216,9 @@ abstract class WPForms_Field {
 				function ( &$value, $key ) {
 					if ( 'default' === $key ) {
 						$value = false;
+					}
+					if ( 'wpforms-selected' === $value ) {
+						$value = '';
 					}
 				}
 			);
@@ -300,6 +332,23 @@ abstract class WPForms_Field {
 	}
 
 	/**
+	 * Public version of get_field_populated_single_property_value() to use by external classes.
+	 *
+	 * @since 1.6.0.1
+	 *
+	 * @param string $raw_value  Value from a GET param, always a string.
+	 * @param string $input      Represent a subfield inside the field. May be empty.
+	 * @param array  $properties Field properties.
+	 * @param array  $field      Current field specific data.
+	 *
+	 * @return array Modified field properties.
+	 */
+	public function get_field_populated_single_property_value_public( $raw_value, $input, $properties, $field ) {
+
+		return $this->get_field_populated_single_property_value( $raw_value, $input, $properties, $field );
+	}
+
+	/**
 	 * Get the value, that is used to prefill via dynamic or fallback population.
 	 * Based on field data and current properties.
 	 *
@@ -322,62 +371,13 @@ abstract class WPForms_Field {
 
 		// For fields that have dynamic choices we need to add extra logic.
 		if ( ! empty( $field['dynamic_choices'] ) ) {
-			$default_key = null;
 
-			foreach ( $properties['inputs'] as $input_key => $input_arr ) {
-				// Dynamic choices support only integers in its values.
-				if ( absint( $get_value ) === $input_arr['attr']['value'] ) {
-					$default_key = $input_key;
-					// Stop iterating over choices.
-					break;
-				}
-			}
+			$properties = $this->get_field_populated_single_property_value_dynamic_choices( $get_value, $properties );
 
-			// Redefine default choice only if dynamic value has changed anything.
-			if ( null !== $default_key ) {
-				foreach ( $properties['inputs'] as $input_key => $choice_arr ) {
-					if ( $input_key === $default_key ) {
-						$properties['inputs'][ $input_key ]['default'] = true;
-						// Stop iterating over choices.
-						break;
-					}
-				}
-			}
 		} elseif ( ! empty( $field['choices'] ) && is_array( $field['choices'] ) ) {
-			$default_key = null;
 
-			// For fields that have normal choices we need to add extra logic.
-			foreach ( $field['choices'] as $choice_key => $choice_arr ) {
-				if ( isset( $field['show_values'] ) ) {
-					if (
-						isset( $choice_arr['value'] ) &&
-						strtoupper( $choice_arr['value'] ) === strtoupper( $get_value )
-					) {
-						$default_key = $choice_key;
-						// Stop iterating over choices.
-						break;
-					}
-				} else {
-					if (
-						isset( $choice_arr['label'] ) &&
-						strtoupper( $choice_arr['label'] ) === strtoupper( $get_value )
-					) {
-						$default_key = $choice_key;
-						// Stop iterating over choices.
-						break;
-					}
-				}
-			}
+			$properties = $this->get_field_populated_single_property_value_normal_choices( $get_value, $properties, $field );
 
-			// Redefine default choice only if population value has changed anything.
-			if ( null !== $default_key ) {
-				foreach ( $field['choices'] as $choice_key => $choice_arr ) {
-					if ( $choice_key === $default_key ) {
-						$properties['inputs'][ $choice_key ]['default'] = true;
-						break;
-					}
-				}
-			}
 		} else {
 			/*
 			 * For other types of fields we need to check that
@@ -388,6 +388,131 @@ abstract class WPForms_Field {
 				isset( $properties['inputs'][ $input ] )
 			) {
 				$properties['inputs'][ $input ]['attr']['value'] = $get_value;
+			}
+		}
+
+		return $properties;
+	}
+
+	/**
+	 * Get the value, that is used to prefill via dynamic or fallback population.
+	 * Based on field data and current properties.
+	 * Dynamic choices section.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @param string $get_value  Value from a GET param, always a string, sanitized, stripped slashes.
+	 * @param array  $properties Field properties.
+	 *
+	 * @return array Modified field properties.
+	 */
+	protected function get_field_populated_single_property_value_dynamic_choices( $get_value, $properties ) {
+
+		$default_key = null;
+
+		foreach ( $properties['inputs'] as $input_key => $input_arr ) {
+			// Dynamic choices support only integers in its values.
+			if ( absint( $get_value ) === $input_arr['attr']['value'] ) {
+				$default_key = $input_key;
+				// Stop iterating over choices.
+				break;
+			}
+		}
+
+		// Redefine default choice only if dynamic value has changed anything.
+		if ( null !== $default_key ) {
+			foreach ( $properties['inputs'] as $input_key => $choice_arr ) {
+				if ( $input_key === $default_key ) {
+					$properties['inputs'][ $input_key ]['default']              = true;
+					$properties['inputs'][ $input_key ]['container']['class'][] = 'wpforms-selected';
+					// Stop iterating over choices.
+					break;
+				}
+			}
+		}
+
+		return $properties;
+	}
+
+	/**
+	 * Fill choices without labels.
+	 *
+	 * @since 1.6.2
+	 *
+	 * @param array $form_data Form data.
+	 *
+	 * @return array
+	 */
+	public function field_fill_empty_choices( $form_data ) {
+
+		if ( empty( $form_data['fields'] ) ) {
+			return $form_data;
+		}
+
+		// Set value for choices with the image only. Conditional logic doesn't work without value.
+		foreach ( $form_data['fields'] as $field_key => $field ) {
+			// Payment fields have their labels set up upfront.
+			if ( empty( $field['choices'] ) || ! in_array( $field['type'], [ 'radio', 'checkbox' ], true ) ) {
+				continue;
+			}
+
+			foreach ( $field['choices'] as $choice_id => $choice ) {
+				if ( ( isset( $choice['value'] ) && '' !== trim( $choice['value'] ) ) || empty( $choice['image'] ) ) {
+					continue;
+				}
+				/* translators: %d - choice number. */
+				$form_data['fields'][ $field_key ]['choices'][ $choice_id ]['value'] = sprintf( esc_html__( 'Choice %d', 'wpforms-lite' ), (int) $choice_id );
+			}
+		}
+
+		return $form_data;
+	}
+
+	/**
+	 * Get the value, that is used to prefill via dynamic or fallback population.
+	 * Based on field data and current properties.
+	 * Normal choices section.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @param string $get_value  Value from a GET param, always a string, sanitized.
+	 * @param array  $properties Field properties.
+	 * @param array  $field      Current field specific data.
+	 *
+	 * @return array Modified field properties.
+	 */
+	protected function get_field_populated_single_property_value_normal_choices( $get_value, $properties, $field ) {
+
+		$default_key = null;
+
+		// For fields that have normal choices we need to add extra logic.
+		foreach ( $field['choices'] as $choice_key => $choice_arr ) {
+			$choice_value_key = isset( $field['show_values'] ) ? 'value' : 'label';
+			if (
+				(
+					isset( $choice_arr[ $choice_value_key ] ) &&
+					strtoupper( sanitize_text_field( $choice_arr[ $choice_value_key ] ) ) === strtoupper( $get_value )
+				) ||
+				(
+					empty( $choice_arr[ $choice_value_key ] ) &&
+					/* translators: %d - choice number. */
+					$get_value === sprintf( esc_html__( 'Choice %d', 'wpforms-lite' ), (int) $choice_key )
+				)
+			) {
+				$default_key = $choice_key;
+				// Stop iterating over choices.
+				break;
+			}
+		}
+
+		// Redefine default choice only if population value has changed anything.
+		if ( null !== $default_key ) {
+			foreach ( $field['choices'] as $choice_key => $choice_arr ) {
+				if ( $choice_key === $default_key ) {
+					$properties['inputs'][ $choice_key ]['default']              = true;
+					$properties['inputs'][ $choice_key ]['container']['class'][] = 'wpforms-selected';
+					break;
+				}
 			}
 		}
 
@@ -515,7 +640,7 @@ abstract class WPForms_Field {
 	}
 
 	/**
-	 * Creates the field options panel. Used by subclasses.
+	 * Create the field options panel. Used by subclasses.
 	 *
 	 * @since 1.0.0
 	 * @since 1.5.0 Converted to abstract method, as it's required for all fields.
@@ -525,7 +650,7 @@ abstract class WPForms_Field {
 	abstract public function field_options( $field );
 
 	/**
-	 * Creates the field preview. Used by subclasses.
+	 * Create the field preview. Used by subclasses.
 	 *
 	 * @since 1.0.0
 	 * @since 1.5.0 Converted to abstract method, as it's required for all fields.
@@ -542,10 +667,10 @@ abstract class WPForms_Field {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string  $option Field option to render.
-	 * @param array   $field  Field data and settings.
-	 * @param array   $args   Field preview arguments.
-	 * @param boolean $echo   Print or return the value. Print by default.
+	 * @param string $option Field option to render.
+	 * @param array  $field  Field data and settings.
+	 * @param array  $args   Field preview arguments.
+	 * @param bool   $echo   Print or return the value. Print by default.
 	 *
 	 * @return mixed echo or return string
 	 */
@@ -554,7 +679,7 @@ abstract class WPForms_Field {
 		$id     = (int) $field['id'];
 		$class  = ! empty( $args['class'] ) ? sanitize_html_class( $args['class'] ) : '';
 		$slug   = ! empty( $args['slug'] ) ? sanitize_title( $args['slug'] ) : '';
-		$data   = '';
+		$attrs  = '';
 		$output = '';
 
 		if ( ! empty( $args['data'] ) ) {
@@ -562,7 +687,15 @@ abstract class WPForms_Field {
 				if ( is_array( $val ) ) {
 					$val = wp_json_encode( $val );
 				}
-				$data .= ' data-' . $arg_key . '=\'' . $val . '\'';
+				$attrs .= ' data-' . $arg_key . '=\'' . $val . '\'';
+			}
+		}
+		if ( ! empty( $args['attrs'] ) ) {
+			foreach ( $args['attrs'] as $arg_key => $val ) {
+				if ( is_array( $val ) ) {
+					$val = wp_json_encode( $val );
+				}
+				$attrs .= $arg_key . '=\'' . $val . '\'';
 			}
 		}
 
@@ -601,19 +734,19 @@ abstract class WPForms_Field {
 				if ( ! empty( $before ) ) {
 					$class .= ' has-before';
 				}
-				$output = sprintf( '%s<input type="%s" class="%s" id="wpforms-field-option-%d-%s" name="fields[%d][%s]" value="%s" placeholder="%s" %s>', $before, $type, $class, $id, $slug, $id, $slug, esc_attr( $args['value'] ), $placeholder, $data );
+				$output = sprintf( '%s<input type="%s" class="%s" id="wpforms-field-option-%d-%s" name="fields[%d][%s]" value="%s" placeholder="%s" %s>', $before, $type, $class, $id, $slug, $id, $slug, esc_attr( $args['value'] ), $placeholder, $attrs );
 				break;
 
 			// Textarea.
 			case 'textarea':
 				$rows   = ! empty( $args['rows'] ) ? (int) $args['rows'] : '3';
-				$output = sprintf( '<textarea class="%s" id="wpforms-field-option-%d-%s" name="fields[%d][%s]" rows="%d" %s>%s</textarea>', $class, $id, $slug, $id, $slug, $rows, $data, $args['value'] );
+				$output = sprintf( '<textarea class="%s" id="wpforms-field-option-%d-%s" name="fields[%d][%s]" rows="%d" %s>%s</textarea>', $class, $id, $slug, $id, $slug, $rows, $attrs, $args['value'] );
 				break;
 
 			// Checkbox.
 			case 'checkbox':
 				$checked = checked( '1', $args['value'], false );
-				$output  = sprintf( '<input type="checkbox" class="%s" id="wpforms-field-option-%d-%s" name="fields[%d][%s]" value="1" %s %s>', $class, $id, $slug, $id, $slug, $checked, $data );
+				$output  = sprintf( '<input type="checkbox" class="%s" id="wpforms-field-option-%d-%s" name="fields[%d][%s]" value="1" %s %s>', $class, $id, $slug, $id, $slug, $checked, $attrs );
 				$output .= sprintf( '<label for="wpforms-field-option-%d-%s" class="inline">%s', $id, $slug, $args['desc'] );
 				if ( isset( $args['tooltip'] ) && ! empty( $args['tooltip'] ) ) {
 					$output .= ' ' . sprintf( '<i class="fa fa-question-circle wpforms-help-tooltip" title="%s"></i>', esc_attr( $args['tooltip'] ) );
@@ -628,14 +761,14 @@ abstract class WPForms_Field {
 				$cls     = $args['value'] ? 'wpforms-on' : 'wpforms-off';
 				$status  = $args['value'] ? esc_html__( 'On', 'wpforms-lite' ) : esc_html__( 'Off', 'wpforms-lite' );
 				$output  = sprintf( '<span class="wpforms-toggle-icon %s"><i class="fa %s" aria-hidden="true"></i> <span class="wpforms-toggle-icon-label">%s</span>', $cls, $icon, $status );
-				$output .= sprintf( '<input type="checkbox" class="%s" id="wpforms-field-option-%d-%s" name="fields[%d][%s]" value="1" %s %s></span>', $class, $id, $slug, $id, $slug, $checked, $data );
+				$output .= sprintf( '<input type="checkbox" class="%s" id="wpforms-field-option-%d-%s" name="fields[%d][%s]" value="1" %s %s></span>', $class, $id, $slug, $id, $slug, $checked, $attrs );
 				break;
 
 			// Select.
 			case 'select':
 				$options = $args['options'];
 				$value   = isset( $args['value'] ) ? $args['value'] : '';
-				$output  = sprintf( '<select class="%s" id="wpforms-field-option-%d-%s" name="fields[%d][%s]" %s>', $class, $id, $slug, $id, $slug, $data );
+				$output  = sprintf( '<select class="%s" id="wpforms-field-option-%d-%s" name="fields[%d][%s]" %s>', $class, $id, $slug, $id, $slug, $attrs );
 				foreach ( $options as $arg_key => $arg_option ) {
 					$output .= sprintf( '<option value="%s" %s>%s</option>', esc_attr( $arg_key ), selected( $arg_key, $value, false ), $arg_option );
 				}
@@ -647,7 +780,7 @@ abstract class WPForms_Field {
 			return $output;
 		}
 
-		echo $output; // WPCS: XSS ok.
+		echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
@@ -655,10 +788,10 @@ abstract class WPForms_Field {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string  $option Field option to render.
-	 * @param array   $field  Field data and settings.
-	 * @param array   $args   Field preview arguments.
-	 * @param boolean $echo   Print or return the value. Print by default.
+	 * @param string $option Field option to render.
+	 * @param array  $field  Field data and settings.
+	 * @param array  $args   Field preview arguments.
+	 * @param bool   $echo   Print or return the value. Print by default.
 	 *
 	 * @return mixed echo or return string
 	 */
@@ -742,9 +875,14 @@ abstract class WPForms_Field {
 			 * Choices.
 			 */
 			case 'choices':
-				$values = ! empty( $field['choices'] ) ? $field['choices'] : $this->defaults;
-				$label  = ! empty( $args['label'] ) ? esc_html( $args['label'] ) : esc_html__( 'Choices', 'wpforms-lite' );
-				$class  = array();
+				$values     = ! empty( $field['choices'] ) ? $field['choices'] : $this->defaults;
+				$label      = ! empty( $args['label'] ) ? esc_html( $args['label'] ) : esc_html__( 'Choices', 'wpforms-lite' );
+				$class      = array();
+				$field_type = $this->type;
+
+				if ( ! empty( $field['multiple'] ) ) {
+					$field_type = 'checkbox';
+				}
 
 				if ( ! empty( $field['show_values'] ) ) {
 					$class[] = 'show-values';
@@ -786,7 +924,7 @@ abstract class WPForms_Field {
 					$fld .= '<li data-key="' . absint( $key ) . '">';
 					$fld .= sprintf(
 						'<input type="%s" name="%s[default]" class="default" value="1" %s>',
-						'checkbox' === $this->type ? 'checkbox' : 'radio',
+						'checkbox' === $field_type ? 'checkbox' : 'radio',
 						$base,
 						checked( '1', $default, false )
 					);
@@ -800,7 +938,7 @@ abstract class WPForms_Field {
 					$fld .= sprintf(
 						'<input type="text" name="%s[value]" value="%s" class="value">',
 						$base,
-						esc_attr( $value['value'] )
+						esc_attr( ! isset( $value['value'] ) ? '' : $value['value'] )
 					);
 					$fld .= '<div class="wpforms-image-upload">';
 					$fld .= '<div class="preview">';
@@ -852,7 +990,7 @@ abstract class WPForms_Field {
 
 				$note = sprintf(
 					'<div class="wpforms-alert-warning wpforms-alert-small wpforms-alert %s">',
-					empty( $dynamic ) && ! empty( $field[ 'dynamic_' . $dynamic ] ) ? '' : 'wpforms-hidden'
+					! empty( $dynamic ) && ! empty( $field[ 'dynamic_' . $dynamic ] ) ? '' : 'wpforms-hidden'
 				);
 
 				$note .= sprintf(
@@ -879,8 +1017,9 @@ abstract class WPForms_Field {
 			 * Choices for payments.
 			 */
 			case 'choices_payments':
-				$values = ! empty( $field['choices'] ) ? $field['choices'] : $this->defaults;
-				$class  = array();
+				$values     = ! empty( $field['choices'] ) ? $field['choices'] : $this->defaults;
+				$class      = array();
+				$input_type = in_array( $field['type'], array( 'payment-multiple', 'payment-select' ), true ) ? 'radio' : 'checkbox';
 
 				if ( ! empty( $field['choices_images'] ) ) {
 					$class[] = 'show-images';
@@ -914,7 +1053,8 @@ abstract class WPForms_Field {
 
 					$fld .= '<li data-key="' . absint( $key ) . '">';
 					$fld .= sprintf(
-						'<input type="radio" name="%s[default]" class="default" value="1" %s>',
+						'<input type="%s" name="%s[default]" class="default" value="1" %s>',
+						$input_type,
 						$base,
 						checked( '1', $default, false )
 					);
@@ -925,7 +1065,7 @@ abstract class WPForms_Field {
 						esc_attr( $value['label'] )
 					);
 					$fld .= sprintf(
-						'<input type="text" name="%s[value]" value="%s" class="value value wpforms-money-input" placeholder="%s">',
+						'<input type="text" name="%s[value]" value="%s" class="value wpforms-money-input" placeholder="%s">',
 						$base,
 						esc_attr( $value['value'] ),
 						wpforms_format_amount( 0 )
@@ -1061,7 +1201,7 @@ abstract class WPForms_Field {
 			 * Default value.
 			 */
 			case 'default_value':
-				$value   = ! empty( $field['default_value'] ) ? esc_attr( $field['default_value'] ) : '';
+				$value   = ! empty( $field['default_value'] ) || ( isset( $field['default_value'] ) && '0' === (string) $field['default_value'] ) ? esc_attr( $field['default_value'] ) : '';
 				$tooltip = esc_html__( 'Enter text for the default form field value.', 'wpforms-lite' );
 				$toggle  = '<a href="#" class="toggle-smart-tag-display" data-type="other"><i class="fa fa-tags"></i> <span>' . esc_html__( 'Show Smart Tags', 'wpforms-lite' ) . '</span></a>';
 				$output  = $this->field_element( 'label', $field, array( 'slug' => 'default_value', 'value' => esc_html__( 'Default Value', 'wpforms-lite' ), 'tooltip' => $tooltip, 'after_tooltip' => $toggle ), false );
@@ -1302,18 +1442,20 @@ abstract class WPForms_Field {
 	 *
 	 * @since 1.0.0
 	 * @since 1.5.0 Added support for <select> HTML tag for choices.
+	 * @since 1.6.1 Added multiple select support.
 	 *
-	 * @param string  $option Field option to render.
-	 * @param array   $field  Field data and settings.
-	 * @param array   $args   Field preview arguments.
-	 * @param boolean $echo   Print or return the value. Print by default.
+	 * @param string $option Field option to render.
+	 * @param array  $field  Field data and settings.
+	 * @param array  $args   Field preview arguments.
+	 * @param bool   $echo   Print or return the value. Print by default.
 	 *
 	 * @return mixed Print or return a string.
 	 */
 	public function field_preview_option( $option, $field, $args = array(), $echo = true ) {
 
-		$output = '';
-		$class  = ! empty( $args['class'] ) ? wpforms_sanitize_classes( $args['class'] ) : '';
+		$output       = '';
+		$class        = ! empty( $args['class'] ) ? wpforms_sanitize_classes( $args['class'] ) : '';
+		$allowed_tags = wpforms_builder_preview_get_allowed_tags();
 
 		switch ( $option ) {
 
@@ -1323,13 +1465,13 @@ abstract class WPForms_Field {
 				break;
 
 			case 'description':
-				$description = isset( $field['description'] ) && ! empty( $field['description'] ) ? $field['description'] : '';
+				$description = isset( $field['description'] ) && ! empty( $field['description'] ) ? wp_kses( $field['description'], $allowed_tags ) : '';
 				$description = strpos( $class, 'nl2br' ) !== false ? nl2br( $description ) : $description;
 				$output      = sprintf( '<div class="description %s">%s</div>', $class, $description );
 				break;
 
 			case 'choices':
-				$fields_w_choices = array( 'checkbox', 'gdpr-checkbox', 'select', 'payment-select', 'radio', 'payment-multiple' );
+				$fields_w_choices = array( 'checkbox', 'gdpr-checkbox', 'select', 'payment-select', 'radio', 'payment-multiple', 'payment-checkbox' );
 
 				$values  = ! empty( $field['choices'] ) ? $field['choices'] : $this->defaults;
 				$dynamic = ! empty( $field['dynamic_choices'] ) ? $field['dynamic_choices'] : false;
@@ -1339,7 +1481,7 @@ abstract class WPForms_Field {
 				 * Check to see if this field is configured for Dynamic Choices,
 				 * either auto populating from a post type or a taxonomy.
 				 */
-				if ( ! empty( $field['dynamic_post_type'] ) ) {
+				if ( ! empty( $field['dynamic_post_type'] ) || ! empty( $field['dynamic_taxonomy'] ) ) {
 					switch ( $dynamic ) {
 						case 'post_type':
 							// Post type dynamic populating.
@@ -1397,7 +1539,9 @@ abstract class WPForms_Field {
 				// Notify if dynamic choices source is currently empty.
 				if ( empty( $values ) ) {
 					$values = array(
-						'label' => esc_html__( '(empty)', 'wpforms-lite' ),
+						array(
+							'label' => esc_html__( '(empty)', 'wpforms-lite' ),
+						),
 					);
 				}
 
@@ -1409,6 +1553,7 @@ abstract class WPForms_Field {
 				switch ( $field['type'] ) {
 					case 'checkbox':
 					case 'gdpr-checkbox':
+					case 'payment-checkbox':
 						$type = 'checkbox';
 						break;
 
@@ -1430,13 +1575,19 @@ abstract class WPForms_Field {
 					$list_class[] = 'wpforms-image-choices-' . sanitize_html_class( $field['choices_images_style'] );
 				}
 
+				if ( ! empty( $class ) ) {
+					$list_class[] = $class;
+				}
+
 				// Special rules for <select>-based fields.
 				if ( 'select' === $type ) {
+					$multiple    = ! empty( $field['multiple'] ) ? ' multiple' : '';
 					$placeholder = ! empty( $field['placeholder'] ) ? $field['placeholder'] : '';
 
 					$output = sprintf(
-						'<select class="%s" disabled>',
-						wpforms_sanitize_classes( $list_class, true )
+						'<select class="%s"%s disabled>',
+						wpforms_sanitize_classes( $list_class, true ),
+						$multiple
 					);
 
 					// Optional placeholder.
@@ -1447,16 +1598,21 @@ abstract class WPForms_Field {
 						);
 					}
 
-					// Build the select options (even though user can only see 1st option).
+					// Build the select options.
 					foreach ( $values as $key => $value ) {
 
 						$default  = isset( $value['default'] ) ? (bool) $value['default'] : false;
-						$selected = ! empty( $placeholder ) ? '' : selected( true, $default, false );
+						$selected = ! empty( $placeholder ) && empty( $multiple ) ? '' : selected( true, $default, false );
+
+						$label = isset( $value['label'] ) ? trim( $value['label'] ) : '';
+						/* translators: %d - Choice item number. */
+						$label  = $label !== '' ? $label : sprintf( esc_html__( 'Choice %d', 'wpforms-lite' ), (int) $key );
+						$label .= ! empty( $field['show_price_after_labels'] ) && isset( $value['value'] ) ? ' - ' . wpforms_format_amount( wpforms_sanitize_amount( $value['value'] ), true ) : '';
 
 						$output .= sprintf(
-							'<option %s>%s</option>',
+							'<option value="%2$s" %1$s>%2$s</option>',
 							$selected,
-							esc_html( $value['label'] )
+							esc_html( $label )
 						);
 					}
 
@@ -1488,6 +1644,11 @@ abstract class WPForms_Field {
 							wpforms_sanitize_classes( $item_class, true )
 						);
 
+						$label = isset( $value['label'] ) ? trim( $value['label'] ) : '';
+						/* translators: %d - Choice item number. */
+						$label  = $label !== '' ? $label : sprintf( esc_html__( 'Choice %d', 'wpforms-lite' ), (int) $key );
+						$label .= ! empty( $field['show_price_after_labels'] ) && isset( $value['value'] ) ? ' - ' . wpforms_format_amount( wpforms_sanitize_amount( $value['value'] ), true ) : '';
+
 						if ( $with_images ) {
 
 							if ( in_array( $field['choices_images_style'], array( 'modern', 'classic' ), true ) ) {
@@ -1514,7 +1675,7 @@ abstract class WPForms_Field {
 								$selected
 							);
 
-							$output .= '<span class="wpforms-image-choices-label">' . wp_kses_post( $value['label'] ) . '</span>';
+							$output .= '<span class="wpforms-image-choices-label">' . wp_kses( $label, $allowed_tags ) . '</span>';
 
 							$output .= '</label>';
 
@@ -1523,7 +1684,7 @@ abstract class WPForms_Field {
 								'<input type="%s" %s disabled>%s',
 								$type,
 								$selected,
-								$value['label']
+								wp_kses( $label, $allowed_tags )
 							);
 						}
 
@@ -1558,7 +1719,7 @@ abstract class WPForms_Field {
 			return $output;
 		}
 
-		echo $output; // WPCS: XSS ok.
+		echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
@@ -1572,7 +1733,7 @@ abstract class WPForms_Field {
 		check_ajax_referer( 'wpforms-builder', 'nonce' );
 
 		// Check for permissions.
-		if ( ! wpforms_current_user_can() ) {
+		if ( ! wpforms_current_user_can( 'edit_forms' ) ) {
 			die( esc_html__( 'You do not have permission.', 'wpforms-lite' ) );
 		}
 
@@ -1612,14 +1773,17 @@ abstract class WPForms_Field {
 		$this->field_preview( $field );
 		$prev     = ob_get_clean();
 		$preview  = sprintf( '<div class="wpforms-field wpforms-field-%s %s %s" id="wpforms-field-%d" data-field-id="%d" data-field-type="%s">', $field_type, $field_required, $field_class, $field['id'], $field['id'], $field_type );
-		$preview .= sprintf( '<a href="#" class="wpforms-field-duplicate" title="%s"><i class="fa fa-files-o" aria-hidden="true"></i></a>', esc_attr__( 'Duplicate Field', 'wpforms-lite' ) );
-		$preview .= sprintf( '<a href="#" class="wpforms-field-delete" title="%s"><i class="fa fa-times-circle"></i></a>', esc_attr__( 'Delete Field', 'wpforms-lite' ) );
+		if ( apply_filters( 'wpforms_field_new_display_duplicate_button', true, $field ) ) {
+			$preview .= sprintf( '<a href="#" class="wpforms-field-duplicate" title="%s"><i class="fa fa-files-o" aria-hidden="true"></i></a>', esc_attr__( 'Duplicate Field', 'wpforms-lite' ) );
+		}
+		$preview .= sprintf( '<a href="#" class="wpforms-field-delete" title="%s"><i class="fa fa-trash"></i></a>', esc_attr__( 'Delete Field', 'wpforms-lite' ) );
 		$preview .= sprintf( '<span class="wpforms-field-helper">%s</span>', esc_html__( 'Click to edit. Drag to reorder.', 'wpforms-lite' ) );
 		$preview .= $prev;
 		$preview .= '</div>';
 
 		// Build Options.
-		$options  = sprintf( '<div class="wpforms-field-option wpforms-field-option-%s" id="wpforms-field-option-%d" data-field-id="%d">', esc_attr( $field['type'] ), $field['id'], $field['id'] );
+		$class    = apply_filters( 'wpforms_builder_field_option_class', '', $field );
+		$options  = sprintf( '<div class="wpforms-field-option wpforms-field-option-%s %s" id="wpforms-field-option-%d" data-field-id="%d">', sanitize_html_class( $field['type'] ), sanitize_html_class( $class ), (int) $field['id'], (int) $field['id'] );
 		$options .= sprintf( '<input type="hidden" name="fields[%d][id]" value="%d" class="wpforms-field-option-hidden-id">', $field['id'], $field['id'] );
 		$options .= sprintf( '<input type="hidden" name="fields[%d][type]" value="%s" class="wpforms-field-option-hidden-type">', $field['id'], esc_attr( $field['type'] ) );
 		ob_start();
@@ -1705,29 +1869,29 @@ abstract class WPForms_Field {
 	}
 
 	/**
-	 * Validates field on form submit.
+	 * Validate field on form submit.
 	 *
 	 * @since 1.0.0
 	 *
 	 * @param int   $field_id     Field ID.
-	 * @param array $field_submit Field value that was submitted.
+	 * @param mixed $field_submit Field value that was submitted.
 	 * @param array $form_data    Form data and settings.
 	 */
 	public function validate( $field_id, $field_submit, $form_data ) {
 
 		// Basic required check - If field is marked as required, check for entry data.
-		if ( ! empty( $form_data['fields'][ $field_id ]['required'] ) && empty( $field_submit ) && '0' != $field_submit ) {
+		if ( ! empty( $form_data['fields'][ $field_id ]['required'] ) && empty( $field_submit ) && '0' !== (string) $field_submit ) {
 			wpforms()->process->errors[ $form_data['id'] ][ $field_id ] = wpforms_get_required_label();
 		}
 	}
 
 	/**
-	 * Formats and sanitizes field.
+	 * Format and sanitize field.
 	 *
 	 * @since 1.0.0
 	 *
 	 * @param int   $field_id     Field ID.
-	 * @param array $field_submit Field value that was submitted.
+	 * @param mixed $field_submit Field value that was submitted.
 	 * @param array $form_data    Form data and settings.
 	 */
 	public function format( $field_id, $field_submit, $form_data ) {
@@ -1737,7 +1901,7 @@ abstract class WPForms_Field {
 			$field_submit = implode( "\r\n", $field_submit );
 		}
 
-		$name  = ! empty( $form_data['fields'][ $field_id ]['label'] ) ? sanitize_text_field( $form_data['fields'][ $field_id ]['label'] ) : '';
+		$name = ! empty( $form_data['fields'][ $field_id ]['label'] ) ? sanitize_text_field( $form_data['fields'][ $field_id ]['label'] ) : '';
 
 		// Sanitize but keep line breaks.
 		$value = wpforms_sanitize_textarea_field( $field_submit );

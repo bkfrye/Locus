@@ -2,11 +2,7 @@
 /**
  * Base Importer class.
  *
- * @package    WPForms
- * @author     WPForms
- * @since      1.4.2
- * @license    GPL-2.0+
- * @copyright  Copyright (c) 2017, WPForms LLC
+ * @since 1.4.2
  */
 abstract class WPForms_Importer implements WPForms_Importer_Interface {
 
@@ -128,7 +124,7 @@ abstract class WPForms_Importer implements WPForms_Importer_Interface {
 		wp_send_json_success( array(
 			'name'          => $form['settings']['form_title'],
 			'edit'          => esc_url_raw( admin_url( 'admin.php?page=wpforms-builder&view=fields&form_id=' . $form_id ) ),
-			'preview'       => wpforms()->preview->form_preview_url( $form_id ),
+			'preview'       => wpforms_get_form_preview_url( $form_id ),
 			'unsupported'   => $unsupported,
 			'upgrade_plain' => $upgrade_plain,
 			'upgrade_omit'  => $upgrade_omit,

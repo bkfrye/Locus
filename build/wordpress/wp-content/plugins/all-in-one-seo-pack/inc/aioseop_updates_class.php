@@ -66,9 +66,8 @@ class AIOSEOP_Updates {
 				set_transient( '_aioseop_activation_redirect', true, 30 ); // Sets 30 second transient for welcome screen redirect on activation.
 			}
 			delete_transient( 'aioseop_feed' );
-			// add_action( 'admin_init', array( $this, 'aioseop_welcome' ) ); //Uncomment for welcome screen.
-
 		}
+		add_action( 'current_screen', array( $this, 'showWelcomePage' ) );
 
 		/**
 		 * Perform updates that are dependent on external factors, not
@@ -77,13 +76,23 @@ class AIOSEOP_Updates {
 		$this->do_feature_updates();
 	}
 
-	function aioseop_welcome() {
-		if ( get_transient( '_aioseop_activation_redirect' ) ) {
-			delete_transient( '_aioseop_activation_redirect' );
-			$aioseop_welcome = new aioseop_welcome();
-			$aioseop_welcome->init( true );
+	/**
+	 * Shows the Welcome page if the transient exists.
+	 *
+	 * @since 3.6.0
+	 *
+	 * @return void
+	 */
+	function showWelcomePage() {
+		if (
+			! get_transient( '_aioseop_activation_redirect' ) ||
+			wp_doing_ajax() ||
+			! in_array( get_current_screen()->id, aioseop_get_admin_screens(), true )
+		) {
+			return;
 		}
-
+		$aioseop_welcome = new AIOSEOP_Welcome();
+		$aioseop_welcome->showPage();
 	}
 
 	/**
@@ -134,12 +143,6 @@ class AIOSEOP_Updates {
 		}
 
 		if (
-			version_compare( $old_version, '3.0.3', '<' )
-		) {
-			$this->reset_review_notice_201906();
-		}
-
-		if (
 				version_compare( $old_version, '3.1', '<' )
 		) {
 			$this->reset_flush_rewrite_rules_201906();
@@ -151,6 +154,20 @@ class AIOSEOP_Updates {
 				version_compare( $old_version, '3.2.6', '<' )
 		) {
 			$this->update_schema_markup_201907();
+		}
+
+		if ( version_compare( $old_version, '3.4.3', '<' ) ) {
+			if ( empty( $aioseop_options['modules']['aiosp_feature_manager_options']['aiosp_feature_manager_enable_sitemap'] ) ) {
+				aioseop_delete_rewrite_rules();
+			}
+		}
+
+		if ( version_compare( $old_version, '3.5.0', '<' ) ) {
+			$this->add_news_sitemap_post_types();
+		}
+
+		if ( version_compare( $old_version, '3.7.0', '<' ) ) {
+			$this->rssContent();
 		}
 	}
 
@@ -349,18 +366,6 @@ class AIOSEOP_Updates {
 	}
 
 	/**
-	 * Removes Review Plugin Notice
-	 *
-	 * @since 3.0.3
-	 */
-	public function reset_review_notice_201906() {
-		global $aioseop_notices;
-
-		$aioseop_notices->reset_notice( 'review_plugin' );
-		$aioseop_notices->remove_notice( 'review_plugin' );
-	}
-
-	/**
 	 * Flushes rewrite rules for XML Sitemap URL changes
 	 *
 	 * @since 3.1
@@ -420,6 +425,44 @@ class AIOSEOP_Updates {
 		$aiosp->update_class_option( $aioseop_options );
 	}
 
+	/**
+	 * Add default news sitemap post types.
+	 *
+	 * @since 3.5.0
+	 */
+	public function add_news_sitemap_post_types() {
+		global $aiosp;
+		global $aioseop_options;
+
+		if (
+			! isset( $aioseop_options['modules']['aiosp_sitemap_options'] ) ||
+			isset( $aioseop_options['modules']['aiosp_sitemap_options']['aiosp_sitemap_posttypes_news'] )
+		) {
+			return;
+		}
+
+		$aioseop_options['modules']['aiosp_sitemap_options']['aiosp_sitemap_posttypes_news'] = array( 'post' );
+		$aiosp->update_class_option( $aioseop_options );
+	}
+
+	/**
+	 * Sets the default values for the RSS Content settings.µ
+	 *
+	 * @since 3.7.0
+	 *
+	 * @return void
+	 */
+	private function rssContent() {
+		global $aioseop_options;
+		if ( ! isset( $aioseop_options['aiosp_rss_content_before'] ) && ! isset( $aioseop_options['aiosp_rss_content_after'] ) ) {
+			$aioseop_options['aiosp_rss_content_after'] = sprintf(
+				/* translators: 1 - The post title, 2 - The site title. */
+				__( 'The post %1$s first appeared on %2$s.', 'all-in-one-seo-pack' ),
+				'%post_link%',
+				'%site_link%'
+			);
+		}
+		update_option( 'aioseop_options', $aioseop_options );
+	}
+
 }
-
-

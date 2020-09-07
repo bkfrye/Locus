@@ -1,4 +1,4 @@
-﻿=== PDF Embedder ===
+=== PDF Embedder ===
 Contributors: levertechadmin
 Tags: doc, pdf, pdf viewer, office, google, document, embed, intranet
 Requires at least: 3.5
@@ -202,6 +202,12 @@ the Plugins section of your Wordpress admin
 1. Follow the instructions from step 4 above
 
 == Changelog ==
+
+= 4.6 =
+
+Fix language compatibility issue in viewer
+Fixes js and css files cache issue
+Added compatibility for Wordpress 5.3.2
 
 = 4.5 =
 

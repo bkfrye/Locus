@@ -3,11 +3,7 @@
 /**
  * Fields management panel.
  *
- * @package    WPForms
- * @author     WPForms
- * @since      1.0.0
- * @license    GPL-2.0+
- * @copyright  Copyright (c) 2016, WPForms LLC
+ * @since 1.0.0
  */
 class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 
@@ -52,7 +48,7 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 	}
 
 	/**
-	 * Outputs the Field panel sidebar.
+	 * Output the Field panel sidebar.
 	 *
 	 * @since 1.0.0
 	 */
@@ -92,7 +88,7 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 	}
 
 	/**
-	 * Outputs the Field panel primary content.
+	 * Output the Field panel primary content.
 	 *
 	 * @since 1.0.0
 	 */
@@ -116,7 +112,6 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 			return;
 		}
 
-		$recaptcha = wpforms_setting( 'recaptcha-type', 'v2' );
 		?>
 
 		<div class="wpforms-preview-wrap">
@@ -125,18 +120,31 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 
 				<div class="wpforms-title-desc">
 					<h2 class="wpforms-form-name"><?php echo esc_html( $this->form->post_title ); ?></h2>
-					<span class="wpforms-form-desc"><?php echo $this->form->post_excerpt; ?></span>
+					<span class="wpforms-form-desc"><?php echo wp_kses( $this->form->post_excerpt, wpforms_builder_preview_get_allowed_tags() ); ?></span>
+				</div>
+
+				<div class="wpforms-no-fields-holder wpforms-hidden">
+					<?php $this->no_fields_options(); ?>
+					<?php $this->no_fields_preview(); ?>
 				</div>
 
 				<div class="wpforms-field-wrap">
 					<?php do_action( 'wpforms_builder_preview', $this->form ); ?>
 				</div>
 
-				<?php if ( 'invisible' !== $recaptcha ) : ?>
-				<p class="wpforms-field-recaptcha">
-					<img src="<?php echo WPFORMS_PLUGIN_URL; ?>/assets/images/recaptcha-placeholder.png" style="max-width: 304px;">
-				</p>
-				<?php endif; ?>
+				<div class="wpforms-field-recaptcha">
+					<div class="wpforms-field-recaptcha-wrap">
+						<div class="wpforms-field-recaptcha-wrap-l">
+							<svg class="wpforms-field-recaptcha-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 27.918"><path d="M28 13.943l-.016-.607V2l-3.133 3.134a13.983 13.983 0 00-21.964.394l5.134 5.183a6.766 6.766 0 012.083-2.329A6.171 6.171 0 0114.025 7.1a1.778 1.778 0 01.492.066 6.719 6.719 0 015.17 3.119l-3.625 3.641 11.941.016" fill="#1c3aa9"/><path d="M13.943 0l-.607.016H2.018l3.133 3.133a13.969 13.969 0 00.377 21.964l5.183-5.134A6.766 6.766 0 018.382 17.9 6.171 6.171 0 017.1 13.975a1.778 1.778 0 01.066-.492 6.719 6.719 0 013.117-5.167l3.641 3.641L13.943 0" fill="#4285f4"/><path d="M0 13.975l.016.607v11.334l3.133-3.133a13.983 13.983 0 0021.964-.394l-5.134-5.183a6.766 6.766 0 01-2.079 2.33 6.171 6.171 0 01-3.92 1.279 1.778 1.778 0 01-.492-.066 6.719 6.719 0 01-5.167-3.117l3.641-3.641c-4.626 0-9.825.016-11.958-.016" fill="#ababab"/></svg>
+						</div>
+						<div class="wpforms-field-recaptcha-wrap-r">
+							<p class="wpforms-field-recaptcha-title"><?php esc_html_e( 'reCAPTCHA', 'wpforms-lite' ); ?></p>
+							<p class="wpforms-field-recaptcha-desc">
+								<span class="wpforms-field-recaptcha-desc-txt"><?php esc_html_e( 'Enabled', 'wpforms-lite' ); ?></span>&nbsp;<svg class="wpforms-field-recaptcha-desc-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M512 256c0-37.7-23.7-69.9-57.1-82.4 14.7-32.4 8.8-71.9-17.9-98.6-26.7-26.7-66.2-32.6-98.6-17.9C325.9 23.7 293.7 0 256 0s-69.9 23.7-82.4 57.1c-32.4-14.7-72-8.8-98.6 17.9-26.7 26.7-32.6 66.2-17.9 98.6C23.7 186.1 0 218.3 0 256s23.7 69.9 57.1 82.4c-14.7 32.4-8.8 72 17.9 98.6 26.6 26.6 66.1 32.7 98.6 17.9 12.5 33.3 44.7 57.1 82.4 57.1s69.9-23.7 82.4-57.1c32.6 14.8 72 8.7 98.6-17.9 26.7-26.7 32.6-66.2 17.9-98.6 33.4-12.5 57.1-44.7 57.1-82.4zm-144.8-44.25L236.16 341.74c-4.31 4.28-11.28 4.25-15.55-.06l-75.72-76.33c-4.28-4.31-4.25-11.28.06-15.56l26.03-25.82c4.31-4.28 11.28-4.25 15.56.06l42.15 42.49 97.2-96.42c4.31-4.28 11.28-4.25 15.55.06l25.82 26.03c4.28 4.32 4.26 11.29-.06 15.56z"></path></svg>
+							</p>
+						</div>
+					</div>
+				</div>
 
 				<?php
 				$submit = ! empty( $this->form_data['settings']['submit_text'] ) ? $this->form_data['settings']['submit_text'] : esc_html__( 'Submit', 'wpforms-lite' );
@@ -193,13 +201,24 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 
 			foreach ( $group['fields'] as $field ) {
 
-				$class = ! empty( $field['class'] ) ? sanitize_html_class( $field['class'] ) : '';
+				$atts = apply_filters( 'wpforms_builder_field_button_attributes', array(
+					'id'    => 'wpforms-add-fields-' . $field['type'],
+					'class' => array( 'wpforms-add-fields-button' ),
+					'data'  => array(
+						'field-type' => $field['type'],
+					),
+					'atts'  => array(),
+				), $field, $this->form_data );
 
-				echo '<button class="wpforms-add-fields-button ' . $class . '" id="wpforms-add-fields-' . esc_attr( $field['type'] ) . '" data-field-type="' . esc_attr( $field['type'] ) . '">';
-				if ( $field['icon'] ) {
-					echo '<i class="fa ' . esc_attr( $field['icon'] ) . '"></i> ';
+				if ( ! empty( $field['class'] ) ) {
+					$atts['class'][] = $field['class'];
 				}
-				echo esc_html( $field['name'] );
+
+				echo '<button ' . wpforms_html_attributes( $atts['id'], $atts['class'], $atts['data'], $atts['atts'] ) . '>';
+					if ( $field['icon'] ) {
+						echo '<i class="fa ' . esc_attr( $field['icon'] ) . '"></i> ';
+					}
+					echo esc_html( $field['name'] );
 				echo '</button>';
 			}
 
@@ -218,7 +237,7 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 
 		// Check to make sure the form actually has fields created already.
 		if ( empty( $this->form_data['fields'] ) ) {
-			printf( '<p class="no-fields">%s</p>', esc_html__( 'You don\'t have any fields yet.', 'wpforms-lite' ) );
+			$this->no_fields_options();
 
 			return;
 		}
@@ -229,7 +248,7 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 
 			$class = apply_filters( 'wpforms_builder_field_option_class', '', $field );
 
-			printf( '<div class="wpforms-field-option wpforms-field-option-%s %s" id="wpforms-field-option-%d" data-field-id="%d">', esc_attr( $field['type'] ), $class, $field['id'], $field['id'] );
+			printf( '<div class="wpforms-field-option wpforms-field-option-%s %s" id="wpforms-field-option-%d" data-field-id="%d">', sanitize_html_class( $field['type'] ), sanitize_html_class( $class ), (int) $field['id'], (int) $field['id'] );
 
 			printf( '<input type="hidden" name="fields[%d][id]" value="%d" class="wpforms-field-option-hidden-id">', $field['id'], $field['id'] );
 
@@ -250,7 +269,7 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 
 		// Check to make sure the form actually has fields created already.
 		if ( empty( $this->form_data['fields'] ) ) {
-			printf( '<p class="no-fields-preview">%s</p>', esc_html__( 'You don\'t have any fields yet. Add some!', 'wpforms-lite' ) );
+			$this->no_fields_preview();
 
 			return;
 		}
@@ -272,9 +291,11 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 
 			printf( '<div class="wpforms-field wpforms-field-%s %s" id="wpforms-field-%d" data-field-id="%d" data-field-type="%s">', $field['type'], $css, $field['id'], $field['id'], $field['type'] );
 
-			printf( '<a href="#" class="wpforms-field-duplicate" title="%s"><i class="fa fa-files-o" aria-hidden="true"></i></a>', esc_html__( 'Duplicate Field', 'wpforms-lite' ) );
+			if ( apply_filters( 'wpforms_field_preview_display_duplicate_button', true, $field, $this->form_data ) ) {
+				printf( '<a href="#" class="wpforms-field-duplicate" title="%s"><i class="fa fa-files-o" aria-hidden="true"></i></a>', esc_html__( 'Duplicate Field', 'wpforms-lite' ) );
+			}
 
-			printf( '<a href="#" class="wpforms-field-delete" title="%s"><i class="fa fa-times-circle" aria-hidden="true"></i></a>', esc_html__( 'Delete Field', 'wpforms-lite' ) );
+			printf( '<a href="#" class="wpforms-field-delete" title="%s"><i class="fa fa-trash" aria-hidden="true"></i></a>', esc_html__( 'Delete Field', 'wpforms-lite' ) );
 
 			printf( '<span class="wpforms-field-helper">%s</span>', esc_html__( 'Click to edit. Drag to reorder.', 'wpforms-lite' ) );
 
@@ -282,6 +303,32 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 
 			echo '</div>';
 		}
+	}
+
+	/**
+	 * No fields options markup.
+	 *
+	 * @since 1.6.0
+	 */
+	public function no_fields_options() {
+
+		printf(
+			'<p class="no-fields">%s</p>',
+			esc_html__( 'You don\'t have any fields yet.', 'wpforms-lite' )
+		);
+	}
+
+	/**
+	 * No fields preview placeholder markup.
+	 *
+	 * @since 1.6.0
+	 */
+	public function no_fields_preview() {
+
+		printf(
+			'<p class="no-fields-preview">%s</p>',
+			esc_html__( 'You don\'t have any fields yet. Add some!', 'wpforms-lite' )
+		);
 	}
 
 	/**
@@ -305,7 +352,8 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 	 */
 	public function field_preview_templates() {
 
-		// Checkbox, Radio, and Payment Multiple field choices.
+		// phpcs:disable WordPress.WP.I18n
+		// Checkbox, Radio, and Payment Multiple/Checkbox field choices.
 		?>
 		<script type="text/html" id="tmpl-wpforms-field-preview-checkbox-radio-payment-multiple">
 			<# if ( data.settings.choices_images ) { #>
@@ -326,7 +374,9 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 						<# } else { #>
 							<input class="wpforms-screen-reader-element" type="{{ data.type }}" disabled<# if ( 1 === data.settings.choices[choiceID].default ) { print( ' checked' ); } #>>
 						<# } #>
-						<span class="wpforms-image-choices-label">{{{ data.settings.choices[choiceID].label }}}</span>
+						<span class="wpforms-image-choices-label">
+							{{ WPFormsBuilder.fieldChoiceLabel( data, choiceID ) }}
+						</span>
 					</label>
 				</li>
 				<# }) #>
@@ -335,15 +385,17 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 			<ul class="primary-input">
 				<# _.each( data.order, function( choiceID, key ) {  #>
 				<li>
-					<input type="{{ data.type }}" disabled<# if ( 1 === data.settings.choices[choiceID].default ) { print( ' checked' ); } #>>{{{ data.settings.choices[choiceID].label }}}
+					<input type="{{ data.type }}" disabled<# if ( 1 === data.settings.choices[choiceID].default ) { print( ' checked' ); } #>>
+					{{ WPFormsBuilder.fieldChoiceLabel( data, choiceID ) }}
 				</li>
 				<# }) #>
 			</ul>
 			<# } #>
 		</script>
 		<?php
+		// phpcs:enable
 	}
 
 }
 
-new WPForms_Builder_Panel_Fields;
+new WPForms_Builder_Panel_Fields();

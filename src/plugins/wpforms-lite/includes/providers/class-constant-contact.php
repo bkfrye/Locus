@@ -3,11 +3,7 @@
 /**
  * Constant Contact integration.
  *
- * @package    WPForms
- * @author     WPForms
- * @since      1.3.6
- * @license    GPL-2.0+
- * @copyright  Copyright (c) 2017, WPForms LLC
+ * @since 1.3.6
  */
 class WPForms_Constant_Contact extends WPForms_Provider {
 
@@ -649,7 +645,7 @@ class WPForms_Constant_Contact extends WPForms_Provider {
 
 		// Output the notice message.
 		$connect    = admin_url( 'admin.php?page=wpforms-settings&wpforms-integration=constant-contact#!wpforms-tab-providers' );
-		$learn_more = admin_url( 'admin.php?page=wpforms-page&wpforms-page=constant-contact ' );
+		$learn_more = admin_url( 'admin.php?page=wpforms-page&wpforms-page=constant-contact' );
 		?>
 		<div class="notice notice-info is-dismissible wpforms-constant-contact-notice">
 			<p>
@@ -747,7 +743,7 @@ class WPForms_Constant_Contact extends WPForms_Provider {
 		<div class="wrap about-wrap">
 			<h1><?php esc_html_e( 'Grow Your Website with WPForms + Email Marketing', 'wpforms-lite' ); ?></h1>
 			<p><?php esc_html_e( 'Wondering if email marketing is really worth your time?', 'wpforms-lite' ); ?></p>
-			<p><?php echo wp_kses( __( 'Email is hands-down the most effective way to nurture leads and turn them into customers, with a return on investment (ROI) of <strong>$44 back for every $1 spent</strong> according to Direct Marketing Association.', 'wpforms-lite' ), array( 'strong' => array() ) ); ?></p>
+			<p><?php echo wp_kses( __( 'Email is hands-down the most effective way to nurture leads and turn them into customers, with a return on investment (ROI) of <strong>$44 back for every $1 spent</strong> according to DMA.', 'wpforms-lite' ), array( 'strong' => array() ) ); ?></p>
 			<p><?php esc_html_e( 'Here are 3 big reasons why every smart business in the world has an email list:', 'wpforms-lite' ); ?></p>
 			<a href="<?php echo esc_url( $this->sign_up ); ?>" target="_blank" rel="noopener noreferrer">
 				<img src="<?php echo WPFORMS_PLUGIN_URL; ?>assets/images/cc-about-logo.png" class="logo">
@@ -881,6 +877,7 @@ class WPForms_Constant_Contact extends WPForms_Provider {
 			.about-wrap .logo {
 				float: right;
 				margin-top: 0.8em;
+				width: auto;
 			}
 
 			.about-wrap .reasons {

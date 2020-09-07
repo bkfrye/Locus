@@ -7,11 +7,7 @@ use WPForms\Integrations\IntegrationInterface;
 /**
  * WP Mail SMTP hints inside form builder notifications.
  *
- * @package    WPForms\Integrations\Gutenberg
- * @author     WPForms
- * @since      1.4.8
- * @license    GPL-2.0+
- * @copyright  Copyright (c) 2018, WPForms LLC
+ * @since 1.4.8
  */
 class Notifications implements IntegrationInterface {
 
@@ -25,7 +21,7 @@ class Notifications implements IntegrationInterface {
 	public $options;
 
 	/**
-	 * Indicates if current integration is allowed to load.
+	 * Indicate if current integration is allowed to load.
 	 *
 	 * @since 1.4.8
 	 *
@@ -36,7 +32,7 @@ class Notifications implements IntegrationInterface {
 	}
 
 	/**
-	 * Loads an integration.
+	 * Load an integration.
 	 *
 	 * @since 1.4.8
 	 */

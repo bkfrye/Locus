@@ -3,11 +3,7 @@
 /**
  * Tools admin page class.
  *
- * @package    WPForms
- * @author     WPForms
- * @since      1.3.9
- * @license    GPL-2.0+
- * @copyright  Copyright (c) 2017, WPForms LLC
+ * @since 1.3.9
  */
 class WPForms_Tools {
 
@@ -84,32 +80,55 @@ class WPForms_Tools {
 	public function init() {
 
 		// Check what page we are on.
-		$page = isset( $_GET['page'] ) ? $_GET['page'] : '';
+		$page = isset( $_GET['page'] ) ? $_GET['page'] : ''; // phpcs:ignore WordPress.Security
 
 		// Only load if we are actually on the settings page.
 		if ( 'wpforms-tools' !== $page ) {
 			return;
 		}
 
+		$views = array();
+
+		if ( wpforms_current_user_can( 'create_forms' ) ) {
+			$views[ esc_html__( 'Import', 'wpforms-lite' ) ] = array( 'import', 'importer' );
+		}
+
+		if ( wpforms_current_user_can( array( 'view_forms', 'view_entries' ) ) ) {
+			$views[ esc_html__( 'Export', 'wpforms-lite' ) ] = array( 'export' );
+		}
+
+		if ( wpforms_current_user_can() ) {
+			$views[ esc_html__( 'System Info', 'wpforms-lite' ) ]       = array( 'system' );
+			$views[ esc_html__( 'Scheduled Actions', 'wpforms-lite' ) ] = array( 'action-scheduler' );
+		}
+
+		if ( wpforms_current_user_can() && class_exists( 'ActionScheduler_AdminView' ) ) {
+			$views[ esc_html__( 'Scheduled Actions', 'wpforms-lite' ) ] = array( 'action-scheduler' );
+		}
+
 		// Define the core views for the tools tab.
-		$this->views = apply_filters(
-			'wpforms_tools_views',
-			array(
-				esc_html__( 'Import', 'wpforms-lite' )      => array( 'import', 'importer' ),
-				esc_html__( 'Export', 'wpforms-lite' )      => array( 'export' ),
-				esc_html__( 'System Info', 'wpforms-lite' ) => array( 'system' ),
-			)
-		);
+		$this->views = apply_filters( 'wpforms_tools_views', $views );
+
+		$view_ids = call_user_func_array( 'array_merge', $views );
 
 		// Determine the current active settings tab.
-		$this->view = ! empty( $_GET['view'] ) ? esc_html( $_GET['view'] ) : 'import';
+		$this->view = ! empty( $_GET['view'] ) ? sanitize_key( $_GET['view'] ) : 'import'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
-		// If the user tries to load a invalid view fallback to import.
+		// If the user tries to load an invalid view - fallback to the first available.
 		if (
-			! in_array( $this->view, call_user_func_array( 'array_merge', $this->views ), true ) &&
+			! in_array( $this->view, $view_ids, true ) &&
 			! has_action( 'wpforms_tools_display_tab_' . sanitize_key( $this->view ) )
 		) {
-			$this->view = 'import';
+			$this->view = reset( $view_ids );
+		}
+
+		if ( empty( $this->view ) ) {
+			return;
+		}
+
+		// This is required to catch all manual "Cancel" and "Run" events performed for hooks.
+		if ( 'action-scheduler' === $this->view && class_exists( 'ActionScheduler_AdminView' ) ) {
+			ActionScheduler_AdminView::instance()->process_admin_ui();
 		}
 
 		if ( in_array( $this->view, array( 'import', 'importer' ), true ) ) {
@@ -124,16 +143,14 @@ class WPForms_Tools {
 			}
 
 			// Load the Underscores templates for importers.
-			add_action( 'admin_print_scripts', array( $this, 'importer_templates' ) );
+			add_action( 'admin_print_scripts', [ $this, 'importer_templates' ] );
 		}
 
 		// Retrieve available forms.
-		$this->forms = wpforms()->form->get( '', array(
-			'orderby' => 'title',
-		) );
+		$this->forms = wpforms()->form->get( '', [ 'orderby' => 'title' ] );
 
-		add_action( 'wpforms_tools_init', array( $this, 'import_export_process' ) );
-		add_action( 'wpforms_admin_page', array( $this, 'output' ) );
+		add_action( 'wpforms_tools_init', [ $this, 'import_export_process' ] );
+		add_action( 'wpforms_admin_page', [ $this, 'output' ] );
 
 		// Hook for addons.
 		do_action( 'wpforms_tools_init' );
@@ -155,19 +172,19 @@ class WPForms_Tools {
 		}
 		?>
 
-		<div id="wpforms-tools" class="wrap wpforms-admin-wrap">
+		<div id="wpforms-tools" class="wrap wpforms-admin-wrap wpforms-tools-tab-<?php echo esc_attr( $this->view ); ?>">
 
 			<?php
 			if ( $show_nav ) {
 				echo '<ul class="wpforms-admin-tabs">';
 				foreach ( $this->views as $label => $view ) {
 					$view  = (array) $view;
-					$class = in_array( $this->view, $view, true ) ? ' class="active"' : '';
+					$class = in_array( $this->view, $view, true ) ? 'active' : '';
 					echo '<li>';
 						printf(
-							'<a href="%s"%s>%s</a>',
-							admin_url( 'admin.php?page=wpforms-tools&view=' . sanitize_key( $view[0] ) ),
-							$class,
+							'<a href="%1$s" class="%2$s">%3$s</a>',
+							esc_url( admin_url( 'admin.php?page=wpforms-tools&view=' . sanitize_key( $view[0] ) ) ),
+							sanitize_html_class( $class ),
 							esc_html( $label )
 						);
 					echo '</li>';
@@ -178,23 +195,18 @@ class WPForms_Tools {
 
 			<h1 class="wpforms-h1-placeholder"></h1>
 
-			<?php
+			<?php // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			if ( isset( $_GET['wpforms_notice'] ) && 'forms-imported' === $_GET['wpforms_notice'] ) {
 				?>
 				<div class="updated notice is-dismissible">
 					<p>
 						<?php
 						printf(
-							wp_kses(
-								/* translators: %s - Forms list page URL. */
+							wp_kses( /* translators: %s - Forms list page URL. */
 								__( 'Import was successfully finished. You can go and <a href="%s">check your forms</a>.', 'wpforms-lite' ),
-								array(
-									'a' => array(
-										'href' => array(),
-									),
-								)
+								[ 'a' => [ 'href' => [] ] ]
 							),
-							admin_url( 'admin.php?page=wpforms-overview' )
+							esc_url( admin_url( 'admin.php?page=wpforms-overview' ) )
 						);
 						?>
 					</p>
@@ -218,6 +230,9 @@ class WPForms_Tools {
 					case 'import':
 						$this->import_tab();
 						break;
+					case 'action-scheduler':
+						$this->action_scheduler_tab();
+						break;
 					default:
 						do_action( 'wpforms_tools_display_tab_' . sanitize_key( $this->view ) );
 						break;
@@ -237,12 +252,12 @@ class WPForms_Tools {
 		?>
 
 		<div class="wpforms-setting-row tools">
-			<h3><?php esc_html_e( 'WPForms Import', 'wpforms-lite' ); ?></h3>
+			<h4><?php esc_html_e( 'WPForms Import', 'wpforms-lite' ); ?></h4>
 			<p><?php esc_html_e( 'Select a WPForms export file.', 'wpforms-lite' ); ?></p>
 
 			<form method="post" enctype="multipart/form-data" action="<?php echo esc_url( admin_url( 'admin.php?page=wpforms-tools&view=import' ) ); ?>">
 				<div class="wpforms-file-upload">
-					<input type="file" name="file" id="wpforms-tools-form-import" class="inputfile" data-multiple-caption="<?php esc_attr_e( '{count} files selected', 'wpforms-lite' ); ?>" accept=".json" />
+					<input type="file" name="file" id="wpforms-tools-form-import" class="inputfile" data-multiple-caption="{count} <?php esc_attr_e( 'files selected', 'wpforms-lite' ); ?>" accept=".json" />
 					<label for="wpforms-tools-form-import">
 						<span class="fld"><span class="placeholder"><?php esc_html_e( 'No file chosen', 'wpforms-lite' ); ?></span></span>
 						<strong class="wpforms-btn wpforms-btn-md wpforms-btn-light-grey">
@@ -258,7 +273,7 @@ class WPForms_Tools {
 		</div>
 
 		<div class="wpforms-setting-row tools" id="wpforms-importers">
-			<h3><?php esc_html_e( 'Import from Other Form Plugins', 'wpforms-lite' ); ?></h3>
+			<h4><?php esc_html_e( 'Import from Other Form Plugins', 'wpforms-lite' ); ?></h4>
 			<p><?php esc_html_e( 'Not happy with other WordPress contact form plugins?', 'wpforms-lite' ); ?></p>
 			<p><?php esc_html_e( 'WPForms makes it easy for you to switch by allowing you import your third-party forms with a single click.', 'wpforms-lite' ); ?></p>
 
@@ -269,7 +284,7 @@ class WPForms_Tools {
 					<form method="get" action="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>">
 						<span class="choicesjs-select-wrap">
 							<select class="choicesjs-select" name="provider" required>
-								<option value=""><?php esc_html_e( 'Select previous contact form plugin...', 'wpforms-lite' ); ?></option>
+								<option value="" placeholder><?php esc_html_e( 'Select previous contact form plugin...', 'wpforms-lite' ); ?></option>
 								<?php
 								foreach ( $this->importers as $importer ) {
 									$status = '';
@@ -382,7 +397,7 @@ class WPForms_Tools {
 					<a href="#" class="wpforms-btn wpforms-btn-md wpforms-btn-light-grey" id="wpforms-importer-continue-submit"><?php esc_html_e( 'Continue Import without Upgrading', 'wpforms-lite' ); ?></a>
 				</p>
 				<hr>
-				<p><?php esc_html_e( 'Below are the list of form fields that may be impacted:', 'wpforms-lite' ); ?></p>
+				<p><?php esc_html_e( 'Below is the list of form fields that may be impacted:', 'wpforms-lite' ); ?></p>
 			</div>
 		</div>
 
@@ -512,11 +527,27 @@ class WPForms_Tools {
 	 */
 	public function export_tab() {
 
+		do_action( 'wpforms_admin_tools_export_top' );
+
+		if ( $this->forms ) {
+			$this->export_tab_html();
+		}
+
+		do_action( 'wpforms_admin_tools_export_bottom' );
+	}
+
+	/**
+	 * Export tab contents.
+	 *
+	 * @since 1.5.8
+	 */
+	public function export_tab_html() {
+
 		?>
 
 		<div class="wpforms-setting-row tools">
 
-			<h3 id="form-export"><?php esc_html_e( 'Form Export', 'wpforms-lite' ); ?></h3>
+			<h4 id="form-export"><?php esc_html_e( 'Form Export', 'wpforms-lite' ); ?></h4>
 
 			<p><?php esc_html_e( 'Form exports files can be used to create a backup of your forms or to import forms into another site.', 'wpforms-lite' ); ?></p>
 
@@ -524,9 +555,10 @@ class WPForms_Tools {
 				<?php
 				if ( ! empty( $this->forms ) ) {
 					echo '<span class="choicesjs-select-wrap">';
-						echo '<select id="wpforms-tools-form-export" class="choicesjs-select" name="forms[]" multiple data-placeholder="' . esc_attr__( 'Select form(s)', 'wpforms-lite' ) . '">';
+						echo '<select id="wpforms-tools-form-export" class="choicesjs-select" name="forms[]" multiple>';
+							printf( '<option value="" placeholder>%s</option>', esc_html__( 'Select Form(s)', 'wpforms-lite' ) );
 							foreach ( $this->forms as $form ) {
-								printf( '<option value="%d">%s</option>', $form->ID, esc_html( $form->post_title ) );
+								printf( '<option value="%d">%s</option>', absint( $form->ID ), esc_html( $form->post_title ) );
 							}
 						echo '</select>';
 					echo '</span>';
@@ -543,7 +575,7 @@ class WPForms_Tools {
 
 		<div class="wpforms-setting-row tools">
 
-			<h3 id="template-export"><?php esc_html_e( 'Form Template Export', 'wpforms-lite' ); ?></h3>
+			<h4 id="template-export"><?php esc_html_e( 'Form Template Export', 'wpforms-lite' ); ?></h4>
 
 			<?php
 			if ( $this->template ) {
@@ -575,8 +607,9 @@ class WPForms_Tools {
 				if ( ! empty( $this->forms ) ) {
 					echo '<span class="choicesjs-select-wrap">';
 						echo '<select id="wpforms-tools-form-template" class="choicesjs-select" name="form">';
+						printf( '<option value="" placeholder>%s</option>', esc_html__( 'Select a Template', 'wpforms-lite' ) );
 							foreach ( $this->forms as $form ) {
-								printf( '<option value="%d">%s</option>', $form->ID, esc_html( $form->post_title ) );
+								printf( '<option value="%d">%s</option>', absint( $form->ID ), esc_html( $form->post_title ) );
 							}
 						echo '</select>';
 					echo '</span>';
@@ -602,20 +635,38 @@ class WPForms_Tools {
 	 */
 	public function system_info_tab() {
 
+		if ( ! wpforms_current_user_can() ) {
+			return;
+		}
+
 		?>
 
 		<div class="wpforms-setting-row tools">
-			<h3 id="form-export"><?php esc_html_e( 'System Information', 'wpforms-lite' ); ?></h3>
+			<h4 id="form-export"><?php esc_html_e( 'System Information', 'wpforms-lite' ); ?></h4>
 			<textarea readonly="readonly" class="info-area"><?php echo $this->get_system_info(); ?></textarea>
 		</div>
 
 		<div class="wpforms-setting-row tools">
-			<h3 id="ssl-verify"><?php esc_html_e( 'Test SSL Connections', 'wpforms-lite' ); ?></h3>
+			<h4 id="ssl-verify"><?php esc_html_e( 'Test SSL Connections', 'wpforms-lite' ); ?></h4>
 			<p><?php esc_html_e( 'Click the button below to verify your web server can perform SSL connections successfully.', 'wpforms-lite' ); ?></p>
 			<button type="button" id="wpforms-ssl-verify" class="wpforms-btn wpforms-btn-md wpforms-btn-orange"><?php esc_html_e( 'Test Connection', 'wpforms-lite' ); ?></button>
 		</div>
 
 		<?php
+	}
+
+	/**
+	 * Scheduled Actions tab contents.
+	 *
+	 * @since 1.6.1
+	 */
+	public function action_scheduler_tab() {
+
+		if ( ! class_exists( 'ActionScheduler_AdminView' ) ) {
+			return;
+		}
+
+		ActionScheduler_AdminView::instance()->render_admin_ui();
 	}
 
 	/**
@@ -635,118 +686,175 @@ class WPForms_Tools {
 		}
 
 		// Check for valid nonce and permission.
-		if (
-			! wp_verify_nonce( $_POST['wpforms-tools-importexport-nonce'], 'wpforms_import_nonce' ) ||
-			! wpforms_current_user_can()
-		) {
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['wpforms-tools-importexport-nonce'] ) ), 'wpforms_import_nonce' ) ) {
 			return;
-		}
-
-		// Export Form(s).
-		if ( 'export_form' === $_POST['action'] && ! empty( $_POST['forms'] ) ) {
-
-			$export = array();
-			$forms  = get_posts( array(
-				'post_type'     => 'wpforms',
-				'no_found_rows' => true,
-				'nopaging'      => true,
-				'post__in'      => array_map( 'intval', $_POST['forms'] ),
-			) );
-
-			foreach ( $forms as $form ) {
-				$export[] = wpforms_decode( $form->post_content );
-			}
-
-			ignore_user_abort( true );
-
-			if ( ! in_array( 'set_time_limit', explode( ',', ini_get( 'disable_functions' ) ), true ) ) {
-				set_time_limit( 0 );
-			}
-
-			nocache_headers();
-			header( 'Content-Type: application/json; charset=utf-8' );
-			header( 'Content-Disposition: attachment; filename=wpforms-form-export-' . date( 'm-d-Y' ) . '.json' );
-			header( 'Expires: 0' );
-
-			echo wp_json_encode( $export );
-			exit;
 		}
 
 		// Import Form(s).
 		if ( 'import_form' === $_POST['action'] && ! empty( $_FILES['file']['tmp_name'] ) ) {
+			$this->import_process();
+		}
 
-			$ext = strtolower( pathinfo( $_FILES['file']['name'], PATHINFO_EXTENSION ) );
-
-			if ( 'json' !== $ext ) {
-				wp_die(
-					esc_html__( 'Please upload a valid .json form export file.', 'wpforms-lite' ),
-					esc_html__( 'Error', 'wpforms-lite' ),
-					array(
-						'response' => 400,
-					)
-				);
-			}
-
-			$forms = json_decode( file_get_contents( $_FILES['file']['tmp_name'] ), true );
-
-			if ( ! empty( $forms ) ) {
-
-				foreach ( $forms as $form ) {
-
-					$title  = ! empty( $form['settings']['form_title'] ) ? $form['settings']['form_title'] : '';
-					$desc   = ! empty( $form['settings']['form_desc'] ) ? $form['settings']['form_desc'] : '';
-					$new_id = wp_insert_post( array(
-						'post_title'   => $title,
-						'post_status'  => 'publish',
-						'post_type'    => 'wpforms',
-						'post_excerpt' => $desc,
-					) );
-					if ( $new_id ) {
-						$form['id'] = $new_id;
-						wp_update_post(
-							array(
-								'ID'           => $new_id,
-								'post_content' => wpforms_encode( $form ),
-							)
-						);
-					}
-				}
-				wp_safe_redirect( admin_url( 'admin.php?page=wpforms-tools&view=importexport&wpforms_notice=forms-imported' ) );
-				exit;
-			}
+		// Export Form(s).
+		if ( 'export_form' === $_POST['action'] && ! empty( $_POST['forms'] ) ) {
+			$this->export_process();
 		}
 
 		// Export form template.
 		if ( 'export_template' === $_POST['action'] && ! empty( $_POST['form'] ) ) {
+			$this->export_template_process();
+		}
+	}
 
-			$form_data = wpforms()->form->get( absint( $_POST['form'] ), array(
-				'content_only' => true,
-			) );
+	/**
+	 * Import processing.
+	 *
+	 * @since 1.5.8
+	 */
+	protected function import_process() {
 
-			if ( ! $form_data ) {
-				return;
+		if ( ! wpforms_current_user_can( 'create_forms' ) ) {
+			return;
+		}
+
+		// Add filter of the link rel attr to avoid JSON damage.
+		add_filter( 'wp_targeted_link_rel', '__return_empty_string', 50, 1 );
+
+		$ext = isset( $_FILES['file']['name'] ) ? strtolower( pathinfo( sanitize_text_field( wp_unslash( $_FILES['file']['name'] ) ), PATHINFO_EXTENSION ) ) : '';
+
+		if ( 'json' !== $ext ) {
+			wp_die(
+				esc_html__( 'Please upload a valid .json form export file.', 'wpforms-lite' ),
+				esc_html__( 'Error', 'wpforms-lite' ),
+				array(
+					'response' => 400,
+				)
+			);
+		}
+
+		$tmp_name = isset( $_FILES['file']['tmp_name'] ) ? sanitize_text_field( $_FILES['file']['tmp_name'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- wp_unslash() breaks upload on Windows.
+		$forms    = json_decode( file_get_contents( $tmp_name ), true );
+
+		if ( empty( $forms ) || ! is_array( $forms ) ) {
+			wp_die(
+				esc_html__( 'Form data cannot be imported.', 'wpforms-lite' ),
+				esc_html__( 'Error', 'wpforms-lite' ),
+				array(
+					'response' => 400,
+				)
+			);
+		}
+
+		foreach ( $forms as $form ) {
+
+			$title  = ! empty( $form['settings']['form_title'] ) ? $form['settings']['form_title'] : '';
+			$desc   = ! empty( $form['settings']['form_desc'] ) ? $form['settings']['form_desc'] : '';
+			$new_id = wp_insert_post(
+				array(
+					'post_title'   => $title,
+					'post_status'  => 'publish',
+					'post_type'    => 'wpforms',
+					'post_excerpt' => $desc,
+				)
+			);
+			if ( $new_id ) {
+				$form['id'] = $new_id;
+				wp_update_post(
+					array(
+						'ID'           => $new_id,
+						'post_content' => wpforms_encode( $form ),
+					)
+				);
 			}
+		}
+		wp_safe_redirect( admin_url( 'admin.php?page=wpforms-tools&view=importexport&wpforms_notice=forms-imported' ) );
+		exit;
+	}
 
-			// Define basic data.
-			$name  = sanitize_text_field( $form_data['settings']['form_title'] );
-			$desc  = sanitize_text_field( $form_data['settings']['form_desc'] );
-			$slug  = sanitize_key( str_replace( ' ', '_', $form_data['settings']['form_title'] ) );
-			$class = 'WPForms_Template_' . $slug;
+	/**
+	 * Export processing.
+	 *
+	 * @since 1.5.8
+	 */
+	protected function export_process() {
 
-			// Format template field and settings data.
-			$data                     = $form_data;
-			$data['meta']['template'] = $slug;
-			$data['fields']           = wpforms_array_remove_empty_strings( $data['fields'] );
-			$data['settings']         = wpforms_array_remove_empty_strings( $data['settings'] );
+		if ( ! wpforms_current_user_can( 'create_forms' ) ) {
+			return;
+		}
 
-			unset( $data['id'] );
+		$export = array();
+		$forms  = get_posts(
+			array(
+				'post_type'     => 'wpforms',
+				'no_found_rows' => true,
+				'nopaging'      => true,
+				'post__in'      => isset( $_POST['forms'] ) ? array_map( 'intval', $_POST['forms'] ) : array(), // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			)
+		);
 
-			$data = var_export( $data, true );
-			$data = str_replace( '  ', "\t", $data );
-			$data = preg_replace( '/([\t\r\n]+?)array/', 'array', $data );
+		foreach ( $forms as $form ) {
+			$export[] = wpforms_decode( $form->post_content );
+		}
 
-			// Build the final template string.
-			$this->template = <<<EOT
+		ignore_user_abort( true );
+
+		if ( ! in_array( 'set_time_limit', explode( ',', ini_get( 'disable_functions' ) ), true ) ) {
+			set_time_limit( 0 );
+		}
+
+		nocache_headers();
+		header( 'Content-Type: application/json; charset=utf-8' );
+		header( 'Content-Disposition: attachment; filename=wpforms-form-export-' . current_time( 'm-d-Y' ) . '.json' );
+		header( 'Expires: 0' );
+
+		echo wp_json_encode( $export );
+		exit;
+	}
+
+	/**
+	 * Export template processing.
+	 *
+	 * @since 1.5.8
+	 */
+	protected function export_template_process() {
+
+		if ( ! wpforms_current_user_can( 'create_forms' ) ) {
+			return;
+		}
+
+		if ( ! isset( $_POST['form'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			return;
+		}
+
+		$form_data = wpforms()->form->get(
+			absint( $_POST['form'] ), // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			array( 'content_only' => true )
+		);
+
+		if ( ! $form_data ) {
+			return;
+		}
+
+		// Define basic data.
+		$name  = sanitize_text_field( $form_data['settings']['form_title'] );
+		$desc  = sanitize_text_field( $form_data['settings']['form_desc'] );
+		$slug  = sanitize_key( str_replace( ' ', '_', $form_data['settings']['form_title'] ) );
+		$class = 'WPForms_Template_' . $slug;
+
+		// Format template field and settings data.
+		$data                     = $form_data;
+		$data['meta']['template'] = $slug;
+		$data['fields']           = wpforms_array_remove_empty_strings( $data['fields'] );
+		$data['settings']         = wpforms_array_remove_empty_strings( $data['settings'] );
+
+		unset( $data['id'] );
+
+		$data = var_export( $data, true ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export
+		$data = str_replace( '  ', "\t", $data );
+		$data = preg_replace( '/([\t\r\n]+?)array/', 'array', $data );
+
+		// Build the final template string.
+		$this->template = <<<EOT
 if ( class_exists( 'WPForms_Template', false ) ) :
 /**
  * {$name}
@@ -777,7 +885,6 @@ class {$class} extends WPForms_Template {
 new {$class};
 endif;
 EOT;
-		} // End if().
 	}
 
 	/**

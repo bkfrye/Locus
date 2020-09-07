@@ -3,11 +3,7 @@
 /**
  * Ask for some love.
  *
- * @package    WPForms
- * @author     WPForms
- * @since      1.3.2
- * @license    GPL-2.0+
- * @copyright  Copyright (c) 2017, WPForms LLC
+ * @since 1.3.2
  */
 class WPForms_Review {
 
@@ -38,7 +34,7 @@ class WPForms_Review {
 			return;
 		}
 
-		// If the user has opted out of product annoucement notifications, don't
+		// If the user has opted out of product announcement notifications, don't
 		// display the review request.
 		if ( wpforms_setting( 'hide-announcements', false ) ) {
 			return;
@@ -102,7 +98,7 @@ class WPForms_Review {
 			</p>
 		</div>
 		<script type="text/javascript">
-			jQuery( document ).ready( function ( $ ) {
+			jQuery( function ( $ ) {
 				$( document ).on( 'click', '.wpforms-dismiss-review-notice, .wpforms-review-notice button', function ( event ) {
 					if ( ! $( this ).hasClass( 'wpforms-review-out' ) ) {
 						event.preventDefault();
@@ -166,7 +162,7 @@ class WPForms_Review {
 			</p>
 		</div>
 		<script type="text/javascript">
-			jQuery( document ).ready( function ( $ ) {
+			jQuery( function ( $ ) {
 				$( document ).on( 'click', '.wpforms-dismiss-review-notice, .wpforms-review-notice button', function ( event ) {
 					if ( ! $( this ).hasClass( 'wpforms-review-out' ) ) {
 						event.preventDefault();

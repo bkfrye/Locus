@@ -3,11 +3,7 @@
 /**
  * Settings management panel.
  *
- * @package    WPForms
- * @author     WPForms
- * @since      1.0.0
- * @license    GPL-2.0+
- * @copyright  Copyright (c) 2016, WPForms LLC
+ * @since 1.0.0
  */
 class WPForms_Builder_Panel_Settings extends WPForms_Builder_Panel {
 
@@ -27,7 +23,7 @@ class WPForms_Builder_Panel_Settings extends WPForms_Builder_Panel {
 	}
 
 	/**
-	 * Outputs the Settings panel sidebar.
+	 * Output the Settings panel sidebar.
 	 *
 	 * @since 1.0.0
 	 */
@@ -41,7 +37,7 @@ class WPForms_Builder_Panel_Settings extends WPForms_Builder_Panel {
 		$sections = array(
 			'general'       => esc_html__( 'General', 'wpforms-lite' ),
 			'notifications' => esc_html__( 'Notifications', 'wpforms-lite' ),
-			'confirmation'  => esc_html__( 'Confirmation', 'wpforms-lite' ),
+			'confirmation'  => esc_html__( 'Confirmations', 'wpforms-lite' ),
 		);
 		$sections = apply_filters( 'wpforms_builder_settings_sections', $sections, $this->form_data );
 		foreach ( $sections as $slug => $section ) {
@@ -50,7 +46,7 @@ class WPForms_Builder_Panel_Settings extends WPForms_Builder_Panel {
 	}
 
 	/**
-	 * Outputs the Settings panel primary content.
+	 * Output the Settings panel primary content.
 	 *
 	 * @since 1.0.0
 	 */
@@ -139,23 +135,45 @@ class WPForms_Builder_Panel_Settings extends WPForms_Builder_Panel {
 					'tooltip' => esc_html__( 'Enter CSS class names for the form submit button. Multiple names should be separated with spaces.', 'wpforms-lite' ),
 				)
 			);
+			if ( ! empty( $this->form_data['settings']['honeypot'] ) ) {
+				wpforms_panel_field(
+					'checkbox',
+					'settings',
+					'honeypot',
+					$this->form_data,
+					esc_html__( 'Enable anti-spam honeypot', 'wpforms-lite' )
+				);
+			}
 			wpforms_panel_field(
 				'checkbox',
 				'settings',
-				'honeypot',
+				'antispam',
 				$this->form_data,
-				esc_html__( 'Enable anti-spam honeypot', 'wpforms-lite' )
+				esc_html__( 'Enable anti-spam protection', 'wpforms-lite' )
 			);
+
 			$recaptcha_key    = wpforms_setting( 'recaptcha-site-key' );
 			$recaptcha_secret = wpforms_setting( 'recaptcha-secret-key' );
-			$recaptcha_type   = wpforms_setting( 'recaptcha-type' );
+			$recaptcha_type   = wpforms_setting( 'recaptcha-type', 'v2' );
+
 			if ( ! empty( $recaptcha_key ) && ! empty( $recaptcha_secret ) ) {
+				switch ( $recaptcha_type ) {
+					case 'v2':
+						$lbl = esc_html__( 'Enable Google Checkbox v2 reCAPTCHA', 'wpforms-lite' );
+						break;
+					case 'invisible':
+						$lbl = esc_html__( 'Enable Google Invisible v2 reCAPTCHA', 'wpforms-lite' );
+						break;
+					case 'v3':
+						$lbl = esc_html__( 'Enable Google v3 reCAPTCHA', 'wpforms-lite' );
+						break;
+				}
 				wpforms_panel_field(
 					'checkbox',
 					'settings',
 					'recaptcha',
 					$this->form_data,
-					'invisible' === $recaptcha_type ? esc_html__( 'Enable Google invisible reCAPTCHA', 'wpforms-lite' ) : esc_html__( 'Enable Google reCAPTCHA (v2)', 'wpforms-lite' )
+					$lbl
 				);
 			}
 			wpforms_panel_field(
@@ -166,6 +184,16 @@ class WPForms_Builder_Panel_Settings extends WPForms_Builder_Panel {
 				esc_html__( 'Enable dynamic fields population', 'wpforms-lite' ),
 				array(
 					'tooltip' => '<a href="https://developers.wpforms.com/docs/enable-dynamic-field-population/" target="_blank" rel="noopener noreferrer">' . esc_html__( 'How to use Dynamic Field Population', 'wpforms-lite' ) . '</a>',
+				)
+			);
+			wpforms_panel_field(
+				'checkbox',
+				'settings',
+				'ajax_submit',
+				$this->form_data,
+				esc_html__( 'Enable AJAX form submission', 'wpforms-lite' ),
+				array(
+					'tooltip' => esc_html__( 'Enables form submission without page reload.', 'wpforms-lite' ),
 				)
 			);
 

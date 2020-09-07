@@ -205,7 +205,7 @@ var WPFormsDashboardWidget = window.WPFormsDashboardWidget || ( function( docume
 		 * @since 1.5.0
 		 */
 		init: function() {
-			$( document ).ready( app.ready );
+			$( app.ready );
 		},
 
 		/**
@@ -235,19 +235,21 @@ var WPFormsDashboardWidget = window.WPFormsDashboardWidget || ( function( docume
 		formsListEvents: function() {
 
 			el.$widget.on( 'click', '#wpforms-dash-widget-forms-more', function() {
-				app.showCompleteFormsList();
+				app.toggleCompleteFormsList();
 			} );
 		},
 
 		/**
-		 * Show forms list hidden entries.
+		 * Toggle forms list hidden entries.
 		 *
-		 * @since 1.5.0
+		 * @since 1.5.0.4
 		 */
-		showCompleteFormsList: function() {
+		toggleCompleteFormsList: function() {
 
-			$( '#wpforms-dash-widget-forms-list-table tr' ).show();
-			$( '#wpforms-dash-widget-forms-more' ).remove();
+			$( '#wpforms-dash-widget-forms-list-table .wpforms-dash-widget-forms-list-hidden-el' ).toggle();
+			$( '#wpforms-dash-widget-forms-more' ).html( function( i, html ) {
+				return html === wpforms_dashboard_widget.show_less_html ? wpforms_dashboard_widget.show_more_html : wpforms_dashboard_widget.show_less_html;
+			} );
 		},
 	};
 

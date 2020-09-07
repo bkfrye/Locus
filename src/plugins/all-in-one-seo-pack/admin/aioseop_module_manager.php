@@ -165,7 +165,8 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module_Manager' ) ) {
 			$classname             = 'All_in_One_SEO_Pack_' . strtr( ucwords( strtr( $mod, '_', ' ' ) ), ' ', '_' );
 			$classname             = apply_filters( "aioseop_class_$mod", $classname );
 			$module_class          = new $classname( $args );
-			$GLOBALS[ $ref ]       = $module_class;
+			global $$ref;
+			$$ref = $module_class;
 			$this->modules[ $mod ] = $module_class;
 			if ( is_user_logged_in() && is_admin_bar_showing() && current_user_can( 'aiosp_manage_seo' ) ) {
 				add_action(
@@ -255,7 +256,19 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module_Manager' ) ) {
 				}
 			}
 			if ( $mod_enable ) {
-				return $this->do_load_module( $mod );
+				if ( AIOSEOPPRO ) {
+					return $this->do_load_module( $mod );
+				}
+
+				// Don't load Pro modules if Pro was previously installed.
+				switch ( $mod ) {
+					case 'schema_local_business':
+					case 'video_sitemap':
+					case 'image_seo':
+						break;
+					default:
+						return $this->do_load_module( $mod );
+				}
 			}
 
 			return false;

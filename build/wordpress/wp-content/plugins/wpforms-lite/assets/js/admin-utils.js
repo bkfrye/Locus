@@ -1,3 +1,5 @@
+/* global wpforms_builder */
+
 ;
 var wpf = {
 
@@ -20,7 +22,7 @@ var wpf = {
 
 		wpf.bindUIActions();
 
-		jQuery(document).ready(wpf.ready);
+		jQuery( wpf.ready );
 	},
 
 	/**
@@ -155,7 +157,7 @@ var wpf = {
 				fields         = formData.fields,
 				fieldOrder     = [],
 				fieldsOrdered  = [],
-				fieldBlacklist = ['html','divider','pagebreak'];
+				fieldBlacklist = [ 'html', 'pagebreak' ];
 
 			if (!fields) {
 				return false;
@@ -264,13 +266,13 @@ var wpf = {
 	 * @since 1.0.1
 	 * @deprecated 1.2.8
 	 *
-	 * @param string str String to sanitize.
+	 * @param {string} str String to sanitize.
 	 *
-	 * @return string
+	 * @returns {string} String after sanitization.
 	 */
 	sanitizeString: function( str ) {
 
-		if (typeof str === 'string' || str instanceof String) {
+		if ( typeof str === 'string' || str instanceof String ) {
 			return str.trim();
 		}
 		return str;
@@ -323,6 +325,27 @@ var wpf = {
 	},
 
 	/**
+	 * Remove defined query parameter in the current URL.
+	 *
+	 * @see https://gist.github.com/simonw/9445b8c24ddfcbb856ec#gistcomment-3117674
+	 *
+	 * @since 1.5.8
+	 *
+	 * @param {string} name The name of the parameter to be removed.
+	 */
+	removeQueryParam: function( name ) {
+
+		if ( wpf.getQueryString( name ) ) {
+			var replace = '[\\?&]' + name + '=[^&]+',
+				re      = new RegExp( replace );
+
+			history.replaceState && history.replaceState(
+				null, '', location.pathname + location.search.replace( re, '' ).replace( /^&/, '?' ) + location.hash
+			);
+		}
+	},
+
+	/**
 	 * Is number?
 	 *
 	 * @since 1.2.3
@@ -338,7 +361,8 @@ var wpf = {
 	 */
 	amountSanitize: function(amount) {
 
-		amount = amount.replace(/[^0-9.,]/g,'');
+		// Convert to string and allow only numbers, dots and commas.
+		amount = String( amount ).replace( /[^0-9.,]/g, '' );
 
 		if ( wpforms_builder.currency_decimal == ',' && ( amount.indexOf(wpforms_builder.currency_decimal) !== -1 ) ) {
 			if ( wpforms_builder.currency_thousands == '.' && amount.indexOf(wpforms_builder.currency_thousands) !== -1 ) {;
@@ -381,6 +405,30 @@ var wpf = {
 		}
 
 		return wpf.numberFormat( amount, 2, wpforms_builder.currency_decimal, wpforms_builder.currency_thousands );
+	},
+
+	/**
+	 * Format amount with currency symbol.
+	 *
+	 * @since 1.6.2
+	 *
+	 * @param {string} amount Amount to format.
+	 *
+	 * @returns {string} Formatted amount (for instance $ 128.00).
+	 */
+	amountFormatCurrency: function( amount ) {
+
+		var sanitized  = wpf.amountSanitize( amount ),
+			formatted  = wpf.amountFormat( sanitized ),
+			result;
+
+		if ( wpforms_builder.currency_symbol_pos === 'right' ) {
+			result = formatted + ' ' + wpforms_builder.currency_symbol;
+		} else {
+			result = wpforms_builder.currency_symbol + ' ' + formatted;
+		}
+
+		return result;
 	},
 
 	/**
@@ -569,6 +617,74 @@ var wpf = {
 			multiple: true,
 			interactive: true
 		} );
-	}
+	},
+
+	/**
+	 * Validate a URL.
+	 * source: `https://github.com/segmentio/is-url/blob/master/index.js`
+	 *
+	 * @since 1.5.8
+	 *
+	 * @param {string} url URL for checking.
+	 *
+	 * @returns {boolean} True if `url` is a valid URL.
+	 */
+	isURL: function( url ) {
+
+		/**
+		 * RegExps.
+		 * A URL must match #1 and then at least one of #2/#3.
+		 * Use two levels of REs to avoid REDOS.
+		 */
+		var protocolAndDomainRE  = /^(?:http(?:s?):)?\/\/(\S+)/;
+		var localhostDomainRE    = /^localhost[\:?\d]*(?:[^\:?\d]\S*)?$/;
+		var nonLocalhostDomainRE = /^[^\s\.]+\.\S{2,}$/;
+
+		if ( typeof url !== 'string' ) {
+			return false;
+		}
+
+		var match = url.match( protocolAndDomainRE );
+		if ( ! match ) {
+			return false;
+		}
+
+		var everythingAfterProtocol = match[1];
+		if ( ! everythingAfterProtocol ) {
+			return false;
+		}
+
+		if ( localhostDomainRE.test( everythingAfterProtocol ) || nonLocalhostDomainRE.test( everythingAfterProtocol ) ) {
+			return true;
+		}
+
+		return false;
+	},
+
+	/**
+	 * Sanitize HTML.
+	 * Uses: `https://github.com/cure53/DOMPurify`
+	 *
+	 * @since 1.5.9
+	 *
+	 * @param {string} string HTML to sanitize.
+	 *
+	 * @returns {string} Sanitized HTML.
+	 */
+	sanitizeHTML: function( string ) {
+
+		var purify = window.DOMPurify;
+
+		if ( typeof purify === 'undefined' ) {
+			return string;
+		}
+
+		if ( typeof string !== 'string' ) {
+			string = string.toString();
+		}
+
+		return purify.sanitize( string, { SAFE_FOR_JQUERY: true } );
+	},
 };
+
 wpf.init();

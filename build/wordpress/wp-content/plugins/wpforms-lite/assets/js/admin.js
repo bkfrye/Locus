@@ -1,4 +1,4 @@
-/* global wp, _, wpforms_admin, jconfirm, wpCookies, Choices, List */
+/* global wpforms_admin, jconfirm, wpCookies, Choices, List */
 
 ;(function($) {
 
@@ -30,7 +30,7 @@
 			s = this.settings;
 
 			// Document ready.
-			$( document ).ready( WPFormsAdmin.ready );
+			$( WPFormsAdmin.ready );
 
 			// Forms Overview.
 			WPFormsAdmin.initFormOverview();
@@ -134,6 +134,12 @@
 				});
 			});
 
+			// Lity lightbox.
+			WPFormsAdmin.initLity();
+
+			// Flyout Menu.
+			WPFormsAdmin.initFlyoutMenu();
+
 			// Action available for each binding.
 			$( document ).trigger( 'wpformsReady' );
 		},
@@ -148,16 +154,16 @@
 			$( '.choicesjs-select' ).each( function() {
 				var $this = $( this ),
 					args  = { searchEnabled: false };
+
 				if ( $this.attr( 'multiple' ) ) {
-					args.searchEnabled = true;
+					args.searchEnabled    = true;
 					args.removeItemButton = true;
 				}
-				if ( $this.data( 'placeholder' ) ) {
-					args.placeholderValue = $this.data( 'placeholder' );
-				}
+
 				if ( $this.data( 'sorting' ) === 'off' ) {
 					args.shouldSort = false;
 				}
+
 				if ( $this.data( 'search' ) ) {
 					args.searchEnabled = true;
 				}
@@ -168,8 +174,42 @@
 				args.noChoicesText = wpforms_admin.choicesjs_no_choices;
 				args.itemSelectText = wpforms_admin.choicesjs_item_select;
 
-				new Choices( $this[0], args );
-			});
+				// Function to run once Choices initialises.
+				// We need to reproduce a behaviour like on public-facing area for "Edit Entry" page.
+				args.callbackOnInit = function() {
+
+					var self      = this,
+						$element  = $( self.passedElement.element ),
+						$input    = $( self.input.element ),
+						sizeClass = $element.data( 'size-class' );
+
+					// Add CSS-class for size.
+					if ( sizeClass ) {
+						$( self.containerOuter.element ).addClass( sizeClass );
+					}
+
+					/**
+					 * If a multiple select has selected choices - hide a placeholder input.
+					 * We use a custom styles like a `.screen-reader-text` for it,
+					 * because it avoid an issue with closing a dropdown.
+					 */
+					if ( $element.prop( 'multiple' ) ) {
+
+						// On init event.
+						if ( self.getValue( true ).length ) {
+							$input.addClass( self.config.classNames.input + '--hidden' );
+						}
+
+						// On change event.
+						$element.on( 'change', function() {
+
+							self.getValue( true ).length ? $input.addClass( self.config.classNames.input + '--hidden' ) : $input.removeClass( self.config.classNames.input + '--hidden' );
+						} );
+					}
+				};
+
+				$this.data( 'choicesjs', new Choices( $this[0], args ) );
+			} );
 		},
 
 		/**
@@ -316,10 +356,10 @@
 				event.preventDefault();
 
 				// Handle cookie.
-				if ( wpCookies.get( 'wpforms_entry_hide_empty' ) === 'true') {
+				if ( wpCookies.get( 'wpforms_entry_hide_empty' ) === 'true' ) {
 
 					// User was hiding empty fields, so now display them.
-					wpCookies.remove('wpforms_entry_hide_empty');
+					wpCookies.remove( 'wpforms_entry_hide_empty' );
 					$( this ).text( wpforms_admin.entry_empty_fields_hide );
 				} else {
 
@@ -328,7 +368,7 @@
 					$( this ).text( wpforms_admin.entry_empty_fields_show );
 				}
 
-				$( '.wpforms-entry-field.empty' ).toggle();
+				$( '.wpforms-entry-field.empty, .wpforms-edit-entry-field.empty' ).toggle();
 			});
 
 			// Display notes editor.
@@ -474,10 +514,11 @@
 
 				event.preventDefault();
 
-				var $this = $( this ),
-					task  = '',
-					total = Number( $( '#wpforms-entries-list .starred-num' ).text() ),
-					id    = $this.data( 'id' );
+				var $this  = $( this ),
+					task   = '',
+					total  = Number( $( '#wpforms-entries-list .starred-num' ).text() ),
+					id     = $this.data( 'id' ),
+					formId = $this.data( 'form-id' );
 
 				if ( $this.hasClass( 'star' ) ) {
 					task = 'star';
@@ -495,7 +536,8 @@
 					task    : task,
 					action  : 'wpforms_entry_list_star',
 					nonce   : wpforms_admin.nonce,
-					entry_id: id
+					entryId : id,
+					formId  : formId,
 				};
 				$.post( wpforms_admin.ajax_url, data );
 			});
@@ -526,7 +568,8 @@
 					task    : task,
 					action  : 'wpforms_entry_list_read',
 					nonce   : wpforms_admin.nonce,
-					entry_id: id
+					entryId : id,
+					formId  : $this.data( 'form-id' ),
 				};
 				$.post( wpforms_admin.ajax_url, data );
 			});
@@ -569,12 +612,19 @@
 				var $entriesList = $( '#wpforms-entries-list' );
 
 				// Works on entry list page only.
-				if ( ! $entriesList.length ) {
+				if ( ! $entriesList.length || $entriesList.find( '.wpforms-dash-widget' ).length ) {
 					return;
 				}
 
-				data.wpforms_new_entries_entry_id = $entriesList.find( '#wpforms-entries-table' ).data( 'last-entry-id' );
-				data.wpforms_new_entries_form_id = $entriesList.find( 'input[name=form_id]' ).val();
+				var last_entry_id = $entriesList.find( '#wpforms-entries-table' ).data( 'last-entry-id' );
+
+				// When entries list is filtered, there is no data param at all.
+				if ( typeof last_entry_id === 'undefined' ) {
+					return;
+				}
+
+				data.wpforms_new_entries_entry_id = last_entry_id;
+				data.wpforms_new_entries_form_id  = $entriesList.find( 'input[name=form_id]' ).val();
 			} );
 
 			// Display entries list notification if Heartbeat API new form entries check is successful.
@@ -605,9 +655,9 @@
 						duration: 500,
 						start   : function () {
 							$( this ).css( {
-								display: 'block',
+								display: 'block'
 							} );
-						},
+						}
 					} );
 			} );
 		},
@@ -628,10 +678,8 @@
 					var $modalContent = this.$content,
 						$select       = $modalContent.find( 'select' ),
 						choices       = new Choices( $select[0], {
-							maxItemCount: 5,
 							shouldSort: false,
 							removeItemButton: true,
-							placeholderValue: wpforms_admin.choicesjs_fields_select + '...',
 							loadingText: wpforms_admin.choicesjs_loading,
 							noResultsText: wpforms_admin.choicesjs_no_results,
 							noChoicesText: wpforms_admin.choicesjs_no_choices,
@@ -644,15 +692,17 @@
 
 					$( '.jconfirm-content-pane, .jconfirm-box' ).css( 'overflow','visible' );
 
-					choices.passedElement.addEventListener( 'change', function() {
-						choices.hideDropdown();
+					choices.passedElement.element.addEventListener( 'change', function() {
+
+						// Without `true` parameter dropdown will be hidden together with modal window when `Enter` is pressed.
+						choices.hideDropdown( true );
 					}, false );
 				},
 				buttons: {
 					confirm: {
 						text: wpforms_admin.save_refresh,
 						btnClass: 'btn-confirm',
-						keys: ['enter'],
+						keys: [ 'enter' ],
 						action: function() {
 							this.$content.find( 'form' ).submit();
 						}
@@ -681,7 +731,7 @@
 
 				event.preventDefault();
 
-				var video = '<div class="video-container"><iframe width="1280" height="720" src="https://www.youtube-nocookie.com/embed/yDyvSGV7tP4?rel=0&amp;showinfo=0&amp;autoplay=1" frameborder="0" allowfullscreen></iframe></div>';
+				var video = '<div class="video-container"><iframe width="1280" height="720" src="https://www.youtube-nocookie.com/embed/o2nE1P74WxQ?rel=0&amp;showinfo=0&amp;autoplay=1" frameborder="0" allowfullscreen></iframe></div>';
 
 				$.dialog({
 					title: false,
@@ -766,6 +816,12 @@
 				errorText,
 				successText;
 
+			if ( $btn.hasClass( 'status-go-to-url' ) ) {
+				// Open url in new tab.
+				window.open( $btn.attr('data-plugin'), '_blank' );
+				return;
+			}
+
 			$btn.prop( 'disabled', true ).addClass( 'loading' );
 			$btn.html( s.iconSpinner );
 
@@ -801,8 +857,8 @@
 
 			} else if ( $btn.hasClass( 'status-download' ) ) {
 				// Install & Activate.
-				action     = 'wpforms_install_addon';
-				cssClass   = 'status-active';
+				action   = 'wpforms_install_addon';
+				cssClass = 'status-active';
 				if ( plugin_type === 'plugin' ) {
 					cssClass += ' button disabled';
 				}
@@ -811,7 +867,7 @@
 				if ( plugin_type === 'addon' ) {
 					buttonText = s.iconActivate + wpforms_admin.addon_deactivate;
 				}
-				errorText  = s.iconInstall + wpforms_admin.addon_activate;
+				errorText = s.iconInstall + wpforms_admin.addon_activate;
 
 			} else {
 				return;
@@ -929,6 +985,26 @@
 							}
 						},
 						effect: 'appear'
+					},
+					// reCAPTCHA > Score Threshold.
+					{
+						conditions: {
+							element:   'input[name=recaptcha-type]:checked',
+							type:      'value',
+							operator:  '=',
+							condition: 'v3'
+						},
+						actions: {
+							if: {
+								element: '#wpforms-setting-row-recaptcha-v3-threshold',
+								action:	 'show'
+							},
+							else : {
+								element: '#wpforms-setting-row-recaptcha-v3-threshold',
+								action:	 'hide'
+							}
+						},
+						effect: 'appear'
 					}
 				] );
 			});
@@ -994,13 +1070,21 @@
 			});
 
 			// Integration individual display toggling.
-			$( document ).on( 'click', '.wpforms-settings-provider-header', function( event ) {
+			$( document ).on( 'click', '.wpforms-settings-provider:not(.focus-out) .wpforms-settings-provider-header:not(.disabled)', function( event ) {
 
 				event.preventDefault();
 
-				$( this ).parent().find( '.wpforms-settings-provider-accounts' ).slideToggle();
-				$( this ).parent().find( '.wpforms-settings-provider-logo i' ).toggleClass( 'fa-chevron-right fa-chevron-down' );
-			});
+				var $this = $( this );
+
+				$this
+					.addClass( 'disabled' )
+					.parent()
+					.find( '.wpforms-settings-provider-accounts' )
+					.slideToggle( '', function() {
+						$this.removeClass( 'disabled' );
+						$this.parent().find( '.wpforms-settings-provider-logo i' ).toggleClass( 'fa-chevron-right fa-chevron-down' );
+					} );
+			} );
 
 			// Integration accounts display toggling.
 			$( document ).on( 'click', '.wpforms-settings-provider-accounts-toggle a', function( event ) {
@@ -1261,7 +1345,7 @@
 				buttonLabel = $btn.text(),
 				$provider   = $btn.closest( '.wpforms-settings-provider' ),
 				data        = {
-					action  : 'wpforms_settings_provider_add',
+					action  : 'wpforms_settings_provider_add_' + $btn.data( 'provider' ),
 					data    : $btn.closest( 'form' ).serialize(),
 					provider: $btn.data( 'provider' ),
 					nonce   : wpforms_admin.nonce
@@ -1312,7 +1396,7 @@
 			var $this = $( el ),
 				$provider = $this.parents('.wpforms-settings-provider'),
 				data = {
-					action  : 'wpforms_settings_provider_disconnect',
+					action  : 'wpforms_settings_provider_disconnect_' + $this.data( 'provider' ),
 					provider: $this.data( 'provider' ),
 					key     : $this.data( 'key'),
 					nonce   : wpforms_admin.nonce
@@ -1454,8 +1538,13 @@
 
 				if ( res.success ){
 					$btn.before( '<div class="wpforms-alert wpforms-alert-success">' + res.data.msg + '</div>' );
-				} else {
+				}
+
+				if ( ! res.success && res.data.msg ) {
 					$btn.before( '<div class="wpforms-alert wpforms-alert-danger">' + res.data.msg + '</div>' );
+				}
+
+				if ( ! res.success && res.data.debug ) {
 					$btn.before( '<div class="wpforms-ssl-error pre-error">' + res.data.debug + '</div>' );
 				}
 
@@ -1717,6 +1806,92 @@
 					}
 				}
 			});
+		},
+
+		/**
+		 * Element bindings for Flyout Menu.
+		 *
+		 * @since 1.5.7
+		 */
+		initFlyoutMenu: function() {
+
+			// Flyout Menu Elements.
+			var $flyoutMenu    = $( '#wpforms-flyout' );
+
+			if ( $flyoutMenu.length === 0 ) {
+				return;
+			}
+
+			var	$head   = $flyoutMenu.find( '.wpforms-flyout-head' ),
+				$sullie = $head.find( 'img' ),
+				menu    = {
+					state: 'inactive',
+					srcInactive: $sullie.attr( 'src' ),
+					srcActive: $sullie.data( 'active' ),
+				};
+
+			// Click on the menu head icon.
+			$head.on( 'click', function( e ) {
+
+				e.preventDefault();
+
+				if ( menu.state === 'active' ) {
+					$flyoutMenu.removeClass( 'opened' );
+					$sullie.attr( 'src', menu.srcInactive );
+					menu.state = 'inactive';
+				} else {
+					$flyoutMenu.addClass( 'opened' );
+					$sullie.attr( 'src', menu.srcActive );
+					menu.state = 'active';
+				}
+			} );
+
+			// Page elements and other values.
+			var $wpfooter = $( '#wpfooter' );
+
+			if ( $wpfooter.length === 0 ) {
+				return;
+			}
+
+			var	$overlap       = $( '#wpforms-overview, #wpforms-entries-list, #wpforms-tools.wpforms-tools-tab-action-scheduler' ),
+				wpfooterTop    = $wpfooter.offset().top,
+				wpfooterBottom = wpfooterTop + $wpfooter.height(),
+				overlapBottom  = $overlap.length > 0 ? $overlap.offset().top + $overlap.height() + 85 : 0;
+
+			// Hide menu if scrolled down to the bottom of the page.
+			$( window ).on( 'resize scroll', _.debounce( function( e ) {
+
+				var viewTop = $( window ).scrollTop(),
+					viewBottom = viewTop + $( window ).height();
+
+				if ( wpfooterBottom <= viewBottom && wpfooterTop >= viewTop && overlapBottom > viewBottom ) {
+					$flyoutMenu.addClass( 'out' );
+				} else {
+					$flyoutMenu.removeClass( 'out' );
+				}
+			}, 50 ) );
+
+			$( window ).trigger( 'scroll' );
+		},
+
+		/**
+		 * Lity improvements.
+		 *
+		 * @since 1.5.8
+		 */
+		initLity: function() {
+
+			// Use `data-lity-srcset` opener's attribute for add srcset to full image in opened lightbox.
+			$( document ).on( 'lity:ready', function( event, instance ) {
+
+				var $el     = instance.element(),
+					$opener = instance.opener(),
+					srcset = typeof $opener !== 'undefined' ? $opener.data( 'lity-srcset' ) : '';
+
+				if ( typeof srcset !== 'undefined' && srcset !== '' ) {
+					$el.find( '.lity-content img' ).attr( 'srcset', srcset );
+				}
+			} );
 		},
 
 		//--------------------------------------------------------------------//

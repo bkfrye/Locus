@@ -263,8 +263,8 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 		 * @throws BadMethodCallException
 		 */
 		function __call( $name, $arguments ) {
-			if ( $this->strpos( $name, 'display_settings_page_' ) === 0 ) {
-				return $this->display_settings_page( $this->substr( $name, 22 ) );
+			if ( AIOSEOP_PHP_Functions::strpos( $name, 'display_settings_page_' ) === 0 ) {
+				return $this->display_settings_page( AIOSEOP_PHP_Functions::substr( $name, 22 ) );
 			}
 			$error = sprintf( __( "Method %s doesn't exist", 'all-in-one-seo-pack' ), $name );
 			if ( class_exists( 'BadMethodCallException' ) ) {
@@ -319,6 +319,12 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 			if ( false == $option_name ) {
 				$option_name = $this->get_option_name();
 			}
+
+			// Delete rewrite rules when the XML Sitemap module is deactivated.
+			if ( 'aiosp_feature_manager_options' === $option_name && 'on' !== $option_data['aiosp_feature_manager_enable_sitemap'] ) {
+				aioseop_delete_rewrite_rules();
+			}
+
 			if ( $this->store_option || $option_name == $this->parent_option ) {
 				return update_option( $option_name, $option_data );
 			} else {
@@ -380,168 +386,6 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 			$opt    = $prefix . $option;
 
 			return ( isset( $this->options[ $opt ] ) && $this->options[ $opt ] );
-		}
-
-		/**
-		 * Case conversion; handle non UTF-8 encodings and fallback **
-		 *
-		 * @param        $str
-		 * @param string $mode
-		 *
-		 * @return string
-		 */
-
-		function convert_case( $str, $mode = 'upper' ) {
-			static $charset = null;
-			if ( null == $charset ) {
-				$charset = get_bloginfo( 'charset' );
-			}
-			$str = (string) $str;
-			if ( 'title' == $mode ) {
-				if ( function_exists( 'mb_convert_case' ) ) {
-					return mb_convert_case( $str, MB_CASE_TITLE, $charset );
-				} else {
-					return ucwords( $str );
-				}
-			}
-
-			if ( 'UTF-8' == $charset ) {
-				// phpcs:disable WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
-				global $UTF8_TABLES;
-				include_once( AIOSEOP_PLUGIN_DIR . 'inc/aioseop_UTF8.php' );
-				if ( is_array( $UTF8_TABLES ) ) {
-					if ( 'upper' == $mode ) {
-						return strtr( $str, $UTF8_TABLES['strtoupper'] );
-					}
-					if ( 'lower' == $mode ) {
-						return strtr( $str, $UTF8_TABLES['strtolower'] );
-					}
-				}
-				// phpcs:enable
-			}
-
-			if ( 'upper' == $mode ) {
-				if ( function_exists( 'mb_strtoupper' ) ) {
-					return mb_strtoupper( $str, $charset );
-				} else {
-					return strtoupper( $str );
-				}
-			}
-
-			if ( 'lower' == $mode ) {
-				if ( function_exists( 'mb_strtolower' ) ) {
-					return mb_strtolower( $str, $charset );
-				} else {
-					return strtolower( $str );
-				}
-			}
-
-			return $str;
-		}
-
-		/**
-		 * Convert a string to lower case
-		 * Compatible with mb_strtolower(), an UTF-8 friendly replacement for strtolower()
-		 *
-		 * @param $str
-		 *
-		 * @return string
-		 */
-		function strtolower( $str ) {
-			return $this->convert_case( $str, 'lower' );
-		}
-
-		/**
-		 * Convert a string to upper case
-		 * Compatible with mb_strtoupper(), an UTF-8 friendly replacement for strtoupper()
-		 *
-		 * @param $str
-		 *
-		 * @return string
-		 */
-		function strtoupper( $str ) {
-			return $this->convert_case( $str, 'upper' );
-		}
-
-		/**
-		 * Convert a string to title case
-		 * Compatible with mb_convert_case(), an UTF-8 friendly replacement for ucwords()
-		 *
-		 * @param $str
-		 *
-		 * @return string
-		 */
-		function ucwords( $str ) {
-			return $this->convert_case( $str, 'title' );
-		}
-
-		/**
-		 * Wrapper for strlen() - uses mb_strlen() if possible.
-		 *
-		 * @param $string
-		 *
-		 * @return int
-		 */
-		function strlen( $string ) {
-			if ( function_exists( 'mb_strlen' ) ) {
-				return mb_strlen( $string, 'UTF-8' );
-			}
-
-			return strlen( $string );
-		}
-
-		/**
-		 * Wrapper for substr() - uses mb_substr() if possible.
-		 *
-		 * @param     $string
-		 * @param int $start
-		 * @param int $length
-		 *
-		 * @return mixed
-		 */
-		function substr( $string, $start = 0, $length = 2147483647 ) {
-			$args = func_get_args();
-			if ( function_exists( 'mb_substr' ) ) {
-				return call_user_func_array( 'mb_substr', $args );
-			}
-
-			return call_user_func_array( 'substr', $args );
-		}
-
-		/**
-		 * Wrapper for strpos() - uses mb_strpos() if possible.
-		 *
-		 * @param        $haystack
-		 * @param string $needle
-		 *
-		 * @param int    $offset
-		 *
-		 * @return bool|int
-		 */
-		function strpos( $haystack, $needle, $offset = 0 ) {
-			if ( function_exists( 'mb_strpos' ) ) {
-				return mb_strpos( $haystack, $needle, $offset, 'UTF-8' );
-			}
-
-			return strpos( $haystack, $needle, $offset );
-		}
-
-		/**
-		 * Wrapper for strrpos() - uses mb_strrpos() if possible.
-		 *
-		 * @param        $haystack
-		 * @param string $needle
-		 *
-		 * @param int    $offset
-		 *
-		 * @return bool|int
-		 */
-		function strrpos( $haystack, $needle, $offset = 0 ) {
-			if ( function_exists( 'mb_strrpos' ) ) {
-				return mb_strrpos( $haystack, $needle, $offset, 'UTF-8' );
-			}
-
-			return strrpos( $haystack, $needle, $offset );
 		}
 
 		/**
@@ -613,6 +457,8 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 							}
 						}
 					}
+				default:
+					return array();
 			}
 			// phpcs:enable
 			if ( empty( $output ) ) {
@@ -679,7 +525,7 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 				}
 
 				// @codingStandardsIgnoreStart
-				return $wpdb->get_col( "SELECT blog_id FROM {$wpdb->blogs} WHERE site_id = {$blog_id} AND site_id != blog_id" );
+				return $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM {$wpdb->blogs} WHERE site_id = %d AND site_id != blog_id", $blog_id ) );
 				// @codingStandardsIgnoreEnd
 			}
 
@@ -1086,25 +932,6 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 		}
 
 		/**
-		 * Get Term Labels
-		 *
-		 * @since ?
-		 *
-		 * @param $post_objs
-		 * @return array
-		 */
-		function get_term_labels( $post_objs ) {
-			$post_types = array();
-			foreach ( $post_objs as $p ) {
-				if ( ! empty( $p->name ) ) {
-					$post_types[ $p->term_id ] = $p->name;
-				}
-			}
-
-			return $post_types;
-		}
-
-		/**
 		 * Get Post Type Titles
 		 *
 		 * @since ?
@@ -1133,22 +960,6 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 		}
 
 		/**
-		 * Gets the category titles.
-		 *
-		 * @since 3.0 Changed function name from `get_category_titles` to `get_term_titles`. (#240)
-		 * @since 3.0 Changed `get_categories()` to `get_terms()` to fetch all (custom) terms. (#240)
-		 *
-		 * @see WP_Term_Query::__constructor()
-		 * @link https://developer.wordpress.org/reference/classes/wp_term_query/__construct/
-		 *
-		 * @param array $args An array for arguments to query by. See WP_Term_Query::__constructor() for more info.
-		 * @return array
-		 */
-		function get_term_titles( $args = array() ) {
-			return $this->get_term_labels( get_terms( $args ) );
-		}
-
-		/**
 		 * Helper function for exporting settings on post data.
 		 *
 		 * @param string $prefix
@@ -1172,7 +983,7 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 
 				if ( is_array( $post_custom_fields ) ) {
 					foreach ( $post_custom_fields as $field_name => $field ) {
-						if ( ( $this->strpos( $field_name, $prefix ) === 0 ) && $field[0] ) {
+						if ( ( AIOSEOP_PHP_Functions::strpos( $field_name, $prefix ) === 0 ) && $field[0] ) {
 							$has_data = true;
 							$data    .= $field_name . " = '" . $field[0] . "'\n";
 						}
@@ -1216,13 +1027,12 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 			if ( ! empty( $_REQUEST['aiosp_importer_exporter_export_choices'] ) ) {
 				$exporter_choices = $_REQUEST['aiosp_importer_exporter_export_choices'];
 			}
+
+			$post_types = isset( $_REQUEST['aiosp_importer_exporter_export_post_types'] ) ? $_REQUEST['aiosp_importer_exporter_export_post_types'] : array();
 			if ( ! empty( $exporter_choices ) && is_array( $exporter_choices ) ) {
 				foreach ( $exporter_choices as $ex ) {
 					if ( 1 == $ex ) {
 						$general_settings = true;
-					}
-					if ( 2 == $ex && isset( $_REQUEST['aiosp_importer_exporter_export_post_types'] ) ) {
-						$post_types = $_REQUEST['aiosp_importer_exporter_export_post_types'];
 					}
 				}
 			}
@@ -1289,6 +1099,7 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 		 * @return bool
 		 */
 		function output_error( $error ) {
+			$error = esc_html( $error );
 			echo "<div class='aioseop_module error'>$error</div>";
 
 			return false;
@@ -1475,9 +1286,9 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 						return $file;
 					}
 					if ( 0 > $maxlen ) {
-						return $this->substr( $file, $offset );
+						return AIOSEOP_PHP_Functions::substr( $file, $offset );
 					} else {
-						return $this->substr( $file, $offset, $maxlen );
+						return AIOSEOP_PHP_Functions::substr( $file, $offset, $maxlen );
 					}
 				} else {
 					return $wpfs->get_contents( $filename );
@@ -1918,9 +1729,10 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 		 * Get the Image by Attachment
 		 *
 		 * @since ?
+		 * @since 3.4 Change return variable type bool|string to just string.
 		 *
-		 * @param null $p
-		 * @return bool
+		 * @param null|WP_Post $p WP Post object.
+		 * @return string Image URL.
 		 */
 		function get_the_image_by_attachment( $p = null ) {
 
@@ -1928,6 +1740,10 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 				global $post;
 			} else {
 				$post = $p;
+			}
+
+			if ( empty( $post ) ) {
+				return '';
 			}
 
 			$attachments = get_children(
@@ -1948,7 +1764,7 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 
 			/* If no attachments or image is found, return false. */
 			if ( empty( $attachments ) && empty( $image ) ) {
-				return false;
+				return '';
 			}
 
 			/* Set the default iterator to 0. */
@@ -1973,10 +1789,13 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 		/**
 		 * Get the Image by Scan
 		 *
-		 * @since ?
+		 * Scans a Post's content by (regex) capturing an <img> element's source for the image URL.
 		 *
-		 * @param null $p
-		 * @return bool
+		 * @since ?
+		 * @since 3.4 Change return variable type bool|string to just string.
+		 *
+		 * @param null|WP_Post $p WP Post object.
+		 * @return string Image URL source.
 		 */
 		function get_the_image_by_scan( $p = null ) {
 			if ( null === $p ) {
@@ -1985,15 +1804,21 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 				$post = $p;
 			}
 
+			if ( empty( $post ) ) {
+				return '';
+			}
+
+			$rtn_url = '';
+
 			/* Search the post's content for the <img /> tag and get its URL. */
 			preg_match_all( '|<img.*?src=[\'"](.*?)[\'"].*?>|i', get_post_field( 'post_content', $post->ID ), $matches );
 
 			/* If there is a match for the image, return its URL. */
 			if ( isset( $matches ) && ! empty( $matches[1][0] ) ) {
-				return $matches[1][0];
+				$rtn_url = $matches[1][0];
 			}
 
-			return false;
+			return $rtn_url;
 		}
 
 		/**
@@ -2222,8 +2047,8 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 		 */
 		function add_page_hooks() {
 			$hookname = current_filter();
-			if ( $this->strpos( $hookname, 'load-' ) === 0 ) {
-				$this->pagehook = $this->substr( $hookname, 5 );
+			if ( AIOSEOP_PHP_Functions::strpos( $hookname, 'load-' ) === 0 ) {
+				$this->pagehook = AIOSEOP_PHP_Functions::substr( $hookname, 5 );
 			}
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_styles' ) );
@@ -2256,11 +2081,13 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 				$url = esc_url( admin_url( 'admin.php?page=' . $hookname ) );
 			}
 
+			$parent = is_admin() ? AIOSEOP_PLUGIN_DIRNAME : 'aioseop-settings';
+
 			if ( null === $this->locations ) {
 				array_unshift(
 					$links,
 					array(
-						'parent' => AIOSEOP_PLUGIN_DIRNAME,
+						'parent' => $parent,
 						'title'  => $name,
 						'id'     => $hookname,
 						'href'   => $url,
@@ -2274,7 +2101,7 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 							array_unshift(
 								$links,
 								array(
-									'parent' => AIOSEOP_PLUGIN_DIRNAME,
+									'parent' => $parent,
 									'title'  => $name,
 									'id'     => $hookname,
 									'href'   => $url,
@@ -2290,7 +2117,7 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 							array_unshift(
 								$links,
 								array(
-									'parent' => AIOSEOP_PLUGIN_DIRNAME,
+									'parent' => $parent,
 									'title'  => $name,
 									'id'     => $this->get_prefix( $k ) . $k,
 									'href'   => esc_url( admin_url( 'admin.php?page=' . $this->get_prefix( $k ) . $k ) ),
@@ -2341,6 +2168,12 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 			} else {
 				$name = $this->name;
 			}
+
+			// Don't add unlicensed addons to admin menu.
+			if ( null === $name ) {
+				return;
+			}
+
 			if ( null === $this->locations ) {
 				$hookname = add_submenu_page(
 					$parent_slug,
@@ -2509,6 +2342,9 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 						}
 						$prefix  = $this->get_prefix( $k );
 						$options = apply_filters( $prefix . 'filter_metabox_options', $options, $k, $post_id );
+						foreach ( $options as $option ) {
+							$option = aioseop_sanitize( $option );
+						}
 						update_post_meta( $post_id, '_' . $prefix . $k, $options );
 					}
 				}
@@ -2699,10 +2535,34 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 					break;
 				case 'textarea':
 					// #1363: prevent characters like ampersand in title and description (in social meta module) from getting changed to &amp;
-					if ( in_array( $name, array( 'aiosp_opengraph_hometitle', 'aiosp_opengraph_description' ), true ) ) {
+					if ( in_array( $name, array( 'aiosp_description', 'aiosp_opengraph_hometitle', 'aiosp_opengraph_description' ), true ) ) {
 						$value = htmlspecialchars_decode( $value, ENT_QUOTES );
 					}
 					$buf .= "<textarea name='$name' $attr>$value</textarea>";
+					break;
+				case 'address':
+					$address_defaults = array(
+						'street_address'   => '',
+						'address_locality' => '',
+						'address_region'   => '',
+						'postal_code'      => '',
+						'address_country'  => '',
+					);
+					$value = wp_parse_args( $value, $address_defaults );
+
+					$buf .= '
+						<label for="' . $name . '_street_address" class="aioseop_label_street_address">' . __( 'Street Address', 'all-in-one-seo-pack' ) . '</label>
+						<input name="' . $name . '_street_address" class="aioseop_input_street_address" type="text" ' . $attr . ' value="' . $value['street_address'] . '" />
+						<label for="' . $name . '_address_locality" class="aioseop_label_address_locality">' . __( 'City', 'all-in-one-seo-pack' ) . '</label>
+						<input name="' . $name . '_address_locality" class="aioseop_input_address_locality" type="text" ' . $attr . ' value="' . $value['address_locality'] . '" />
+						<label for="' . $name . '_address_region" class="aioseop_label_address_region">' . __( 'State', 'all-in-one-seo-pack' ) . '</label>
+						<input name="' . $name . '_address_region" class="aioseop_input_address_region" type="text" ' . $attr . ' value="' . $value['address_region'] . '" />
+						<label for="' . $name . '_postal_code" class="aioseop_label_postal_code">' . __( 'Zip code', 'all-in-one-seo-pack' ) . '</label>
+						<input name="' . $name . '_postal_code" class="aioseop_input_postal_code" type="text" ' . $attr . ' value="' . $value['postal_code'] . '" />
+						<label for="' . $name . '_address_country" class="aioseop_label_address_country">' . __( 'Country', 'all-in-one-seo-pack' ) . '</label>
+						<input name="' . $name . '_address_country" class="aioseop_input_address_country" type="text" ' . $attr . ' value="' . $value['address_country'] . '" />
+						';
+					$buf = '<div class="aioseop_postal_address">' . $buf . '</div>';
 					break;
 				case 'image':
 					$buf .= '<input class="aioseop_upload_image_checker" type="hidden" name="' . $name . '_checker" value="0">' .
@@ -2731,7 +2591,10 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 					wp_enqueue_script( 'jquery-ui-datepicker' );
 					// fall through.
 				default:
-					$buf .= "<input name='" . esc_attr( $name ) . "' type='" . esc_attr( $options['type'] ) . "' " . wp_kses( $attr, wp_kses_allowed_html( 'data' ) ) . " value='" . esc_attr( $value ) . "'>\n";
+					if ( 'number' === $options['type'] ) {
+						$value = intval( $value );
+					}
+					$buf .= "<input name='" . esc_attr( $name ) . "' type='" . esc_attr( $options['type'] ) . "' " . wp_kses( $attr, wp_kses_allowed_html( 'data' ) ) . " value='" . htmlspecialchars_decode( $value ) . "' autocomplete='aioseop-" . time() . "'>\n";
 			}
 
 			// TODO Maybe Change/Add a function for SEO character count.
@@ -2748,8 +2611,8 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 					/* translators: %1$s and %2$s are placeholders and should not be translated. %1$s is replaced with a number, %2$s is replaced with the name of an meta tag field (e.g; "Title", "Description", etc.). */
 					$count_desc = __( ' characters. Most search engines use a maximum of %1$s chars for the %2$s.', 'all-in-one-seo-pack' );
 				}
-				$buf .= "<br /><input readonly tabindex='-1' type='text' name='{$prefix}length$n' size='3' maxlength='3' style='width:53px;height:23px;margin:0px;padding:0px 0px 0px 10px;' value='" . $this->strlen( $value ) . "' />"
-						. sprintf( $count_desc, $size, trim( $this->strtolower( $options['name'] ), ':' ) );
+				$buf .= "<br /><input readonly tabindex='-1' type='text' name='{$prefix}length$n' size='3' maxlength='3' style='width:53px;height:23px;margin:0px;padding:0px 0px 0px 10px;' value='" . AIOSEOP_PHP_Functions::strlen( $value ) . "' />"
+						. sprintf( $count_desc, $size, trim( AIOSEOP_PHP_Functions::strtolower( $options['name'] ), ':' ) );
 				if ( ! empty( $onload ) ) {
 					$buf .= "<script>jQuery( document ).ready(function() { {$onload} });</script>";
 				}
@@ -2898,7 +2761,7 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 					$opt = $opts['default'];
 				}
 
-				$args = array(
+				$newArgs = array(
 					'name'    => $name,
 					'options' => $opts,
 					'attr'    => $attr,
@@ -2906,13 +2769,13 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 					'prefix'  => $prefix,
 				);
 				if ( ! empty( $opts['nowrap'] ) ) {
-					echo $this->get_option_html( $args );
+					echo $this->get_option_html( $newArgs );
 				} else {
 					if ( $container ) {
 						echo $container;
 						$container = '';
 					}
-					echo $this->get_option_row( $name, $opts, $args );
+					echo $this->get_option_row( $name, $opts, $newArgs );
 				}
 			}
 			if ( ! $container ) {
@@ -2930,11 +2793,11 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 		 */
 		function sanitize_domain( $domain ) {
 			$domain = trim( $domain );
-			$domain = $this->strtolower( $domain );
-			if ( 0 === $this->strpos( $domain, 'http://' ) ) {
-				$domain = $this->substr( $domain, 7 );
-			} elseif ( 0 === $this->strpos( $domain, 'https://' ) ) {
-				$domain = $this->substr( $domain, 8 );
+			$domain = AIOSEOP_PHP_Functions::strtolower( $domain );
+			if ( 0 === AIOSEOP_PHP_Functions::strpos( $domain, 'http://' ) ) {
+				$domain = AIOSEOP_PHP_Functions::substr( $domain, 7 );
+			} elseif ( 0 === AIOSEOP_PHP_Functions::strpos( $domain, 'https://' ) ) {
+				$domain = AIOSEOP_PHP_Functions::substr( $domain, 8 );
 			}
 			$domain = untrailingslashit( $domain );
 
@@ -2968,6 +2831,11 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 							break;
 						case 'filename':
 							$this->options[ $k ] = sanitize_file_name( $this->options[ $k ] );
+							break;
+						case 'address':
+							foreach ( $this->options[ $k ] as &$address_value ) {
+								$address_value = wp_kses_post( $address_value );
+							}
 							break;
 						case 'url':
 							// fall through.
@@ -3058,11 +2926,26 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 					/* translators: %s is a placeholder and will be replace with the name of the plugin. */
 					$message         = sprintf( __( '%s Options Updated.', 'all-in-one-seo-pack' ), AIOSEOP_PLUGIN_NAME );
 					$default_options = $this->default_options( $location );
-					foreach ( $default_options as $k => $v ) {
-						if ( isset( $_POST[ $k ] ) ) {
-							$this->options[ $k ] = stripslashes_deep( $_POST[ $k ] );
+					$prefix          = $this->prefix;
+					foreach ( $this->default_options as $k => $option_arr ) {
+						if ( isset( $option_arr['type'] ) && 'address' === $option_arr['type'] ) {
+							$address_values = array(
+								'street_address'   => '',
+								'address_locality' => '',
+								'address_region'   => '',
+								'postal_code'      => '',
+								'address_country'  => '',
+							);
+							foreach ( $address_values as $address_key => &$address_value ) {
+								if ( isset( $_POST[ $prefix . $k . '_' . $address_key ] ) ) {
+									$address_value = stripslashes_deep( $_POST[ $prefix . $k . '_' . $address_key ] );
+								}
+							}
+							$this->options[ $prefix . $k ] = $address_values;
+						} elseif ( isset( $_POST[ $prefix . $k ] ) ) {
+							$this->options[ $prefix . $k ] = stripslashes_deep( $_POST[ $prefix . $k ] );
 						} else {
-							$this->options[ $k ] = '';
+							$this->options[ $prefix . $k ] = '';
 						}
 					}
 					$this->sanitize_options( $location );
@@ -3295,7 +3178,7 @@ if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 			if ( ! empty( $options ) ) {
 				foreach ( $options as $k => $v ) {
 					if ( ! isset( $v['name'] ) ) {
-						$v['name'] = $this->ucwords( strtr( $k, '_', ' ' ) );
+						$v['name'] = AIOSEOP_PHP_Functions::ucwords( strtr( $k, '_', ' ' ) );
 					}
 					if ( ! isset( $v['type'] ) ) {
 						$v['type'] = 'checkbox';

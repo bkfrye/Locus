@@ -133,19 +133,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 150 );
   });
 
-
-  $('.team-navigation li').click( function() {
-    if ( $('.team-navigation li').hasClass('js-active') ) {
-      $('.team-navigation li').removeClass('js-active')
-    }
-    var el = $(this).data('section');
-    $(this).addClass('js-active');
-    console.log(el);
-
-    if ( $('.employee-section').hasClass('js-active') ) {
-      $('.employee-section').removeClass('js-active');
-      $(el).addClass('js-active');
-    }
-  })
-
 });

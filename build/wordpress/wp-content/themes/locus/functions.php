@@ -11,11 +11,9 @@ function locus_resources() {
   wp_enqueue_style( 'fonts', get_template_directory_uri() . '/fonts.css', null, false, false );
 	wp_enqueue_style( 'style', get_stylesheet_uri(), null, false, false );
 	wp_enqueue_script( 'header_js', get_template_directory_uri() . '/js/header-bundle.js', array('jquery'), false, true );
-	wp_enqueue_script( 'footer_js', get_template_directory_uri() . '/js/footer-bundle.js', array('jquery'), false, true );
+  // wp_enqueue_script( 'footer_js', get_template_directory_uri() . '/js/footer-bundle.js', array('jquery'), false, true );
 }
 add_action( 'wp_enqueue_scripts', 'locus_resources' );
-
-
 
 
 /**
@@ -136,4 +134,77 @@ function convertToAnchor($string) {
   $string = strtolower($string);
   $string = preg_replace("/[\s_]/", "-", $string);
   return $string;
+}
+
+
+
+// function getEmployeeDetails( $id, $post_type_name ) {
+//   $args = array('p' => $id, 'post_type' => $post_type_name);
+//   $loop = new WP_Query($args);
+//   while ( $loop->have_posts() ) : $loop->the_post();
+//     global $post;
+//     the_title('<h3>','</h3>');
+//     the_field('role');
+//     the_field('biography');
+//   endwhile;
+// }
+
+
+function blog_scripts() {
+    // Register the script
+    wp_register_script( 'custom-script', get_stylesheet_directory_uri(). '/js/footer-bundle.js', array('jquery'), false, true );
+
+    // Localize the script with new data
+    $script_data_array = array(
+      'ajaxurl' => admin_url( 'admin-ajax.php' ),
+      'security' => wp_create_nonce( 'load_more_posts' ),
+      'id' => null,
+      'type' => null,
+    );
+    wp_localize_script( 'custom-script', 'employee', $script_data_array );
+
+    // Enqueued script with localized data.
+    wp_enqueue_script( 'custom-script' );
+}
+add_action( 'wp_enqueue_scripts', 'blog_scripts' );
+
+
+
+
+add_action('wp_ajax_load_posts_by_ajax', 'load_posts_by_ajax_callback');
+add_action('wp_ajax_nopriv_load_posts_by_ajax', 'load_posts_by_ajax_callback');
+
+function load_posts_by_ajax_callback() {
+  check_ajax_referer('load_more_posts', 'security', 'id', 'type');
+  $id = $_POST['id'];
+  $type = $_POST['type'];
+  $args = array(
+    'p' => strval($id),
+    'post_type' => strval($type),
+    'post_status' => 'publish',
+    'posts_per_page' => '1',
+  );
+  $posts = new WP_Query( $args );
+
+  if ( $posts->have_posts() ) :
+    while ( $posts->have_posts() ) : $posts->the_post(); ?>
+      <div class="employee-bio-panel">
+        <div class="employee-bio-wrapper">
+          <header class="employee-bio">
+            <div class="employee-image">
+              <img src="<?php the_field('profile_image');?>" alt="profile image">
+            </div>
+            <p class="employee-role"><?php echo str_replace('_', ' ', $type);?></p>
+            <?php the_title('<h3 class="employee-name">','</h3>'); ?>
+            <p class="employee-title">
+              <?php the_field('role');?>
+            </p>
+          </header>
+          <div class="employee-content"><?php the_field('biography');?></div>
+        </div>
+      </div>
+    <?php endwhile;
+  endif;
+
+  wp_die();
 }
