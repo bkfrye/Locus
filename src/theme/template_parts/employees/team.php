@@ -8,7 +8,13 @@ $args = array(
 $items = new WP_Query( $args );
 if( $items->have_posts() ) :
 ?>
-<ul class="employee-list">
+<div class="prev-arrow arrow-btn">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M10 16L20 6l1.4 1.4-8.6 8.6 8.6 8.6L20 26z"/><path fill="none" d="M0 0h32v32H0z"/></svg>
+</div>
+<div class="next-arrow arrow-btn">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M22 16L12 26l-1.4-1.4 8.6-8.6-8.6-8.6L12 6z"/><path fill="none" d="M0 0h32v32H0z"/></svg>
+</div>
+<ul class="employee-list team-carousel">
   <?php
     while( $items->have_posts() ) :
       $items->the_post();

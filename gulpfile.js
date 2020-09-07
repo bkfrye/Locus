@@ -63,7 +63,9 @@ const pluginsProd = [
 Header & Footer JavaScript Boundles
 -------------------------------------------------------------------------------------------------- */
 const headerJS = [
+	'node_modules/jquery/dist/jquery.js',
   'node_modules/scrollreveal/dist/scrollreveal.min.js',
+	'node_modules/slick-carousel/slick/slick.min.js'
 ];
 const footerJS = ['src/js/**'];
 
@@ -182,6 +184,13 @@ gulp.task('style-dev', () => {
 		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('build/wordpress/wp-content/themes/' + themeName))
 		.pipe(browserSync.stream({ match: '**/*.css' }));
+	const carousel = gulp.src('src/style/slick-carousel.css')
+		.pipe(plumber({ errorHandler: onError }))
+		.pipe(sourcemaps.init())
+		.pipe(postcss(pluginsDev))
+		.pipe(sourcemaps.write('.'))
+		.pipe(gulp.dest('build/wordpress/wp-content/themes/' + themeName))
+		.pipe(browserSync.stream({ match: '**/*.css' }));
 	const style = gulp.src('src/style/style.css')
 		.pipe(plumber({ errorHandler: onError }))
 		.pipe(sourcemaps.init())
@@ -197,7 +206,7 @@ gulp.task('style-dev', () => {
 		.pipe(gulp.dest('build/wordpress/wp-content/themes/' + themeName))
 		.pipe(browserSync.stream({ match: '**/*.css' }));
 
-  return merge(fonts, style, editorStyle);
+  return merge(fonts, carousel, style, editorStyle);
 });
 
 gulp.task('header-scripts-dev', () => {
@@ -304,6 +313,11 @@ gulp.task('style-prod', () => {
     .pipe(postcss(pluginsProd))
     .pipe(gulp.dest('dist/themes/' + themeName));
 
+	const carousel = gulp.src('src/style/slick-carousel.css')
+    .pipe(plumber({ errorHandler: onError }))
+    .pipe(postcss(pluginsProd))
+    .pipe(gulp.dest('dist/themes/' + themeName));
+
 	const style = gulp.src('src/style/style.css')
     .pipe(plumber({ errorHandler: onError }))
     .pipe(postcss(pluginsProd))
@@ -314,7 +328,7 @@ gulp.task('style-prod', () => {
     .pipe(postcss(pluginsProd))
     .pipe(gulp.dest('dist/themes/' + themeName));
 
-  return merge(fonts, style, editorStyle);
+  return merge(fonts, carousel, style, editorStyle);
 });
 
 gulp.task('header-scripts-prod', () => {

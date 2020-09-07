@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     var el = $(this).data('section');
     $(this).addClass('js-active');
-    console.log(el);
 
     if ( $('.employee-section').hasClass('js-active') ) {
       $('.employee-section').removeClass('js-active');
@@ -35,7 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   $('#close-panel').click(function() {
-    console.log('testing button')
     $('#bio-view').removeClass('js-open');
     $('body').removeClass('js-open');
     $('#bio-view-content').empty();
@@ -48,6 +46,39 @@ document.addEventListener("DOMContentLoaded", () => {
     $('#bio-view-content').empty();
     $('#overlay').removeClass('js-open');
   });
+
+
+  $('.team-navigation li[data-section="#team"]').click(function() {
+    $('.team-carousel').slick({
+      dots: true,
+      speed: 300,
+      slidesToShow: 5,
+      slidesToScroll: 5,
+      rows: 2,
+      adaptiveHeight: true,
+      draggable: false,
+      prevArrow: ".prev-arrow",
+      nextArrow: ".next-arrow",
+
+      responsive: [
+        {
+          breakpoint: 1080,
+          settings: {
+            slidesToShow: 4,
+            slidesToScroll: 4,
+          }
+        },
+        {
+          breakpoint: 840,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 2,
+          }
+        }
+      ]
+    });
+  })
+
 
 
 

@@ -9,8 +9,9 @@ include get_template_directory() . '/inc/custom-post-types.php';
  */
 function locus_resources() {
   wp_enqueue_style( 'fonts', get_template_directory_uri() . '/fonts.css', null, false, false );
+  wp_enqueue_style( 'slick-carousel', get_template_directory_uri() . '/slick-carousel.css', null, false, false );
 	wp_enqueue_style( 'style', get_stylesheet_uri(), null, false, false );
-	wp_enqueue_script( 'header_js', get_template_directory_uri() . '/js/header-bundle.js', array('jquery'), false, true );
+	wp_enqueue_script( 'header_js', get_template_directory_uri() . '/js/header-bundle.js', array('jquery'), false, false );
   // wp_enqueue_script( 'footer_js', get_template_directory_uri() . '/js/footer-bundle.js', array('jquery'), false, true );
 }
 add_action( 'wp_enqueue_scripts', 'locus_resources' );

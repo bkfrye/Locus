@@ -51,6 +51,7 @@
 	"dependencies": {
 		"luminous-lightbox": "^2.3.2",
 		"scrollreveal": "^4.0.5",
+		"slick-carousel": "^1.8.1",
 		"smoothscroll-polyfill": "^0.4.3",
 		"video.js": "^7.3.0",
 		"videojs-youtube": "^2.6.0"
