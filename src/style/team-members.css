@@ -125,10 +125,16 @@
   padding: 0;
 
   & .employee-list-item {
+    cursor: pointer;
+    flex-basis: 50%;
     list-style-type: none;
     text-align: center;
     padding-bottom: 1.4em;
-    flex-basis: 50%;
+    transition: color 280ms ease-in-out;
+
+    &:hover {
+      color: var(--blue);
+    }
 
 
 
