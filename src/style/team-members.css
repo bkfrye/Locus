@@ -55,6 +55,11 @@
   width: 100%;
 
   @media (min-width: 840px) {
+    right: -50%;
+    width: 50%;
+  }
+
+  @media (min-width: 1080px) {
     right: -35%;
     width: 35%;
   }
@@ -100,19 +105,26 @@
 
   & .employee-role {
     color: var(--blue);
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 24px;
     margin: 1em 0 0;
     text-transform: uppercase;
   }
 
   & .employee-name {
-    font-weight: 600;
+    color: #042A4A;
+    font-size: 35px;
+    font-weight: 700;
+    line-height: 48px;
     margin-bottom: 16px;
   }
 
   & .employee-title {
-    font-weight: 600;
+    color: #333333;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 30px;
     margin: 0 auto;
     max-width: 80%;
   }
@@ -130,13 +142,12 @@
     list-style-type: none;
     text-align: center;
     padding-bottom: 1.4em;
-    transition: color 280ms ease-in-out;
 
     &:hover {
-      color: var(--blue);
+      & .name {
+        color: var(--blue);
+      }
     }
-
-
 
     @media (min-width: 840px) {
       flex-basis: 25%;
@@ -155,13 +166,19 @@
   }
 
   & .name {
+    color: #042A4A;
+    font-size: 16px;
     font-weight: bold;
+    letter-spacing: 0.2px;
+    line-height: 22px;
     margin-bottom: 8px;
+    transition: all 280ms ease-in-out;
   }
 
   & .role {
     font-size: 11px;
-    line-height: 16px;
+    font-weight: 300;
+    line-height: 18px;
     margin: 0 auto;
     max-width: 85%;
   }
@@ -170,6 +187,8 @@
 
 .employee-list.team-carousel {
   & .employee-list-item {
+    font-weight: 300;
+    font-size: 12px;
     list-style-type: none;
     text-align: center;
     padding-bottom: 1.4em;
@@ -193,8 +212,10 @@ body.js-open {
 }
 
 #close-panel {
+  background-color: #ffffff;
   cursor: pointer;
-  left: 32px;
+  left: 28px;
+  padding: 8px 4px;
   position: absolute;
   top: 32px;
   z-index: 50;
