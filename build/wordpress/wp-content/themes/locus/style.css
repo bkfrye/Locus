@@ -2240,6 +2240,105 @@ section .anchor-link {
     }
 
 
+#bio-view {
+  background-color: #fff;
+  bottom: 0;
+  box-shadow: 3px 0 6px rgba(0,0,0,0.28);
+  /* display: none; */
+  height: 100%;
+  position: fixed;
+  -webkit-transition: right 330ms ease-out;
+  transition: right 330ms ease-out;
+  right: -35%;
+  top: 60px;
+  width: 35%
+}
+
+
+#bio-view.js-open {
+    right: 0;
+    z-index: 15;
+  }
+
+
+#bio-view .employee-bio-panel {
+    background-color: white;
+    bottom: 0;
+    height: 100%;
+    overflow-y: scroll;
+    padding: 4em 2em 10em;
+    position: absolute;
+    right: 0;
+    top: 0px;
+    width: 100%;
+  }
+
+
+#bio-view header.employee-bio {
+    border-bottom: 1px solid lightgray;
+    margin: 2em 0;
+    padding-bottom: 2em;
+    text-align: center;
+  }
+
+
+#bio-view .employee-image {
+    border: 1px solid white;
+    border-radius: 100px;
+    height: 200px;
+    margin: 0 auto;
+    width: 200px;
+  }
+
+
+#bio-view .employee-role {
+    color: #1E5CE5;
+    color: var(--blue);
+    font-size: 13px;
+    font-weight: 600;
+    margin: 1em 0 0;
+    text-transform: uppercase;
+  }
+
+
+#bio-view .employee-name {
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+
+#bio-view .employee-title {
+    font-weight: 600;
+    margin: 0 auto;
+    max-width: 80%;
+  }
+
+
+#overlay.js-open {
+  background-color: rgba(0,0,0,0.25);
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 10;
+}
+
+
+body.js-open {
+  overflow: hidden;
+}
+
+
+#close-panel {
+  cursor: pointer;
+  left: 32px;
+  position: absolute;
+  top: 32px;
+  z-index: 50;
+}
+
+
 .no-results .inner-content {
 		margin-top: 40px;
 	}

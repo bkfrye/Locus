@@ -63,7 +63,6 @@ const pluginsProd = [
 Header & Footer JavaScript Boundles
 -------------------------------------------------------------------------------------------------- */
 const headerJS = [
-  'node_modules/jquery/dist/jquery.js',
   'node_modules/scrollreveal/dist/scrollreveal.min.js',
 ];
 const footerJS = ['src/js/**'];
@@ -153,7 +152,7 @@ gulp.task(
 			},
 			() => {
 				browserSync({
-					proxy: '127.0.0.1:3020',
+					proxy: 'http://localhost:3020',
 				});
 			},
 		);
