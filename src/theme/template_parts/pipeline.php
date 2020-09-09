@@ -351,8 +351,10 @@
     </div>
   </div>
 
-  <div class="detailed-view-btn" data-graph="2">
-    <p><span class="open">+</span><span class="closed">-</span> Detailed View</p>
+  <div class="graph-wrapper">
+    <div class="detailed-view-btn" data-graph="2">
+      <p><span class="open">+</span><span class="closed">-</span> Detailed View</p>
+    </div>
   </div>
 
 
