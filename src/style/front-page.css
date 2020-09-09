@@ -196,6 +196,45 @@ section .anchor-link {
       text-transform: uppercase;
     }
 
+    & span.dot {
+      border-radius: 7px;
+      display: inline-block;
+      height: 14px;
+      position: relative;
+      width: 14px;
+
+      &:after {
+        background-color: #ffffff;
+        border-radius: 3px;
+        bottom: 0;
+        content: '';
+        left: 0;
+        height: 6px;
+        margin: 0 auto;
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 6px;
+      }
+
+      &.discovery {
+        background-image: linear-gradient(-180deg, #A0D9FB 0%, #67B2F5 100%);
+      }
+
+      &.preclinical {
+        background-image: linear-gradient(-180deg, #80B3ED 0%, #497CD7 100%);
+      }
+
+      &.clinical-tasks {
+        background-image: linear-gradient(-180deg, #40C3F4 0%, #1E90E5 100%);
+      }
+
+      &.marketed {
+        background-image: linear-gradient(-180deg, #077EB5 0%, #03487E 100%);
+      }
+    }
+
     &.horizontal {
       display: flex;
       align-items: center;
@@ -219,7 +258,19 @@ section .anchor-link {
   }
 
   & .graph-item {
-    width: 90%
+    position: relative;
+    width: 90%;
+
+    &:before {
+      background-image: linear-gradient(-270deg, #FFFFFF 0%, #E9E9E9 49%, #FDFDFD 100%);
+      bottom: 0;
+      content: '';
+      left: 0;
+      height: 2px;
+      position: absolute;
+      right: 0;
+      width: 100%;
+    }
   }
 
   & .graph-partner {
@@ -235,21 +286,13 @@ section .anchor-link {
       line-height: 1.4;
     }
   }
-
-  & .trial-partners {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
-  }
 }
 
 .graph-item {
   margin-bottom: 32px;
   & .graph-row {
     display: flex;
-    padding: 0 2em;
+    padding: 0 0.25em 0 2em;
     transition: all 200ms;
   }
 
@@ -268,9 +311,39 @@ section .anchor-link {
   }
 
   & .cell.bars {
-    border-left: 2px solid var(--lightGray);
-    flex: 4;
+    border-left: 2px solid #E9E9E9;
+    flex: 4.4;
     padding: 0.5em 0;
+
+    & .vertical-graph-lines {
+      height: 100%;
+      left: 0;
+      margin: 0 auto;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 100%;
+      z-index: 5;
+
+      &:after {
+        background-color: #E9E9E9;
+        content: '';
+        height: 100%;
+        left: 0;
+        margin: 0 auto;
+        position: absolute;
+        right: 0;
+        width: 1px;
+      }
+
+      &.left:after {
+        left: -50%;
+      }
+
+      &.right:after {
+        right: -50%;
+      }
+    }
   }
 }
 
@@ -309,14 +382,21 @@ section .anchor-link {
     background-color: var(--kindaWhite);
   }
 
-  & .bold {
+  & p.bold {
     font-weight: 700;
+    margin-top: 10px;
   }
-}
 
-.row-content {
+  & .graph-row {
+    position: relative;
 
-
+    & .trial-partners {
+      position: absolute;
+      right: -14%;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
 }
 
 .row-details {
@@ -330,6 +410,10 @@ section .anchor-link {
 
     & p {
       line-height: 22px;
+    }
+
+    & sup {
+      font-size: 0.5em;
     }
   }
 
@@ -411,17 +495,9 @@ section .anchor-link {
   }
 }
 
-.crohns {
+.ibd {
   & .one {
-    width: 37.5%;
-  }
-
-  & .two {
-    width: 12.5%;
-  }
-
-  & .three {
-    width: 12.5%;
+    width: 35%;
   }
 }
 
