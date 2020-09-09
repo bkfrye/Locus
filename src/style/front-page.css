@@ -173,7 +173,6 @@ section .anchor-link {
   }
 }
 
-
 .graphs {
   display: none;
   margin-bottom: 86px;
@@ -192,8 +191,18 @@ section .anchor-link {
 
   & .graph-label {
     & p {
-      font-weight: 800;
+      font-size: 12px;
+      font-weight: 700;
       text-transform: uppercase;
+    }
+
+    &.horizontal {
+      display: flex;
+      align-items: center;
+
+      & span {
+        margin-right: 6px;
+      }
     }
   }
 }
@@ -215,7 +224,7 @@ section .anchor-link {
 
   & .graph-partner {
     background-color: #D9ECFC;
-    margin: 60px 0 86px;
+    margin: 60px 0 32px;
     text-align: center;
     padding: 1em;
 
@@ -237,7 +246,7 @@ section .anchor-link {
 }
 
 .graph-item {
-  margin-bottom: 86px;
+  margin-bottom: 32px;
   & .graph-row {
     display: flex;
     padding: 0 2em;
@@ -266,8 +275,10 @@ section .anchor-link {
 }
 
 .cell.pathogen {
-  & p {
+  &.italic p {
     font-style: italic;
+  }
+  & p {
     line-height: 1.8;
   }
 }
@@ -276,11 +287,30 @@ section .anchor-link {
   & .cell {
     text-align: center;
   }
+
+  &.graph-row {
+    position: relative;
+
+    &:before {
+      background-image: linear-gradient(-270deg, #FFFFFF 0%, #E9E9E9 49%, #FDFDFD 100%);
+      bottom: 0;
+      content: '';
+      left: 0;
+      height: 2px;
+      position: absolute;
+      right: 0;
+      width: 100%;
+    }
+  }
 }
 
 .graph-content {
   &:nth-child(even) {
     background-color: var(--kindaWhite);
+  }
+
+  & .bold {
+    font-weight: 700;
   }
 }
 
@@ -297,6 +327,10 @@ section .anchor-link {
 
   & .detail-info {
     width: 35%;
+
+    & p {
+      line-height: 22px;
+    }
   }
 
   & .detail-info:nth-child(3) {
@@ -322,14 +356,32 @@ section .anchor-link {
   background-color: #A4D1F9;
   height: 20px;
   margin: 0.75em 0 1.5em 0;
+  position: relative;
   width: 0;
+
+  &:after {
+    background-color: #A4D1F9;
+    content: '';
+    height: 14px;
+    position: absolute;
+    right: -7px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    width: 14px;
+  }
 
   &.blue {
     background-color: #2296E7;
+    &:after {
+      background-color: #2296E7;
+    }
   }
 
   &.dark-blue {
     background-color: #5B86D3;
+    &:after {
+      background-color: #5B86D3;
+    }
   }
 }
 
@@ -340,22 +392,22 @@ section .anchor-link {
   }
 
   & .two {
-    width: 12.5%;
+    width: 35%;
   }
 }
 
 .respiratory {
   & .one {
-    width: 37.5%;
+    width: 45%;
   }
   & .two {
     width: 12.5%;
   }
 }
 
-.cdi {
+.other-infections {
   & .one {
-    width: 37.5%;
+    width: 12.5%;
   }
 }
 
@@ -484,20 +536,38 @@ section .anchor-link {
 }
 
 
+.detailed-view-btn {
+  color: var(--blue);
+  cursor: pointer;
+  display: inline-block;
+  margin-left: 24px;
+  text-transform: uppercase;
 
+  &.js-active {
+    & .open {
+      display: none;
+    }
 
-/* @keyframes bounce {
-  0%, 20%, 30%, 39%, 50% {
-    transform: translateY(0);
-  }
-  25% {
-    transform: translateY(-6px);
-  }
-  45% {
-    transform: translateY(-3px);
+    & .closed {
+      display: inline;
+    }
   }
 
-  100% {
-    transform: translateY(0);
+  & .closed {
+    display: none;
   }
-} */
+
+  &:hover {
+    color: var(--lightBlue);
+  }
+
+  & p {
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  & span {
+    font-size: 18px;
+    margin-right: 10px;
+  }
+}
