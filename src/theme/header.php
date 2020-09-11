@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
-<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-61920224-2"></script> -->
-<!-- <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-61920224-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-  gtag('config', 'UA-61920224-2');
-</script> -->
+    gtag('config', <?php the_field('google_analytics_id', 'option'); ?>);
+  </script>
+
+
+
 
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width">

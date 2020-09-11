@@ -7,15 +7,15 @@
         </div>
         <div class="footer-main-contact">
           <div class="information">
-            <p>523 Davis Drive Suite 350 <br>Morrisville NC 27560</p>
+            <p><?php the_field('address', 'option'); ?></p>
 
             <div class="contact-links">
               <ul class="contact">
                 <li>
-                  <a href="tel:9194954510">(919) 495-4510</a>
+                  <a href="tel:<?php the_field('phone', 'option'); ?>"><?php the_field('phone', 'option'); ?></a>
                 </li>
                 <li>
-                  <a href="mailto:info@locus-bio.com">info@locus-bio.com</a>
+                  <a href="<?php the_field('email', 'option'); ?>"><?php the_field('email', 'option'); ?></a>
                 </li>
               </ul>
               <div class="social">
