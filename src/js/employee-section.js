@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  $('.employee-list-item').click(function() {
+  $('.employee-list-item').not($('[data-type=team]')).click(function() {
     var id = $(this).data('id');
     var type = $(this).data('type');
     var data = {
