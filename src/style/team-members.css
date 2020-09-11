@@ -198,7 +198,7 @@
 
       & .overlay {
         background-color: #042A4A;
-        bottom:0;
+        border-radius: 75px;
         bottom: 0;
         display: flex;
         left: 0;
