@@ -260,7 +260,6 @@
 }
 
 .employee-list.management {
-  border: 1px solid red;
 
   & .employee-list-item {
     margin: 0 1em;
