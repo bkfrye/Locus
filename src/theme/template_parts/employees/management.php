@@ -7,7 +7,7 @@ $args = array(
 $items = new WP_Query( $args );
 if( $items->have_posts() ) :
 ?>
-  <ul class="employee-list">
+  <ul class="employee-list management">
     <?php
       while( $items->have_posts() ) :
         $items->the_post();
