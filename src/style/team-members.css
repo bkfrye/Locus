@@ -145,6 +145,7 @@
     flex-basis: 50%;
     list-style-type: none;
     text-align: center;
+    min-height: 256px;
     padding-bottom: 1.4em;
 
     &.no-detail {
