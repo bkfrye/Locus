@@ -16,7 +16,7 @@ var videos = $( '.inline-video' );
 
 videos.each(function() {
   var id = YouTubeGetID( $(this).data( 'url' ) );
-  var poster = 'http://img.youtube.com/vi/' + id + '/hqdefault.jpg';
+  var poster = 'https://img.youtube.com/vi/' + id + '/hqdefault.jpg';
   $(this).css({'background-image' : 'url(' + poster + ')'});
 })
 
@@ -33,7 +33,7 @@ $( '.inline-video' ).click( function() {
     + videoID
     + '?rel=0&modestbranding=1&autoplay=1&controls=1&rel=0'
   );
-  
+
   $(this).append( iframe );
 } );
 
