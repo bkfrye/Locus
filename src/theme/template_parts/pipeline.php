@@ -76,7 +76,7 @@
             <div class="row-details">
               <div class="detail-info">
                 <p><b>Description:</b></p>
-                <p>Cocktails of CRISPR/Cas3-engineered bacteriophage (crPhage<sup>TM</sup>) designed to eradicate <i>E. coli and K. pneumoniae</i> causing urinary tract infections</p>
+                <p>Cocktails of CRISPR/Cas3-engineered bacteriophage (crPhage<sup>TM</sup>) designed to eradicate <i>E. coli and K. pneumoniae</i> causing urinary tract and other infections</p>
               </div>
               <div class="detail-info">
                 <p><b>Ownership:</b></p>
@@ -254,7 +254,7 @@
             <div class="row-details">
               <div class="detail-info">
                 <p><b>Description:</b></p>
-                <p>Cocktails of CRISPR/Cas3-engineered bacteriophage (crPhage<sup>TM</sup>) designed to eradicate <i>E. coli and K. pneumoniae</i> designed to eradicate undisclosed bacterial targets</p>
+                <p>Cocktails of CRISPR/Cas3-engineered bacteriophage (crPhage<sup>TM</sup>) designed to eradicate undisclosed bacterial targets</p>
               </div>
               <div class="detail-info">
                 <p><b>Ownership:</b></p>
