@@ -21,6 +21,15 @@
 
 <body>
   <header id="header" class="header">
+    <div class="global-news-banner">
+      <p>Locus Biosciences signs contract with BARDA to advance $144 million precision medicine program</p>
+      <div class="btn">
+        <a href="https://www.locus-bio.com/locus-biosciences-signs-contract-with-barda/" target="_blank">Learn why</a>
+      </div>
+      <div class="close-news-banner">
+        <svg focusable="false" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" style="will-change: transform;"><path d="M24 9.4L22.6 8 16 14.6 9.4 8 8 9.4l6.6 6.6L8 22.6 9.4 24l6.6-6.6 6.6 6.6 1.4-1.4-6.6-6.6L24 9.4z"></path><title>Close</title></svg>
+      </div>
+    </div>
   	<div class="header-content">
       <div class="logo-wrapper">
     		<a href="<?php echo home_url(); ?>" class="logo">
