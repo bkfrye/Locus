@@ -5,6 +5,8 @@
 }
 
 .global-news-banner {
+  margin-top: 60px;
+  margin-bottom: -60px;
   padding: 1em 4em;
   position: relative;
   text-align: center;
