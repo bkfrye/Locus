@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-61920224-2"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=<?php the_field('google_analytics_id', 'option'); ?>"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
