@@ -1,10 +1,10 @@
-<section id="advanced-manufacturing" class="soft-blue tech-info">
+<section id="flexibility" class="blue tech-info">
   <header>
-    <h3><?php the_field('manufacturing_title'); ?></h3>
-    <div class="header-image" style="background-image: url(<?php echo get_field('manufacturing_header_image')['url']; ?>)"></div>
+    <h3><?php the_field('flex_title'); ?></h3>
+    <div class="header-image" style="background-image: url(<?php echo get_field('flex_header_image')['url']; ?>)"></div>
   </header>
   <div class="article-wrapper">
-    <?php $articles = get_field('manufacturing_articles'); ?>
+    <?php $articles = get_field('flex_articles'); ?>
     <?php if ( $articles ) : ?>
       <?php foreach ( $articles as $article ) : ?>
         <div id="<?php echo convertToAnchor($article['title']); ?>" class="article-item">
@@ -13,6 +13,8 @@
             <h3><?php echo $article['sub-title']; ?></h3>
             <?php echo $article['content']; ?>
           </article>
+
+
           <div class="article-image">
             <?php $video = $article['video']; ?>
             <?php if ( $video ) : ?>
@@ -31,8 +33,12 @@
               <img <?php responsive_image( $article['image']['id'],'device','1440px'); ?> alt="<?php echo $article['image']['title']; ?>">
             <?php endif; ?>
           </div>
+
+
         </div>
       <?php endforeach; ?>
     <?php endif; ?>
   </div>
+
+
 </section>

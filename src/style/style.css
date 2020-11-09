@@ -11,7 +11,7 @@ Version: 1.3.7
 @import 'globals';
 @import 'header';
 @import 'front-page';
-@import 'technology';
+@import 'secondary-pages';
 @import 'about-us';
 @import 'media';
 @import 'careers';

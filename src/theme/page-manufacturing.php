@@ -7,11 +7,11 @@
   <?php endif; ?>
     <div class="hero-wrapper">
       <div class="hero-content">
-        <h1>crPhage<sup>TM</sup> Technology</h1>
-        <p><?php the_field('tech_sub_headline'); ?></p>
-        <?php if ( get_field('tech_video_link') ) : ?>
+        <h1>Locus Manufacturing</h1>
+        <p><?php the_field('manu_sub_headline'); ?></p>
+        <?php if ( get_field('manu_video_link') ) : ?>
           <div class="btn white play">
-            <div class="btn-content" data-url="<?php the_field('tech_video_link'); ?>">
+            <div class="btn-content" data-url="<?php the_field('manu_video_link'); ?>">
               <span style="margin-right: 9px;margin-bottom: -2px;display: block;">
                 <svg width="12px" height="14px" viewBox="0 0 12 14">
                   <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -25,8 +25,6 @@
             </div>
           </div>
         <?php endif; ?>
-
-        <?php //global $wp; $currentURL = home_url( $wp->request ); ?>
       </div>
     </div>
   </section>
@@ -34,8 +32,8 @@
   <section id="platform" class="our-platform">
     <div class="wrapper">
       <article>
-        <h2>Our Platform</h2>
-        <h3><?php the_field('platform_headline'); ?></h3>
+        <h2>Our Facility</h2>
+        <h3><?php the_field('facility_headline'); ?></h3>
       </article>
     </div>
   </section>
@@ -44,10 +42,10 @@
     <div class="featured-items-wrapper">
 
       <div class="item">
-        <div class="header-image" style="background-image: url('<?php echo get_field('dap_header_image')['url']; ?>')">
+        <div class="header-image" style="background-image: url('<?php echo get_field('flex_header_image')['url']; ?>')">
         </div>
-        <p class="title"><?php the_field('discovery_title'); ?></p>
-        <?php $links = get_field('dap_articles'); ?>
+        <p class="title"><?php the_field('flex_title'); ?></p>
+        <?php $links = get_field('flex_articles'); ?>
         <?php if ( $links ) : ?>
           <?php foreach( $links as $link ) : ?>
             <a href="#<?php echo convertToAnchor($link['title']) ?>">
@@ -58,10 +56,10 @@
       </div>
 
       <div class="item">
-        <div class="header-image" style="background-image: url('<?php echo get_field('methods_header_image')['url']; ?>')">
+        <div class="header-image" style="background-image: url('<?php echo get_field('control_header_image')['url']; ?>')">
         </div>
-        <p class="title light-blue"><?php the_field('methods_title'); ?></p>
-        <?php $links = get_field('sbm_articles'); ?>
+        <p class="title light-blue"><?php the_field('control_title'); ?></p>
+        <?php $links = get_field('control_articles'); ?>
         <?php if ( $links ) : ?>
           <?php foreach( $links as $link ) : ?>
             <a href="#<?php echo convertToAnchor($link['title']) ?>">
@@ -74,9 +72,14 @@
     </div>
   </section>
 
-  <?php get_template_part('template_parts/dap'); ?>
+  <?php get_template_part('template_parts/flexibility'); ?>
 
-  <?php get_template_part('template_parts/sbm'); ?>
+  <?php get_template_part('template_parts/control'); ?>
+
+  <div class="gallery-image">
+    <?php $image = get_field('gallery_image');?>
+    <img <?php responsive_image( $image['id'],'device','1440px'); ?> alt="<?php echo $image['title']; ?>">
+  </div>
 
   <div class="end-section">
     <div class="btn">

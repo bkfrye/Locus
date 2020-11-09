@@ -1,4 +1,4 @@
-<section id="discovery-automation-platform" class="dap tech-info">
+<section id="discovery-automation-platform" class="blue tech-info">
   <header>
     <h3><?php the_field('discovery_title'); ?></h3>
     <div class="header-image" style="background-image: url(<?php echo get_field('dap_header_image')['url']; ?>)"></div>
