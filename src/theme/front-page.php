@@ -131,13 +131,7 @@
 <script type="text/javascript">
 var bgVideo = new BackgroundVideo({
   container: 'bg-video',
-
-  video: [
-    {
-      file: "wp-content/themes/locus/img/video.mp4"
-    }
-  ],
-
+  video: [{ file: "wp-content/themes/locus/img/video.mp4" }],
   mobileImg: "wp-content/themes/locus/img/home-bg-image.jpg"
 });
 

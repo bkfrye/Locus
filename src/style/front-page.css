@@ -581,15 +581,17 @@ section .anchor-link {
   }
 
   & .partners-wrapper {
+    max-width: 740px;
     & h4 {
       font-size: 36px;
-      margin-top: 0;
+      margin: 1em auto 2em;
       text-align: center;
     }
   }
 
   & .partner-list {
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
     margin: 0 auto;
@@ -600,9 +602,13 @@ section .anchor-link {
       display: flex;
       justify-content: center;
       list-style-type: none;
-      flex-basis: 20%;
-      min-width: 200px;
       padding: 1.25em 1em;
+      width: 30%;
+
+      & img {
+        max-height: 140px;
+        max-width: 170px;
+      }
     }
   }
 
