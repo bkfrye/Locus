@@ -110,13 +110,34 @@
 <section id="partners" class="partners">
   <div class="partners-wrapper">
     <h4>Our Investors & Partners</h4>
-    <ul class="partner-list">
-      <?php $logos = get_field('logos'); ?>
-      <?php if ( $logos ): ?>
-        <?php foreach ($logos as $logo) : ?>
-          <li >
-            <img src="<?php echo $logo['image']['url']?>" alt="<?php echo $logo['image']['alt']?>">
+    <ul class="partner-list top">
+      <?php $logosTop = get_field('logos_top'); ?>
+      <?php if ( $logosTop ): ?>
+        <?php foreach ($logosTop as $logoTop) : ?>
+          <li>
+            <img src="<?php echo $logoTop['image']['url']?>" alt="<?php echo $logoTop['image']['alt']?>"/>
           </li>
+        <?php endforeach; ?>
+      <?php endif; ?>
+    </ul>
+    <ul class="partner-list middle">
+      <?php $logosMiddle = get_field('logos_middle');?>
+
+      <?php if ( $logosMiddle ): ?>
+        <?php foreach ($logosMiddle as $logoMiddle) : ?>
+          <li>
+            <img src="<?php echo $logoMiddle['image']['url']?>" alt="<?php echo $logoMiddle['image']['alt']?>"/>
+          </li>
+        <?php endforeach; ?>
+      <?php endif; ?>
+    </ul>
+    <ul class="partner-list bottom">
+      <?php $logosBottom = get_field('logos_bottom'); ?>
+      <?php if ( $logosBottom ): ?>
+        <?php foreach ($logosBottom as $logoBottom) : ?>
+            <li>
+              <img src="<?php echo $logoBottom['image']['url']?>" alt="<?php echo $logoBottom['image']['alt']?>"/>
+            </li>
         <?php endforeach; ?>
       <?php endif; ?>
     </ul>

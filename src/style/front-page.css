@@ -585,7 +585,10 @@ section .anchor-link {
   }
 
   & .partners-wrapper {
+    margin: 0 auto;
     max-width: 740px;
+    width: 100%;
+
     & h4 {
       font-size: 36px;
       margin: 1em auto 2em;
@@ -598,21 +601,44 @@ section .anchor-link {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    margin: 0 auto;
+    margin: 0 auto 2em;
     padding: 0;
+    width: 100%;
+
+    &.top {
+      & img {
+        max-height: 160px;
+        max-width: 200px;
+      }
+    }
+
+    &.middle {
+      & img {
+        max-height: 175px;
+        max-width: 175px;
+      }
+    }
+
+    &.bottom {
+      & img {
+        max-width: 80px;
+      }
+    }
 
     & li {
       align-items: center;
       display: flex;
       justify-content: center;
       list-style-type: none;
-      padding: 1.25em 1em;
-      width: 30%;
+      padding: 1em 1.5em;
 
       & img {
-        max-height: 140px;
-        max-width: 170px;
+        align-self: top;
+        height: auto;
+        min-width: 100%;
+        width: auto;
       }
+
     }
   }
 
