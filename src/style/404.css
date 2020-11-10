@@ -28,39 +28,6 @@
     }
   }
 
-  & .st0 {
-    fill:#1E5CE5;
-  }
-	& .st1 {
-    cursor: pointer;
-    fill: #F2C014;
-    stroke: #F2C014;
-    stroke-miterlimit: 10;
-    transition: fill 300ms ease-out;
-
-    &.kill-bacteria {
-      fill: white;
-    }
-  }
-	& .st2 {
-    fill:none;
-  }
-
-  & .bacteria {
-    display: none;
-    max-height: 450px;
-    width: 100%;
-
-    @media (width >=840px) {
-      display: block;
-    }
-
-    & svg {
-      height: 100%;
-      width: 100%;
-    }
-  }
-
   & .link-out {
     margin: 54px auto;
   }
@@ -69,16 +36,5 @@
     & a {
       margin: 1em 0;
     }
-  }
-}
-
-
-#bacteria-key {
-  cursor: default;
-  fill: #F2C014;
-  stroke: #F2C014;
-
-  &.kill-bacteria {
-    fill: white;
   }
 }

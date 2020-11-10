@@ -3,18 +3,21 @@
 <section class="not-found">
 	<div class="wrapper">
     <div class="content">
-		  <h1><?php _e( 'Oops! That page either can&rsquo;t be found or doesn&rsquo;t exist!', 'wordpressify' ); ?></h1>
+		  <h1><?php _e( 'Oops! Phage not working!', 'locus' ); ?></h1>
       <div class="link-out">
         <div class="btn">
           <a href="/">Go to Homepage</a>
         </div>
         <div class="btn">
-          <a href="/technology">Learn about our Technology</a>
+          <a href="/technology">Our Technology</a>
+        </div>
+				<div class="btn">
+          <a href="/technology">Our Manufacturing</a>
         </div>
       </div>
     </div>
-    <div class="bacteria">
-      <?php get_template_part('img/404-asset.svg'); ?>
+    <div style="margin: 0 auto; max-width: 400px;">
+      <img src="<?php echo get_template_directory_uri(); ?>/img/phage.png" />
     </div>
 
 	</div>
