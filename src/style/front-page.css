@@ -395,6 +395,10 @@ section .anchor-link {
       right: -14%;
       top: 50%;
       transform: translateY(-50%);
+
+      & #janssen {
+
+      }
     }
   }
 }
