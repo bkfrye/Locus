@@ -17,7 +17,8 @@
   }
 
   & .gallery-image {
-    margin-bottom: 4em;
+    margin: 0 auto 4em;
+    max-width: 740px;
   }
 }
 
