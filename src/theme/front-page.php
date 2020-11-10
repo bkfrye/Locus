@@ -115,7 +115,9 @@
       <?php if ( $logosTop ): ?>
         <?php foreach ($logosTop as $logoTop) : ?>
           <li>
-            <img src="<?php echo $logoTop['image']['url']?>" alt="<?php echo $logoTop['image']['alt']?>"/>
+            <a href="<?php echo $logoTop['link']; ?>" target="_blank">
+              <img src="<?php echo $logoTop['image']['url']?>" alt="<?php echo $logoTop['image']['alt']?>"/>
+            </a>
           </li>
         <?php endforeach; ?>
       <?php endif; ?>
@@ -126,7 +128,9 @@
       <?php if ( $logosMiddle ): ?>
         <?php foreach ($logosMiddle as $logoMiddle) : ?>
           <li>
-            <img src="<?php echo $logoMiddle['image']['url']?>" alt="<?php echo $logoMiddle['image']['alt']?>"/>
+            <a href="<?php echo $logoMiddle['link']; ?>" target="_blank">
+              <img src="<?php echo $logoMiddle['image']['url']?>" alt="<?php echo $logoMiddle['image']['alt']?>"/>
+            </a>
           </li>
         <?php endforeach; ?>
       <?php endif; ?>
@@ -136,7 +140,9 @@
       <?php if ( $logosBottom ): ?>
         <?php foreach ($logosBottom as $logoBottom) : ?>
             <li>
-              <img src="<?php echo $logoBottom['image']['url']?>" alt="<?php echo $logoBottom['image']['alt']?>"/>
+              <a href="<?php echo $logoBottom['link']; ?>" target="_blank">
+                <img src="<?php echo $logoBottom['image']['url']?>" alt="<?php echo $logoBottom['image']['alt']?>"/>
+              </a>
             </li>
         <?php endforeach; ?>
       <?php endif; ?>
