@@ -47,60 +47,19 @@
 }
 
 
-#bio-view {
-  background-color: #fff;
-  bottom: 0;
-  box-shadow: 3px 0 6px rgba(0,0,0,0.28);
-  height: 100%;
-  position: fixed;
-  transition: right 330ms ease-out;
-  right: -100%;
-  top: 60px;
-  width: 100%;
 
-  @media (min-width: 840px) {
-    right: -50%;
-    width: 50%;
-  }
-
-  @media (min-width: 1080px) {
-    right: -35%;
-    width: 35%;
-  }
-
-
-  &.js-open {
-    right: 0;
-    z-index: 15;
-  }
-
-  & .employee-bio-panel {
-    background-color: white;
-    bottom: 0;
-    height: 100%;
-    overflow-y: scroll;
-    padding: 4em 2em 10em;
-    position: absolute;
-    right: 0;
-    top: 0px;
-    width: 100%;
-  }
+.employee-bio-panel {
+  padding-bottom: 4em;
 
   & header.employee-bio {
     border-bottom: 1px solid lightgray;
+    display: flex;
     margin: 2em 0;
     padding-bottom: 2em;
-    text-align: center;
   }
 
   & .employee-image {
-    border: 1px solid white;
-    border-radius: 100px;
-    display: inline-block;
-    height: 100%;
-    margin: 0 auto;
-    min-width: 100%;
-    width: 100%;
+    margin-right: 2em;
 
     & img {
       align-self: center;
@@ -129,8 +88,6 @@
     font-size: 18px;
     font-weight: 500;
     line-height: 30px;
-    margin: 0 auto;
-    max-width: 80%;
   }
 }
 
@@ -264,6 +221,11 @@
 
   & .employee-list-item {
     margin: 0 1em;
+  }
+
+  & a {
+    color: #042A4A;
+    text-decoration: none;
   }
 }
 
