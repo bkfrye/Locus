@@ -229,6 +229,13 @@
   }
 }
 
+.employee-list {
+  & a {
+    color: #042A4A;
+    text-decoration: none;
+  }
+}
+
 
 #overlay.js-open {
   background-color: rgba(0,0,0,0.25);
