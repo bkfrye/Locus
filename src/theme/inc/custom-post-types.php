@@ -300,3 +300,57 @@ function employees_team() {
 
 }
 add_action( 'init', 'employees_team', 0 );
+
+function careers() {
+
+	$labels = array(
+		'name'                  => _x( 'Job Posts', 'Post Type General Name', 'locus' ),
+		'singular_name'         => _x( 'Job Post', 'Post Type Singular Name', 'locus' ),
+		'menu_name'             => __( 'Job Post', 'locus' ),
+		'name_admin_bar'        => __( 'Job Post', 'locus' ),
+		'parent_item_colon'     => __( '', 'locus' ),
+		'all_items'             => __( 'Job Posts', 'locus' ),
+		'add_new_item'          => __( 'Add New Job Post', 'locus' ),
+		'add_new'               => __( 'Add New', 'locus' ),
+		'new_item'              => __( 'New Job Post', 'locus' ),
+		'edit_item'             => __( 'Edit Job Post', 'locus' ),
+		'update_item'           => __( 'Update Job Post', 'locus' ),
+		'view_item'             => __( 'View Job Post', 'locus' ),
+		'view_items'            => __( 'View Jobs', 'locus' ),
+		'search_items'          => __( 'Search Jobs', 'locus' ),
+		'not_found'             => __( 'Not found', 'locus' ),
+		'not_found_in_trash'    => __( 'Not found in Trash', 'locus' ),
+		'featured_image'        => __( 'Featured Image', 'locus' ),
+		'set_featured_image'    => __( 'Set featured image', 'locus' ),
+		'remove_featured_image' => __( 'Remove featured image', 'locus' ),
+		'use_featured_image'    => __( 'Use as featured image', 'locus' ),
+		'insert_into_item'      => __( 'Insert into item', 'locus' ),
+		'uploaded_to_this_item' => __( 'Uploaded to this item', 'locus' ),
+		'items_list'            => __( 'Items list', 'locus' ),
+		'items_list_navigation' => __( 'Items list navigation', 'locus' ),
+		'filter_items_list'     => __( 'Filter items list', 'locus' ),
+	);
+	$args = array(
+		'label'                 => __( 'Job Post', 'locus' ),
+		'description'           => __( 'Job Posting List', 'locus' ),
+		'labels'                => $labels,
+		'supports'              => array( 'title', 'custom-fields' ),
+		'menu_icon'           	=> 'dashicons-megaphone',
+		'hierarchical'          => false,
+		'public'                => true,
+		'show_ui'               => true,
+		'show_in_menu'          => true,
+		'menu_position'         => 20,
+		'show_in_admin_bar'     => true,
+		'show_in_nav_menus'     => false,
+		'can_export'            => true,
+		'has_archive'           => false,
+		'exclude_from_search'   => true,
+		'publicly_queryable'    => true,
+		'capability_type'       => 'post',
+		'show_in_rest'          => true,
+	);
+	register_post_type( 'careers', $args );
+
+}
+add_action( 'init', 'careers', 0 );
