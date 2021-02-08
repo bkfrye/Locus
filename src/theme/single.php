@@ -8,7 +8,7 @@
 				if ( get_post_format() == false ) {
 					get_template_part( 'content', 'single' );
 				} else {
-					get_template_part( 'content', 'employees' );
+					get_template_part( 'content', get_post_format() );
 				}
 		endwhile;
 		else :
