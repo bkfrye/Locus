@@ -43,7 +43,7 @@ add_action( 'wp_enqueue_scripts', 'locus_resources' );
 // Theme setup
 function locus_setup() {
   // Add editor styles for dashboard content
-  add_editor_style('editor-style.css');
+  // add_editor_style('editor-style.css');
 	// Handle Titles
 	add_theme_support( 'title-tag' );
 	// Add featured image support
