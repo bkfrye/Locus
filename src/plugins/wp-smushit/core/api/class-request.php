@@ -255,7 +255,7 @@ class Request {
 	 * @return string
 	 */
 	private function get_api_url( $path = '' ) {
-		$url = 'https://premium.wpmudev.org/api/' . $this->service->name . '/' . $this->service->version . '/';
+		$url = 'https://wpmudev.com/api/' . $this->service->name . '/' . $this->service->version . '/';
 		$url = trailingslashit( $url . $path );
 
 		return $url;
@@ -293,7 +293,7 @@ class Request {
 		$last_run = get_site_option( WP_SMUSH_PREFIX . 'last_run_sync', $defaults );
 
 		$backoff = min( pow( 5, $last_run['fails'] ), HOUR_IN_SECONDS ); // Exponential 5, 25, 125, 625, 3125, 3600 max.
-		if ( $last_run['time'] > ( time() - $backoff ) && ! $manual ) {
+		if ( $last_run['fails'] && $last_run['time'] > ( time() - $backoff ) && ! $manual ) {
 			$last_run['time'] = time();
 			update_site_option( WP_SMUSH_PREFIX . 'last_run_sync', $last_run );
 			return new WP_Error( 'api-backoff', __( '[WPMUDEV API] Skipped sync due to API error exponential backoff.', 'wp-smushit' ) );

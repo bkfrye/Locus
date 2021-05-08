@@ -44,6 +44,22 @@ class CDN extends Abstract_Module {
 	private $status;
 
 	/**
+	 * Site URL.
+	 *
+	 * @since 3.8.0
+	 * @var string
+	 */
+	private $site_url;
+
+	/**
+	 * Home URL.
+	 *
+	 * @since 3.8.0
+	 * @var string
+	 */
+	private $home_url;
+
+	/**
 	 * Supported file extensions.
 	 *
 	 * @var array $supported_extensions
@@ -113,15 +129,26 @@ class CDN extends Abstract_Module {
 			return;
 		}
 
+		// We do this to save extra checks when we load images later on in code.
+		$this->site_url = get_site_url();
+
+		if ( is_multisite() && ! is_subdomain_install() ) {
+			$this->home_url = get_home_url( get_current_site()->id );
+		} else {
+			$this->home_url = get_home_url();
+		}
+
 		$this->init_parser();
 
 		// Add cdn url to dns prefetch.
 		add_filter( 'wp_resource_hints', array( $this, 'dns_prefetch' ), 99, 2 );
 
+		$priority = defined( 'WP_SMUSH_CDN_DELAY_SRCSET' ) && WP_SMUSH_CDN_DELAY_SRCSET ? 1000 : 99;
 		// Update responsive image srcset and sizes if required.
-		add_filter( 'wp_calculate_image_srcset', array( $this, 'update_image_srcset' ), 99, 5 );
-		add_filter( 'wp_calculate_image_sizes', array( $this, 'update_image_sizes' ), 1, 2 );
-
+		add_filter( 'wp_calculate_image_srcset', array( $this, 'update_image_srcset' ), $priority, 5 );
+		if ( $this->settings->get( 'auto_resize' ) ) {
+			add_filter( 'wp_calculate_image_sizes', array( $this, 'update_image_sizes' ), 1, 2 );
+		}
 		// Add resizing arguments to image src.
 		add_filter( 'smush_image_cdn_args', array( $this, 'update_cdn_image_src_args' ), 99, 3 );
 
@@ -140,7 +167,7 @@ class CDN extends Abstract_Module {
 	 * @since 3.0
 	 */
 	public function get_status() {
-		return $this->cdn_active;
+		return $this->cdn_active && $this->settings->get( 'cdn' );
 	}
 
 	/**
@@ -205,7 +232,7 @@ class CDN extends Abstract_Module {
 				'webp'              => array(
 					'label'       => __( 'Enable WebP conversion', 'wp-smushit' ),
 					'short_label' => __( 'WebP Conversion', 'wp-smushit' ),
-					'desc'        => __( 'Smush can automatically convert and serve your images as WebP to compatible browsers.', 'wp-smushit' ),
+					'desc'        => __( 'Smush can automatically convert and serve your images as WebP from the WPMU DEV CDN to compatible browsers.', 'wp-smushit' ),
 				),
 				'rest_api_support'  => array(
 					'label'       => __( 'Enable REST API support', 'wp-smushit' ),
@@ -239,7 +266,14 @@ class CDN extends Abstract_Module {
 					);
 					break;
 				case 'auto_resize':
-					esc_html_e( 'Having trouble with Google PageSpeeds ‘properly size images’ suggestion? This feature will fix this without any coding needed! Note: No resizing is done on your actual images, only what is served from the CDN - so your original images will remain untouched.', 'wp-smushit' );
+					esc_html_e( 'Having trouble with Google PageSpeeds ‘properly size images’ suggestion? This feature will fix this without any coding needed!', 'wp-smushit' );
+					echo '<br>';
+					printf(
+						/* translators: %1$s - opening tag, %2$s - closing tag */
+						esc_html__( 'Note: Smush will pre-fill the srcset attribute with missing image sizes so for this feature to work, those must be declared properly by your theme and page builder using the %1$scontent width%2$s variable.', 'wp-smushit' ),
+						'<a href="https://developer.wordpress.com/themes/content-width/" target="_blank">',
+						'</a>'
+					);
 					break;
 				case 'background_images':
 					printf(
@@ -303,7 +337,7 @@ class CDN extends Abstract_Module {
 					<span><?php esc_html_e( 'Activating', 'wp-smushit' ); ?></span>
 				<?php else : ?>
 					<span class="sui-tooltip sui-tooltip-top-right sui-tooltip-constrained" data-tooltip="<?php esc_attr_e( 'Your media is currently being served from the WPMU DEV CDN. Bulk and Directory smush features are treated separately and will continue to run independently.', 'wp-smushit' ); ?>">
-						<i class="sui-icon-check-tick sui-info sui-md" aria-hidden="true"></i>
+						<i class="sui-icon-check-tick sui-success sui-md" aria-hidden="true"></i>
 					</span>
 					<span><?php esc_html_e( 'Active', 'wp-smushit' ); ?></span>
 				<?php endif; ?>
@@ -688,7 +722,7 @@ class CDN extends Abstract_Module {
 	 * @return array $sources
 	 */
 	public function update_image_srcset( $sources, $size_array, $image_src, $image_meta, $attachment_id = 0 ) {
-		if ( ! is_array( $sources ) ) {
+		if ( ! is_array( $sources ) || ! $this->is_supported_path( $image_src ) ) {
 			return $sources;
 		}
 
@@ -756,6 +790,10 @@ class CDN extends Abstract_Module {
 	 * @return string
 	 */
 	public function update_image_sizes( $sizes, $size ) {
+		if ( ! doing_filter( 'the_content' ) ) {
+			return $sizes;
+		}
+
 		// Get maximum content width.
 		$content_width = $this->max_content_width();
 
@@ -891,7 +929,7 @@ class CDN extends Abstract_Module {
 	 *
 	 * @since 3.1.0
 	 */
-	public function unschedule_cron() {
+	public static function unschedule_cron() {
 		$timestamp = wp_next_scheduled( 'smush_update_cdn_stats' );
 		wp_unschedule_event( $timestamp, 'smush_update_cdn_stats' );
 	}
@@ -1074,6 +1112,11 @@ class CDN extends Abstract_Module {
 		// Get global content width (if content width is empty, set 1900).
 		$content_width = isset( $GLOBALS['content_width'] ) ? (int) $GLOBALS['content_width'] : 1920;
 
+		// Avoid situations, when themes misuse the global.
+		if ( 0 === $content_width ) {
+			$content_width = 1920;
+		}
+
 		// Check to see if we are resizing the images (can not go over that value).
 		$resize_sizes = $this->settings->get_setting( WP_SMUSH_PREFIX . 'resize_sizes' );
 
@@ -1154,7 +1197,7 @@ class CDN extends Abstract_Module {
 		// Loop through each multipliers and generate image.
 		foreach ( $additional_multipliers as $multiplier ) {
 			// New width by multiplying with original size.
-			$new_width = intval( $base_width * $multiplier );
+			$new_width = (int) ( $base_width * $multiplier );
 
 			// In most cases - going over the current width is not recommended and probably not what the user is expecting.
 			if ( $new_width > $current_width ) {
@@ -1210,6 +1253,7 @@ class CDN extends Abstract_Module {
 		 * Try to get the attachment URL.
 		 *
 		 * TODO: attachment_url_to_postid() can be resource intensive and cause 100% CPU spikes.
+		 *
 		 * @see https://core.trac.wordpress.org/ticket/41281
 		 */
 		$attachment_id = attachment_url_to_postid( $src );
@@ -1254,7 +1298,7 @@ class CDN extends Abstract_Module {
 			$srcset = $this->maybe_generate_srcset( $width, $height, $src, $image_meta );
 		}
 
-		$sizes = wp_calculate_image_sizes( $size_array, $src, $image_meta, $attachment_id );
+		$sizes = $srcset ? wp_calculate_image_sizes( $size_array, $src, $image_meta, $attachment_id ) : false;
 
 		return array( $srcset, $sizes );
 	}
@@ -1269,7 +1313,7 @@ class CDN extends Abstract_Module {
 	 * @param string $src     Image source.
 	 * @param array  $meta    Image meta.
 	 *
-	 * @return string
+	 * @return bool|string
 	 */
 	private function maybe_generate_srcset( $width, $height, $src, $meta ) {
 		$sources[ $width ] = array(
@@ -1285,12 +1329,16 @@ class CDN extends Abstract_Module {
 			$meta
 		);
 
-		$srcset = '';
-		foreach ( $sources as $source ) {
-			$srcset .= str_replace( ' ', '%20', $source['url'] ) . ' ' . $source['value'] . $source['descriptor'] . ', ';
+		$srcsets = array();
+
+		if ( 1 < count( $sources ) ) {
+			foreach ( $sources as $source ) {
+				$srcsets[] = str_replace( ' ', '%20', $source['url'] ) . ' ' . $source['value'] . $source['descriptor'];
+			}
+			return implode( ',', $srcsets );
 		}
 
-		return $srcset;
+		return false;
 	}
 
 	/**
@@ -1307,8 +1355,14 @@ class CDN extends Abstract_Module {
 		// Remove whitespaces.
 		$src = trim( $src );
 
+		// No image? Return.
+		if ( empty( $src ) ) {
+			return false;
+		}
+
 		// Allow only these extensions in CDN.
-		$ext = strtolower( pathinfo( $src, PATHINFO_EXTENSION ) );
+		$path = wp_parse_url( $src, PHP_URL_PATH );
+		$ext  = strtolower( pathinfo( $path, PATHINFO_EXTENSION ) );
 		if ( ! in_array( $ext, $this->supported_extensions, true ) ) {
 			return false;
 		}
@@ -1428,8 +1482,17 @@ class CDN extends Abstract_Module {
 	 * @return array|false
 	 */
 	private function get_image_size( $url ) {
+		if ( $this->site_url !== $this->home_url ) {
+			$url = str_replace( $this->site_url, $this->home_url, $url );
+		}
+
 		$path = wp_make_link_relative( $url );
 		$path = wp_normalize_path( ABSPATH . $path );
+
+		if ( ! file_exists( $path ) ) {
+			return false;
+		}
+
 		return getimagesize( $path );
 	}
 

@@ -51,9 +51,9 @@
 				return;
 			}
 
-			this.membership = document.getElementById(
-				'smush-onboarding'
-			).dataset.type;
+			const dialog = document.getElementById( 'smush-onboarding' );
+
+			this.membership = dialog.dataset.type;
 
 			if ( 'pro' !== this.membership ) {
 				this.onboardingSlides = [
@@ -64,6 +64,10 @@
 					'usage',
 				];
 				this.selection.lossy = false;
+			}
+
+			if ( 'false' === dialog.dataset.tracking ) {
+				this.onboardingSlides.pop();
 			}
 
 			this.renderTemplate();
@@ -342,6 +346,17 @@
 						nonce.value
 				);
 			}, 3000 );
+		},
+
+		/**
+		 * Hide new features modal.
+		 *
+		 * @since 3.7.0
+		 */
+		hideUpgradeModal: () => {
+			const xhr = new XMLHttpRequest();
+			xhr.open('POST', ajaxurl + '?action=hide_new_features');
+			xhr.send();
 		},
 	};
 

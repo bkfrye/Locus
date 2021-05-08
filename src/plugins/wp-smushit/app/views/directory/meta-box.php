@@ -6,7 +6,6 @@
  *
  * @var int    $errors       Number of errors during directory scan.
  * @var array  $images       Array of images with errors.
- * @var string $root_path    Root path.
  * @var string $upgrade_url  Upgrade URL.
  *
  * @var Smush\App\Pages\Dashboard $this  Dashboard page.
@@ -17,14 +16,6 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 ?>
-
-<?php wp_nonce_field( 'smush_get_dir_list', 'list_nonce' ); ?>
-<?php wp_nonce_field( 'smush_get_image_list', 'image_list_nonce' ); ?>
-
-<!-- Directory Path -->
-<input type="hidden" class="wp-smush-dir-path" value="" />
-<input type="hidden" name="wp-smush-base-path" value="<?php echo esc_attr( $root_path ); ?>" />
-
 <div class="wp-smush-scan-result">
 	<?php if ( ! apply_filters( 'wpmudev_branding_hide_branding', false ) ) : ?>
 		<span class="wp-smush-no-image">
@@ -36,7 +27,7 @@ if ( ! defined( 'WPINC' ) ) {
 			<?php esc_html_e( 'In addition to smushing your media uploads, you may want to smush non WordPress images that are outside of your uploads directory. Get started by adding files and folders you wish to optimize.', 'wp-smushit' ); ?>
 		</p>
 
-		<button class="sui-button sui-button-blue wp-smush-browse" data-modal-open="wp-smush-list-dialog" data-modal-open-focus="wp-smush-select-dir" data-modal-mask="true">
+		<button class="sui-button sui-button-blue wp-smush-browse">
 			<?php esc_html_e( 'CHOOSE DIRECTORY', 'wp-smushit' ); ?>
 		</button>
 	</div>
@@ -49,10 +40,11 @@ if ( ! defined( 'WPINC' ) ) {
 				<p>
 					<?php
 					printf(
-					/* translators: %1$s: a tag start, %2$s: closing a tag */
-						esc_html__( '%1$sUpgrade to pro%2$s to bulk smush all your directory images with one click. Free users can smush 50 images with each click.', 'wp-smushit' ),
+					/* translators: %1$s: a tag start, %2$s: closing a tag, %3$d: free image limit */
+						esc_html__( '%1$sUpgrade to pro%2$s to bulk smush all your directory images with one click. Free users can smush %3$d images with each click.', 'wp-smushit' ),
 						'<a href="' . esc_url( $upgrade_url ) . '" target="_blank" title="' . esc_html__( 'Smush Pro', 'wp-smushit' ) . '">',
-						'</a>'
+						'</a>',
+						absint( \Smush\Core\Core::$max_free_bulk )
 					);
 					?>
 				</p>
@@ -88,10 +80,3 @@ if ( ! defined( 'WPINC' ) ) {
 
 	<?php wp_nonce_field( 'wp_smush_all', 'wp-smush-all' ); ?>
 </div>
-
-<?php
-$screen = get_current_screen();
-if ( ! empty( $screen ) && ! empty( $screen->base ) && ( 'toplevel_page_smush' === $screen->base || 'toplevel_page_smush-network' === $screen->base ) ) {
-	$this->view( 'directory-list', array(), 'modals' );
-	$this->view( 'progress-dialog', array(), 'modals' );
-}

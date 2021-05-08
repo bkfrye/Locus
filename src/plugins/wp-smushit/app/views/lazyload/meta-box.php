@@ -25,10 +25,10 @@ wp_enqueue_style( 'wp-color-picker' );
 	?>
 </p>
 
-<div class="sui-notice sui-notice-info">
+<div class="sui-notice sui-notice-success">
 	<div class="sui-notice-content">
 		<div class="sui-notice-message">
-			<i class="sui-notice-icon sui-icon-info sui-md" aria-hidden="true"></i>
+			<i class="sui-notice-icon sui-icon-check-tick sui-md" aria-hidden="true"></i>
 			<p><?php esc_html_e( 'Lazy loading is active.', 'wp-smushit' ); ?></p>
 		</div>
 	</div>
@@ -149,8 +149,8 @@ wp_enqueue_style( 'wp-color-picker' );
 						<input type="radio" name="animation[selected]" value="placeholder" id="animation-placeholder" <?php checked( $settings['animation']['selected'], 'placeholder' ); ?> />
 						<?php esc_html_e( 'Placeholder', 'wp-smushit' ); ?>
 					</label>
-					<label for="animation-disabled" class="sui-tab-item <?php echo ! $settings['animation']['selected'] ? 'active' : ''; ?>">
-						<input type="radio" name="animation[selected]" value="0" id="animation-disabled" <?php checked( $settings['animation']['selected'], false ); ?> />
+					<label for="animation-disabled" class="sui-tab-item <?php echo 'none' === $settings['animation']['selected'] ? 'active' : ''; ?>">
+						<input type="radio" name="animation[selected]" value="none" id="animation-disabled" <?php checked( $settings['animation']['selected'], 'none' ); ?> />
 						<?php esc_html_e( 'None', 'wp-smushit' ); ?>
 					</label>
 				</div><!-- end data-tabs -->
@@ -573,6 +573,42 @@ wp_enqueue_style( 'wp-color-picker' );
 	<div class="sui-box-settings-row">
 		<div class="sui-box-settings-col-1">
 			<span class="sui-settings-label">
+				<?php esc_html_e( 'Disable Noscript', 'wp-smushit' ); ?>
+			</span>
+			<span class="sui-description">
+				<?php esc_html_e( 'Disable NoScript while lazy loading is enabled.', 'wp-smushit' ); ?>
+			</span>
+		</div>
+
+		<div class="sui-box-settings-col-2">
+			<div class="sui-form-field">
+				<label for="noscript" class="sui-toggle">
+					<input
+						type="checkbox"
+						id="noscript"
+						name="noscript"
+						aria-labelledby="noscript-label"
+						aria-describedby="noscript-description"
+						<?php checked( isset( $settings['noscript'] ) && $settings['noscript'] ); ?>
+					/>
+					<span class="sui-toggle-slider" aria-hidden="true"></span>
+					<span id="noscript-label" class="sui-toggle-label">
+						<?php esc_html_e( 'Disable Noscript', 'wp-smushit' ); ?>
+					</span>
+					<span id="noscript-description" class="sui-description">
+						<?php
+							/* translators: %1$s - opening a tag, %2$s - closing a tag */
+							esc_html_e( 'Sometimes W3C HTML5 Validation may give error due to No Script.', 'wp-smushit' );
+						?>
+					</span>
+				</label>
+			</div>
+		</div>
+	</div>
+
+	<div class="sui-box-settings-row">
+		<div class="sui-box-settings-col-1">
+			<span class="sui-settings-label">
 				<?php esc_html_e( 'Deactivate', 'wp-smushit' ); ?>
 			</span>
 			<span class="sui-description">
@@ -586,8 +622,11 @@ wp_enqueue_style( 'wp-color-picker' );
 		</div>
 		<div class="sui-box-settings-col-2">
 			<button class="sui-button sui-button-ghost" id="smush-cancel-lazyload">
-				<i class="sui-icon-power-on-off" aria-hidden="true"></i>
-				<?php esc_html_e( 'Deactivate', 'wp-smushit' ); ?>
+				<span class="sui-loading-text">
+					<i class="sui-icon-power-on-off" aria-hidden="true"></i>
+					<?php esc_html_e( 'Deactivate', 'wp-smushit' ); ?>
+				</span>
+				<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
 			</button>
 		</div>
 	</div>
@@ -614,7 +653,7 @@ wp_enqueue_style( 'wp-color-picker' );
 					$wpPickerButton = $wpPicker.find('.wp-color-result');
 
 				// Listen to color change
-				$suiPickerInput.bind('change', function() {
+				$suiPickerInput.on('change', function() {
 					// Change color preview
 					$suiPickerColor.find('span').css({
 						'background-color': $wpPickerButton.css('background-color')
@@ -626,7 +665,7 @@ wp_enqueue_style( 'wp-color-picker' );
 
 				// Open iris picker
 				$suiPicker.find('.sui-button, span[role=button]').on('click', function(e) {
-					$wpPickerButton.click();
+					$wpPickerButton.trigger('click');
 
 					e.preventDefault();
 					e.stopPropagation();
@@ -636,7 +675,7 @@ wp_enqueue_style( 'wp-color-picker' );
 				$suiPickerValue.find('button').on( 'click', function(e) {
 					e.preventDefault();
 
-					$wpPicker.find('.wp-picker-clear').click();
+					$wpPicker.find('.wp-picker-clear').trigger('click');
 					$suiPickerValue.find('input').val('');
 					$suiPickerInput.val('').trigger('change');
 					$suiPickerColor.find('span').css({

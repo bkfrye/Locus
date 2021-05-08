@@ -48,7 +48,8 @@ if ( ! defined( 'WPINC' ) ) {
 						playerColor: "14485f",
 						videoQuality: "hd-only",
 						popover: true,
-						popoverPreventScroll: true
+						popoverPreventScroll: true,
+						popoverContent: 'html'
 					});
 				};
 
@@ -82,11 +83,11 @@ if ( ! defined( 'WPINC' ) ) {
 	</li>
 	<li class="smush-pro-feature-row">
 		<div class="smush-pro-feature-title">
-			<?php esc_html_e( 'WPMU DEV CDN with WebP Support', 'wp-smushit' ); ?></div>
+			<?php esc_html_e( 'Streamline your images with Smush CDN', 'wp-smushit' ); ?></div>
 		<div class="smush-pro-feature-desc">
 			<?php
 			esc_html_e(
-				'Serve your images from our CDN from 45 blazing fast servers around the world. Enable automatic image sizing and WebP support and your website will be absolutely flying.',
+				'Serve your images from our CDN from 45 blazing fast servers around the world. Enable automatic image sizing and WebP support and your website will be absolute flying.',
 				'wp-smushit'
 			);
 			?>
@@ -94,11 +95,11 @@ if ( ! defined( 'WPINC' ) ) {
 	</li>
 	<li class="smush-pro-feature-row">
 		<div class="smush-pro-feature-title">
-			<?php esc_html_e( 'No limits, no restrictions', 'wp-smushit' ); ?></div>
+			<?php esc_html_e( 'Serve next-gen WebP images (without Smush CDN)', 'wp-smushit' ); ?></div>
 		<div class="smush-pro-feature-desc">
 			<?php
 			esc_html_e(
-				'Need a one-click bulk optimization solution for compressing your entire existing image library fast and easy? Pro unlocks unlimited bulk smushing, and lifts the image size limit from 5Mb to 32Mb.',
+				'Rather not use Smush CDN? Our standalone WebP feature allows you to serve next-gen images that are around 26% smaller than JPG and PNG formats. All without sacrificing image quality.',
 				'wp-smushit'
 			);
 			?>
@@ -134,7 +135,19 @@ if ( ! defined( 'WPINC' ) ) {
 		<div class="smush-pro-feature-desc">
 			<?php
 			esc_html_e(
-				'When you compress a PNG, Smush will check if converting it to JPEG could further reduce its size, and do so if necessary,',
+				'When you compress a PNG, Smush will check if converting it to JPEG could further reduce its size, and do so if necessary.',
+				'wp-smushit'
+			);
+			?>
+		</div>
+	</li>
+	<li class="smush-pro-feature-row">
+		<div class="smush-pro-feature-title">
+			<?php esc_html_e( 'NextGen Gallery Integration', 'wp-smushit' ); ?></div>
+		<div class="smush-pro-feature-desc">
+			<?php
+			esc_html_e(
+				'Allow smushing images directly through NextGen Gallery settings.',
 				'wp-smushit'
 			);
 			?>
