@@ -9,6 +9,10 @@
         </div>
   		</div>
       <?php the_field('description'); ?>
+
+      <div class="application-form">
+        <?php gravity_form(1, false, false, false, '', true, 12); ?>
+      </div>
     </section>
   </div>
 <?php get_footer(); ?>
