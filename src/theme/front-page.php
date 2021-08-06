@@ -38,25 +38,34 @@
   </div>
 </section>
 
-<section id="featured-news-callout">
-  <div class="callout-wrapper">
-    <h2>Featured news</h2>
-    <?php
-      $post_object = get_field('featured_item');
-      if( $post_object ):
-      	$post = $post_object;
-      	setup_postdata( $post );
-      	?>
-          <div>
-          	<h3><?php the_title(); ?></h3>
-            <div class="btn">
-              <a href="<?php the_field('news_url'); ?>" target="_blank">Learn More</a>
-            </div>
-          </div>
-      <?php wp_reset_postdata(); ?>
-    <?php endif; ?>
-  </div>
-</section>
+<?php
+  $sticky = get_option( 'sticky_posts' );
+  $args = array(
+          'posts_per_page' => 1,
+          'post__in' => $sticky,
+          'ignore_sticky_posts' => 1
+  );
+  $query = new WP_Query( $args );
+
+  if ( isset( $sticky[0] ) ) :
+?>
+  <section id="featured-news-callout">
+    <div class="callout-wrapper">
+      <h2>Featured news</h2>
+      <?php
+          echo '<div>';
+          if ( $query->have_posts() ) : while ( $query->have_posts() ) : $query->the_post();
+            echo '<h3>' . get_the_title() . '</h3>';
+            echo '<div class="btn"><a href="' . get_the_permalink() . '">Learn More</a></div>';
+          endwhile; endif;
+          echo '</div>';
+      ?>
+    </div>
+  </section>
+<?php 
+  endif;
+  wp_reset_postdata();
+?>
 
 <section id="cr-phage"  style="background-image: url('<?php the_field('cr-phage_image'); ?>')">
   <div class="cr-phage-wrapper">
