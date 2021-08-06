@@ -253,3 +253,46 @@ sup {
   margin-top: 60px;
   min-height: 500px;
 }
+
+.card {
+  background-color: var(--kindaWhite);
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  margin-right: 24px;
+  padding: 44px;
+  width: 75%;
+
+  @media (width > 910px) {
+    width: 33%;
+  }
+
+  & h3 {
+    font-size: 24px;
+  }
+
+  & p {
+    flex: 1;
+    margin-bottom: 44px;
+  }
+
+  & .inline-link {
+    display: flex;
+    flex-direction: row;
+    padding-right: 2em;
+    width: 30%;
+
+    & a {
+      align-items: center;
+      display: flex;
+      text-decoration: none;
+    }
+    & span {
+      padding-left: 1.5em;
+    }
+
+    & a:visited {
+      color: var(--blue);
+    }
+  }
+}

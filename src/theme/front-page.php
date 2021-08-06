@@ -91,28 +91,49 @@
       <h4><a href="<?php echo site_url(); ?>/technology">LEARN MORE ABOUT US</a></h4>
     </div>
   </div>
-</section>
+  <div class="wrapper">
+    <div class="card">
+      <h3>Technology</h3>
+      <p>See how we’re advancing beyond bacterial subtraction and using phage to add back key components</p>
 
-<section id="pipeline" class="our-pipeline">
-  <div class="our-pipeline-wrapper">
-    <article>
-      <div class="our-pipeline-content">
-        <h2><?php echo __('Our Pipeline'); ?></h2>
-        <?php the_field('pipeline_content'); ?>
+      <div class="inline-link">
+        <a href="<?php echo site_url(); ?>/technology">More
+          <span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><g fill="none"><g fill="#1E5CE5"><path d="M7 1.7L7.7 1C8.1 0.7 8.6 0.7 8.9 1L15.3 7.4C15.7 7.7 15.7 8.3 15.3 8.6L8.9 15C8.6 15.3 8.1 15.3 7.7 15L7 14.3C6.7 14 6.7 13.5 7 13.2L11 9.3 1.5 9.3C1 9.3 0.7 9 0.7 8.5L0.7 7.5C0.7 7 1 6.7 1.5 6.7L11 6.7 7 2.8C6.7 2.5 6.7 2 7 1.7Z"/></g></g></svg>
+          </span>
+        </a>
       </div>
-    </article>
+    </div>
+    <div class="card">
+      <h3>Manufacturing crPhage</h3>
+      <p>Learn how in-house manufacturing allows us to make a CRISPR-based precision medicine for the massess</p>
+
+      <div class="inline-link">
+        <a href="<?php echo site_url(); ?>/manufacturing">More
+          <span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><g fill="none"><g fill="#1E5CE5"><path d="M7 1.7L7.7 1C8.1 0.7 8.6 0.7 8.9 1L15.3 7.4C15.7 7.7 15.7 8.3 15.3 8.6L8.9 15C8.6 15.3 8.1 15.3 7.7 15L7 14.3C6.7 14 6.7 13.5 7 13.2L11 9.3 1.5 9.3C1 9.3 0.7 9 0.7 8.5L0.7 7.5C0.7 7 1 6.7 1.5 6.7L11 6.7 7 2.8C6.7 2.5 6.7 2 7 1.7Z"/></g></g></svg>
+          </span>
+        </a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>About Us</h3>
+      <p>Find out what makes us tick and what it’s like working and partnering with us</p>
+
+      <div class="inline-link">
+        <a href="<?php echo site_url(); ?>/about-us">More
+          <span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><g fill="none"><g fill="#1E5CE5"><path d="M7 1.7L7.7 1C8.1 0.7 8.6 0.7 8.9 1L15.3 7.4C15.7 7.7 15.7 8.3 15.3 8.6L8.9 15C8.6 15.3 8.1 15.3 7.7 15L7 14.3C6.7 14 6.7 13.5 7 13.2L11 9.3 1.5 9.3C1 9.3 0.7 9 0.7 8.5L0.7 7.5C0.7 7 1 6.7 1.5 6.7L11 6.7 7 2.8C6.7 2.5 6.7 2 7 1.7Z"/></g></g></svg>
+          </span>
+        </a>
+      </div>
+    </div>
   </div>
 </section>
 
-<?php get_template_part('template_parts/pipeline'); ?>
-
-
-<section id="careers" class="careers" style="background-image: url('<?php echo get_stylesheet_directory_uri() ?>/img/bg-careers.png')">
-  <div class="careers-content wrapper">
-    <h4>Help us revolutionize medical science</h4>
-    <div class="btn white">
-      <a href="<?php the_field('careers_link'); ?>">Our Current Openings</a>
-    </div>
+<section id="features">
+  <div class="features-wrapper">
+    <!-- TODO -->
   </div>
 </section>
 
@@ -162,6 +183,38 @@
   </div>
 </section>
 
+
+<div class="learn-more">
+  <div class="wrapper">
+    <h4>Learn more</h4>
+  </div>
+  <div class="wrapper">
+    <div class="card">
+      <h3>Pipeline</h3>
+      <p>Discover our robust asset pipeline that hits both infectious and inflammatory diseases</p>
+
+      <div class="inline-link">
+        <a href="<?php echo site_url(); ?>/technology">More
+          <span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><g fill="none"><g fill="#1E5CE5"><path d="M7 1.7L7.7 1C8.1 0.7 8.6 0.7 8.9 1L15.3 7.4C15.7 7.7 15.7 8.3 15.3 8.6L8.9 15C8.6 15.3 8.1 15.3 7.7 15L7 14.3C6.7 14 6.7 13.5 7 13.2L11 9.3 1.5 9.3C1 9.3 0.7 9 0.7 8.5L0.7 7.5C0.7 7 1 6.7 1.5 6.7L11 6.7 7 2.8C6.7 2.5 6.7 2 7 1.7Z"/></g></g></svg>
+          </span>
+        </a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Partnering</h3>
+      <p>Find out our approach to partnering and how we innovate on a timeline</p>
+
+      <div class="inline-link">
+        <a href="<?php echo site_url(); ?>/manufacturing">More
+          <span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><g fill="none"><g fill="#1E5CE5"><path d="M7 1.7L7.7 1C8.1 0.7 8.6 0.7 8.9 1L15.3 7.4C15.7 7.7 15.7 8.3 15.3 8.6L8.9 15C8.6 15.3 8.1 15.3 7.7 15L7 14.3C6.7 14 6.7 13.5 7 13.2L11 9.3 1.5 9.3C1 9.3 0.7 9 0.7 8.5L0.7 7.5C0.7 7 1 6.7 1.5 6.7L11 6.7 7 2.8C6.7 2.5 6.7 2 7 1.7Z"/></g></g></svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <?php get_footer(); ?>
 <script type="text/javascript">
