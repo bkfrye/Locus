@@ -132,7 +132,7 @@ trait Options {
 			$this->resetGroups();
 			return ! empty( $this->arguments[0] )
 				? $this->arguments[0]
-				: $this->getDefault( $name );
+				: $this->getDefault( $name, false );
 		}
 
 		if ( empty( $defaults[ $name ]['type'] ) ) {
@@ -144,7 +144,7 @@ trait Options {
 			: (
 				! empty( $this->arguments[0] )
 					? $this->arguments[0]
-					: $this->getDefault( $name )
+					: $this->getDefault( $name, false )
 			);
 
 		$this->resetGroups();
@@ -178,7 +178,7 @@ trait Options {
 		}
 
 		if ( ! isset( $defaults[ $name ] ) ) {
-			$default = $this->getDefault( $name );
+			$default = $this->getDefault( $name, false );
 			$this->resetGroups();
 
 			return $default;
@@ -188,7 +188,7 @@ trait Options {
 			return $this->setSubGroup( $name );
 		}
 
-		$value = $this->getDefault( $name );
+		$value = $this->getDefault( $name, false );
 
 		if ( isset( $defaults[ $name ]['value'] ) ) {
 			$preserveHtml = ! empty( $defaults[ $name ]['preserveHtml'] );
@@ -260,7 +260,7 @@ trait Options {
 		}
 
 		if ( ! isset( $defaults[ $name ] ) ) {
-			$default = $this->getDefault( $name );
+			$default = $this->getDefault( $name, false );
 			$this->resetGroups();
 
 			return $default;
@@ -446,6 +446,18 @@ trait Options {
 		// Make sure our dynamic options have loaded.
 		$this->init( true );
 
+		// If we don't have a group key set, it means we want to reset everything.
+		if ( empty( $this->groupKey ) ) {
+			$groupKeys = array_keys( $this->options );
+			foreach ( $groupKeys as $groupKey ) {
+				$this->groupKey = $groupKey;
+				$this->reset();
+			}
+
+			// Since we just finished resetting everything, we can return early.
+			return;
+		}
+
 		// If we need to set a sub-group, do that now.
 		$keys     = array_merge( [ $this->groupKey ], $this->subGroups );
 		$defaults = $this->options[ $this->groupKey ];
@@ -515,8 +527,17 @@ trait Options {
 			$optionOrGroup = '_aioseo_type';
 		}
 
+		static $hasInitialized = false;
+
 		// Make sure our dynamic options have loaded.
-		$this->init( true );
+		if ( ! $hasInitialized ) {
+			foreach ( $this->subGroups as $subGroup ) {
+				if ( 'dynamic' === $subGroup ) {
+					$hasInitialized = true;
+					$this->init( true );
+				}
+			}
+		}
 
 		// If we need to set a sub-group, do that now.
 		$defaults = $this->groupKey ? $this->options[ $this->groupKey ] : $this->options;
@@ -590,7 +611,7 @@ trait Options {
 	 * @param  string $name The option name.
 	 * @return void
 	 */
-	public function getDefault( $name ) {
+	public function getDefault( $name, $resetGroups = true ) {
 		$defaults = $this->defaultsMerged[ $this->groupKey ];
 		if ( ! empty( $this->subGroups ) ) {
 			foreach ( $this->subGroups as $subGroup ) {
@@ -599,6 +620,10 @@ trait Options {
 				}
 				$defaults = $defaults[ $subGroup ];
 			}
+		}
+
+		if ( $resetGroups ) {
+			$this->resetGroups();
 		}
 
 		if ( ! isset( $defaults[ $name ] ) ) {
@@ -612,6 +637,17 @@ trait Options {
 		return isset( $defaults[ $name ]['default'] )
 			? $defaults[ $name ]['default']
 			: null;
+	}
+
+	/**
+	 * Gets the defaults options.
+	 *
+	 * @since 4.1.3
+	 *
+	 * @return array An array of dafults.
+	 */
+	public function getDefaults() {
+		return $this->defaults;
 	}
 
 	/**

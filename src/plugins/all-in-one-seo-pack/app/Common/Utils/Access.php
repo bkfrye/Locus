@@ -15,11 +15,11 @@ class Access {
 	 * @var array
 	 */
 	protected $capabilities = [
+		'aioseo_dashboard',
 		'aioseo_general_settings',
 		'aioseo_search_appearance_settings',
 		'aioseo_social_networks_settings',
 		'aioseo_sitemap_settings',
-		'aioseo_internal_links_settings',
 		'aioseo_redirects_settings',
 		'aioseo_seo_analysis_settings',
 		'aioseo_tools_settings',
@@ -31,7 +31,8 @@ class Access {
 		'aioseo_page_social_settings',
 		'aioseo_local_seo_settings',
 		'aioseo_page_local_seo_settings',
-		'aioseo_about_us_page'
+		'aioseo_about_us_page',
+		'aioseo_setup_wizard'
 	];
 
 	/**
@@ -53,12 +54,11 @@ class Access {
 	 */
 	public function __construct() {
 		$adminRoles = [];
-		$wpRoles    = wp_roles();
-		$allRoles   = $wpRoles->roles;
-		foreach ( $allRoles as $key => $wpRole ) {
-			$role = get_role( $key );
-			if ( $role->has_cap( 'install_plugins' ) || $role->has_cap( 'publish_posts' ) ) {
-				$adminRoles[ $key ] = $key;
+		$allRoles   = aioseo()->helpers->getUserRoles();
+		foreach ( $allRoles as $roleName => $wpRole ) {
+			$role = get_role( $roleName );
+			if ( $this->isAdmin( $roleName ) || $role->has_cap( 'publish_posts' ) ) {
+				$adminRoles[ $roleName ] = $roleName;
 			}
 		}
 
@@ -74,30 +74,16 @@ class Access {
 	 * @return void
 	 */
 	public function addCapabilities() {
+		$this->isUpdatingRoles = true;
+
 		foreach ( $this->roles as $wpRole => $role ) {
 			$roleObject = get_role( $wpRole );
 			if ( ! is_object( $roleObject ) ) {
 				continue;
 			}
 
-			if ( $this->canManage( $role ) ) {
-				$roleObject->add_cap( 'aioseo_manage_seo' );
-			} else {
-				$roleObject->remove_cap( 'aioseo_manage_seo' );
-			}
-
 			if ( $this->isAdmin( $role ) ) {
-				$roleObject->add_cap( 'aioseo_setup_wizard' );
-			} else {
-				$roleObject->remove_cap( 'aioseo_setup_wizard' );
-			}
-
-			foreach ( $this->getAllCapabilities( $role ) as $capability => $enabled ) {
-				if ( $enabled ) {
-					$roleObject->add_cap( $capability );
-				} else {
-					$roleObject->remove_cap( $capability );
-				}
+				$roleObject->add_cap( 'aioseo_manage_seo' );
 			}
 		}
 
@@ -126,9 +112,12 @@ class Access {
 			}
 
 			$role = get_role( $key );
+			if ( empty( $role ) ) {
+				continue;
+			}
 
-			// Anyone with install plugins can remain.
-			if ( $role->has_cap( 'install_plugins' ) ) {
+			// Any Admin can remain.
+			if ( $this->isAdmin( $key ) ) {
 				continue;
 			}
 
@@ -174,15 +163,26 @@ class Access {
 	 */
 	public function getAllCapabilities( $role = null ) {
 		$capabilities = [];
-		foreach ( $this->capabilities as $capability ) {
+		foreach ( $this->getCapabilityList() as $capability ) {
 			$capabilities[ $capability ] = $this->hasCapability( $capability, $role );
 		}
 
-		$capabilities['aioseo_setup_wizard'] = $this->isAdmin( $role );
-		$capabilities['aioseo_admin']        = $this->isAdmin( $role );
-		$capabilities['aioseo_manage_seo']   = $this->canManage( $role );
+		$capabilities['aioseo_admin']         = $this->isAdmin( $role );
+		$capabilities['aioseo_manage_seo']    = $this->isAdmin( $role );
+		$capabilities['aioseo_about_us_page'] = $this->canManage( $role );
 
 		return $capabilities;
+	}
+
+	/**
+	 * Returns the capability list.
+	 *
+	 * @return 4.1.3
+	 *
+	 * @return array An array of capabilities.
+	 */
+	public function getCapabilityList() {
+		return $this->capabilities;
 	}
 
 	/**
@@ -195,29 +195,14 @@ class Access {
 	 */
 	public function isAdmin( $role = null ) {
 		if ( $role ) {
-			if ( is_multisite() && 'superadmin' === $role ) {
+			if ( ( is_multisite() && 'superadmin' === $role ) || 'administrator' === $role ) {
 				return true;
-			}
-
-			if ( ! is_multisite() && 'administrator' === $role ) {
-				return true;
-			}
-
-			$wpRoles  = wp_roles();
-			$allRoles = $wpRoles->roles;
-			foreach ( $allRoles as $key => $wpRole ) {
-				if ( $key === $role ) {
-					$r = get_role( $key );
-					if ( $r->has_cap( 'install_plugins' ) ) {
-						return true;
-					}
-				}
 			}
 
 			return false;
 		}
 
-		if ( ( is_multisite() && current_user_can( 'superadmin' ) ) || current_user_can( 'administrator' ) || current_user_can( 'install_plugins' ) ) {
+		if ( ( is_multisite() && current_user_can( 'superadmin' ) ) || current_user_can( 'administrator' ) ) {
 			return true;
 		}
 
@@ -252,15 +237,39 @@ class Access {
 	}
 
 	/**
-	 * Checks if the passed in role can manage AIOSEO.
+	 * Checks if the current user can manage AIOSEO.
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param  string $role The role to check against.
-	 * @return bool         Whether or not the user can manage AIOSEO.
+	 * @param  string|null $checkRole A role to check against.
+	 * @return bool                   Whether or not the user can manage AIOSEO.
 	 */
-	protected function canManage( $role ) {
-		return $this->isAdmin( $role );
+	public function canManage( $checkRole = null ) {
+		return $this->isAdmin( $checkRole );
+	}
+
+	/**
+	 * Gets all options that the user does not have access to manage.
+	 *
+	 * @since 4.1.3
+	 *
+	 * @param  string $role The given role.
+	 * @return array        An array with the option names.
+	 */
+	public function getNotAllowedOptions() {
+		return [];
+	}
+
+	/**
+	 * Gets all page fields that the user does not have access to manage.
+	 *
+	 * @since 4.1.3
+	 *
+	 * @param  string $role The given role.
+	 * @return array        An array with the field names.
+	 */
+	public function getNotAllowedPageFields() {
+		return [];
 	}
 
 	/**

@@ -1,12 +1,185 @@
+### 2.5.8 | 2021-07-28
+- Fixed an issue for inputs where Gravity Form styles are overriding and breaking WordPress admin styles for certain inputs, textareas, and selects.
+- Fixed an issue of incorrect styles for the tel input type when in the entry edit view.
+- Fixed an issue that causes invalid markup in Field Descriptions to break the Form Editor.
+- Fixed an in which javascript can be injected on pages which don't support it and cause console errors.
+- Fixed an issue that affected the performance of the forms and entries list pages.
+- Fixed an issue with the display of the datepicker field in 2021 theme.
+- Fixed an issue that causes rich text fields not render correctly in some cases in the WordPress admin.
+- Fixed an issue that causes some languages to not display correctly in the tab ui of the form editor.
+- Fixed an issue which causes datepickers in the form preview window to not respect the week starts on setting in WordPress.
+- Fixed an issue that causes long labels for form fields to cause the conditional logic rules in settings area to exceed the width of their column.
+- Fixed an issue where the personal data cron does not trash or delete entries for inactive forms.
+- Fixed an issue which causes Next Button Conditional Logic rules to break in some situations.
+- Fixed an issue where the columns of the list field are not aligned with the inputs when the legacy setting is on.
+- Fixed an issue which causes databases with an "int_" prefix to break upgrade routines.
+- Fixed an issue with form settings field map field where the first field with required input types with only one option present is not saving the value, resulting in an error for required fields.
+- Fixed an issue where the required indicator can be displayed for the consent field in the form editor when the field is not required.
+- Fixed an issue in form editor field settings where field errors and notices are not reset and updated correctly as you edit different fields.
+- Fixed a bug which causes some systems to throw a fatal error when updating to 2.5.7.x.
+- Fixed a bug which causes forms with text-only fields to break the Form Editor which was introduced in 2.5.7.2
+- Fixed a bug which causes AJAX forms to inject Hooks JS markup and break the redirect script.
+- Fixed a bug which causes programmatically-created forms to throw PHP warnings if specific values are ommitted.
+- Fixed a bug in the settings field map field that prevents it from honoring input type arguments.
+- Fixed a PHP error in the field select field.
+- Fixed a layout bug for the list field in the form entry editing view when a form has legacy mode enabled.
+- Updated conditional logic for submit button to hide it visually when it is disabled.
+- Updated form editor and form settings alerts to reflect the new alerts styling.
+- Updated front end scripts to allow for filtering of their tags in WordPress 5.7 and up.
+- Updated the file upload field in order to support mapping its values to User Meta.
+- Updated error messages for File Uploads to be translatable.
+- API: Added a new alert component; currently only used in the admin.
+- API: Added new function GFCommon::get_inline_script_tag() which allows filtering of our theme inline scripts in WordPress 5.7 and up with the 'wp_inline_script_attributes' filter.
+
+### 2.5.7 | 2021-07-07
+- Fixed an issue that sometimes causes notice level warnings on widget enabled pages.
+- Fixed an issue that causes the file upload field to have empty rows remain after a file is deleted during editing the entry.
+- Fixed an issue where a notice appears on the feed details page.
+- Fixed an issue for multi-page forms where all fields regardless of current page incorrectly validate on each page submittal.
+- Fixed an issue that causes the form switcher to not load on the entry list screen when no conflict mode is enabled.
+- Fixed an issue that causes initial values in Conditional Logic not to be saved when the form is updated.
+- Fixed a layout/display issue for legacy forms in Safari when using the .gf_list_inline ready class for checkbox or radio fields.
+- Fixed a PHP warning which can occur when determining if the form has page conditional logic.
+- Fixed a PHP notice (error in PHP8) and display issue for the date field type when using the datefield or datedropdown input types when the field inputs are missing from the form object.
+- Fixed an issue for AJAX forms on submission where if the form cannot be found the submission stalls.
+- Fixed an issue that causes the Gravity Forms block to not load in WordPress 5.8.
+- Updated sticky notifications to allow them to be translatable when the user changes their language.
+- Updated the form switcher to size dynamically to better handle forms with long titles.
+- Updated block settings icons in various themes and contexts.
+- AF: Fixed an issue that can potentially cause the add-on uninstallation screen to throw a fatal error if the add-on class does not define a `get_instance` method.
+- API: Added the card field type in the settings API.
+- API: Fixed an issue which causes valid markup to throw an error when saving a textarea settings field.
+
+### 2.5.6 | 2021-06-22
+- Fixed an issue where dynamically populated choices for choice-based fields cannot be used in conditional logic.
+- Fixed an issue with the gf_list_inline ready class for radio and checkbox fields where the labels are wrapping.
+- Fixed an issue that causes choice values that are numbers to remain unselected when attempting to use them in conditional logic.
+- Fixed an issue with the total field that causes conditional logic based on its value to no longer work.
+- Fixed an issue with the reCAPTCHA field not rendering when a form is injected by ajax.
+- Fixed an issue with radio and checkbox fields for non-legacy forms where the field count and meta are missing styles.
+- Fixed an issue that prevents legacy settings from displaying on the form notification settings page.
+- Fixed an issue for forms not outputting HTML5 where the hour and minute input's layout breaks in the time field for browsers other than Firefox.
+- Fixed display issues for the time field when using legacy markup where the field's inputs aren't always the same height and placeholder text is cut off.
+- Fixed an issue where the default value field option does not work when the choice text is entered instead of the choice value.
+- Fixed a typo in the message that displays when logging is enabled.
+- Fixed issues where translations are not always offered or installed by WordPress and the WP-CLI.
+- Fixed the form scheduling settings so that the correct start and end minutes show as selected.
+- Fixed label layout issues when using left or right label alignment for a form.
+- Fixed the display of the time field for forms in legacy mode.
+- Fixed an issue when disabling logging via the link in the warning where the logging setting is not being unchecked.
+- Fixed an issue with the form editor that makes dragging items below the bottom of the screen difficult.
+- Fixed an issue where the layout of forms with left or right aligned labels is broken in the form editor.
+- Fixed an issue where the total field is not calculated for all forms if a page has more than one form.
+- Fixed an issue where the conditional logic choice based rules fail if the choice is renamed from the default.
+- Updated the submit button on the edit entry detail page to have the primary button styles for better visual prompting.
+- Updated the form editor to include the css for legacy ready classes on legacy enabled forms.
+- Updated field labels to show the same error style as field legends when they fail validation.
+- Updated the System Report to include the Translations section, listing the current site and user locales and installed translations.
+- Updated several form settings text areas to accept valid HTML for users with the unfiltered_html capability.
+- Updated the logging warning verbiage for clarity.
+- Updated translations to respect user-specific locale.
+- Updated various elements in the form editor to use stylized scrollbars that unify the ui experience across browsers.
+- Updated more icon styles.
+- Removed the notice for suppressed admin notices.
+- AF: Fixed an issue that prevents settings from displaying on the form settings screen when add-ons have the $_multiple_feeds property set to false.
+- AF: Fixed the timing for when feed settings are initialized so the process always occurs before admin scripts are enqueued, thereby preventing some JavaScript console errors from surfacing.
+- API: Fixed the display of tooltips next to settings section titles.
+- API: Fixed an issue where the merge tag drop down is not displayed next to the value field of the generic map feed settings field.
+- API: Fixed an issue where the dynamic field map doesn't accept empty values when saving a feed.
+
+### 2.5.5 | 2021-06-02
+- Fixed the appearance of Date, List and Time fields when editing an entry.
+- Fixed an issue where price total calculations do not work or becomes unresponsive when legacy form markup is enabled.
+- Fixed an issue where the submit button's value is "Next" instead of "Submit" on the last page after evaluating page fields' conditional logic.
+- Fixed an issue which can break AMP pages generated by some AMP plugins.
+- Fixed an issue which causes conflicts with XML Sitemaps and REST API Requests.
+- Fixed an issue where the form block toolbar links do not point to the right path when WordPress is not a top level directory.
+- Fixed an issue where text-based survey fields cause errors in the form editor.
+- Fixed an issue where Beaver Builder shows an error when embedding a form.
+- Fixed an issue with the reCAPTCHA field not rendering when in a multi page form with AJAX enabled.
+- Fixed an issue with the timing of loaded events in JavaScript which causes some forms to not render correctly or have console errors.
+- Fixed an issue where the add and remove choice buttons are hidden when modifying Prefix choices on a Name field.
+- Fixed an issue where the number of items in the Entry and Form lists are not be displayed when there is only one page of items.
+- Fixed an issue where the password strength is not be preserved after a failed submission or when not on the last page of a form.
+- API: Fixed an issue where the Dynamic Field Map Settings API field allows for custom values.
+
+### 2.5.4 | 2021-05-27
+- Added the gform_force_hooks_js_output filter to allow plugins to control whether to output the hooks js in the head; defaults to true.
+- Fixed an issue which causes reCaptcha field to log errors when there are none.
+- Fixed an issue which causes forms that rely on Javascript to not render in certain contexts.
+- Fixed an issue which causes Javascript markup to be injected into some AJAX responses.
+
+### 2.5.3 | 2021-05-26
+- Added accessibility warnings to the datepicker and fields with hidden labels in the form editor.
+- Added enhanced support for plugins that concatenate scripts.
+- Added support for translations for all strings in the file upload field.
+- Fixed gf_hidden class to also apply to non legacy forms for backwards compatibility.
+- Fixed an issue where JavaScript errors which prevent form display when jQuery is included in the footer or deferred.
+- Fixed an issue which can prevent forms functioning when included by ajax after the page has loaded.
+- Fixed an issue which causes forms to become non-responsive when Total Field calculations are being performed.
+- Fixed an issue where the total field HTML does not keep the legacy markup when legacy markup is enabled for a form.
+- Fixed an issue with the choices ui that breaks its layout when more than 2 input columns are inserted.
+- Fixed an issue in JavaScript that causes errors with price calculation.
+- Fixed an issue that causes some add-ons to be unable to load the feed settings screen.
+- Fixed an issue which causes some forms to throw JavaScript errors due to missing head tag in the DOM.
+- Fixed an issue which causes JavaScript events not to fire when a form is loaded via AJAX.
+- Fixed an issue which causes some performance optimization plugins to break certain form JavaScript methods.
+- Fixed an issue where the gf_list_*col ready classes for radio and checkbox fields are showing the wrong number of columns.
+- Fixed an issue that causes sites with HTML5 disabled to have it enabled after updating to 2.5.
+- Fixed an issue which allows greater-than and less-than operators for Conditional Logic to be more useful.
+- Fixed an issue which causes custom values in the Conditional Logic flyout in the form editor to be overwritten.
+- Fixed an issue where confirmations redirect to the selected page even if page isn't selected as the redirect type.
+- Fixed an issue where a JavaScript errors on the last page of a paginated form with conditional logic.
+- Fixed an issue which prevents setting custom classes for the form editor fields' buttons.
+- API: Updated the settings API to automatically save custom form settings fields added with the gform_form_settings_fields filter.
+- API: Fixed an issue which causes some filters not to fire when on certain Admin screens.
+
+### 2.5.2 | 2021-05-19
+- Added security enhancements.
+- Added form editor sidebar settings style refinements.
+- Updated the section field so it no longer uses the description as a fallback when the label is empty.
+- Updated the frontend styles for better column alignment and better appearance in small containers.
+- Updated the section field so it no longer uses the description as a fallback when the label is empty.
+- Fixed an issue where the HTML field's content setting doesn't have a merge tags selector.
+- Fixed an issue which causes Javascript errors in the Form Editor when no Conditional Logic fields are present.
+- Fixed an issue which causes Conditional Logic to fail if the first choice for a given field is selected.
+- Fixed an issue that prevents users with unfiltered_html capabilities from saving raw markup in textarea settings.
+- Fixed an issue that prevents choice-based fields from utilizing the contains, starts with, and ends with Conditional Operators.
+- Fixed an issue which causes validation error messages in forms with legacy markup to use the incorrect classname.
+- AF: Fixed an issue which prevents payment add-ons from rendering delayed payment settings in the feed settings page.
+
+### 2.5.1 | 2021-05-11
+- Added accessibility enhancements to the form editor to improve keyboard navigation.
+- Updated the form editor to notify users that resizing is not available when the legacy markup form setting is enabled.
+- Updated form editor to not allow resizing of fields when the legacy markup form setting is enabled.
+- Fixed an accessibility issue with the multi-file upload field.
+- Fixed an issue where the form description field doesn't allow HTML tags.
+- Fixed an issue where save and continue button is triggered when pressing return/enter.
+- Fixed a PHP notice that appears for the From Email for form notifications under certain circumstances.
+- Updated the save and continue button so that it isn't triggered when pressing return/enter.
+- Updated the form description field to allow HTML tags.
+- Updated icons in the WordPress admin to Gravity Forms 2.5 variants.
+- AF: Updated the setup fee settings in the payment add-on framework so that the product field is disabled instead of hidden if setup fee isn't checked.
+- AF: Fixed PHP notices that appear when editing a feed that has no associated form.
+- Fixed accessibility issue with the multi file upload field.
+- Fixed a PHP notice that appeared for the From Email for form notifications under certain circumstances.
+- Fixed a padding issue for suppressed WP notices in the admin area at smaller viewport sizes and refined notification vertical spacing.
+- Fixed an issue that causes single line text inputs added to a legacy mode editor instance to have size medium applied.
+- Fixed an issue that can cause dragging or resizing in the form editor to break the layout and/or delete the field.
+- Fixed issue when using a custom tab index and the post image field with all meta fields enabled where the alt text and post image shared the same tabindex. Credit: Jake Jackson (@jakejackson1).
+- Fixed an issue that causes radio and select fields to show invalid Conditional Logic options.
+- Fixed form editor layout issues present with Jetpack plugin on wordpress.com sites.
+- API: Fixed an issue which causes programmatically-created forms to break in the form editor.
+
 ### 2.5.0.2
 - Fixed an issue which prevents certain add-ons from displaying Plugin Settings fields.
 - Fixed an issue which prevents non-admin users from accessing Form Settings when no add-ons are enabled.
-
-
-### 2.5.0.1
 - Fixed an issue that causes certain fields to not trigger the settings tab to open in the form editor.
 - Fixed an issue that causes the page break end settings to not be visible in the form editor.
-
+- API: Fixed an issue with GFCommon::is_numeric() to allow non-currency based numbers without a leading zero. Credit: The GravityView Team.
+- API: Fixed an issue which causes programmatically-created forms to break in the form editor.
+- AF: Updated the setup fee settings in the payment add-on framework so that the product field is disabled instead of hidden if setup fee isn't checked.
+- AF: Fixed PHP notices that appear when editing a feed that has no associated form.
 
 ### 2.5 | 2021-04-27
 - Added security enhancements.

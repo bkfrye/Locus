@@ -76,14 +76,18 @@ class SearchAppearance {
 	 * @return void
 	 */
 	private function migrateTitleFormats() {
-		$settings = [
-			'title-home-wpseo'    => [ 'type' => 'string', 'newOption' => [ 'searchAppearance', 'global', 'siteTitle' ] ],
-			'title-author-wpseo'  => [ 'type' => 'string', 'newOption' => [ 'searchAppearance', 'archives', 'author', 'title' ] ],
-			'title-archive-wpseo' => [ 'type' => 'string', 'newOption' => [ 'searchAppearance', 'archives', 'date', 'title' ] ],
-			'title-search-wpseo'  => [ 'type' => 'string', 'newOption' => [ 'searchAppearance', 'archives', 'search', 'title' ] ],
-		];
+		aioseo()->options->searchAppearance->archives->author->title =
+			aioseo()->helpers->sanitizeOption( aioseo()->importExport->yoastSeo->helpers->macrosToSmartTags( $this->options['title-home-wpseo'], 'page', 'post' ) );
 
-		aioseo()->importExport->yoastSeo->helpers->mapOldToNew( $settings, $this->options, true );
+		aioseo()->options->searchAppearance->archives->date->title =
+			aioseo()->helpers->sanitizeOption( aioseo()->importExport->yoastSeo->helpers->macrosToSmartTags( $this->options['title-archive-wpseo'], null, 'archive' ) );
+
+		// Archive Title tag needs to be stripped since we don't support it for these two archives.
+		$value = aioseo()->helpers->sanitizeOption( aioseo()->importExport->yoastSeo->helpers->macrosToSmartTags( $this->options['title-author-wpseo'], null, 'archive' ) );
+		aioseo()->options->searchAppearance->archives->author->title = aioseo()->helpers->pregReplace( '/#archive_title/', '', $value );
+
+		$value = aioseo()->helpers->sanitizeOption( aioseo()->importExport->yoastSeo->helpers->macrosToSmartTags( $this->options['title-search-wpseo'], null, 'archive' ) );
+		aioseo()->options->searchAppearance->archives->search->title = aioseo()->helpers->pregReplace( '/#archive_title/', '', $value );
 	}
 
 	/**
@@ -158,7 +162,7 @@ class SearchAppearance {
 							$value = aioseo()->helpers->pregReplace( '#%%excerpt%%#', '', $value );
 						}
 						aioseo()->options->searchAppearance->dynamic->postTypes->$postType->title =
-							aioseo()->helpers->sanitizeOption( aioseo()->importExport->yoastSeo->helpers->macrosToSmartTags( $value ) );
+							aioseo()->helpers->sanitizeOption( aioseo()->importExport->yoastSeo->helpers->macrosToSmartTags( $value, $postType ) );
 						break;
 					case 'metadesc':
 						if ( 'page' === $postType ) {
@@ -166,7 +170,7 @@ class SearchAppearance {
 							$value = aioseo()->helpers->pregReplace( '#%%excerpt%%#', '', $value );
 						}
 						aioseo()->options->searchAppearance->dynamic->postTypes->$postType->metaDescription =
-							aioseo()->helpers->sanitizeOption( aioseo()->importExport->yoastSeo->helpers->macrosToSmartTags( $value ) );
+							aioseo()->helpers->sanitizeOption( aioseo()->importExport->yoastSeo->helpers->macrosToSmartTags( $value, $postType ) );
 						break;
 					case 'noindex':
 						aioseo()->options->searchAppearance->dynamic->postTypes->$postType->show = empty( $value ) ? true : false;
@@ -234,11 +238,11 @@ class SearchAppearance {
 				switch ( $match[1] ) {
 					case 'title':
 						aioseo()->options->searchAppearance->dynamic->archives->$postType->title =
-							aioseo()->helpers->sanitizeOption( aioseo()->importExport->yoastSeo->helpers->macrosToSmartTags( $value ) );
+							aioseo()->helpers->sanitizeOption( aioseo()->importExport->yoastSeo->helpers->macrosToSmartTags( $value, $postType, 'archive' ) );
 						break;
 					case 'metadesc':
 						aioseo()->options->searchAppearance->dynamic->archives->$postType->metaDescription =
-							aioseo()->helpers->sanitizeOption( aioseo()->importExport->yoastSeo->helpers->macrosToSmartTags( $value ) );
+							aioseo()->helpers->sanitizeOption( aioseo()->importExport->yoastSeo->helpers->macrosToSmartTags( $value, $postType, 'archive' ) );
 						break;
 					case 'noindex':
 						aioseo()->options->searchAppearance->dynamic->archives->$postType->show = empty( $value ) ? true : false;

@@ -21,53 +21,13 @@ class Helpers extends ImportExport\Helpers {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param  string $string The string with macros.
-	 * @return string $string The string with smart tags.
+	 * @param  string $string   The string with macros.
+	 * @param  string $postType The post type.
+	 * @param  string $pageType The page type.
+	 * @return string $string   The string with smart tags.
 	 */
-	public function macrosToSmartTags( $string ) {
-		$macros = [
-			'%%sitename%%'             => '#site_title',
-			'%%sitedesc%%'             => '#tagline',
-			'%%sep%%'                  => '#separator_sa',
-			'%%title%%'                => '#post_title',
-			'%%term_title%%'           => '#taxonomy_title',
-			'%%term_description%%'     => '#taxonomy_description',
-			'%%category_description%%' => '#taxonomy_description',
-			'%%tag_description%%'      => '#taxonomy_description',
-			'%%primary_category%%'     => '#taxonomy_title',
-			'%%archive_title%%'        => '#archive_title',
-			'%%pagenumber%%'           => '#page_number',
-			'%%caption%%'              => '#attachment_caption',
-			'%%name%%'                 => '#author_first_name #author_last_name',
-			'%%user_description%%'     => '#author_bio',
-			'%%date%%'                 => '#archive_date',
-			'%%currentday%%'           => '#current_day',
-			'%%currentmonth%%'         => '#current_month',
-			'%%currentyear%%'          => '#current_year',
-			'%%searchphrase%%'         => '#search_term',
-			'%%AUTHORLINK%%'           => '#author_link',
-			'%%POSTLINK%%'             => '#post_link',
-			'%%BLOGLINK%%'             => '#site_link',
-			'%%category%%'             => '#categories',
-			'%%parent_title%%'         => '#parent_title',
-			'%%wc_sku%%'               => '#woocommerce_sku',
-			'%%wc_price%%'             => '#woocommerce_price',
-			'%%wc_brand%%'             => '#woocommerce_brand',
-			'%%tag%%'                  => '',
-			'%%excerpt%%'              => '#post_excerpt',
-			'%%excerpt_only%%'         => '',
-			'%%id%%'                   => '',
-			'%%parent_title%%'         => '',
-			'%%page%%'                 => '',
-			'%%modified%%'             => '',
-			'%%pt_single%%'            => '',
-			'%%pt_plural%%'            => '',
-			'%%pagetotal%%'            => '',
-			'%%focuskw%%'              => '',
-			'%%term404%%'              => '',
-			'%%ct_desc_[^%]*%%'        => '',
-			'%%[^%]*%%'                => ''
-		];
+	public function macrosToSmartTags( $string, $postType = null, $pageType = null ) {
+		$macros = $this->getMacros( $postType, $pageType );
 
 		if ( preg_match( '#%%BLOGDESCLINK%%#', $string ) ) {
 			$blogDescriptionLink = '<a href="' .
@@ -101,5 +61,81 @@ class Helpers extends ImportExport\Helpers {
 		// Strip out all remaining tags.
 		$string = aioseo()->helpers->pregReplace( '/%[^\%\s]*\([^\%]*\)%/i', '', aioseo()->helpers->pregReplace( '/%[^\%\s]*%/i', '', $string ) );
 		return trim( $string );
+	}
+
+	/**
+	 * Returns the macro mappings.
+	 *
+	 * @since 4.1.1
+	 *
+	 * @param  string $postType The post type.
+	 * @param  string $pageType The page type.
+	 * @return array  $macros   The macros.
+	 */
+	protected function getMacros( $postType = null, $pageType = null ) {
+		$macros = [
+			'%%sitename%%'             => '#site_title',
+			'%%sitedesc%%'             => '#tagline',
+			'%%sep%%'                  => '#separator_sa',
+			'%%term_title%%'           => '#taxonomy_title',
+			'%%term_description%%'     => '#taxonomy_description',
+			'%%category_description%%' => '#taxonomy_description',
+			'%%tag_description%%'      => '#taxonomy_description',
+			'%%primary_category%%'     => '#taxonomy_title',
+			'%%archive_title%%'        => '#archive_title',
+			'%%pagenumber%%'           => '#page_number',
+			'%%caption%%'              => '#attachment_caption',
+			'%%name%%'                 => '#author_first_name #author_last_name',
+			'%%user_description%%'     => '#author_bio',
+			'%%date%%'                 => '#archive_date',
+			'%%currentday%%'           => '#current_day',
+			'%%currentmonth%%'         => '#current_month',
+			'%%currentyear%%'          => '#current_year',
+			'%%searchphrase%%'         => '#search_term',
+			'%%AUTHORLINK%%'           => '#author_link',
+			'%%POSTLINK%%'             => '#post_link',
+			'%%BLOGLINK%%'             => '#site_link',
+			'%%category%%'             => '#categories',
+			'%%parent_title%%'         => '#parent_title',
+			'%%wc_sku%%'               => '#woocommerce_sku',
+			'%%wc_price%%'             => '#woocommerce_price',
+			'%%wc_brand%%'             => '#woocommerce_brand',
+			'%%excerpt%%'              => '#post_excerpt',
+			'%%excerpt_only%%'         => '#post_excerpt_only'
+			/* '%%tag%%'                  => '',
+			'%%id%%'                   => '',
+			'%%page%%'                 => '',
+			'%%modified%%'             => '',
+			'%%pagetotal%%'            => '',
+			'%%focuskw%%'              => '',
+			'%%term404%%'              => '',
+			'%%ct_desc_[^%]*%%'        => '' */
+		];
+
+		if ( $postType ) {
+			$postType = get_post_type_object( $postType );
+			if ( ! empty( $postType ) ) {
+				$macros += [
+					'%%pt_single%%' => $postType->labels->singular_name,
+					'%%pt_plural%%' => $postType->labels->name,
+				];
+			}
+		}
+
+		switch ( $pageType ) {
+			case 'archive':
+				$macros['%%title%%'] = '#archive_title';
+				break;
+			case 'term':
+				$macros['%%title%%'] = '#taxonomy_title';
+				break;
+			default:
+				$macros['%%title%%'] = '#post_title';
+				break;
+		}
+
+		// Strip all other tags.
+		$macros['%%[^%]*%%'] = '';
+		return $macros;
 	}
 }

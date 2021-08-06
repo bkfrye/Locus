@@ -47,10 +47,7 @@ class Tools {
 
 		return new \WP_REST_Response( [
 			'success'       => true,
-			'notifications' => [
-				'active'    => Models\Notification::getAllActiveNotifications(),
-				'dismissed' => Models\Notification::getAllDismissedNotifications()
-			]
+			'notifications' => Models\Notification::getNotifications()
 		], 200 );
 	}
 
@@ -74,10 +71,7 @@ class Tools {
 
 		return new \WP_REST_Response( [
 			'success'       => true,
-			'notifications' => [
-				'active'    => Models\Notification::getAllActiveNotifications(),
-				'dismissed' => Models\Notification::getAllDismissedNotifications()
-			]
+			'notifications' => Models\Notification::getNotifications()
 		], 200 );
 	}
 

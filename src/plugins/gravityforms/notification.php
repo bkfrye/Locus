@@ -168,6 +168,8 @@ Class GFNotification {
 		 */
 		$disable_from_warning = gf_apply_filters( array( 'gform_notification_disable_from_warning', $form['id'], rgar( $notification, 'id' ) ), false );
 
+		$from_email_warning = '';
+
 		// Prepare From Email warning.
 		if ( ! $disable_from_warning && self::get_settings_renderer()->get_value( 'service' ) === 'wordpress' ) {
 
@@ -188,10 +190,6 @@ Class GFNotification {
 					)
 				);
 			}
-
-		} else {
-
-			$from_email_warning = '';
 
 		}
 
@@ -304,6 +302,7 @@ Class GFNotification {
 						'required'            => true,
 						'args'                => array( 'input_types' => array( 'email' ) ),
 						'no_choices'          => esc_html__( 'Your form does not have an email field. Add an email field to your form and try again.', 'gravityforms' ),
+						'fields_callback'     => array( self::class, 'append_filtered_notification_email_fields' ),
 						'dependency'          => array(
 							'live'   => true,
 							'fields' => array(
@@ -313,7 +312,7 @@ Class GFNotification {
 								),
 							),
 						),
-						'validation_callback' => function( $field, $value ) {
+						'validation_callback' => function ( $field, $value ) {
 
 							// Get filter parameters.
 							$to_type  = GFNotification::get_settings_renderer()->get_value( 'toType' );
@@ -481,48 +480,8 @@ Class GFNotification {
 			),
 		);
 
-		/**
-		 * Add new or modify existing notification settings that display on the Notification Edit screen.
-		 *
-		 * @deprecated
-		 * @since 1.7
-		 *
-		 * @param array $ui_settings  An array of settings for the notification UI.
-		 * @param array $notification The current notification object being edited.
-		 * @param array $form         The current form object to which the notification being edited belongs.
-		 * @param null  $is_valid     Whether or not the current notification has passed validation. (Deprecated.)
-		 */
-		$legacy_settings = apply_filters( 'gform_notification_ui_settings', array(), $notification, $form, null );
-
-		// If legacy settings exist, add to fields.
-		if ( ! empty( $legacy_settings ) ) {
-
-			// Prepare HTML.
-			$html = '<table class="gforms_form_settings" cellspacing="0" cellpadding="0" width="100%">';
-			foreach ( $legacy_settings as $title => $legacy_fields ) {
-				$html .= sprintf( '<tr><td colspan="2"><h4 class="gf_settings_subgroup_title">%s</h4></td>', esc_html( $title ) );
-				if ( is_array( $legacy_fields ) ) {
-					foreach ( $legacy_fields as $field ) {
-						$html .= $field;
-					}
-				}
-			}
-			$html .= '</table>';
-
-			// Add section.
-			$fields[] = array(
-				'title'  => esc_html__( 'Legacy Settings', 'gravityforms' ),
-				'class'  => 'gform-settings-panel--full',
-				'fields' => array(
-					array(
-						'name' => 'legacy',
-						'type' => 'html',
-						'html' => $html,
-					),
-				),
-			);
-
-		}
+		// Append registered legacy settings to the fields array.
+		$fields = self::append_legacy_settings_fields( $fields, $notification, $form );
 
 		/**
 		 * Filters the Notification settings fields before they are displayed.
@@ -538,9 +497,87 @@ Class GFNotification {
 
 	}
 
+	/**
+	 * Pass the field choices for the select field through the gform_email_fields_notification_admin filter to allow
+	 * third-parties to add or remove arbitrary fields.
+	 *
+	 * @since 2.5.7
+	 *
+	 * @param array $fields The form fields to be used as choices.
+	 * @param array $form   The form belonging to the notification being configured.
+	 *
+	 * @return array
+	 */
+	public static function append_filtered_notification_email_fields( $fields, $form ) {
+		return gf_apply_filters( array( 'gform_email_fields_notification_admin', $form['id'] ), $fields, $form );
+	}
 
+	/**
+	 * Appends any legacy settings fields to the fields array, if they exist.
+	 *
+	 * @since 2.5.6
+	 *
+	 * @param array $fields       Array of settings fields.
+	 * @param array $notification The notification being edited.
+	 * @param array $form         The form being edited.
+	 *
+	 * @return array
+	 */
+	private static function append_legacy_settings_fields( $fields, $notification, $form ) {
+		/**
+		 * Add new or modify existing notification settings that display on the Notification Edit screen.
+		 *
+		 * @deprecated
+		 * @since 1.7
+		 *
+		 * @param array $ui_settings  An array of settings for the notification UI.
+		 * @param array $notification The current notification object being edited.
+		 * @param array $form         The current form object to which the notification being edited belongs.
+		 * @param null  $is_valid     Whether or not the current notification has passed validation. (Deprecated.)
+		 */
+		$legacy_settings = apply_filters( 'gform_notification_ui_settings', array(), $notification, $form, null );
 
+		if ( empty( $legacy_settings ) ) {
+			return $fields;
+		}
 
+		// Add the Legacy Settings section.
+		$fields[] = array(
+			'title'  => esc_html__( 'Legacy Settings', 'gravityforms' ),
+			'class'  => 'gform-settings-panel--full',
+			'fields' => array(
+				array(
+					'name' => 'legacy',
+					'type' => 'html',
+					'html' => function() use ( $legacy_settings ) {
+						$html = '<table class="gforms_form_settings" cellspacing="0" cellpadding="0" width="100%">';
+
+						foreach ( $legacy_settings as $title => $legacy_fields ) {
+							$html .= sprintf(
+								'<tr><td colspan="2"><h4 class="gf_settings_subgroup_title">%s</h4></td>',
+								esc_html( $title )
+							);
+
+							switch ( $legacy_fields ) {
+								case is_string( $legacy_fields ):
+									$html .= $legacy_fields;
+									break;
+								case is_array( $legacy_fields ):
+									foreach ( $legacy_fields as $field ) {
+										$html .= $field;
+									}
+									break;
+							}
+						}
+
+						return $html . '</table>';
+					},
+				),
+			),
+		);
+
+		return $fields;
+	}
 
 	// # SETTINGS RENDERER ---------------------------------------------------------------------------------------------
 
@@ -550,6 +587,10 @@ Class GFNotification {
 	 * @since 2.5
 	 */
 	public static function initialize_settings_renderer() {
+
+		if ( ! class_exists( 'GFFormSettings' ) ) {
+			require_once( GFCommon::get_base_path() . '/form_settings.php' );
+		}
 
 		$form_id         = rgget( 'id' );
 		$notification_id = rgget( 'nid' );
@@ -592,6 +633,9 @@ Class GFNotification {
 					if ( $is_new_notification ) {
 						$notification_id = $notification['id'] = uniqid();
 					}
+
+					// Save values to the confirmation object in advance so non-custom values will be rewritten when we apply values below.
+					$notification = GFFormSettings::save_changed_form_settings_fields( $notification, $values );
 
 					$notification['name']    = rgar( $values, 'name' );
 					$notification['service'] = rgar( $values, 'service' );

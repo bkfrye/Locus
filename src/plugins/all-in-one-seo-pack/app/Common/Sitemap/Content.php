@@ -334,7 +334,7 @@ class Content {
 	}
 
 	/**
-	 * Adds the last modified date to a given term.
+	 * Returns the last modified date for a given term.
 	 *
 	 * @since 4.0.0
 	 *
@@ -342,8 +342,6 @@ class Content {
 	 * @return string         The lastmod timestamp.
 	 */
 	public function getTermLastModified( $termId ) {
-		// @TODO: [V4+] Think about checking for excluded/noindexed posts.
-		// Might be a hit on performance.
 		$termRelationshipsTable = aioseo()->db->db->prefix . 'term_relationships';
 		$lastModified = aioseo()->db
 			->start( aioseo()->db->db->posts . ' as p', true )
@@ -560,7 +558,7 @@ class Content {
 		}
 
 		usort( $entries, function( $a, $b ) {
-			return $a['pubDate'] < $b['pubDate'];
+			return $a['pubDate'] < $b['pubDate'] ? 1 : 0;
 		});
 		return apply_filters( 'aioseo_sitemap_rss', $entries );
 	}

@@ -17,8 +17,11 @@ use AIOSEO\Plugin\Common\Traits\Helpers as TraitHelpers;
  */
 class Helpers {
 	use TraitHelpers\ActionScheduler;
-	use TraitHelpers\Strings;
 	use TraitHelpers\Constants;
+	use TraitHelpers\DateTime;
+	use TraitHelpers\ECommerce;
+	use TraitHelpers\Shortcodes;
+	use TraitHelpers\Strings;
 
 	/**
 	 * Whether or not we have a local connection.
@@ -67,24 +70,57 @@ class Helpers {
 	}
 
 	/**
+	 * Get the home page object.
+	 *
+	 * @since 4.1.1
+	 *
+	 * @return WP_Post|null The home page.
+	 */
+	public function getHomePage() {
+		$homePageId = $this->getHomePageId();
+
+		return $homePageId ? get_post( $homePageId ) : null;
+	}
+
+	/**
+	 * Get the ID of the home page.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @return integer|null The home page ID.
+	 */
+	public function getHomePageId() {
+		$pageShowOnFront = ( 'page' === get_option( 'show_on_front' ) );
+		$pageOnFrontId   = get_option( 'page_on_front' );
+
+		return $pageShowOnFront && $pageOnFrontId ? (int) $pageOnFrontId : null;
+	}
+
+	/**
 	 * Returns the blog page.
 	 *
 	 * @since 4.0.0
 	 *
-	 * @return WP_Post The blog page.
+	 * @return WP_Post|null The blog page.
 	 */
 	public function getBlogPage() {
-		static $blogPage = null;
-		if ( $blogPage ) {
-			return $blogPage;
-		}
+		$blogPageId = $this->getBlogPageId();
 
-		$isStaticHomepage = ( 'page' === get_option( 'show_on_front' ) );
-		$pageForPosts     = (int) get_option( 'page_for_posts' );
-		if ( $isStaticHomepage && $pageForPosts ) {
-			$blogPage = get_post( $pageForPosts );
-		}
-		return $blogPage;
+		return $blogPageId ? get_post( $blogPageId ) : null;
+	}
+
+	/**
+	 * Gets the current blog page id if it's configured.
+	 *
+	 * @since 4.1.1
+	 *
+	 * @return int|null
+	 */
+	public function getBlogPageId() {
+		$pageShowOnFront = ( 'page' === get_option( 'show_on_front' ) );
+		$blogPageId      = (int) get_option( 'page_for_posts' );
+
+		return $pageShowOnFront && $blogPageId ? $blogPageId : null;
 	}
 
 	/**
@@ -191,33 +227,6 @@ class Helpers {
 	 */
 	public function isStaticPostsPage() {
 		return is_home() && ( 0 !== (int) get_option( 'page_for_posts' ) );
-	}
-
-	/**
-	 * Checks whether WooCommerce is active.
-	 *
-	 * @since 4.0.0
-	 *
-	 * @return boolean Whether WooCommerce is active.
-	 */
-	public function isWooCommerceActive() {
-		return class_exists( 'woocommerce' );
-	}
-
-	/**
-	 * Checks whether the queried object is the WooCommerce shop page.
-	 *
-	 * @since 4.0.0
-	 *
-	 * @return boolean
-	 */
-	public function isWooCommerceShopPage() {
-		$screenCheck = true;
-		if ( is_admin() && function_exists( 'get_current_screen' ) ) {
-			$screen      = get_current_screen();
-			$screenCheck = 'edit' !== $screen->base;
-		}
-		return $this->isWooCommerceActive() && function_exists( 'is_shop' ) && is_shop() && $screenCheck;
 	}
 
 	/**
@@ -437,7 +446,6 @@ class Helpers {
 		$staticHomePage   = intval( get_option( 'page_on_front' ) );
 		$data = [
 			'page'             => $page,
-			'translations'     => $this->getJedLocaleData( 'all-in-one-seo-pack' ),
 			'screen'           => [
 				'base'        => $screen->base,
 				'postType'    => $screen->post_type,
@@ -480,7 +488,10 @@ class Helpers {
 					'monsterinsights'  => admin_url( 'admin.php?page=aioseo-monsterinsights' )
 				],
 				'admin'             => [
-					'widgets' => admin_url( 'widgets.php' )
+					'widgets'          => admin_url( 'widgets.php' ),
+					'optionsReading'   => admin_url( 'options-reading.php' ),
+					'scheduledActions' => admin_url( '/tools.php?page=action-scheduler&status=pending&s=aioseo' ),
+					'generalSettings'  => admin_url( 'options-general.php' )
 				]
 			],
 			'backups'          => [],
@@ -508,11 +519,16 @@ class Helpers {
 				'isWooCommerceActive' => $this->isWooCommerceActive(),
 				'isBBPressActive'     => class_exists( 'bbPress' ),
 				'staticHomePage'      => $isStaticHomePage ? $staticHomePage : false,
-				'isDev'               => $this->isDev()
+				'staticBlogPage'      => $this->getBlogPageId(),
+				'staticBlogPageTitle' => get_the_title( $this->getBlogPageId() ),
+				'isDev'               => $this->isDev(),
+				'isSsl'               => is_ssl()
 			],
 			'user'             => [
 				'email'          => wp_get_current_user()->user_email,
 				'roles'          => $this->getUserRoles(),
+				'customRoles'    => $this->getCustomRoles(),
+				'canManage'      => current_user_can( apply_filters( 'aioseo_manage_seo', 'aioseo_manage_seo' ) ),
 				'capabilities'   => aioseo()->access->getAllCapabilities(),
 				'unfilteredHtml' => current_user_can( 'unfiltered_html' ),
 				'locale'         => function_exists( 'get_user_locale' ) ? get_user_locale() : get_locale()
@@ -523,10 +539,7 @@ class Helpers {
 				'taxonomies' => $this->getPublicTaxonomies( false, true ),
 				'archives'   => $this->getPublicPostTypes( false, true, true )
 			],
-			'notifications'    => [
-				'active'    => Models\Notification::getAllActiveNotifications(),
-				'dismissed' => Models\Notification::getAllDismissedNotifications()
-			],
+			'notifications'    => Models\Notification::getNotifications( false ),
 			'addons'           => aioseo()->addons->getAddons(),
 			'version'          => AIOSEO_VERSION,
 			'helpPanel'        => json_decode( aioseo()->help->getDocs() ),
@@ -612,7 +625,7 @@ class Helpers {
 					? json_decode( Models\Post::getDefaultSchemaOptions( $post->schema_type_options ) )
 					: json_decode( Models\Post::getDefaultSchemaOptions() ),
 				'local_seo'                   => ( ! empty( $post->local_seo ) )
-					? json_decode( $post->local_seo )
+					? Models\Post::getDefaultLocalSeoOptions( $post->local_seo )
 					: json_decode( Models\Post::getDefaultLocalSeoOptions() ),
 				'metaDefaults'                => [
 					'title'       => aioseo()->meta->title->getPostTypeTitle( $postTypeObj->name ),
@@ -634,8 +647,6 @@ class Helpers {
 				$data['currentPost'] = array_merge( $data['currentPost'], $oldPostMeta );
 			}
 		}
-
-		// @TODO: Contextualize all data attributes above to only show on pages that they are used on.
 
 		if ( 'sitemaps' === $page ) {
 			try {
@@ -689,6 +700,10 @@ class Helpers {
 			$data['data']['htaccess'] = aioseo()->htaccess->getContents();
 		}
 
+		if ( 'settings' === $page ) {
+			$data['breadcrumbs']['defaultTemplate'] = aioseo()->helpers->encodeOutputHtml( aioseo()->breadcrumbs->frontend->getDefaultTemplate() );
+		}
+
 		$loadedAddons = aioseo()->addons->getLoadedAddons();
 		if ( ! empty( $loadedAddons ) ) {
 			foreach ( $loadedAddons as $addon ) {
@@ -711,12 +726,42 @@ class Helpers {
 	public function getUserRoles() {
 		global $wp_roles;
 		if ( ! isset( $wp_roles ) ) {
-			$wp_roles = new WP_Roles();
+			$wp_roles = new \WP_Roles();
 		}
 		$roleNames = $wp_roles->get_names();
 		asort( $roleNames );
 
 		return $roleNames;
+	}
+
+	/**
+	 * Returns the custom roles in the current WP install.
+	 *
+	 * @since 4.1.3
+	 *
+	 * @return array An array of custom roles.
+	 */
+	public function getCustomRoles() {
+		$allRoles    = $this->getUserRoles();
+		$customRoles = [];
+
+		$toSkip = array_merge(
+			// Default WordPress roles.
+			[ 'superadmin', 'administrator', 'editor', 'author', 'contributor', 'subscriber' ],
+			// Default AIOSEO roles.
+			[ 'aioseo_manager', 'aioseo_editor' ]
+		);
+
+		foreach ( $allRoles as $roleName => $role ) {
+			// Skip default roles.
+			if ( in_array( $roleName, $toSkip, true ) ) {
+				continue;
+			}
+
+			$customRoles[ $roleName ] = $role;
+		}
+
+		return $customRoles;
 	}
 
 	/**
@@ -733,12 +778,13 @@ class Helpers {
 		$plugins = [];
 		foreach ( $pluginUpgrader->pluginSlugs as $key => $slug ) {
 			$plugins[ $key ] = [
-				'basename'   => $slug,
-				'installed'  => in_array( $slug, $installedPlugins, true ),
-				'activated'  => is_plugin_active( $slug ),
-				'adminUrl'   => admin_url( $pluginUpgrader->pluginAdminUrls[ $key ] ),
-				'canInstall' => aioseo()->addons->canInstall(),
-				'wpLink'     => ! empty( $pluginUpgrader->wpPluginLinks[ $key ] ) ? $pluginUpgrader->wpPluginLinks[ $key ] : null
+				'basename'    => $slug,
+				'installed'   => in_array( $slug, $installedPlugins, true ),
+				'activated'   => is_plugin_active( $slug ),
+				'adminUrl'    => admin_url( $pluginUpgrader->pluginAdminUrls[ $key ] ),
+				'canInstall'  => aioseo()->addons->canInstall(),
+				'canActivate' => aioseo()->addons->canActivate(),
+				'wpLink'      => ! empty( $pluginUpgrader->wpPluginLinks[ $key ] ) ? $pluginUpgrader->wpPluginLinks[ $key ] : null
 			];
 		}
 
@@ -801,6 +847,7 @@ class Helpers {
 				'hasExcerpt'   => post_type_supports( $postObject->name, 'excerpt' ),
 				'hasArchive'   => $postObject->has_archive,
 				'hierarchical' => $postObject->hierarchical,
+				'taxonomies'   => get_object_taxonomies( $name ),
 				'slug'         => isset( $postObject->rewrite['slug'] ) ? $postObject->rewrite['slug'] : $name
 			];
 		}
@@ -856,11 +903,12 @@ class Helpers {
 			}
 
 			$taxonomies[] = [
-				'name'     => $name,
-				'label'    => ucwords( $taxObject->label ),
-				'singular' => ucwords( $taxObject->labels->singular_name ),
-				'icon'     => strpos( $taxObject->label, 'categor' ) !== false ? 'dashicons-category' : 'dashicons-tag',
-				'slug'     => isset( $taxObject->rewrite['slug'] ) ? $taxObject->rewrite['slug'] : ''
+				'name'         => $name,
+				'label'        => ucwords( $taxObject->label ),
+				'singular'     => ucwords( $taxObject->labels->singular_name ),
+				'icon'         => strpos( $taxObject->label, 'categor' ) !== false ? 'dashicons-category' : 'dashicons-tag',
+				'hierarchical' => $taxObject->hierarchical,
+				'slug'         => isset( $taxObject->rewrite['slug'] ) ? $taxObject->rewrite['slug'] : ''
 			];
 		}
 
@@ -889,6 +937,24 @@ class Helpers {
 	public function isPostTypeNoindexed( $postType ) {
 		$noindexedPostTypes = $this->getNoindexedPostTypes();
 		return in_array( $postType, $noindexedPostTypes, true );
+	}
+
+	/**
+	 * Normalize Post Type or Taxonomy names to work properly with AIOSEO.
+	 *
+	 * @since 4.1.3
+	 *
+	 * @param  array $items Array of items to normalize.
+	 * @return array        Array of items normalized.
+	 */
+	public function normalizePostTypeTaxonomyNames( $items ) {
+		foreach ( $items as &$item ) {
+			if ( 'type' === $item['name'] ) {
+				$item['name'] = '_aioseo_type';
+			}
+		}
+
+		return $items;
 	}
 
 	/**
@@ -1317,36 +1383,6 @@ class Helpers {
 	}
 
 	/**
-	 * Get the ID of the home page.
-	 *
-	 * @since 4.0.0
-	 *
-	 * @return integer The home page ID.
-	 */
-	public function getHomePageId() {
-		$id        = null;
-		$firstPage = 2 > aioseo()->helpers->getPageNumber();
-		if ( 'page' === get_option( 'show_on_front' ) ) {
-			$pageOnFront = get_option( 'page_on_front' );
-			if ( is_page() && ! empty( $pageOnFront ) && $firstPage ) {
-				$id = $pageOnFront;
-			}
-		} elseif (
-			is_post_type_archive() &&
-			is_post_type_archive( 'product' ) &&
-			function_exists( 'wc_get_page_id' )
-		) {
-			// WooCommerce.
-			$wcShopPostID = wc_get_page_id( 'shop' );
-			if ( wc_get_page_id( 'shop' ) === get_option( 'page_on_front' ) ) {
-				$id = $wcShopPostID;
-			}
-		}
-
-		return intval( $id );
-	}
-
-	/**
 	 * Truncates a given string.
 	 *
 	 * @since 4.0.0
@@ -1429,7 +1465,16 @@ class Helpers {
 			return false;
 		}
 
-		return stripos( sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) ), 'nginx' ) !== false;
+		$server = sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) );
+
+		if (
+			stripos( $server, 'Flywheel' ) !== false ||
+			stripos( $server, 'nginx' ) !== false
+		) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -1533,7 +1578,9 @@ class Helpers {
 		static $pageOnFront  = null;
 		static $pageForPosts = null;
 
-		if ( aioseo()->helpers->isWooCommerceShopPage() ) {
+		$postId = is_a( $postId, 'WP_Post' ) ? $postId->ID : $postId;
+
+		if ( aioseo()->helpers->isWooCommerceShopPage( $postId ) ) {
 			return get_post( wc_get_page_id( 'shop' ) );
 		}
 
@@ -2012,73 +2059,6 @@ class Helpers {
 	}
 
 	/**
-	 * Returns the content with shortcodes replaced.
-	 *
-	 * @since 4.0.5
-	 *
-	 * @param  string $content The post content.
-	 * @return string $content The post content with shortcodes replaced.
-	 */
-	public function doShortcodes( $content ) {
-		if (
-			( is_admin() && ! wp_doing_ajax() && ! wp_doing_cron() ) ||
-			apply_filters( 'aioseo_disable_shortcode_parsing', false )
-		) {
-			return $content;
-		}
-
-		// These are shortcodes that cause conflicts if we process them.
-		$conflictingShortcodes = [
-			'WooCommerce Login'                => '[woocommerce_my_account]',
-			'WooCommerce Checkout'             => '[woocommerce_checkout]',
-			'WooCommerce Order Tracking'       => '[woocommerce_order_tracking]',
-			'WooCommerce Cart'                 => '[woocommerce_cart]',
-			'WooCommerce Registration'         => '[wwp_registration_form]',
-			'WISDM Group Registration'         => '[wdm_group_users]',
-			'WISDM Quiz Reporting'             => '[wdm_quiz_statistics_details]',
-			'WISDM Course Review'              => '[rrf_course_review]',
-			'Simple Membership Login'          => '[swpm_login_form]',
-			'Simple Membership Mini Login'     => '[swpm_mini_login]',
-			'Simple Membership Payment Button' => '[swpm_payment_button]',
-			'Simple Membership Thank You Page' => '[swpm_thank_you_page_registration]',
-			'Simple Membership Registration'   => '[swpm_registration_form]',
-			'Simple Membership Profile'        => '[swpm_profile_form]',
-			'Simple Membership Reset'          => '[swpm_reset_form]',
-			'Simple Membership Update Level'   => '[swpm_update_level_to]',
-			'Simple Membership Member Info'    => '[swpm_show_member_info]'
-
-		];
-
-		$conflictingShortcodes = apply_filters( 'aioseo_conflicting_shortcodes', $conflictingShortcodes );
-
-		global $shortcode_tags;
-		$foundConflictingShortcodes = [];
-		foreach ( $conflictingShortcodes as $shortcode ) {
-			// Second check is needed for shortcodes inside Classic Editor blocks.
-			if ( stripos( $content, $shortcode, 0 ) || 0 === stripos( $content, $shortcode, 0 ) ) {
-				$shortcodeTag = str_replace( [ '[', ']' ], '', $shortcode );
-				if ( array_key_exists( $shortcodeTag, $shortcode_tags ) ) {
-					$foundConflictingShortcodes[ $shortcodeTag ] = $shortcode_tags[ $shortcodeTag ];
-				}
-			}
-		}
-
-		// Remove all conflicting shortcodes before parsing the content.
-		foreach ( $foundConflictingShortcodes as $shortcodeTag => $shortcodeCallback ) {
-			remove_shortcode( $shortcodeTag );
-		}
-
-		$content = do_shortcode( $content );
-
-		// Add back shortcodes as remove_shortcode() disables them site-wide.
-		foreach ( $foundConflictingShortcodes as $shortcodeTag => $shortcodeCallback ) {
-			add_shortcode( $shortcodeTag, $shortcodeCallback );
-		}
-
-		return $content;
-	}
-
-	/**
 	 * Checks whether we're on the given screen.
 	 *
 	 * @since 4.0.7
@@ -2224,7 +2204,7 @@ class Helpers {
 	 *
 	 * @since 4.1.0
 	 *
-	 * @param  string $tags The JSON formatted data tags.
+	* @param  string $tags The JSON formatted data tags.
 	 * @return string       The comma separated values.
 	 */
 	public function jsonTagsToCommaSeparatedList( $tags ) {
@@ -2235,6 +2215,23 @@ class Helpers {
 			$values[ $k ] = $tag->value;
 		}
 		return implode( ',', $values );
+	}
+
+	/**
+	 * Encodes a number of exceptions before we strip tags.
+	 * We need this function to allow certain character (combinations) in the title/description.
+	 *
+	 * @since 4.1.1
+	 *
+	 * @param  string $string The string.
+	 * @return string $string The string with exceptions encoded.
+	 */
+	public function encodeExceptions( $string ) {
+		$exceptions = [ '<3' ];
+		foreach ( $exceptions as $exception ) {
+			$string = preg_replace( "/$exception/", $this->encodeOutputHtml( $exception ), $string );
+		}
+		return $string;
 	}
 
 	/**
@@ -2259,5 +2256,49 @@ class Helpers {
 				: @unserialize( $string, [ 'allowed_classes' => false ] ); // phpcs:disable PHPCompatibility.FunctionUse.NewFunctionParameters.unserialize_optionsFound
 		}
 		return $string;
+	}
+
+	/**
+	 * Validates a URL.
+	 *
+	 * @since 4.1.2
+	 *
+	 * @param  string $url The url.
+	 * @return bool        Is it a valid/safe url.
+	 */
+	public function isUrl( $url ) {
+		return esc_url_raw( $url ) === $url;
+	}
+
+	/**
+	 * Returns true if the request is a non-legacy REST API request.
+	 * This function was copied from WooCommerce and improved.
+	 *
+	 * @since 4.1.2
+	 *
+	 * @return bool True if this is a REST API request.
+	 */
+	public function isRestApiRequest() {
+		if ( empty( $_SERVER['REQUEST_URI'] ) ) {
+			return false;
+		}
+
+		$restUrl = wp_parse_url( get_rest_url() );
+		$restUrl = $restUrl['path'] . ( ! empty( $restUrl['query'] ) ? '?' . $restUrl['query'] : '' );
+
+		$isRestApiRequest = ( 0 === strpos( $_SERVER['REQUEST_URI'], $restUrl ) );
+
+		return apply_filters( 'aioseo_is_rest_api_request', $isRestApiRequest );
+	}
+
+	/**
+	 * Checks whether the current request is an AJAX, CRON or REST request.
+	 *
+	 * @since 4.1.3
+	 *
+	 * @return bool Wether the request is an AJAX, CRON or REST request.
+	 */
+	public function isAjaxCronRest() {
+		return wp_doing_ajax() || wp_doing_cron() || $this->isRestApiRequest();
 	}
 }

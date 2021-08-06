@@ -139,7 +139,7 @@ class PostSettings {
 		$this->postSettingsHiddenField();
 		?>
 		<div id="aioseo-post-settings-metabox">
-			<?php aioseo()->templates->getTemplate( 'parts/loader.html' ); ?>
+			<?php aioseo()->templates->getTemplate( 'parts/loader.php' ); ?>
 		</div>
 		<?php
 	}

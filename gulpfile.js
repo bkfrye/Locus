@@ -1,30 +1,31 @@
-/* -------------------------------------------------------------------------------------------------
+const { gulp, series, parallel, dest, src, watch } = require( 'gulp' );
+const babel = require( 'gulp-babel' );
+const beeper = require( 'beeper' );
+const browserSync = require( 'browser-sync' );
+const concat = require( 'gulp-concat' );
+const del = require( 'del' );
+const log = require( 'fancy-log' );
+const fs = require( 'fs' );
+const imagemin = require( 'gulp-imagemin' );
+const partialimport = require( 'postcss-easy-import' );
+const plumber = require( 'gulp-plumber' );
+const postcss = require( 'gulp-postcss' );
+const postCSSMixins = require( 'postcss-mixins' );
+const autoprefixer = require( 'autoprefixer' );
+const postcssPresetEnv = require( 'postcss-preset-env' );
+const sourcemaps = require( 'gulp-sourcemaps' );
+const uglify = require( 'gulp-uglify' );
+const zip = require( 'gulp-vinyl-zip' );
+const dotenv = require( 'dotenv' );
+const path = require( 'path' );
+const { execSync } = require( 'child_process' );
 
-Build Configuration
-Contributors: Luan Gjokaj, Adam McKenna, Mehdi Rezaei, Sören Wrede, Saneef Ansari
+dotenv.config();
+let envStart = series( setupEnvironment, startContainers );
 
--------------------------------------------------------------------------------------------------- */
-const babel = require('gulp-babel');
-const browserSync = require('browser-sync');
-const concat = require('gulp-concat');
-const connect = require('gulp-connect-php');
-const del = require('del');
-const fs = require('fs');
-const gulp = require('gulp');
-const gutil = require('gulp-util');
-const imagemin = require('gulp-imagemin');
-const inject = require('gulp-inject-string');
-const merge = require('merge-stream');
-const partialimport = require('postcss-easy-import');
-const plumber = require('gulp-plumber');
-const postcss = require('gulp-postcss');
-const postCSSMixins = require('postcss-mixins');
-const postcssPresetEnv = require('postcss-preset-env');
-const remoteSrc = require('gulp-remote-src');
-const sourcemaps = require('gulp-sourcemaps');
-const uglify = require('gulp-uglify');
-const unzip = require('gulp-unzip');
-const zip = require('gulp-zip');
+// gulp done function for devServer so that the completion can be
+// signaled from event handlers
+let devServerDone;
 
 /* -------------------------------------------------------------------------------------------------
 Theme Name
@@ -34,372 +35,395 @@ const themeName = 'locus';
 /* -------------------------------------------------------------------------------------------------
 PostCSS Plugins
 -------------------------------------------------------------------------------------------------- */
-const pluginsDev = [
+const pluginsListDev = [
 	partialimport,
-	postCSSMixins,
-	postcssPresetEnv({
+	postcssPresetEnv( {
 		stage: 0,
 		features: {
 			'nesting-rules': true,
 			'color-mod-function': true,
 			'custom-media': true,
 		},
-	}),
+	} ),
+	postCSSMixins,
+	autoprefixer,
 ];
-const pluginsProd = [
+
+const pluginsListProd = [
 	partialimport,
-	postCSSMixins,
-	postcssPresetEnv({
+	postcssPresetEnv( {
 		stage: 0,
 		features: {
 			'nesting-rules': true,
 			'color-mod-function': true,
 			'custom-media': true,
 		},
-	}),
+	} ),
+	postCSSMixins,
+	autoprefixer,
+	require( 'cssnano' )( {
+		preset: [
+			'default',
+			{
+				discardComments: false,
+			},
+		],
+	} ),
 ];
 
 /* -------------------------------------------------------------------------------------------------
 Header & Footer JavaScript Boundles
 -------------------------------------------------------------------------------------------------- */
-const headerJS = [
-	'node_modules/jquery/dist/jquery.js',
-  'node_modules/scrollreveal/dist/scrollreveal.min.js',
-	'node_modules/slick-carousel/slick/slick.min.js'
-];
-const footerJS = ['src/js/**'];
+const headerJS = [ './node_modules/jquery/dist/jquery.js' ];
+
+const footerJS = [ './src/assets/js/**' ];
 
 /* -------------------------------------------------------------------------------------------------
-Installation Tasks
+Environment Tasks
 -------------------------------------------------------------------------------------------------- */
-gulp.task('default');
+function setupEnvironment( done ) {
+	if ( ! fs.existsSync( './build' ) ) {
+		fs.mkdirSync( './build' );
+		fs.mkdirSync( './build/wordpress' );
+	}
+	if ( ! fs.existsSync( './xdebug' ) ) {
+		fs.mkdirSync( './xdebug' );
+	}
+	if ( ! fs.existsSync( './Dockerfile' ) ) {
+		let contents = fs.readFileSync( './Dockerfile.in', {
+			encoding: 'utf8',
+		} );
+		contents = process.platform === 'win32'
+			? contents.replace( /\{\{UID\}\}/g, execSync('id -u').toString().trim() )
+			: contents.replace( /\{\{UID\}\}/g, process.getuid() );
+		contents = process.platform === 'win32'
+			? contents.replace( /\{\{GID\}\}/g, execSync('id -g').toString().trim() )
+			: contents.replace( /\{\{GID\}\}/g, process.getgid() );
+		fs.writeFileSync( './Dockerfile', contents );
+	}
+	if ( ! fs.existsSync( './config/php.ini' ) ) {
+		let contents = fs.readFileSync( './config/php.ini.in', {
+			encoding: 'utf8',
+		} );
+		// If you're on Linux, you might have to modify the IP address 172.29.0.1 - See README
+		let replacement =
+			process.platform === 'win32' || process.platform === 'darwin'
+				? 'host.docker.internal'
+				: '172.29.0.1';
+		contents = contents.replace(
+			/\{\{XDEBUG_CLIENT_HOST\}\}/g,
+			replacement
+		);
+		fs.writeFileSync( './config/php.ini', contents );
+	}
+	if ( ! fs.existsSync( './.env' ) ) {
+		let contents = fs.readFileSync( './.env.in', { encoding: 'utf8' } );
+		contents = process.platform === 'win32'
+			? contents.replace( /\{\{WPFY_UID\}\}/g, execSync('id -u').toString().trim() )
+			: contents.replace( /\{\{WPFY_UID\}\}/g, process.getuid() );
+		contents = process.platform === 'win32'
+			? contents.replace( /\{\{WPFY_GID\}\}/g, execSync('id -g').toString().trim() )
+			: contents.replace( /\{\{WPFY_GID\}\}/g, process.getgid() );
+		fs.writeFileSync( './.env', contents );
+	}
+	done();
+}
 
-gulp.task('cleanup', () => {
-	del(['build/**']);
-	del(['dist/**']);
-});
+function startContainers( done ) {
+	execSync( 'docker-compose up -d', { stdio: 'inherit' } );
+	done();
+}
 
-gulp.task('download-wordpress', () => {
-	remoteSrc(['latest.zip'], {
-		base: 'https://wordpress.org/',
-	}).pipe(gulp.dest('build/'));
-});
-
-gulp.task('setup', ['unzip-wordpress', 'copy-config']);
-
-gulp.task('unzip-wordpress', () => {
-	gulp
-		.src('build/latest.zip')
-		.pipe(unzip())
-		.pipe(gulp.dest('build/'));
-});
-
-gulp.task('copy-config', () => {
-	gulp
-		.src('wp-config.php')
-		.pipe(inject.after("define('DB_COLLATE', '');", "\ndefine('DISABLE_WP_CRON', true);"))
-		.pipe(gulp.dest('build/wordpress'))
-		.on('end', () => {
-			gutil.beep();
-			gutil.log(devServerReady);
-			gutil.log(thankYou);
-		});
-});
-
-gulp.task('disable-cron', () => {
-	fs.readFile('./build/wordpress/wp-config.php', (err, data) => {
-		if (err) {
-			gutil.log(
-				wpFy + ' - ' + warning + ' wp-config.php still missing... WP_CRON was not disabled!',
-			);
+function registerCleanup( done ) {
+	process.on( 'exit', stopContainers );
+	process.on( 'SIGINT', () => {
+		if ( typeof devServerDone === 'function' ) {
+			devServerDone();
 		}
-		if (data) {
-			if (data.indexOf('DISABLE_WP_CRON') >= 0) {
-				gutil.log('WP_CRON is already disabled!');
-			} else {
-				gulp
-					.src('build/wordpress/wp-config.php')
-					.pipe(inject.after("define('DB_COLLATE', '');", "\ndefine('DISABLE_WP_CRON', true);"))
-					.pipe(gulp.dest('build/wordpress'));
-			}
-		}
-	});
-});
+		process.exit( 0 );
+	} );
+	done();
+}
 
-gulp.task('fresh-install', () => {
-	del(['src/**']).then(() => {
-		gulp.src('tools/fresh-theme/**').pipe(gulp.dest('src'));
-	});
-});
+function buildContainers( done ) {
+	execSync( 'docker-compose up --build --no-start', { stdio: 'inherit' } );
+	done();
+}
+
+function stopContainers( done ) {
+	execSync( 'docker-compose down', { stdio: 'inherit' } );
+	if ( typeof done === 'function' ) {
+		done();
+	}
+}
+
+async function cleanEnvironment( done ) {
+	execSync( 'docker-compose down', { stdio: 'inherit' } );
+	await del( [ 'build', 'Dockerfile', 'xdebug', 'config/php.ini', '.env' ] );
+	done();
+}
+
+function rebuildContainers( done ) {
+	execSync( 'docker-compose up -d --build --force-recreate', {
+		stdio: 'inherit',
+	} );
+	done();
+}
+
+function restartWordPress( done ) {
+	execSync( 'docker-compose restart wordpress' );
+	done();
+}
+
+exports[ 'env:build' ] = series( setupEnvironment, buildContainers );
+exports[ 'env:start' ] = envStart;
+exports[ 'env:stop' ] = stopContainers;
+exports[ 'env:rebuild' ] = series(
+	cleanEnvironment,
+	setupEnvironment,
+	rebuildContainers
+);
+exports[ 'env:restart' ] = restartWordPress;
 
 /* -------------------------------------------------------------------------------------------------
 Development Tasks
 -------------------------------------------------------------------------------------------------- */
-gulp.task(
-	'build-dev',
-	[
-		'copy-theme-dev',
-		'copy-fonts-dev',
-		'style-dev',
-		'header-scripts-dev',
-		'footer-scripts-dev',
-		'plugins-dev',
-		'watch',
-	],
-	() => {
-		connect.server(
-			{
-				base: 'build/wordpress',
-				port: '3020',
-			},
-			() => {
-				browserSync({
-					proxy: 'http://localhost:3020',
-				});
-			},
-		);
-	},
-);
+function devServer( done ) {
+	devServerDone = done;
+	browserSync( {
+		logPrefix: '🎈 WordPressify',
+		proxy: `127.0.0.1:${ process.env.SERVER_PORT }`,
+		host: '127.0.0.1',
+		port: `${ process.env.PROXY_PORT }`,
+		open: 'local',
+	} );
 
-gulp.task('copy-theme-dev', () => {
-	if (!fs.existsSync('./build')) {
-		gutil.log(buildNotFound);
-		process.exit(1);
+	watch( './src/assets/css/**/*.css', stylesDev );
+	watch( './src/assets/js/**', series( footerScriptsDev, Reload ) );
+	watch( './src/assets/img/**', series( copyImagesDev, Reload ) );
+	watch( './src/assets/fonts/**', series( copyFontsDev, Reload ) );
+	watch( './src/theme/**', series( copyThemeDev, stylesDev, Reload ) );
+	watch( './src/plugins/**', series( pluginsDev, Reload ) );
+}
+
+function Reload( done ) {
+	browserSync.reload();
+	done();
+}
+
+function copyWelcomeIndex() {
+	return src( './config/nginx/welcome.html' ).pipe(
+		dest( './build/wordpress' )
+	);
+}
+
+function copyThemeDev() {
+	if ( ! fs.existsSync( './build' ) ) {
+		log( buildNotFound );
+		process.exit( 1 );
 	} else {
-		gulp.src('src/theme/**').pipe(gulp.dest('build/wordpress/wp-content/themes/' + themeName));
+		return src( './src/theme/**' ).pipe(
+			dest( './build/wordpress/wp-content/themes/' + themeName )
+		);
 	}
-});
+}
 
-gulp.task('copy-fonts-dev', () => {
-	gulp
-		.src('src/fonts/**')
-		.pipe(gulp.dest('build/wordpress/wp-content/themes/' + themeName + '/fonts'));
-});
+function copyImagesDev() {
+	return src( './src/assets/img/**' ).pipe(
+		dest( './build/wordpress/wp-content/themes/' + themeName + '/img' )
+	);
+}
 
-gulp.task('style-dev', () => {
-  const fonts = gulp.src('src/style/fonts.css')
-		.pipe(plumber({ errorHandler: onError }))
-		.pipe(sourcemaps.init())
-		.pipe(postcss(pluginsDev))
-		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest('build/wordpress/wp-content/themes/' + themeName))
-		.pipe(browserSync.stream({ match: '**/*.css' }));
-	const carousel = gulp.src('src/style/slick-carousel.css')
-		.pipe(plumber({ errorHandler: onError }))
-		.pipe(sourcemaps.init())
-		.pipe(postcss(pluginsDev))
-		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest('build/wordpress/wp-content/themes/' + themeName))
-		.pipe(browserSync.stream({ match: '**/*.css' }));
-	const style = gulp.src('src/style/style.css')
-		.pipe(plumber({ errorHandler: onError }))
-		.pipe(sourcemaps.init())
-		.pipe(postcss(pluginsDev))
-		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest('build/wordpress/wp-content/themes/' + themeName))
-		.pipe(browserSync.stream({ match: '**/*.css' }));
-  const editorStyle = gulp.src('src/style/editor-style.css')
-		.pipe(plumber({ errorHandler: onError }))
-		.pipe(sourcemaps.init())
-		.pipe(postcss(pluginsDev))
-		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest('build/wordpress/wp-content/themes/' + themeName))
-		.pipe(browserSync.stream({ match: '**/*.css' }));
+function copyFontsDev() {
+	return src( './src/assets/fonts/**' ).pipe(
+		dest( './build/wordpress/wp-content/themes/' + themeName + '/fonts' )
+	);
+}
 
-  return merge(fonts, carousel, style, editorStyle);
-});
+function stylesDev() {
+	return src( './src/assets/css/style.css' )
+		.pipe( plumber( { errorHandler: onError } ) )
+		.pipe( sourcemaps.init() )
+		.pipe( postcss( pluginsListDev ) )
+		.pipe( sourcemaps.write( '.' ) )
+		.pipe( dest( './build/wordpress/wp-content/themes/' + themeName ) )
+		.pipe( browserSync.stream( { match: '**/*.css' } ) );
+}
 
-gulp.task('header-scripts-dev', () => {
-	return gulp
-		.src(headerJS)
-		.pipe(plumber({ errorHandler: onError }))
-		.pipe(sourcemaps.init())
-    .pipe(concat('header-bundle.js'))
-		.pipe(uglify())
-		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest('build/wordpress/wp-content/themes/' + themeName + '/js'));
-});
-
-gulp.task('footer-scripts-dev', () => {
-	return gulp
-		.src(footerJS)
-		.pipe(plumber({ errorHandler: onError }))
-		.pipe(sourcemaps.init())
+function headerScriptsDev() {
+	return src( headerJS )
+		.pipe( plumber( { errorHandler: onError } ) )
+		.pipe( sourcemaps.init() )
+		.pipe( concat( 'header-bundle.js' ) )
+		.pipe( sourcemaps.write( '.' ) )
 		.pipe(
-			babel({
-				presets: ['@babel/preset-env'],
-			}),
+			dest( './build/wordpress/wp-content/themes/' + themeName + '/js' )
+		);
+}
+
+function footerScriptsDev() {
+	return src( footerJS )
+		.pipe( plumber( { errorHandler: onError } ) )
+		.pipe( sourcemaps.init() )
+		.pipe(
+			babel( {
+				presets: [ '@babel/preset-env' ],
+			} )
 		)
-    .pipe(concat('footer-bundle.js'))
-		.pipe(uglify())
-		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest('build/wordpress/wp-content/themes/' + themeName + '/js'));
-});
+		.pipe( concat( 'footer-bundle.js' ) )
+		.pipe( sourcemaps.write( '.' ) )
+		.pipe(
+			dest( './build/wordpress/wp-content/themes/' + themeName + '/js' )
+		);
+}
 
-gulp.task('plugins-dev', () => {
-	return gulp.src('src/plugins/**').pipe(gulp.dest('build/wordpress/wp-content/plugins'));
-});
+function pluginsDev() {
+	return src( [ './src/plugins/**', '!./src/plugins/README.md' ] ).pipe(
+		dest( './build/wordpress/wp-content/plugins' )
+	);
+}
 
-gulp.task('reload-js', ['footer-scripts-dev', 'header-scripts-dev'], done => {
-	browserSync.reload();
-	done();
-});
-
-gulp.task('reload-fonts', ['copy-fonts-dev'], done => {
-	browserSync.reload();
-	done();
-});
-
-gulp.task('reload-theme', ['copy-theme-dev'], done => {
-	browserSync.reload();
-	done();
-});
-
-gulp.task('reload-plugins', ['plugins-dev'], done => {
-	browserSync.reload();
-	done();
-});
-
-gulp.task('watch', () => {
-	gulp.watch(['src/style/**/*.css'], ['style-dev']);
-	gulp.watch(['src/js/**'], ['reload-js']);
-	gulp.watch(['src/fonts/**'], ['reload-fonts']);
-	gulp.watch(['src/theme/**'], ['reload-theme']);
-	gulp.watch(['src/plugins/**'], ['reload-plugins']);
-	gulp.watch('build/wordpress/wp-config*.php', event => {
-		if (event.type === 'added') {
-			gulp.start('disable-cron');
-		}
-	});
-});
+exports.dev = series(
+	envStart,
+	registerCleanup,
+	copyWelcomeIndex,
+	copyThemeDev,
+	copyImagesDev,
+	copyFontsDev,
+	stylesDev,
+	headerScriptsDev,
+	footerScriptsDev,
+	pluginsDev,
+	devServer
+);
 
 /* -------------------------------------------------------------------------------------------------
 Production Tasks
 -------------------------------------------------------------------------------------------------- */
-gulp.task('build-prod', [
-	'copy-theme-prod',
-	'copy-fonts-prod',
-	'style-prod',
-	'header-scripts-prod',
-	'footer-scripts-prod',
-	'plugins-prod',
-	'zip-theme',
-]);
+async function cleanProd() {
+	await del( [ './dist' ] );
+}
 
-gulp.task('copy-theme-prod', () => {
-	gulp.src(['src/theme/**', '!src/theme/img/**']).pipe(gulp.dest('dist/themes/' + themeName));
-});
+function copyThemeProd() {
+	return src( [ './src/theme/**', '!./src/theme/**/node_modules/**' ] ).pipe(
+		dest( './dist/themes/' + themeName )
+	);
+}
 
-gulp.task('copy-fonts-prod', () => {
-	gulp.src('src/fonts/**').pipe(gulp.dest('dist/themes/' + themeName + '/fonts'));
-});
+function copyFontsProd() {
+	return src( './src/assets/fonts/**' ).pipe(
+		dest( './dist/themes/' + themeName + '/fonts' )
+	);
+}
 
-gulp.task('process-images', ['copy-theme-prod'], () => {
-	return gulp
-		.src('src/theme/img/**')
-		.pipe(plumber({ errorHandler: onError }))
+function stylesProd() {
+	return src( './src/assets/css/style.css' )
+		.pipe( plumber( { errorHandler: onError } ) )
+		.pipe( postcss( pluginsListProd ) )
+		.pipe( dest( './dist/themes/' + themeName ) );
+}
+
+function headerScriptsProd() {
+	return src( headerJS )
+		.pipe( plumber( { errorHandler: onError } ) )
+		.pipe( concat( 'header-bundle.js' ) )
+		.pipe( uglify() )
+		.pipe( dest( './dist/themes/' + themeName + '/js' ) );
+}
+
+function footerScriptsProd() {
+	return src( footerJS )
+		.pipe( plumber( { errorHandler: onError } ) )
 		.pipe(
-			imagemin([imagemin.svgo({ plugins: [{ removeViewBox: true }] })], {
-				verbose: true,
-			}),
+			babel( {
+				presets: [ '@babel/preset-env' ],
+			} )
 		)
-		.pipe(gulp.dest('dist/themes/' + themeName + '/img'));
-});
+		.pipe( concat( 'footer-bundle.js' ) )
+		.pipe( uglify() )
+		.pipe( dest( './dist/themes/' + themeName + '/js' ) );
+}
 
-gulp.task('style-prod', () => {
+function pluginsProd() {
+	return src( [ './src/plugins/**', '!./src/plugins/**/*.md' ] ).pipe(
+		dest( './dist/plugins' )
+	);
+}
 
-  const fonts = gulp.src('src/style/fonts.css')
-    .pipe(plumber({ errorHandler: onError }))
-    .pipe(postcss(pluginsProd))
-    .pipe(gulp.dest('dist/themes/' + themeName));
-
-	const carousel = gulp.src('src/style/slick-carousel.css')
-    .pipe(plumber({ errorHandler: onError }))
-    .pipe(postcss(pluginsProd))
-    .pipe(gulp.dest('dist/themes/' + themeName));
-
-	const style = gulp.src('src/style/style.css')
-    .pipe(plumber({ errorHandler: onError }))
-    .pipe(postcss(pluginsProd))
-    .pipe(gulp.dest('dist/themes/' + themeName));
-
-  const editorStyle = gulp.src('src/style/editor-style.css')
-    .pipe(plumber({ errorHandler: onError }))
-    .pipe(postcss(pluginsProd))
-    .pipe(gulp.dest('dist/themes/' + themeName));
-
-  return merge(fonts, carousel, style, editorStyle);
-});
-
-gulp.task('header-scripts-prod', () => {
-	return gulp
-		.src(headerJS)
-		.pipe(plumber({ errorHandler: onError }))
-		.pipe(concat('header-bundle.js'))
-		.pipe(uglify())
-		.pipe(gulp.dest('dist/themes/' + themeName + '/js'));
-});
-
-gulp.task('footer-scripts-prod', () => {
-	return gulp
-		.src(footerJS)
-		.pipe(plumber({ errorHandler: onError }))
+function processImages() {
+	return src( './src/assets/img/**' )
+		.pipe( plumber( { errorHandler: onError } ) )
 		.pipe(
-			babel({
-				presets: ['@babel/preset-env'],
-			}),
+			imagemin(
+				[ imagemin.svgo( { plugins: [ { removeViewBox: true } ] } ) ],
+				{
+					verbose: true,
+				}
+			)
 		)
-		.pipe(concat('footer-bundle.js'))
-		.pipe(uglify())
-		.pipe(gulp.dest('dist/themes/' + themeName + '/js'));
-});
+		.pipe( dest( './dist/themes/' + themeName + '/img' ) );
+}
 
-gulp.task('plugins-prod', () => {
-	return gulp.src('src/plugins/**').pipe(gulp.dest('dist/plugins'));
-});
+function zipProd() {
+	return src( './dist/themes/' + themeName + '/**/*' )
+		.pipe( zip.dest( './dist/' + themeName + '.zip' ) )
+		.on( 'end', () => {
+			beeper();
+			log( pluginsGenerated );
+			log( filesGenerated );
+			log( thankYou );
+		} );
+}
 
-gulp.task(
-	'zip-theme',
-	[
-		'copy-theme-prod',
-		'copy-fonts-prod',
-		'process-images',
-		'style-prod',
-		'header-scripts-prod',
-		'footer-scripts-prod',
-		'plugins-prod',
-	],
-	() => {
-		gulp
-			.src('dist/themes/' + themeName + '/**')
-			.pipe(zip(themeName + '.zip'))
-			.pipe(gulp.dest('dist'))
-			.on('end', () => {
-				gutil.beep();
-				gutil.log(pluginsGenerated);
-				gutil.log(filesGenerated);
-				gutil.log(thankYou);
-			});
-	},
+exports.prod = series(
+	cleanProd,
+	copyThemeProd,
+	copyFontsProd,
+	stylesProd,
+	headerScriptsProd,
+	footerScriptsProd,
+	pluginsProd,
+	processImages,
+	zipProd
 );
 
 /* -------------------------------------------------------------------------------------------------
 Utility Tasks
 -------------------------------------------------------------------------------------------------- */
-const onError = err => {
-	gutil.beep();
-	gutil.log(wpFy + ' - ' + errorMsg + ' ' + err.toString());
-	this.emit('end');
+const onError = ( err ) => {
+	beeper();
+	log( wpFy + ' - ' + errorMsg + ' ' + err.toString() );
+	this.emit( 'end' );
 };
 
-const date = new Date().toLocaleDateString('en-GB').replace(/\//g, '.');
+function Backup() {
+	if ( ! fs.existsSync( './build' ) ) {
+		log( buildNotFound );
+		process.exit( 1 );
+	} else {
+		return src( './build/**/*' )
+			.pipe( zip.dest( './backups/' + date + '.zip' ) )
+			.on( 'end', () => {
+				beeper();
+				log( backupsGenerated );
+				log( thankYou );
+			} );
+	}
+}
+
+exports.backup = Backup;
+
+/* -------------------------------------------------------------------------------------------------
+Messages
+-------------------------------------------------------------------------------------------------- */
+const date = new Date().toLocaleDateString( 'en-GB' ).replace( /\//g, '.' );
 const errorMsg = '\x1b[41mError\x1b[0m';
 const warning = '\x1b[43mWarning\x1b[0m';
 const devServerReady =
 	'Your development server is ready, start the workflow with the command: $ \x1b[1mnpm run dev\x1b[0m';
 const buildNotFound =
 	errorMsg +
-	' ⚠️　- You need to install WordPress first. Run the command: $ \x1b[1mnpm run install:wordpress\x1b[0m';
+	' ⚠️　- You need to build the project first. Run the command: $ \x1b[1mnpm run env:start\x1b[0m';
 const filesGenerated =
 	'Your ZIP template file was generated in: \x1b[1m' +
 	__dirname +
@@ -407,29 +431,18 @@ const filesGenerated =
 	themeName +
 	'.zip\x1b[0m - ✅';
 const pluginsGenerated =
-	'Plugins are generated in: \x1b[1m' + __dirname + '/dist/plugins/\x1b[0m - ✅';
+	'Plugins are generated in: \x1b[1m' +
+	__dirname +
+	'/dist/plugins/\x1b[0m - ✅';
 const backupsGenerated =
-	'Your backup was generated in: \x1b[1m' + __dirname + '/backups/' + date + '.zip\x1b[0m - ✅';
+	'Your backup was generated in: \x1b[1m' +
+	__dirname +
+	'/backups/' +
+	date +
+	'.zip\x1b[0m - ✅';
 const wpFy = '\x1b[42m\x1b[1mWordPressify\x1b[0m';
-const wpFyUrl = '\x1b[2m - http://www.wordpressify.co/\x1b[0m';
+const wpFyUrl = '\x1b[2m - https://www.wordpressify.co/\x1b[0m';
 const thankYou = 'Thank you for using ' + wpFy + wpFyUrl;
-
-gulp.task('backup', () => {
-	if (!fs.existsSync('./build')) {
-		gutil.log(buildNotFound);
-		process.exit(1);
-	} else {
-		gulp
-			.src('build/wordpress/**')
-			.pipe(zip(date + '.zip'))
-			.pipe(gulp.dest('backups'))
-			.on('end', () => {
-				gutil.beep();
-				gutil.log(backupsGenerated);
-				gutil.log(thankYou);
-			});
-	}
-});
 
 /* -------------------------------------------------------------------------------------------------
 End of all Tasks

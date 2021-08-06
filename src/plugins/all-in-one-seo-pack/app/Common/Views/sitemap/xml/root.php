@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<sitemap>
 		<loc><?php aioseo()->sitemap->output->escapeAndEcho( $entry['loc'] ); ?></loc><?php
 	if ( array_key_exists( 'lastmod', $entry ) && $entry['lastmod'] ) {
-		?>
+			?>
 
 		<lastmod><?php aioseo()->sitemap->output->escapeAndEcho( $entry['lastmod'] ); ?></lastmod><?php
 		}

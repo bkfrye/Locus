@@ -209,7 +209,7 @@ class PostMeta {
 							$value = aioseo()->helpers->pregReplace( '#%%primary_category%%#', '', $value );
 							$value = aioseo()->helpers->pregReplace( '#%%excerpt%%#', '', $value );
 						}
-						$value = aioseo()->importExport->yoastSeo->helpers->macrosToSmartTags( $value );
+						$value = aioseo()->importExport->yoastSeo->helpers->macrosToSmartTags( $value, 'post', $post->post_type );
 					default:
 						$meta[ $mappedMeta[ $name ] ] = esc_html( wp_strip_all_tags( strval( $value ) ) );
 						break;

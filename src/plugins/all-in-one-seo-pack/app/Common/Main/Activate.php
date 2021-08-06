@@ -52,6 +52,8 @@ class Activate {
 		}
 
 		aioseo()->transients->clearCache();
+
+		$this->maybeRunSetupWizard();
 	}
 
 	/**
@@ -64,5 +66,34 @@ class Activate {
 	public function deactivate() {
 		aioseo()->access->removeCapabilities();
 		\AIOSEO\Plugin\Common\Sitemap\Rewrite::removeRewriteRules( [], true );
+	}
+
+	/**
+	 * Check if we should redirect on activation.
+	 *
+	 * @since 4.1.2
+	 *
+	 * @return void
+	 */
+	private function maybeRunSetupWizard() {
+		if ( '0.0' !== aioseo()->internalOptions->internal->lastActiveVersion ) {
+			return;
+		}
+
+		$oldOptions = get_option( 'aioseop_options' );
+		if ( ! empty( $oldOptions ) ) {
+			return;
+		}
+
+		if ( is_network_admin() ) {
+			return;
+		}
+
+		if ( isset( $_GET['activate-multi'] ) ) {
+			return;
+		}
+
+		// Sets 30 second transient for welcome screen redirect on activation.
+		aioseo()->transients->update( 'activation_redirect', true, 30 );
 	}
 }

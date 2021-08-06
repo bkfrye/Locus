@@ -1,5 +1,41 @@
-node_modules
-.DS_store
+# Distribution Files
+app
+dist
+build
+tmp
+backups
 
-dist/
-build/
+# IDE & Editors
+.idea
+.vscode
+
+# OSX
+*.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+*.lnk
+
+*.iml
+
+node_modules
+.env
+
+# Debug log from npm
+npm-debug.log
+
+*.map
+*.log
+xdebug
+
+# Generated for a specific environment. These files are generated from
+# corresponding "*.in" files and they are specific for every machine, so they
+# should not be committed to the repository.
+Dockerfile
+.env
+config/php.ini

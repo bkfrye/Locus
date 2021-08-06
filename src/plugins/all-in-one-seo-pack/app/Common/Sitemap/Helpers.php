@@ -373,9 +373,13 @@ class Helpers {
 			$type = 'general';
 		}
 
-		$advanced = aioseo()->options->sitemap->$type->advancedSettings->enable;
-		$excluded = aioseo()->options->sitemap->$type->advancedSettings->$option;
-		if ( ! $advanced || null === $excluded || ! count( $excluded ) ) {
+		$hasFilter = has_filter( 'aioseo_sitemap_' . aioseo()->helpers->toSnakeCase( $option ) );
+		$advanced  = aioseo()->options->sitemap->$type->advancedSettings->enable;
+		$excluded  = aioseo()->options->sitemap->$type->advancedSettings->$option;
+		if (
+			( ! $advanced || empty( $excluded ) ) &&
+			! $hasFilter
+		) {
 			return '';
 		}
 
@@ -386,6 +390,31 @@ class Helpers {
 				$ids[] = $object->value;
 			}
 		}
+
+		if ( 'excludePosts' === $option ) {
+			/**
+			 * Filters the posts exclusion before creating the query.
+			 *
+			 * @since 4.1.3
+			 *
+			 * @param array  $ids  The array of excluded posts id.
+			 * @param string $type The type of sitemap.
+			 */
+			$ids = apply_filters( 'aioseo_sitemap_exclude_posts', $ids, $type );
+		}
+
+		if ( 'excludeTerms' === $option ) {
+			/**
+			 * Filters the terms exclusion before creating the query.
+			 *
+			 * @since 4.1.3
+			 *
+			 * @param array  $ids  The array of excluded ters id.
+			 * @param string $type The type of sitemap.
+			 */
+			$ids = apply_filters( 'aioseo_sitemap_exclude_terms', $ids, $type );
+		}
+
 		return count( $ids ) ? esc_sql( implode( ', ', $ids ) ) : '';
 	}
 

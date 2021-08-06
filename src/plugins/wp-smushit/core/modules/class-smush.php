@@ -376,7 +376,7 @@ class Smush extends Abstract_Module {
 		}
 
 		// Check if premium member, add API key.
-		$api_key = $this->get_api_key();
+		$api_key = Helper::get_wpmudev_apikey();
 		if ( ! empty( $api_key ) && WP_Smush::is_pro() ) {
 			$headers['apikey'] = $api_key;
 		}
@@ -405,7 +405,7 @@ class Smush extends Abstract_Module {
 
 			// Check for timeout error and suggest to filter timeout.
 			if ( strpos( $er_msg, 'timed out' ) ) {
-				$data['message'] = esc_html__( "Skipped due to a timeout error. You can increase the request timeout to make sure Smush has enough time to process larger files. define('WP_SMUSH_API_TIMEOUT', 150);", 'wp-smushit' );
+				$data['message'] = esc_html__( "Skipped due to a timeout error. You can increase the request timeout to make sure Smush has enough time to process larger files. define('WP_SMUSH_TIMEOUT', 150);", 'wp-smushit' );
 			} else {
 				// Handle error.
 				/* translators: %s error message */
@@ -571,6 +571,8 @@ class Smush extends Abstract_Module {
 		// Set a flag if any image got error during webp conversion.
 		$webp_has_error         = false;
 		$should_convert_to_webp = WP_Smush::get_instance()->core()->mod->webp->should_be_converted( $id );
+		// Keep all new webp image path in this list.
+		$webp_files = array();
 
 		// If images has other registered size, smush them first.
 		if ( ! empty( $meta['sizes'] ) && ! has_filter( 'wp_image_editors', 'photon_subsizes_override_image_editors' ) ) {
@@ -623,8 +625,6 @@ class Smush extends Abstract_Module {
 				 * @since 3.8.0
 				 */
 				if ( $should_convert_to_webp ) {
-					// Keep all new webp image path in this list.
-					$webp_files    = array();
 					$webp_response = WP_Smush::get_instance()->core()->mod->smush->do_smushit( $attachment_file_path_size, true );
 
 					if ( is_wp_error( $webp_response ) || ! $webp_response ) {
@@ -1054,25 +1054,6 @@ class Smush extends Abstract_Module {
 		}
 
 		wp_send_json_success( $status );
-	}
-
-	/**
-	 * Returns api key.
-	 *
-	 * @return mixed
-	 */
-	private function get_api_key() {
-		$api_key = false;
-
-		// If API key defined manually, get that.
-		if ( defined( 'WPMUDEV_APIKEY' ) && WPMUDEV_APIKEY ) {
-			$api_key = WPMUDEV_APIKEY;
-		} elseif ( class_exists( 'WPMUDEV_Dashboard' ) ) {
-			// If dashboard plugin is active, get API key from db.
-			$api_key = get_site_option( 'wpmudev_apikey' );
-		}
-
-		return $api_key;
 	}
 
 	/**

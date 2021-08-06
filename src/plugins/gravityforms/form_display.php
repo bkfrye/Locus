@@ -742,7 +742,7 @@ class GFFormDisplay {
 		$form_args = apply_filters( 'gform_form_args', compact( 'form_id', 'display_title', 'display_description', 'force_display', 'field_values', 'ajax', 'tabindex' ) );
 
 		if ( empty( $form_args['form_id'] ) ) {
-			return self::get_form_not_found_html( $form_id );
+			return self::get_form_not_found_html( $form_id, $ajax );
 		}
 
 		extract( $form_args );
@@ -752,14 +752,14 @@ class GFFormDisplay {
 			$form_title = $form_id;
 			$form_id    = GFFormsModel::get_form_id( $form_title );
 			if ( $form_id === 0 ) {
-				return self::get_form_not_found_html( $form_title );
+				return self::get_form_not_found_html( $form_title, $ajax );
 			}
 		}
 
 		$form = GFAPI::get_form( $form_id );
 
 		if ( ! $form ) {
-			return self::get_form_not_found_html( $form_id );
+			return self::get_form_not_found_html( $form_id, $ajax );
 		}
 
 		$action = remove_query_arg( 'gf_token' );
@@ -881,7 +881,7 @@ class GFFormDisplay {
 		$form = gf_apply_filters( array( 'gform_pre_render', $form_id ), $form, $ajax, $field_values );
 
 		if ( empty( $form ) ) {
-			return self::get_form_not_found_html( $form_id );
+			return self::get_form_not_found_html( $form_id, $ajax );
 		}
 
 		$has_pages = self::has_pages( $form );
@@ -1142,8 +1142,9 @@ class GFFormDisplay {
 			$form_string .= '</div>'; //closes gform_body
 
 			//suppress form footer for multi-page forms (footer will be included on the last page
+			$label_placement = rgar( $form, 'labelPlacement', 'before' );
 			if ( ! $has_pages ) {
-				$form_string .= self::gform_footer( $form, 'gform_footer ' . $form['labelPlacement'], $ajax, $field_values, '', $display_title, $display_description, $tabindex );
+				$form_string .= self::gform_footer( $form, 'gform_footer ' . $label_placement, $ajax, $field_values, '', $display_title, $display_description, $tabindex );
 			}
 
 			$form_string .= '
@@ -1178,10 +1179,7 @@ class GFFormDisplay {
 					$iframe_content = '';
 				}
 
-				$form_string .= "
-                <iframe style='{$iframe_style}' src='about:blank' name='gform_ajax_frame_{$form_id}' id='gform_ajax_frame_{$form_id}'" . $iframe_title . ">" . $iframe_content . "</iframe>
-                <script type='text/javascript'>" . apply_filters( 'gform_cdata_open', '' ) . '' .
-					'document.addEventListener( \'DOMContentLoaded\', function($){' .
+				$form_scripts_body = 'gform.initializeOnLoaded( function() {' .
 						"gformInitSpinner( {$form_id}, '{$spinner_url}' );" .
 						"jQuery('#gform_ajax_frame_{$form_id}').on('load',function(){" .
 							"var contents = jQuery(this).contents().find('*').html();" .
@@ -1222,7 +1220,13 @@ class GFFormDisplay {
 							'}' .
 							"jQuery(document).trigger('gform_post_render', [{$form_id}, current_page]);" .
 						'} );' .
-					'} );' . apply_filters( 'gform_cdata_close', '' ) . '</script>';
+					'} );';
+
+				$form_scripts = GFCommon::get_inline_script_tag( $form_scripts_body );
+
+				$form_string .= "
+                <iframe style='{$iframe_style}' src='about:blank' name='gform_ajax_frame_{$form_id}' id='gform_ajax_frame_{$form_id}'" . $iframe_title . ">" . $iframe_content . "</iframe>
+                {$form_scripts}";
 			}
 
 			$is_first_load = ! $is_postback;
@@ -1231,22 +1235,26 @@ class GFFormDisplay {
 
 				self::register_form_init_scripts( $form, $field_values, $ajax );
 
+				// We can't init in footer on AJAX calls, as those actions never get called.
+				$init_in_footer = ! ( defined('DOING_AJAX') && DOING_AJAX );
+
 				/**
 				 * Allows init scripts to be outputted in either the header or footer.
 				 *
 				 * @since unknown
-				 * @since 2.5 Defaults to true
+				 * @since 2.5.3 Defaults to ( ! DOING_AJAX )
 				 *
-				 * @param bool true Whether to output init scripts in the footer. Defaults to true.
+				 * @param bool Whether to output init scripts in the footer. Defaults to ( ! DOING_AJAX ).
 				 */
-				if ( apply_filters( 'gform_init_scripts_footer', true ) ) {
+				if ( apply_filters( 'gform_init_scripts_footer', $init_in_footer ) ) {
 					$callback = array( new GF_Late_Static_Binding( array( 'form_id' => $form['id'] ) ), 'GFFormDisplay_footer_init_scripts' );
-					add_action( 'wp_footer', $callback, 20 );
-					add_action( 'admin_footer', $callback, 20 );
+					add_action( 'wp_footer', $callback, 999 );
+					add_action( 'admin_print_footer_scripts', $callback, 999 );
 					add_action( 'gform_preview_footer', $callback );
 				} else {
-					$form_string .= self::get_form_init_scripts( $form );
-					$form_string .= "<script type='text/javascript'>" . apply_filters( 'gform_cdata_open', '' ) . " document.addEventListener( 'DOMContentLoaded', function(){jQuery(document).trigger('gform_post_render', [{$form_id}, {$current_page}]) } ); " . apply_filters( 'gform_cdata_close', '' ) . '</script>';
+					$form_string      .= self::get_form_init_scripts( $form );
+					$init_script_body = "gform.initializeOnLoaded( function() {  jQuery(document).trigger('gform_post_render', [{$form_id}, {$current_page}]) } );";
+					$form_string      .= GFCommon::get_inline_script_tag( $init_script_body );
 				}
 			}
 
@@ -1280,10 +1288,11 @@ class GFFormDisplay {
 	public static function footer_init_scripts( $form_id ) {
 		global $_init_forms;
 
-		$form         = RGFormsModel::get_form_meta( $form_id );
-		$form_string  = self::get_form_init_scripts( $form );
-		$current_page = self::get_current_page( $form_id );
-		$form_string .= "<script type='text/javascript'>" . apply_filters( 'gform_cdata_open', '' ) . " document.addEventListener( 'DOMContentLoaded', function(){jQuery(document).trigger('gform_post_render', [{$form_id}, {$current_page}]) } ); " . apply_filters( 'gform_cdata_close', '' ) . '</script>';
+		$form               = RGFormsModel::get_form_meta( $form_id );
+		$form_string        = self::get_form_init_scripts( $form );
+		$current_page       = self::get_current_page( $form_id );
+		$footer_script_body = "gform.initializeOnLoaded( function() { jQuery(document).trigger('gform_post_render', [{$form_id}, {$current_page}]) } );";
+		$form_string        .= GFCommon::get_inline_script_tag( $footer_script_body );
 
 		/**
 		 * A filter to allow modification of scripts that fire in the footer
@@ -1322,7 +1331,7 @@ class GFFormDisplay {
 
 		$tabindex = GFCommon::get_tabindex();
 
-		$input_type = 'submit';
+		$input_type = ( rgar( $button, 'type' ) === 'link' ) ? 'button' : 'submit';
 
 		$do_submit = "jQuery(\"#gform_{$form_id}\").trigger(\"submit\",[true]);";
 
@@ -1355,7 +1364,7 @@ class GFFormDisplay {
 					$target = '';
 					$icon   = '<svg aria-hidden="true" focusable="false" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M0 8a4 4 0 004 4h3v3a1 1 0 102 0v-3h3a4 4 0 100-8 4 4 0 10-8 0 4 4 0 00-4 4zm9 4H7V7.414L5.707 8.707a1 1 0 01-1.414-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L9 7.414V12z" fill="#6B7280"/></svg>';
 				}
-				$button_input = "<{$tag} {$target} id='{$button_input_id}_link' class='{$class}' {$tabindex} {$onclick}>{$icon} {$button_text}</{$tag}>";
+				$button_input = "<{$tag} type='{$input_type}' {$target} id='{$button_input_id}_link' class='{$class}' {$tabindex} {$onclick}>{$icon} {$button_text}</{$tag}>";
 			} else {
 				$class .= ' button';
 				$button_input = "<input type='{$input_type}' id='{$button_input_id}' class='{$class}' value='" . esc_attr( $button_text ) . "' {$tabindex} {$onclick} />";
@@ -1373,7 +1382,8 @@ class GFFormDisplay {
 		$form_id      = absint( $form['id'] );
 		$footer       = "
         <div class='" . esc_attr( $class ) . "'>";
-		$button_input = self::get_form_button( $form['id'], "gform_submit_button_{$form['id']}", $form['button'], __( 'Submit', 'gravityforms' ), 'gform_button', __( 'Submit', 'gravityforms' ), 0 );
+		$button       = rgar( $form, 'button', array( 'type' => 'link' ) );
+		$button_input = self::get_form_button( $form['id'], "gform_submit_button_{$form['id']}", $button, __( 'Submit', 'gravityforms' ), 'gform_button', __( 'Submit', 'gravityforms' ), 0 );
 		$button_input = gf_apply_filters( array( 'gform_submit_button', $form_id ), $button_input, $form );
 
 		$save_button = rgars( $form, 'save/enabled' ) ? self::get_form_button( $form_id, "gform_save_{$form_id}_footer", $form['save']['button'], rgars( $form, 'save/button/text' ), 'gform_save_link', rgars( $form, 'save/button/text' ), 0, "jQuery(\"#gform_save_{$form_id}\").val(1);" ) : '';
@@ -1761,7 +1771,7 @@ class GFFormDisplay {
 	 * @return string
 	 */
 	public static function get_confirmation_url( $confirmation, $form, $entry ) {
-		if ( ! empty( $confirmation['pageId'] ) ) {
+		if ( ! empty( $confirmation['pageId'] ) && $confirmation['type'] === 'page' ) {
 			$url = get_permalink( $confirmation['pageId'] );
 			if ( empty( $url ) ) {
 				GFCommon::log_debug( sprintf( '%s(): Selected page (%s) is invalid.', __METHOD__, $confirmation['pageId'] ) );
@@ -1848,14 +1858,12 @@ class GFFormDisplay {
 	private static function get_js_redirect_confirmation( $url, $ajax ) {
 		// JSON_HEX_TAG is available on PHP >= 5.3. It will prevent payloads such as <!--<script> from causing an error on redirection.
 		$url =  defined( 'JSON_HEX_TAG' ) ? json_encode( $url, JSON_HEX_TAG ) : json_encode( $url );
-		$confirmation = "<script type=\"text/javascript\">" . apply_filters( 'gform_cdata_open', '' ) . " function gformRedirect(){document.location.href={$url};}";
+		$script_body = "function gformRedirect(){document.location.href={$url};}";
 		if ( ! $ajax ) {
-			$confirmation .= 'gformRedirect();';
+			$script_body .= 'gformRedirect();';
 		}
 
-		$confirmation .= apply_filters( 'gform_cdata_close', '' ) . '</script>';
-
-		return $confirmation;
+		return GFCommon::get_inline_script_tag( $script_body );
 	}
 
 	public static function send_emails( $form, $lead ) {
@@ -2441,8 +2449,13 @@ class GFFormDisplay {
 			$assets[] = new GF_Script_Asset( 'gform_datepicker_init' );
 		}
 
+		if ( self::has_recaptcha_field( $form ) ) {
+			$language = self::get_recaptcha_language( $form );
+			$assets[] = new GF_Script_Asset( 'gform_recaptcha', esc_url( sprintf( 'https://www.google.com/recaptcha/api.js?hl=%s&render=explicit', $language ) ) );
+		}
+
 		if ( self::has_password_strength( $form ) ) {
-			$assets[] = new GF_Script_Asset( 'gforms_zxcvbn' );
+			$assets[] = new GF_Script_Asset( 'gforms_zxcvbn', includes_url( '/js/zxcvbn.min.js' ) );
 			$assets[] = new GF_Script_Asset( 'password-strength-meter' );
 		}
 
@@ -2631,7 +2644,7 @@ class GFFormDisplay {
 	}
 
 	/**
-	 * If form has page conditional logic.
+	 * Determines if the form has page conditional logic.
 	 *
 	 * @since 2.5
 	 *
@@ -2640,8 +2653,12 @@ class GFFormDisplay {
 	 * @return bool
 	 */
 	public static function has_page_conditional_logic( $form ) {
+		if ( ! GFCommon::form_has_fields( $form ) ) {
+			return false;
+		}
+
 		foreach ( $form['fields'] as $field ) {
-			if ( $field->type === 'page' && ! empty( $field->conditionalLogic ) ) {
+			if ( $field->type === 'page' && ! empty( $field->conditionalLogic ) && is_array( $field->conditionalLogic ) ) {
 				return true;
 			}
 		}
@@ -2853,7 +2870,8 @@ class GFFormDisplay {
 			"window['gf_number_format'] = '" . $number_format . "';" .
 
 			'jQuery(document).ready(function(){' .
-			"gf_apply_rules({$form['id']}, " . json_encode( $fields_with_logic ) . ', true);' .
+            "window['gformInitPriceFields']();" .
+	        "gf_apply_rules({$form['id']}, " . json_encode( $fields_with_logic ) . ', true);' .
 			"jQuery('#gform_wrapper_{$form['id']}').show();" .
 			"jQuery(document).trigger('gform_post_conditional_logic', [{$form['id']}, null, true]);" .
 
@@ -2989,48 +3007,43 @@ class GFFormDisplay {
 
 	public static function get_form_init_scripts( $form ) {
 
-		$script_string = '';
+		$script_body = '';
 
 		if ( ! $form ) {
-			return $script_string;
+			return $script_body;
 		}
 
 		/* rendering initialization scripts */
 		$init_scripts = rgar( self::$init_scripts, $form['id'] );
 
 		if ( ! empty( $init_scripts ) ) {
-			$script_string =
-				"<script type='text/javascript'>" . apply_filters( 'gform_cdata_open', '' ) . ' ';
+			$script_body = isset( $gf_global_script ) ? $gf_global_script : '';
 
-			$script_string .= isset( $gf_global_script ) ? $gf_global_script : '';
-
-			$script_string .=
-				"jQuery(document).bind('gform_post_render', function(event, formId, currentPage){" .
+			$script_body .=
+				"gform.initializeOnLoaded( function() { jQuery(document).on('gform_post_render', function(event, formId, currentPage){" .
 				"if(formId == {$form['id']}) {";
 
 			foreach ( $init_scripts as $init_script ) {
 				if ( $init_script['location'] == self::ON_PAGE_RENDER ) {
-					$script_string .= $init_script['script'];
+					$script_body .= $init_script['script'];
 				}
 			}
 
-			$script_string .=
+			$script_body .=
 				"} " . //keep the space. needed to prevent plugins from replacing }} with ]}
 				"} );" .
 
 				"jQuery(document).bind('gform_post_conditional_logic', function(event, formId, fields, isInit){";
 			foreach ( $init_scripts as $init_script ) {
 				if ( $init_script['location'] == self::ON_CONDITIONAL_LOGIC ) {
-					$script_string .= $init_script['script'];
+					$script_body .= $init_script['script'];
 				}
 			}
 
-			$script_string .=
-
-				"} );" . apply_filters( 'gform_cdata_close', '' ) . '</script>';
+			$script_body .= '} ) } );';
 		}
 
-		return $script_string;
+		return GFCommon::get_inline_script_tag( $script_body );
 	}
 
 	public static function get_chosen_init_script( $form ) {
@@ -3323,6 +3336,29 @@ class GFFormDisplay {
 		return false;
 	}
 
+	/**
+	 * Gets the language set for the recaptcha field on a form, defaults to english. Only one recaptcha field can be
+	 * used per form.
+	 *
+	 * @since 2.5.6
+	 *
+	 * @param $form
+	 *
+	 * @return string
+	 */
+
+	private static function get_recaptcha_language( $form ) {
+		if ( is_array( $form['fields'] ) ) {
+			foreach ( $form['fields'] as $field ) {
+				if ( ( $field->type == 'captcha' || $field->inputType == 'captcha' ) && ! in_array( $field->captchaType, array( 'simple_captcha', 'math' ) ) ) {
+					return empty( $field->captchaLanguage ) ? 'en' : $field->captchaLanguage;
+				}
+			}
+		}
+
+		return 'en';
+	}
+
 	private static function has_recaptcha_field( $form ) {
 		if ( is_array( $form['fields'] ) ) {
 			foreach ( $form['fields'] as $field ) {
@@ -3604,15 +3640,11 @@ class GFFormDisplay {
 
 		$css_class = esc_attr( $css_class );
 
-		// Allows fields to receive focus in the form editor so screen readers can open the settings.
-		$tabindex = $is_form_editor ? '0' : null;
-
 		$field_container = $field->get_field_container(
 			array(
 				'id' => $field_id,
 				'class' => $css_class,
 				'style' => $style,
-				'tabindex' => $tabindex,
 				'data-field-class' => trim( $field_classes ),
 			),
 			$form
@@ -4282,13 +4314,15 @@ class GFFormDisplay {
 	/**
 	 * Returns the HTML to be be output when the requested form is not found.
 	 *
+	 * @since 2.5.7 Added the $ajax argument.
 	 * @since 2.4.18
 	 *
 	 * @param int|string $form_id The ID or Title of the form requested for display.
+	 * @param bool       $ajax    Whether to return the html as part of the ajax postback html or on its own.
 	 *
 	 * @return string
 	 */
-	public static function get_form_not_found_html( $form_id ) {
+	public static function get_form_not_found_html( $form_id, $ajax = false ) {
 		$form_not_found_message = '<p class="gform_not_found">' . esc_html__( 'Oops! We could not locate your form.', 'gravityforms' ) . '</p>';
 
 		/**
@@ -4299,7 +4333,9 @@ class GFFormDisplay {
 		 * @param string     $form_not_found_message The default form not found message.
 		 * @param int|string $form_id                The ID or Title of the form requested for display.
 		 */
-		return apply_filters( 'gform_form_not_found_message', $form_not_found_message, $form_id );
+		$form_not_found_message = apply_filters( 'gform_form_not_found_message', $form_not_found_message, $form_id );
+
+		return $ajax ? self::get_ajax_postback_html( $form_not_found_message ) : $form_not_found_message;
 	}
 
 	/**
@@ -4341,8 +4377,11 @@ class GFFormDisplay {
 			$error_messages_list = '';
 		}
 
+		$wrapper_class = GFCommon::is_legacy_markup_enabled( $form ) ? 'gform_validation_errors validation_error' : 'gform_validation_errors';
+
 		$validation_errors_markup = sprintf(
-			'<div id="gf_form_focus" tabindex="-1" ></div><div class="gform_validation_errors" id="%s">%s%s</div>',
+			'<div id="gf_form_focus" tabindex="-1" ></div><div class="%s" id="%s">%s%s</div>',
+			$wrapper_class,
 			$validation_container_id,
 			$validation_message_markup,
 			$error_messages_list
@@ -4417,7 +4456,7 @@ class GFFormDisplay {
 			'gf_left_third'     => 'gfield--width-third',
 			'gf_middle_third'   => 'gfield--width-third',
 			'gf_right_third'    => 'gfield--width-third',
-			'gf_first_quarter'   => 'gfield--width-quarter',
+			'gf_first_quarter'  => 'gfield--width-quarter',
 			'gf_second_quarter' => 'gfield--width-quarter',
 			'gf_third_quarter'  => 'gfield--width-quarter',
 			'gf_fourth_quarter' => 'gfield--width-quarter',

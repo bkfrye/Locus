@@ -6,15 +6,15 @@ $loader = require_once __DIR__.'/autoload.php';
 
 // Aliases for the whitelisted classes. For more information see:
 // https://github.com/humbug/php-scoper/blob/master/README.md#class-whitelisting
-if (!class_exists('ComposerAutoloaderInite5a83c03adbbf3192e4eb81c759db6ba', false) && !interface_exists('ComposerAutoloaderInite5a83c03adbbf3192e4eb81c759db6ba', false) && !trait_exists('ComposerAutoloaderInite5a83c03adbbf3192e4eb81c759db6ba', false)) {
-    spl_autoload_call('DeliciousBrains\WPMDB\Container\ComposerAutoloaderInite5a83c03adbbf3192e4eb81c759db6ba');
+if (!class_exists('ComposerAutoloaderInit768b49f916e1e49031714f80f44059a6', false) && !interface_exists('ComposerAutoloaderInit768b49f916e1e49031714f80f44059a6', false) && !trait_exists('ComposerAutoloaderInit768b49f916e1e49031714f80f44059a6', false)) {
+    spl_autoload_call('DeliciousBrains\WPMDB\Container\ComposerAutoloaderInit768b49f916e1e49031714f80f44059a6');
 }
 
 // Functions whitelisting. For more information see:
 // https://github.com/humbug/php-scoper/blob/master/README.md#functions-whitelisting
-if (!function_exists('composerRequiree5a83c03adbbf3192e4eb81c759db6ba')) {
-    function composerRequiree5a83c03adbbf3192e4eb81c759db6ba() {
-        return \DeliciousBrains\WPMDB\Container\composerRequiree5a83c03adbbf3192e4eb81c759db6ba(...func_get_args());
+if (!function_exists('composerRequire768b49f916e1e49031714f80f44059a6')) {
+    function composerRequire768b49f916e1e49031714f80f44059a6() {
+        return \DeliciousBrains\WPMDB\Container\composerRequire768b49f916e1e49031714f80f44059a6(...func_get_args());
     }
 }
 

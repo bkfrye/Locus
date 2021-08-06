@@ -136,7 +136,17 @@ class Image {
 	 */
 	public function getFirstImageInContent( $post ) {
 		preg_match_all( '|<img.*?src=[\'"](.*?)[\'"].*?>|i', $post->post_content, $matches );
-		return ! empty( $matches[1][0] ) ? $matches[1][0] : '';
+
+		// Ignore cover block background image - WP >= 5.7.
+		if ( ! empty( $matches[0] ) && apply_filters( 'aioseo_social_image_ignore_cover_block', true, $post, $matches ) ) {
+			foreach ( $matches[0] as $key => $match ) {
+				if ( false !== stripos( $match, 'wp-block-cover__image-background' ) ) {
+					unset( $matches[1][ $key ] );
+				}
+			}
+		}
+
+		return ! empty( $matches[1] ) ? current( $matches[1] ) : '';
 	}
 
 	/**

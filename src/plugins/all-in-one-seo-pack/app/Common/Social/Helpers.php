@@ -50,20 +50,6 @@ class Helpers {
 				}
 			}
 		}
-
-		// Ultimate Tag Warrior integration.
-		global $utw;
-		if ( is_object( $utw ) ) {
-			$tags = $utw->GetTagsForPost( $postId );
-			if ( ! empty( $tags ) && ! is_wp_error( $tags ) ) {
-				foreach ( $tags as $tag ) {
-					if ( ! empty( $tag->tag ) ) {
-						$names[] = stripslashes( preg_replace( '#(-|_)#', $tag->tag ) );
-					}
-				}
-			}
-		}
-
 		return $names;
 	}
 }

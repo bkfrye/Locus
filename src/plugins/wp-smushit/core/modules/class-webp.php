@@ -48,6 +48,10 @@ class WebP extends Abstract_Module {
 
 		global $wp_filesystem;
 		if ( is_null( $wp_filesystem ) ) {
+			// These aren't included when applying a config from the Hub.
+			if ( ! function_exists( 'WP_Filesystem' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/file.php';
+			}
 			WP_Filesystem();
 		}
 
@@ -69,7 +73,7 @@ class WebP extends Abstract_Module {
 	 *
 	 * @param bool $force force to recheck.
 	 *
-	 * @return bool
+	 * @return bool|WP_Error
 	 */
 	public function is_configured( $force = false ) {
 		if ( ! is_null( $this->is_configured ) && ! $force ) {
@@ -89,7 +93,18 @@ class WebP extends Abstract_Module {
 	 * @return bool|WP_Error
 	 */
 	private function check_server_config() {
-		$this->create_test_files();
+		$files_created = $this->create_test_files();
+
+		// WebP test images couldn't be created.
+		if ( true !== $files_created ) {
+			$message = sprintf(
+				/* translators: path that couldn't be written */
+				esc_html__( 'We couldn\'t create the WebP test files. This is probably due to your current folder permissions. Please adjust the permissions for "%s" to 755 and try again.', 'wp-smushit' ),
+				$files_created
+			);
+			return new WP_Error( 'test_files_not_created', $message );
+		}
+
 		$udir       = $this->get_upload_dir();
 		$test_image = $udir['upload_url'] . '/smush-webp-test.png';
 
@@ -265,23 +280,38 @@ class WebP extends Abstract_Module {
 
 	/**
 	 * Create test files and required directory.
+	 *
+	 * @return true|string String with the path that couldn't be written on failure.
 	 */
 	public function create_test_files() {
 		$udir           = $this->get_upload_dir();
 		$test_png_file  = $udir['upload_path'] . '/smush-webp-test.png';
 		$test_webp_file = $udir['webp_path'] . '/smush-webp-test.png.webp';
 
-		if ( ! file_exists( $test_png_file ) ) {
-			copy( WP_SMUSH_DIR . 'app/assets/images/smush-webp-test.png', $test_png_file );
+		// Create the png file to be requested if it doesn't exist. Bail out if it fails.
+		if (
+			! file_exists( $test_png_file ) &&
+			! copy( WP_SMUSH_DIR . 'app/assets/images/smush-webp-test.png', $test_png_file )
+		) {
+			return $udir['upload_path'];
 		}
 
+		// Create the WebP file that should be sent in the response if the rules work.
 		if ( ! file_exists( $test_webp_file ) ) {
-			// Check and create webp_path.
 			if ( ! is_dir( $udir['webp_path'] ) ) {
-				wp_mkdir_p( $udir['webp_path'] );
+				$directory_created = wp_mkdir_p( $udir['webp_path'] );
 			}
-			copy( WP_SMUSH_DIR . 'app/assets/images/smush-webp-test.png.webp', $test_webp_file );
+
+			// Bail out if it fails.
+			if (
+				! $directory_created ||
+				! copy( WP_SMUSH_DIR . 'app/assets/images/smush-webp-test.png.webp', $test_webp_file )
+			) {
+				return $udir['webp_path'];
+			}
 		}
+
+		return true;
 	}
 
 	/**
@@ -328,6 +358,7 @@ class WebP extends Abstract_Module {
 		if ( ! ( 'image/jpeg' === $mime || 'image/png' === $mime ) ) {
 			return false;
 		}
+
 		return true;
 	}
 
@@ -599,7 +630,7 @@ class WebP extends Abstract_Module {
 		$cannot_write_message = sprintf(
 			/* translators: 1. opening 'a' tag to premium support, 2. closing 'a' tag. */
 			esc_html__( 'We tried to apply the .htaccess rules automatically but we were unable to complete this action. Make sure the file permissions on your .htaccess file are set to 644, or switch to manual mode and apply the rules yourself. If you need further assistance, you can %1$scontact support%2$s for help.', 'wp-smushit' ),
-			'<a href="https://wpmudev.com/hub/support/#get-support" target="_blank">',
+			'<a href="https://wpmudev.com/hub2/support/#get-support" target="_blank">',
 			'</a>'
 		);
 
@@ -607,7 +638,7 @@ class WebP extends Abstract_Module {
 			/* translators: 1. opening 'a' tag to docs, 2. opening 'a' tag to premium support, 3. closing 'a' tag. */
 			esc_html__( 'We tried different rules but your server still isn\'t serving WebP images. Please contact your hosting provider for further assistance. You can also see our %1$stroubleshooting guide%3$s or %2$scontact support%3$s for help.', 'wp-smushit' ),
 			'<a href="https://wpmudev.com/docs/wpmu-dev-plugins/smush/#wordpress-in-its-own-directory" target="_blank">',
-			'<a href="https://wpmudev.com/hub/support/#get-support" target="_blank">',
+			'<a href="https://wpmudev.com/hub2/support/#get-support" target="_blank">',
 			'</a>'
 		);
 

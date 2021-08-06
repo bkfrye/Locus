@@ -12,6 +12,7 @@
 
 namespace Smush\Core\Integrations;
 
+use Smush\Core\Modules\Helpers\Parser;
 use Smush\Core\Modules\Smush;
 use WP_Smush;
 
@@ -61,6 +62,12 @@ class Common {
 
 		// WP Maintenance Plugin integration.
 		add_action( 'template_redirect', array( $this, 'wp_maintenance_mode' ) );
+
+		// Buddyboss theme and its platform plugin integration.
+		add_filter( 'wp_smush_cdn_before_process_src', array( $this, 'buddyboss_platform_modify_image_src' ), 10, 2 );
+
+		// GiveWP donation form load lazyload images in iframe.
+		add_action( 'give_donation_form_top', array( $this, 'givewp_skip_image_lazy_load' ), 0 );
 	}
 
 	/**
@@ -431,7 +438,6 @@ class Common {
 		return $skip;
 	}
 
-
 	/**************************************
 	 *
 	 * WP Maintenance Plugin
@@ -498,4 +504,49 @@ class Common {
 		return $skip;
 	}
 
+	/**
+	 * CDN compatibility with Buddyboss platform
+	 *
+	 * @param string $src   Image source.
+	 * @param string $image Actual image element.
+	 *
+	 * @return string Original or modified image source.
+	 */
+	public function buddyboss_platform_modify_image_src( $src, $image ) {
+		if ( ! defined( 'BP_PLATFORM_VERSION' ) ) {
+			return $src;
+		}
+
+		/**
+		 * Compatibility with buddyboss theme and it's platform plugin.
+		 *
+		 * Buddyboss platform plugin uses the placeholder image as it's main src.
+		 * And process_src() method below uses the same placeholder.png to create
+		 * the srcset when "Automatic resizing" options is enabled for CDN.
+		 * ---------
+		 * Replacing the placeholder with actual image source as early as possible.
+		 * Checks:
+		 *   1. The image source contains buddyboss-platform in its string
+		 *   2. The image source contains placeholder.png and is crucial because there are other
+		 *      images as well which doesn't uses placeholder.
+		 */
+		if ( false !== strpos( $src, 'buddyboss-platform' ) && false !== strpos( $src, 'placeholder.png' ) ) {
+			$new_src = Parser::get_attribute( $image, 'data-src' );
+
+			if ( ! empty( $new_src ) ) {
+				$src = $new_src;
+			}
+		}
+
+		return $src;
+	}
+
+	/**
+	 * Skip images from lazy loading on GiveWP forms.
+	 *
+	 * @since 3.8.8
+	 */
+	public function givewp_skip_image_lazy_load() {
+		add_filter( 'wp_smush_should_skip_parse', '__return_true' );
+	}
 }

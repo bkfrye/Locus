@@ -97,7 +97,7 @@ class TitleMeta extends ImportExport\SearchAppearance {
 	private function migrateArchiveSettings() {
 		$archives = [
 			'author',
-			'date',
+			'date'
 		];
 
 		foreach ( $archives as $archive ) {
@@ -113,13 +113,17 @@ class TitleMeta extends ImportExport\SearchAppearance {
 			}
 
 			if ( isset( $this->options[ "${archive}_archive_title" ] ) ) {
-				aioseo()->options->searchAppearance->archives->$archive->title =
-					aioseo()->helpers->sanitizeOption( aioseo()->importExport->rankMath->helpers->macrosToSmartTags( $this->options[ "${archive}_archive_title" ] ) );
+				$value = aioseo()->helpers->sanitizeOption( aioseo()->importExport->rankMath->helpers->macrosToSmartTags( $this->options[ "${archive}_archive_title" ], 'archive' ) );
+				if ( 'date' !== $archive ) {
+					// Archive Title tag needs to be stripped since we don't support it for author archives.
+					$value = aioseo()->helpers->pregReplace( '/#archive_title/', '', $value );
+				}
+				aioseo()->options->searchAppearance->archives->$archive->title = $value;
 			}
 
 			if ( isset( $this->options[ "${archive}_archive_description" ] ) ) {
 				aioseo()->options->searchAppearance->archives->$archive->metaDescription =
-					aioseo()->helpers->sanitizeOption( aioseo()->importExport->rankMath->helpers->macrosToSmartTags( $this->options[ "${archive}_archive_description" ] ) );
+					aioseo()->helpers->sanitizeOption( aioseo()->importExport->rankMath->helpers->macrosToSmartTags( $this->options[ "${archive}_archive_description" ], 'archive' ) );
 			}
 
 			if ( ! empty( $this->options[ "${archive}_custom_robots" ] ) ) {
@@ -150,8 +154,9 @@ class TitleMeta extends ImportExport\SearchAppearance {
 		}
 
 		if ( isset( $this->options['search_title'] ) ) {
-			aioseo()->options->searchAppearance->archives->search->title =
-					aioseo()->helpers->sanitizeOption( aioseo()->importExport->rankMath->helpers->macrosToSmartTags( $this->options['search_title'] ) );
+			// Archive Title tag needs to be stripped since we don't support it for search archives.
+			$value = aioseo()->helpers->sanitizeOption( aioseo()->importExport->rankMath->helpers->macrosToSmartTags( $this->options['search_title'], 'archive' ) );
+			aioseo()->options->searchAppearance->archives->search->title = aioseo()->helpers->pregReplace( '/#archive_title/', '', $value );
 		}
 
 		if ( ! empty( $this->options['noindex_search'] ) ) {
@@ -286,11 +291,11 @@ class TitleMeta extends ImportExport\SearchAppearance {
 				switch ( $match[1] ) {
 					case 'title':
 						aioseo()->options->searchAppearance->dynamic->archives->$postType->title =
-							aioseo()->helpers->sanitizeOption( aioseo()->importExport->rankMath->helpers->macrosToSmartTags( $value ) );
+							aioseo()->helpers->sanitizeOption( aioseo()->importExport->rankMath->helpers->macrosToSmartTags( $value, 'archive' ) );
 						break;
 					case 'description':
 						aioseo()->options->searchAppearance->dynamic->archives->$postType->metaDescription =
-							aioseo()->helpers->sanitizeOption( aioseo()->importExport->rankMath->helpers->macrosToSmartTags( $value ) );
+							aioseo()->helpers->sanitizeOption( aioseo()->importExport->rankMath->helpers->macrosToSmartTags( $value, 'archive' ) );
 						break;
 					default:
 						break;
@@ -408,7 +413,7 @@ class TitleMeta extends ImportExport\SearchAppearance {
 				'type'              => 'warning',
 				'level'             => [ 'all' ],
 				'button1_label'     => __( 'Fix Now', 'all-in-one-seo-pack' ),
-				'button1_action'    => 'http://route#aioseo-search-appearance:schema-markup',
+				'button1_action'    => 'http://route#aioseo-search-appearance&aioseo-scroll=schema-graph-phone&aioseo-highlight=schema-graph-phone:schema-markup',
 				'button2_label'     => __( 'Remind Me Later', 'all-in-one-seo-pack' ),
 				'button2_action'    => 'http://action#notification/v3-migration-schema-number-reminder',
 				'start'             => gmdate( 'Y-m-d H:i:s' )

@@ -196,7 +196,7 @@ class Facebook {
 	 */
 	public function getTitle( $post = null ) {
 		if ( is_home() && 'posts' === get_option( 'show_on_front' ) ) {
-			$title = aioseo()->meta->title->prepareTitle( aioseo()->options->social->facebook->homePage->title );
+			$title = aioseo()->meta->title->helpers->prepare( aioseo()->options->social->facebook->homePage->title );
 			return $title ? $title : aioseo()->meta->title->getTitle();
 		}
 
@@ -205,7 +205,7 @@ class Facebook {
 
 		$title = '';
 		if ( ! empty( $metaData->og_title ) ) {
-			$title = aioseo()->meta->title->prepareTitle( $metaData->og_title );
+			$title = aioseo()->meta->title->helpers->prepare( $metaData->og_title );
 		}
 		return $title ? $title : aioseo()->meta->title->getPostTitle( $post );
 	}
@@ -220,7 +220,7 @@ class Facebook {
 	 */
 	public function getDescription( $post = null ) {
 		if ( is_home() && 'posts' === get_option( 'show_on_front' ) ) {
-			$description = aioseo()->meta->description->prepareDescription( aioseo()->options->social->facebook->homePage->description );
+			$description = aioseo()->meta->description->helpers->prepare( aioseo()->options->social->facebook->homePage->description );
 			return $description ? $description : aioseo()->meta->description->getDescription();
 		}
 
@@ -229,7 +229,7 @@ class Facebook {
 
 		$description = '';
 		if ( ! empty( $metaData->og_description ) ) {
-			$description = aioseo()->meta->description->prepareDescription( $metaData->og_description );
+			$description = aioseo()->meta->description->helpers->prepare( $metaData->og_description );
 		}
 		return $description ? $description : aioseo()->meta->description->getPostDescription( $post );
 	}

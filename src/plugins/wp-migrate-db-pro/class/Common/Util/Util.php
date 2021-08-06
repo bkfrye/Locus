@@ -57,6 +57,7 @@ class Util
     public static function has_method_been_called($method, $stack = null)
     {
         if (empty($stack)) {
+            // phpcs:ignore
             $stack = debug_backtrace();
         }
 
@@ -433,6 +434,22 @@ class Util
     }
 
     /**
+     * Get the URL to MDB rest api base.
+     *
+     * WPML sometimes adds the language code in a subdirectory, this is to ensure
+     * compatibility with this plugin.
+     *
+     * @return string URL to rest_api_base, e.g. http://example.com/wp-json/mdb-api/vi
+     */
+    public function rest_url()
+    {
+        if (is_plugin_active( 'sitepress-multilingual-cms/sitepress.php') || defined('ICL_SITEPRESS_VERSION')) {
+            return get_option('home') . '/' . rest_get_url_prefix() . '/' . $this->props->rest_api_base;
+        }
+        return get_rest_url(null, $this->props->rest_api_base);
+    }
+
+    /**
      * Get the URL to wp-admin/admin-ajax.php for the intended WordPress site.
      *
      * The intended WordPress site URL is sent via Ajax, so to get a properly
@@ -623,6 +640,7 @@ class Util
      */
     public function get_caller_function()
     {
+        // phpcs:ignore
         list(, , $caller) = debug_backtrace(false);
 
         if (!empty($caller['function'])) {
@@ -815,12 +833,17 @@ class Util
         return $headers;
     }
 
-    static function is_json($string, $strict = false)
+    public static function is_json($string, $strict = false)
     {
-        $json = json_decode($string, true);
-        if ($strict == true && !is_array($json)) {
+        if (!is_string($string)) {
             return false;
         }
+
+        $json = json_decode($string, true);
+        if ($strict === true && !is_array($json)) {
+            return false;
+        }
+
         if ($json === null) {
             return false;
         }
@@ -862,9 +885,9 @@ class Util
      */
     public function is_muplugin_writable()
     {
-        //Assumes by default we can create the mu-plugins folder and compatibility plugin if they don't exist
-        $mu_folder_writable = true;
-        $mu_plugin_writable = true;
+        //Assumes by default we cannot create the mu-plugins folder and compatibility plugin if they don't exist
+        $mu_folder_writable = false;
+        $mu_plugin_writable = false;
 
         //If the mu-plugins folder exists, make sure it's writable.
         if (true === $this->filesystem->is_dir($this->props->mu_plugin_dir)) {
@@ -876,11 +899,7 @@ class Util
             $mu_plugin_writable = $this->filesystem->is_writable($this->props->mu_plugin_dest);
         }
 
-        if (false === $mu_folder_writable || false === $mu_plugin_writable) {
-            return false;
-        }
-
-        return true;
+        return true === $mu_folder_writable || true === $mu_plugin_writable;
     }
 
     function get_plugin_details($plugin_path, $prefix = '')
@@ -1194,5 +1213,8 @@ class Util
             'page' => 'wp-migrate-db-pro#settings',
         ), network_admin_url($page));
     }
-}
 
+    public static function is_regex_pattern_valid($pattern) {
+        return @preg_match($pattern, null) !== false;
+    }
+}

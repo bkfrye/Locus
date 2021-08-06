@@ -2,59 +2,54 @@
 
 include get_template_directory() . '/inc/custom-post-types.php';
 
+function locus_resources()
+{
 
-/**
- * Enqueue Locus Scripts and Styles
- *
- */
-function locus_resources() {
-  wp_enqueue_style( 'fonts', get_template_directory_uri() . '/fonts.css', null, false, false );
-  wp_enqueue_style( 'slick-carousel', get_template_directory_uri() . '/slick-carousel.css', null, false, false );
-	wp_enqueue_style( 'style', get_stylesheet_uri(), null, false, false );
-	wp_enqueue_script( 'header_js', get_template_directory_uri() . '/js/header-bundle.js', array('jquery'), false, false );
-  // wp_enqueue_script( 'footer_js', get_template_directory_uri() . '/js/footer-bundle.js', array('jquery'), false, true );
+	// wp_enqueue_style( 'slick-carousel', get_template_directory_uri() . '/slick-carousel.css', null, false, false );
+	wp_enqueue_style('style', get_stylesheet_uri());
+	wp_enqueue_script('header_js', get_template_directory_uri() . '/js/header-bundle.js', array('jquery'), false, false);
 }
-add_action( 'wp_enqueue_scripts', 'locus_resources' );
 
+add_action('wp_enqueue_scripts', 'locus_resources');
 
-/**
- * Prevent version number from being
- * appended to scripts and styles
- */
-// remove version from head
-// remove_action('wp_head', 'wp_generator');
-// // remove version from rss
-// add_filter('the_generator', '__return_empty_string');
-// // remove version from scripts and styles
-// function remove_version_scripts_styles($src) {
-// 	if (strpos($src, 'ver=')) {
-// 		$src = remove_query_arg('ver', $src);
-// 	}
-// 	return $src;
+// function custom_excerpt_length()
+// {
+// 	return 22;
 // }
-// add_filter('style_loader_src', 'remove_version_scripts_styles', 9999);
-// add_filter('script_loader_src', 'remove_version_scripts_styles', 9999);
 
+// add_filter('excerpt_length', 'custom_excerpt_length');
 
-/**
- * Add WP Features function
- *
- */
-// Theme setup
-function locus_setup() {
-  // Add editor styles for dashboard content
-  // add_editor_style('editor-style.css');
-	// Handle Titles
-	add_theme_support( 'title-tag' );
-	// Add featured image support
-	add_theme_support( 'post-thumbnails' );
+function locus_setup()
+{
+	add_theme_support('title-tag');
+
+	add_theme_support('post-thumbnails');
 }
-add_action( 'after_setup_theme', 'locus_setup' );
 
+add_action('after_setup_theme', 'locus_setup');
 
-// @ini_set( 'upload_max_size' , '64M' );
-// @ini_set( 'post_max_size', '64M');
-// @ini_set( 'max_execution_time', '300' );
+show_admin_bar(false);
+
+// function is_search_has_results()
+// {
+// 	return 0 != $GLOBALS['wp_query']->found_posts;
+// }
+
+// function locus_widgets()
+// {
+// 	register_sidebar(
+// 		[
+// 			'name' => 'Sidebar',
+// 			'id' => 'sidebar1',
+// 			'before_widget' => '<div class="widget-item">',
+// 			'after_widget' => '</div>',
+// 			'before_title' => '<h2 class="widget-title">',
+// 			'after_title' => '</h2>',
+// 		]
+// 	);
+// }
+
+// add_action('widgets_init', 'locus_widgets');
 
 /**
  * Register Theme menus function
@@ -170,48 +165,5 @@ function blog_scripts() {
 add_action( 'wp_enqueue_scripts', 'blog_scripts' );
 
 
-
-
-add_action('wp_ajax_load_posts_by_ajax', 'load_posts_by_ajax_callback');
-add_action('wp_ajax_nopriv_load_posts_by_ajax', 'load_posts_by_ajax_callback');
-
-function load_posts_by_ajax_callback() {
-  check_ajax_referer('load_more_posts', 'security', 'id', 'type');
-  $id = $_POST['id'];
-  $type = $_POST['type'];
-  $args = array(
-    'p' => strval($id),
-    'post_type' => strval($type),
-    'post_status' => 'publish',
-    'posts_per_page' => '1',
-  );
-  $posts = new WP_Query( $args );
-
-  if ( $posts->have_posts() ) :
-    while ( $posts->have_posts() ) : $posts->the_post(); ?>
-      <div class="employee-bio-panel">
-        <div class="employee-bio-wrapper">
-          <header class="employee-bio">
-            <div class="employee-image">
-              <?php
-                $image = get_field('profile_image');
-                $size = 'medium'; // (thumbnail, medium, large, full or custom size)
-                if( $image ) {
-                  echo wp_get_attachment_image( $image, $size );
-                }
-              ?>
-            </div>
-            <p class="employee-role"><?php echo str_replace('_', ' ', $type);?></p>
-            <?php the_title('<h3 class="employee-name">','</h3>'); ?>
-            <p class="employee-title">
-              <?php the_field('role');?>
-            </p>
-          </header>
-          <div class="employee-content"><?php the_field('biography');?></div>
-        </div>
-      </div>
-    <?php endwhile;
-  endif;
-
-  wp_die();
-}
+// cron type script idea 
+// https://wordpress.stackexchange.com/questions/363234/check-if-checkbox-is-marked-on-publish-update-post

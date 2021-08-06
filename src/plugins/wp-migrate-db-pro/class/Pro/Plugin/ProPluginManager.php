@@ -2,6 +2,7 @@
 
 namespace DeliciousBrains\WPMDB\Pro\Plugin;
 
+use DeliciousBrains\WPMDB\Common\Helpers;
 use DeliciousBrains\WPMDB\Common\Http\Helper;
 use DeliciousBrains\WPMDB\Common\Http\WPMDBRestAPIServer;
 use DeliciousBrains\WPMDB\Common\Migration\MigrationHelper;
@@ -481,7 +482,7 @@ class ProPluginManager extends PluginManagerBase
     }
 
     /**
-     * Adds settings link to plugin page
+     * Adds profiles and settings links to plugin page
      *
      * @param array $links
      *
@@ -489,10 +490,12 @@ class ProPluginManager extends PluginManagerBase
      */
     function plugin_action_links($links)
     {
-        $link = sprintf('<a href="%s">%s</a>', network_admin_url($this->props->plugin_base) . '#settings', _x('Settings', 'Plugin configuration and preferences', 'wp-migrate-db'));
-        array_unshift($links, $link);
+        $start_links = array(
+            'profiles'   => sprintf('<a href="%s">%s</a>', network_admin_url($this->props->plugin_base) , __('Migrate', 'wp-migrate-db')), 
+            'settings'   => sprintf('<a href="%s">%s</a>', network_admin_url($this->props->plugin_base) . '#settings', _x('Settings', 'Plugin configuration and preferences', 'wp-migrate-db')) 
+        );
 
-        return $links;
+        return $start_links + $links;
     }
 
     /**
@@ -534,7 +537,7 @@ class ProPluginManager extends PluginManagerBase
 
         wp_add_inline_script(
             'wp-migrate-db-pro-plugin-update-script',
-            sprintf('var wpmdbAPIBase = %s;', wp_json_encode(get_home_url() . '/wp-json/' . $this->props->rest_api_base)),
+            sprintf('var wpmdbAPIBase = %s;', wp_json_encode($this->util->rest_url())),
             'before'
         );
     }
@@ -561,7 +564,7 @@ class ProPluginManager extends PluginManagerBase
 
         delete_site_transient('wpmdb_upgrade_data');
         delete_site_transient('update_plugins');
-        delete_site_transient('wpmdb_licence_response');
+        delete_site_transient( Helpers::get_licence_response_transient_key() );
         delete_site_transient('wpmdb_dbrains_api_down');
     }
 

@@ -59,7 +59,7 @@ class GFSettings {
 		}
 
 		$title = '';
-		$icon  = 'dashicons-admin-generic';
+		$icon  = 'gform-icon--cog';
 
 		// if name is an array, assume that an array of args is passed
 		if ( is_array( $name ) ) {
@@ -78,7 +78,7 @@ class GFSettings {
 						'title'     => '',
 						'tab_label' => '',
 						'handler'   => false,
-						'icon'      => 'dashicons-admin-generic',
+						'icon'      => 'gform-icon--cog',
 					)
 				)
 			);
@@ -292,32 +292,33 @@ class GFSettings {
 	}
 
 	/**
-	 * Returns an array of installed addons and handles uninstallation from the settings page.
+	 * Handles the uninstallation process for addons from the settings page.
 	 *
 	 * @since  2.5
-	 * @return array
-	 *
 	 */
 	private static function uninstall_addons() {
+		$uninstallable_addons = GFAddOn::get_registered_addons( true );
 
-		$installed_addons = GFAddOn::get_registered_addons();
-
-		// Uninstall the addon and remove it from the list of installed addons on page reload.
-		if ( rgpost( 'uninstall_addon' ) ) {
-			check_admin_referer( 'uninstall', 'gf_addon_uninstall' );
-			foreach ( $installed_addons as $key => $addon ) {
-				$addon = call_user_func( array( $addon, 'get_instance' ) );
-				$title  = $addon->get_short_title();
-				if ( $_POST['addon'] == $title ) {
-					unset( $installed_addons[ $key ] );
-					$addon->uninstall_addon();
-					return GFAddOn::addons_for_uninstall( $installed_addons );
-				}
-			}
+		// Display the complete list of addons to install.
+		if ( ! rgpost( 'uninstall_addon' ) ) {
+			GFAddOn::addons_for_uninstall( $uninstallable_addons );
+			return;
 		}
 
-		GFAddOn::addons_for_uninstall( $installed_addons );
+		// Uninstall the addon and remove it from the list of installed addons on page reload.
+		check_admin_referer( 'uninstall', 'gf_addon_uninstall' );
 
+		foreach ( $uninstallable_addons as $key => $addon ) {
+			if ( rgpost( 'addon' ) !== $addon->get_short_title() ) {
+				continue;
+			}
+
+			unset( $uninstallable_addons[ $key ] );
+			$addon->uninstall_addon();
+			break;
+		}
+
+		GFAddOn::addons_for_uninstall( array_values( $uninstallable_addons ) );
 	}
 
 	/**
@@ -625,7 +626,7 @@ class GFSettings {
 			'license_key'               => GFCommon::get_key(),
 			'currency'                  => GFCommon::get_currency(),
 			'disable_css'               => ! (bool) get_option( 'rg_gforms_disable_css' ),
-			'enable_html5'              => (bool) get_option( 'rg_gforms_enable_html5', true ),
+			'enable_html5'              => (bool) get_option( 'rg_gforms_enable_html5', false ),
 			'enable_noconflict'         => (bool) get_option( 'gform_enable_noconflict' ),
 			'enable_akismet'            => (bool) get_option( 'rg_gforms_enable_akismet', true ),
 			'enable_background_updates' => (bool) get_option( 'gform_enable_background_updates' ),
@@ -1043,8 +1044,8 @@ class GFSettings {
 
 		// Build left side options, always have GF Settings first and Uninstall last, put add-ons in the middle.
 		$setting_tabs = array(
-			'10' => array( 'name' => 'settings', 'label' => __( 'Settings', 'gravityforms' ), 'icon' => 'dashicons-admin-settings' ),
-			'11' => array( 'name' => 'recaptcha', 'label' => __( 'reCAPTCHA', 'gravityforms' ), 'icon' => 'dashicons-shield-alt' ),
+			'10' => array( 'name' => 'settings', 'label' => __( 'Settings', 'gravityforms' ), 'icon' => 'gform-icon--cog' ),
+			'11' => array( 'name' => 'recaptcha', 'label' => __( 'reCAPTCHA', 'gravityforms' ), 'icon' => 'gform-icon--recaptcha' ),
 		);
 
 		// Remove an addon from the sidebar if it is uninstalled from the main uninstall page.
@@ -1072,14 +1073,14 @@ class GFSettings {
 					'name'  => urlencode( $sorted_addon['name'] ),
 					'label' => esc_html( $sorted_addon['tab_label'] ),
 					'title' => esc_html( rgar( $sorted_addon, 'title' ) ),
-					'icon'  => rgar( $sorted_addon, 'icon', 'dashicons-admin-generic' ),
+					'icon'  => rgar( $sorted_addon, 'icon', 'gform-icon--cog' ),
 				);
 			}
 		}
 
 		// Prevent Uninstall tab from being added for users that don't have gravityforms_uninstall capability.
 		if ( GFCommon::current_user_can_uninstall() ) {
-			$setting_tabs[] = array( 'name' => 'uninstall', 'label' => __( 'Uninstall', 'gravityforms' ), 'icon' => 'dashicons-trash' );
+			$setting_tabs[] = array( 'name' => 'uninstall', 'label' => __( 'Uninstall', 'gravityforms' ), 'icon' => 'gform-icon--trash' );
 		}
 
 		/**
@@ -1127,7 +1128,7 @@ class GFSettings {
 						$url  = add_query_arg( array( 'subview' => $tab['name'] ), admin_url( 'admin.php?page=gf_settings' ) );
 
 						// Get tab icon.
-						$icon_markup = GFCommon::get_icon_markup( $tab, 'dashicons-admin-generic' );
+						$icon_markup = GFCommon::get_icon_markup( $tab, 'gform-icon--cog' );
 
 						printf(
 							'<a href="%s"%s><span class="icon">%s</span> <span class="label">%s</span></a>',

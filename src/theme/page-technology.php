@@ -7,7 +7,7 @@
   <?php endif; ?>
     <div class="hero-wrapper">
       <div class="hero-content">
-        <h1>crPhage<sup>TM</sup> Technology</h1>
+        <h1>Precision Technology</h1>
         <p><?php the_field('tech_sub_headline'); ?></p>
         <?php if ( get_field('tech_video_link') ) : ?>
           <div class="btn white play">

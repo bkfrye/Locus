@@ -235,7 +235,7 @@ class Model implements \JsonSerializable {
 		}
 
 		foreach ( $this->jsonFields as $field ) {
-			if ( isset( $data[ $field ] ) && ! empty( $data[ $field ] ) ) {
+			if ( isset( $data[ $field ] ) && ! aioseo()->helpers->isJsonString( $data[ $field ] ) ) {
 				$data[ $field ] = wp_json_encode( $data[ $field ] );
 			}
 		}
@@ -451,8 +451,8 @@ class Model implements \JsonSerializable {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param  string The existing options in JSON.
-	 * @return string The existing options with defaults added in JSON.
+	 * @param  string $existingOptions The existing options in JSON.
+	 * @return string                  The existing options with defaults added in JSON.
 	 */
 	public static function getDefaultSchemaOptions( $existingOptions = '' ) {
 		// If the root level value for a graph needs to be an object, we need to set at least one property inside of it so that PHP doesn't convert it to an empty array.
@@ -501,9 +501,10 @@ class Model implements \JsonSerializable {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @return string JSON object.
+	 * @param  string $existingOptions The existing options in JSON.
+	 * @return string                  The existing options with defaults added in JSON.
 	 */
-	public static function getDefaultLocalSeoOptions() {
+	public static function getDefaultLocalSeoOptions( $existingOptions = '' ) {
 		$defaults = [
 			'locations'    => [
 				'business' => [
@@ -514,7 +515,7 @@ class Model implements \JsonSerializable {
 					'urls'         => [
 						'website'     => '',
 						'aboutPage'   => '',
-						'contactPage' => '',
+						'contactPage' => ''
 					],
 					'address'      => [
 						'streetLine1'   => '',
@@ -523,22 +524,24 @@ class Model implements \JsonSerializable {
 						'city'          => '',
 						'state'         => '',
 						'country'       => '',
-						'addressFormat' => '#streetLineOne\n#streetLineTwo\n#city, #state #zipCode',
+						'addressFormat' => '#streetLineOne\n#streetLineTwo\n#city, #state #zipCode'
 					],
 					'contact'      => [
-						'phone' => '',
-						'email' => '',
-						'fax'   => '',
+						'email'          => '',
+						'phone'          => '',
+						'phoneFormatted' => '',
+						'fax'            => '',
+						'faxFormatted'   => ''
 					],
 					'ids'          => [
 						'vat'               => '',
 						'tax'               => '',
-						'chamberOfCommerce' => '',
+						'chamberOfCommerce' => ''
 					],
 					'payment'      => [
 						'priceRange'         => '',
 						'currenciesAccepted' => '',
-						'methods'            => '',
+						'methods'            => ''
 					],
 				],
 			],
@@ -550,57 +553,61 @@ class Model implements \JsonSerializable {
 				'timezone'     => '',
 				'labels'       => [
 					'closed'     => '',
-					'alwaysOpen' => '',
+					'alwaysOpen' => ''
 				],
 				'days'         => [
 					'monday'    => [
 						'open24h'   => false,
 						'closed'    => false,
 						'openTime'  => '09:00',
-						'closeTime' => '17:00',
+						'closeTime' => '17:00'
 					],
 					'tuesday'   => [
 						'open24h'   => false,
 						'closed'    => false,
 						'openTime'  => '09:00',
-						'closeTime' => '17:00',
+						'closeTime' => '17:00'
 					],
 					'wednesday' => [
 						'open24h'   => false,
 						'closed'    => false,
 						'openTime'  => '09:00',
-						'closeTime' => '17:00',
+						'closeTime' => '17:00'
 					],
 					'thursday'  => [
 						'open24h'   => false,
 						'closed'    => false,
 						'openTime'  => '09:00',
-						'closeTime' => '17:00',
+						'closeTime' => '17:00'
 					],
 					'friday'    => [
 						'open24h'   => false,
 						'closed'    => false,
 						'openTime'  => '09:00',
-						'closeTime' => '17:00',
+						'closeTime' => '17:00'
 					],
 					'saturday'  => [
 						'open24h'   => false,
 						'closed'    => false,
 						'openTime'  => '09:00',
-						'closeTime' => '17:00',
+						'closeTime' => '17:00'
 					],
 					'sunday'    => [
 						'open24h'   => false,
 						'closed'    => false,
 						'openTime'  => '09:00',
-						'closeTime' => '17:00',
-					],
-				],
-			],
+						'closeTime' => '17:00'
+					]
+				]
+			]
 		];
 
-		$defaults = wp_json_encode( $defaults );
+		if ( empty( $existingOptions ) ) {
+			$defaults = wp_json_encode( $defaults );
+			return str_replace( '\\\n', '\n', $defaults );
+		}
 
-		return str_replace( '\\\n', '\n', $defaults );
+		$existingOptions = json_decode( $existingOptions, true );
+		return array_replace_recursive( $defaults, $existingOptions );
 	}
 }
