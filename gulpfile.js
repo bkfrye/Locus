@@ -192,9 +192,7 @@ function devServer( done ) {
 	devServerDone = done;
 	browserSync( {
 		logPrefix: '🎈 WordPressify',
-		proxy: `127.0.0.1:${ process.env.SERVER_PORT }`,
-		host: '127.0.0.1',
-		port: `${ process.env.PROXY_PORT }`,
+		proxy: `http://localhost:3020`,
 		open: 'local',
 	} );
 
