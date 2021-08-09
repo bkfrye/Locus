@@ -78,9 +78,11 @@
   </div>
 
   <div class="stewardship">
-    <h2>Locus Stewardship</h2>
-    <h3><?php the_field('stewardship_title'); ?></h3>
-    <p><?php the_field('stewardship_content'); ?></p>
+    <div class="wrapper">
+      <h2>Locus Stewardship</h2>
+      <h3><?php the_field('stewardship_title'); ?></h3>
+      <p><?php the_field('stewardship_content'); ?></p>
+    </div>
   </div>
 
   
