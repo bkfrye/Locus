@@ -1,4 +1,4 @@
-<article class="single">
+<article class="single wrapper" style="margin: 8rem auto; padding: 0 1rem">
   <header>
   	<h1 class="single-title"><?php the_title(); ?></h1>
 

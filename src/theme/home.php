@@ -30,7 +30,7 @@
 
 	<div class="site-content wrapper">
 
-		<section class="link-wrapper">
+		<section class="news-link-wrapper">
 			<?php
 			if ( have_posts() ) :
 				while ( have_posts() ) :
