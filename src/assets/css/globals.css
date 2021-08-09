@@ -254,6 +254,21 @@ sup {
   min-height: 500px;
 }
 
+.link-wrapper {
+  margin: 0 auto;
+  max-width: 1140px;
+  width: 100%;
+  
+  @media ( width > 840px) {
+    display: flex;
+  }
+
+  & .card:last-child {
+    margin-right: 0;
+  }
+}
+
+
 .card {
   background-color: var(--kindaWhite);
   display: flex;
@@ -269,6 +284,7 @@ sup {
 
   & h3 {
     font-size: 24px;
+    line-height: 1.4;
   }
 
   & p {

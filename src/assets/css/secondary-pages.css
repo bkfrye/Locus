@@ -24,9 +24,13 @@
 
 .our-platform {
   margin: 0 auto;
-  max-width: 800px;
+  max-width: 1280px;
   padding: 104px 12px;
   text-align: center;
+
+  & .wrapper {
+    max-width: 800px;
+  }
 }
 
 .featured-items {
@@ -102,7 +106,13 @@
 
   & p.title.light-blue {
     &:after {
-      background-color: #008FD7;
+      background-color: var(--lightBlue);
+    }
+  }
+
+  & p.title.lighter-blue {
+    &:after {
+      background-color: var(--lighterBlue);
     }
   }
 
@@ -224,7 +234,11 @@
   }
 
   &.light-blue header {
-    background-color: #008FD7;
+    background-color: var(--lightBlue);
+  }
+
+  &.lighter-blue header {
+    background-color: var(--lighterBlue);
   }
 
   &.soft-blue header {
@@ -233,12 +247,66 @@
 }
 
 .cas3-cas9 {
-  background-image: url('img/bg-abstract.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  padding-bottom: 30px;
-  text-align: center;
+  background-color: var(--mediumBlue);
+  color: white;
+  padding: 4rem 1rem;
+
+  & h2 {
+    color: white;
+    text-align: center;
+  }
+
+  & .cas3-cas9-wrapper {
+    margin: 0 auto;
+
+    @media (width > 960px) {
+      max-width: 50%;
+    }
+  }
 }
+
+.our-pipeline,
+.manufacturing-sciences {
+  padding: 4rem 1rem;
+  margin: 0 auto;
+  max-width: 1140px;
+  width: 100%;
+
+  & h2 {
+    text-align: center;
+  }
+
+  & .wrapper {
+    margin: 0 auto;
+    
+    @media (width > 960px) {
+      max-width: 67.5%;
+    }
+  }
+}
+
+.our-facility {
+  margin-bottom: 6rem;
+
+  & .our-facility-content {
+    @media (width > 960px) {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  & h3 {
+    @media (width > 960px) {
+      max-width: 66.6%;
+    }
+  }
+
+  & .image {
+    text-align: center;
+  }
+}
+
+
 
 .end-section {
   padding: 0 0 54px;

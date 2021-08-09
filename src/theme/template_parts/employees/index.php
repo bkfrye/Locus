@@ -1,7 +1,7 @@
 <section id="our-team" class="our-team">
   <div class="our-team-wrapper">
     <article>
-      <h2><?php echo __('Our Team'); ?></h2>
+      <h2><?php echo __('Meet The Team'); ?></h2>
       <h3><?php the_field('team_headline'); ?></h3>
     </article>
 

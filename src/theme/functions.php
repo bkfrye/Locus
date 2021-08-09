@@ -6,20 +6,20 @@ function locus_resources()
 {
 
 	// wp_enqueue_style( 'slick-carousel', get_template_directory_uri() . '/slick-carousel.css', null, false, false );
-	wp_enqueue_style('style', get_stylesheet_uri());
+	wp_enqueue_style('style', get_stylesheet_uri(), array(), filemtime(get_theme_file_path('/style.css')), false);
 	wp_enqueue_script('header_js', get_template_directory_uri() . '/js/header-bundle.js', array('jquery'), false, false);
 }
 
 add_action('wp_enqueue_scripts', 'locus_resources');
 
 // remove wp version number from scripts and styles
-function remove_css_js_version( $src ) {
-  if( strpos( $src, '?ver=' ) )
-      $src = remove_query_arg( 'ver', $src );
-  return $src;
-}
-add_filter( 'style_loader_src', 'remove_css_js_version', 9999 );
-add_filter( 'script_loader_src', 'remove_css_js_version', 9999 );
+// function remove_css_js_version( $src ) {
+//   if( strpos( $src, '?ver=' ) )
+//       $src = remove_query_arg( 'ver', $src );
+//   return $src;
+// }
+// // add_filter( 'style_loader_src', 'remove_css_js_version', 9999 );
+// add_filter( 'script_loader_src', 'remove_css_js_version', 9999 );
 
 // function custom_excerpt_length()
 // {

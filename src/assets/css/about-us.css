@@ -32,7 +32,7 @@
 }
 
 .about-us {
-
+  overflow: hidden;
   padding: 104px 12px 0;
 
   @media (width > 840px) {
@@ -58,7 +58,18 @@
         width: 40%;
       }
     }
+
+    &.partnering {
+      margin-top: 4rem;
+    }
   }
+
+  & .careers {
+    margin: 4rem -20px 0;
+    width: calc(100% + 40px);
+  }
+
+  
 }
 
 .learn-more {

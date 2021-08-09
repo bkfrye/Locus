@@ -156,382 +156,95 @@ section .anchor-link {
   }
 }
 
+#features {
+  padding: 4rem 1rem;
 
-.our-pipeline {
-  overflow: hidden;
-  padding: 104px 12px 0;
+  & .features-wrapper {
+    margin: 0;
+    max-width: 1140px;
 
-  @media (width > 900px) {
-    padding: 104px 12px 36px;
-  }
-
-  & article {
-    padding-bottom: 54px;
-
-    @media (width >900px) {
-      padding-bottom: 0;
+    @media ( width > 640px) {
+      width: 75%;
     }
-  }
 
-  & .our-pipeline-content {
-    margin: 0 auto;
-    max-width: 764px;
-    text-align: center;
+    @media ( width > 1080px) {
+      margin: 0 auto;
+      width: 50%;
+    }
   }
 }
 
-.graphs {
-  display: none;
-  margin-bottom: 86px;
+.partners {
+  padding: 104px 12px;
+  text-align: center;
 
   @media (width > 840px) {
-    display: block
+    padding: 104px 20px;
   }
 
-  & * {
-    font-size: 14px;
-  }
-  & h3 {
-    font-size: 18px;
-    font-weight: bold;
-  }
-
-  & .graph-label {
-    & p {
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-
-    & span.dot {
-      border-radius: 7px;
-      display: inline-block;
-      height: 14px;
-      position: relative;
-      width: 14px;
-
-      &:after {
-        background-color: #ffffff;
-        border-radius: 3px;
-        bottom: 0;
-        content: '';
-        left: 0;
-        height: 6px;
-        margin: 0 auto;
-        position: absolute;
-        right: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 6px;
-      }
-
-      &.discovery {
-        background-image: linear-gradient(-180deg, #A0D9FB 0%, #67B2F5 100%);
-      }
-
-      &.preclinical {
-        background-image: linear-gradient(-180deg, #80B3ED 0%, #497CD7 100%);
-      }
-
-      &.clinical-tasks {
-        background-image: linear-gradient(-180deg, #40C3F4 0%, #1E90E5 100%);
-      }
-
-      &.marketed {
-        background-image: linear-gradient(-180deg, #077EB5 0%, #03487E 100%);
-      }
-    }
-
-    &.horizontal {
-      display: flex;
-      align-items: center;
-
-      & span {
-        margin-right: 6px;
-      }
-    }
-  }
-}
-
-.graph-wrapper {
-
-  & a:visited {
-    color: var(--blue);
-  }
-
-
-  @media (width > 910px) {
-    display: flex;
-  }
-
-  & .graph-item {
-    position: relative;
-    width: 90%;
-
-    &:before {
-      background-image: linear-gradient(-270deg, #FFFFFF 0%, #E9E9E9 49%, #FDFDFD 100%);
-      bottom: 0;
-      content: '';
-      left: 0;
-      height: 2px;
-      position: absolute;
-      right: 0;
-      width: 100%;
-    }
-  }
-
-  & .graph-partner {
-    background-color: #D9ECFC;
-    margin: 60px 0 32px;
-    text-align: center;
-    padding: 1em;
-
-    @media (width > 910px) {
-    }
-
-    & p {
-      line-height: 1.4;
-    }
-  }
-}
-
-.graph-item {
-  margin-bottom: 32px;
-  & .graph-row {
-    display: flex;
-    padding: 0 0.25em 0 2em;
-    transition: all 200ms;
-  }
-
-  & .cell {
-    flex: 1;
-    padding: 0.5em;
-
-    & p {
-      line-height: 1.4;
-      margin-top: 8px;
-    }
-
-    & b{
-      padding-right: 12px;
-    }
-  }
-
-  & .cell.bars {
-    border-left: 2px solid #E9E9E9;
-    flex: 4.4;
-    padding: 0.5em 0;
-
-    & .vertical-graph-lines {
-      height: 100%;
-      left: 0;
-      margin: 0 auto;
-      position: absolute;
-      right: 0;
-      top: 0;
-      width: 100%;
-      z-index: 5;
-
-      &:after {
-        background-color: #E9E9E9;
-        content: '';
-        height: 100%;
-        left: 0;
-        margin: 0 auto;
-        position: absolute;
-        right: 0;
-        width: 1px;
-      }
-
-      &.left:after {
-        left: -50%;
-      }
-
-      &.right:after {
-        right: -50%;
-      }
-    }
-  }
-}
-
-.cell.pathogen {
-  &.italic p {
-    font-style: italic;
-  }
-  & p {
-    line-height: 1.8;
-  }
-}
-
-.graph-header {
-  & .cell {
-    text-align: center;
-  }
-
-  &.graph-row {
-    position: relative;
-
-    &:before {
-      background-image: linear-gradient(-270deg, #FFFFFF 0%, #E9E9E9 49%, #FDFDFD 100%);
-      bottom: 0;
-      content: '';
-      left: 0;
-      height: 2px;
-      position: absolute;
-      right: 0;
-      width: 100%;
-    }
-  }
-}
-
-.graph-content {
-  &:nth-child(even) {
-    background-color: var(--kindaWhite);
-  }
-
-  & p.bold {
-    font-weight: 700;
-    margin-top: 10px;
-  }
-
-  & .graph-row {
-    position: relative;
-
-    & .trial-partners {
-      position: absolute;
-      right: -14%;
-      top: 50%;
-      transform: translateY(-50%);
-
-      & #janssen {
-
-      }
-    }
-  }
-}
-
-.row-details {
-  flex-wrap: wrap;
-  justify-content: space-around;
-  padding: 0.5em 0;
-
-
-  & .detail-info {
-    width: 35%;
-
-    & p {
-      line-height: 22px;
-    }
-
-    & sup {
-      font-size: 0.5em;
-    }
-  }
-
-  & .detail-info:nth-child(3) {
-    padding: 0 1em;
-    text-align: center;
+  & .partners-wrapper {
+    margin: 0 auto;
+    max-width: 740px;
     width: 100%;
-  }
 
-}
-
-.row-details,
-.row-content {
-  display: flex;
-  width: 100%;
-
-  & .cell {
-    flex: 1;
-    position: relative;
-  }
-}
-
-.bar-line {
-  background-color: #A4D1F9;
-  height: 20px;
-  margin: 0.75em 0 1.5em 0;
-  position: relative;
-  width: 0;
-
-  &:after {
-    background-color: #A4D1F9;
-    content: '';
-    height: 14px;
-    position: absolute;
-    right: -7px;
-    top: 50%;
-    transform: translateY(-50%) rotate(45deg);
-    width: 14px;
-  }
-
-  &.blue {
-    background-color: #2296E7;
-    &:after {
-      background-color: #2296E7;
+    & h4 {
+      font-size: 36px;
+      margin: 1em auto 2em;
+      text-align: center;
     }
   }
 
-  &.dark-blue {
-    background-color: #5B86D3;
-    &:after {
-      background-color: #5B86D3;
+  & .partner-list {
+    
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 auto 2em;
+    padding: 0;
+    width: 100%;
+
+    @media (width > 840px) {
+      display: flex;
+    }
+
+    &.top {
+      & img {
+        max-height: 160px;
+        max-width: 200px;
+      }
+    }
+
+    &.middle {
+      & img {
+        max-height: 175px;
+        max-width: 175px;
+      }
+    }
+
+    &.bottom {
+      & img {
+        max-width: 80px;
+      }
+    }
+
+    & li {
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      list-style-type: none;
+      padding: 1em 1.5em;
+
+      & img {
+        align-self: top;
+        height: auto;
+        width: auto;
+      }
     }
   }
-}
 
-
-.uti {
-  & .one {
-    width: 62.5%;
-  }
-
-  & .two {
-    width: 35%;
+  & .btn {
+    margin: 0 auto;
   }
 }
-
-.respiratory {
-  & .one {
-    width: 45%;
-  }
-  & .two {
-    width: 12.5%;
-  }
-}
-
-.other-infections {
-  & .one {
-    width: 12.5%;
-  }
-}
-
-.ibd {
-  & .one {
-    width: 35%;
-  }
-}
-
-.immune {
-  & .one {
-    width: 12.5%;
-  }
-}
-
-
-#graphs .click {
-  cursor: pointer;
-  &.active {
-
-  }
-}
-
-
-.graph-row.click:hover {
-  background-color: #e9f5ff;
-}
-
-
 
 
 .careers {
@@ -584,76 +297,6 @@ section .anchor-link {
   }
 }
 
-.partners {
-  padding: 104px 12px;
-
-  @media (width > 840px) {
-    padding: 104px 20px;
-  }
-
-  & .partners-wrapper {
-    margin: 0 auto;
-    max-width: 740px;
-    width: 100%;
-
-    & h4 {
-      font-size: 36px;
-      margin: 1em auto 2em;
-      text-align: center;
-    }
-  }
-
-  & .partner-list {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 0 auto 2em;
-    padding: 0;
-    width: 100%;
-
-    &.top {
-      & img {
-        max-height: 160px;
-        max-width: 200px;
-      }
-    }
-
-    &.middle {
-      & img {
-        max-height: 175px;
-        max-width: 175px;
-      }
-    }
-
-    &.bottom {
-      & img {
-        max-width: 80px;
-      }
-    }
-
-    & li {
-      align-items: center;
-      display: flex;
-      justify-content: center;
-      list-style-type: none;
-      padding: 1em 1.5em;
-
-      & img {
-        align-self: top;
-        height: auto;
-        min-width: 100%;
-        width: auto;
-      }
-
-    }
-  }
-
-  & .btn {
-    margin: 0 auto;
-  }
-}
-
 
 .detailed-view-btn {
   color: var(--blue);
@@ -688,5 +331,14 @@ section .anchor-link {
   & span {
     font-size: 18px;
     margin-right: 10px;
+  }
+}
+
+.learn-more-home {
+  background-color: #f4f4f4;
+  padding: 2rem 1rem;
+
+  & .card {
+    background-color: #ffffff;
   }
 }

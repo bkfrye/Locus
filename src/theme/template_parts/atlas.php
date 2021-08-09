@@ -1,10 +1,10 @@
-<section id="synthetic-biology-methods" class="light-blue tech-info">
+<section id="atlas" class="lighter-blue tech-info">
   <header>
-    <h3><?php the_field('methods_title'); ?></h3>
-    <div class="header-image" style="background-image: url(<?php echo get_field('methods_header_image')['url']; ?>)"></div>
+    <h3><?php the_field('atlas_title'); ?></h3>
+    <div class="header-image" style="background-image: url(<?php echo get_field('atlas_header_image')['url']; ?>)"></div>
   </header>
   <div class="article-wrapper">
-    <?php $articles = get_field('sbm_articles'); ?>
+    <?php $articles = get_field('atlas_articles'); ?>
     <?php if ( $articles ) : ?>
       <?php foreach ( $articles as $article ) : ?>
         <div id="<?php echo convertToAnchor($article['title']); ?>" class="article-item">
