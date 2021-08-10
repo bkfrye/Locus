@@ -6,10 +6,10 @@ document.addEventListener("DOMContentLoaded", () => {
    * @subpackage Carlyle
    * @since Carlyle 0.0.1
    */
-  console.log('inline-video is loaded')
+
   function YouTubeGetID(url){
-  url = url.split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
-  return (url[2] !== undefined) ? url[2].split(/[^0-9a-z_\-]/i)[0] : url[0];
+    url = url.split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
+    return (url[2] !== undefined) ? url[2].split(/[^0-9a-z_\-]/i)[0] : url[0];
   }
 
   var videos = $( '.inline-video' );
