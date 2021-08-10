@@ -62,6 +62,7 @@
 		"postcss-easy-import": "^3.0.0",
 		"postcss-mixins": "^7.0.3",
 		"postcss-preset-env": "^6.7.0",
+		"slick-carousel": "^1.8.1",
 		"stylelint": "^13.12.0"
 	}
 }
