@@ -1,4 +1,5 @@
 <section id="synthetic-biology-methods" class="light-blue tech-info">
+  <a name="synthetic-biology" class="anchor-link"></a>
   <header>
     <h3><?php the_field('methods_title'); ?></h3>
     <div class="header-image" style="background-image: url(<?php echo get_field('methods_header_image')['url']; ?>)"></div>

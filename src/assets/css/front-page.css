@@ -1,8 +1,3 @@
-section .anchor-link {
-  position: absolute;
-  top: -104px;
-}
-
 .hero {
   background-size: cover;
   background-position: 80% center;

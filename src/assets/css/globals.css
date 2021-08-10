@@ -237,7 +237,10 @@ sup {
   line-height: 1;
 }
 
-
+section .anchor-link {
+  position: absolute;
+  top: -60px;
+}
 
 .content-video {
   background-color: var(--kindaWhite);

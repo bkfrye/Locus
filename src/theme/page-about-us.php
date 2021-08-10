@@ -50,7 +50,7 @@
 
   <?php get_template_part('template_parts/employees/index'); ?>
 
-  <a id="partnering" name="partnering"></a>
+  <a name="partnering"></a>
   <div class="partnering about-us-wrapper">
     <article>
       <h2><?php echo __('Partnering With Us'); ?></h2>
@@ -76,7 +76,8 @@
       </div>
     </aside>
   </div>
-
+  
+  <a name="stewardship"></a>
   <div class="stewardship">
     <div class="wrapper">
       <h2>Locus Stewardship</h2>
