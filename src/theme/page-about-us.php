@@ -76,7 +76,21 @@
       </div>
     </aside>
   </div>
-  
+  <div class="wrapper">
+    <?php 
+      $image = get_field('partnering_diagram');
+      if ($image) :
+    ?>
+      <img <?php responsive_image( $image['id'],'device','1440px'); ?> class="desktop-img" alt="<?php echo $image['title']; ?>">
+    <?php endif; ?>
+    <?php 
+      $mobile_image = get_field('partnering_diagram_mobile');
+      if ($mobile_image) :
+    ?>
+      <img <?php responsive_image( $mobile_image['id'],'device','1440px'); ?> class="mobile-img" alt="<?php echo $mobile_image['title']; ?>">
+    <?php endif; ?>
+  </div>
+
   <a name="stewardship"></a>
   <div class="stewardship">
     <div class="wrapper">

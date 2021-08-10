@@ -315,3 +315,16 @@ section .anchor-link {
     }
   }
 }
+
+.desktop-img {
+  display: none;
+  @media (width > 840px) {
+    display: block;
+  }
+}
+
+.mobile-img {
+  @media (width > 840px) {
+    display: none;
+  }
+}

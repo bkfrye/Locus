@@ -42,7 +42,13 @@
       $image = get_field('technology_image');
       if ($image) :
     ?>
-      <img <?php responsive_image( $image['id'],'device','1440px'); ?> alt="<?php echo $image['title']; ?>">
+      <img <?php responsive_image( $image['id'],'device','1440px'); ?> class="desktop-img" alt="<?php echo $image['title']; ?>">
+    <?php endif; ?>
+    <?php 
+      $mobile_image = get_field('technology_image_mobile');
+      if ($mobile_image) :
+    ?>
+      <img <?php responsive_image( $mobile_image['id'],'device','1440px'); ?> class="mobile-img" alt="<?php echo $mobile_image['title']; ?>">
     <?php endif; ?>
   </section>
 
@@ -133,7 +139,13 @@
       $image = get_field('pipeline_image');
       if ($image) :
     ?>
-      <img <?php responsive_image( $image['id'],'device','1440px'); ?> alt="<?php echo $image['title']; ?>">
+      <img <?php responsive_image( $image['id'],'device','1440px'); ?> class="desktop-img" alt="<?php echo $image['title']; ?>">
+    <?php endif; ?>
+    <?php 
+      $mobile_image = get_field('pipeline_image_mobile');
+      if ($mobile_image) :
+    ?>
+      <img <?php responsive_image( $mobile_image['id'],'device','1440px'); ?> class="mobile-img" alt="<?php echo $mobile_image['title']; ?>">
     <?php endif; ?>
   </section>
 
