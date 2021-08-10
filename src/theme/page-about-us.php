@@ -21,10 +21,10 @@
 
     <aside>
       <div>
-        <?php $video = get_field('about_video'); ?>
-        <?php if ( $video ) : ?>
+        <?php $about_video = get_field('about_video'); ?>
+        <?php if ( $about_video ) : ?>
           <div class="inline-video-container">
-            <div class="inline-video" data-url="<?php echo $video; ?>">
+            <div class="inline-video" data-url="<?php echo $about_video; ?>">
               <div class="play-youtube">
                 <svg viewBox="0 0 41.999 41.999">
                   <path d="M36.068,20.176l-29-20C6.761-0.035,6.363-0.057,6.035,0.114C5.706,0.287,5.5,0.627,5.5,0.999v40
@@ -39,7 +39,7 @@
     </aside>
   </div>
 
-  <section id="careers" class="careers" style="background-image: url('<?php echo get_stylesheet_directory_uri() ?>/img/bg-phage.jpg')">
+  <section id="careers" class="careers" style="background-image: url('<?php echo get_stylesheet_directory_uri() ?>/img/bg-working.jpg')">
     <div class="careers-content wrapper">
       <h4>Help us revolutionize the treatment of disease</h4>
       <div class="btn white">
@@ -59,10 +59,10 @@
     </article>
     <aside>
       <div>
-        <?php $video = get_field('partner_video'); ?>
-        <?php if ( $video ) : ?>
+        <?php $partner_video = get_field('partner_video'); ?>
+        <?php if ( $partner_video ) : ?>
           <div class="inline-video-container">
-            <div class="inline-video" data-url="<?php echo $video; ?>">
+            <div class="inline-video" data-url="<?php echo $partner_video; ?>">
               <div class="play-youtube">
                 <svg viewBox="0 0 41.999 41.999">
                   <path d="M36.068,20.176l-29-20C6.761-0.035,6.363-0.057,6.035,0.114C5.706,0.287,5.5,0.627,5.5,0.999v40
@@ -77,18 +77,7 @@
     </aside>
   </div>
   <div class="wrapper">
-    <?php 
-      $image = get_field('partnering_diagram');
-      if ($image) :
-    ?>
-      <img <?php responsive_image( $image['id'],'device','1440px'); ?> class="desktop-img" alt="<?php echo $image['title']; ?>">
-    <?php endif; ?>
-    <?php 
-      $mobile_image = get_field('partnering_diagram_mobile');
-      if ($mobile_image) :
-    ?>
-      <img <?php responsive_image( $mobile_image['id'],'device','1440px'); ?> class="mobile-img" alt="<?php echo $mobile_image['title']; ?>">
-    <?php endif; ?>
+    <!-- lottie -->
   </div>
 
   <a name="stewardship"></a>
@@ -101,7 +90,7 @@
   </div>
 
   
-  <section class="careers" style="background-image: url('<?php echo get_stylesheet_directory_uri() ?>/img/bg-phage-2.jpg')">
+  <section class="careers" style="background-image: url('<?php echo get_stylesheet_directory_uri() ?>/img/bg-people.jpg')">
     <div class="careers-content wrapper">
       <h4>Contact us dolor sit amet, consectetur adipiscing elit.</h4>
       <div class="btn white">

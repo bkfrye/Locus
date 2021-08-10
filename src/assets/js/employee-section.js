@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-
+  
   $('.team-navigation li').click( function() {
     if ( $('.team-navigation li').hasClass('js-active') ) {
       $('.team-navigation li').removeClass('js-active')

@@ -127,8 +127,7 @@
 
 <section id="partners" class="partners">
   <div class="partners-wrapper">
-    <h2>Strategic Partners</h2>
-    <h4>Our Core Competencies Drive Our Industry-Leading Partnerships</h4>
+    <h2>Our Investors & Academic Partners</h2>
     <ul class="partner-list top">
       <?php $logosTop = get_field('logos_top'); ?>
       <?php if ( $logosTop ): ?>
@@ -166,9 +165,9 @@
 
 <section id="careers" class="careers" style="background-image: url('<?php echo get_stylesheet_directory_uri() ?>/img/bg-careers.png')">
   <div class="careers-content wrapper">
-    <h4>Help us revolutionize medical science</h4>
+    <h4>Discover what it’s like to partner with us</h4>
     <div class="btn white">
-      <a href="<?php the_field('careers_link'); ?>">Our Current Openings</a>
+      <a href="<?php echo site_url() . '/about-us#partnering' ?>">Partner With Us</a>
     </div>
   </div>
 </section>

@@ -86,41 +86,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Manage pipeline accordion
-  var pipelines = $('.collapse');
-  if ( pipelines ) {
-    pipelines.hide();
-    $('.graph-row.click').click(function() {
-      if ( !$(this).parent().find($('.collapse')).is(':visible') ) {
-        pipelines.slideUp();
-        $(this).parent().find($('.collapse')).slideDown();
-      } else {
-        $(this).parent().find($('.collapse')).slideUp();
-      }
-      return false;
-    });
-
-    $('.collapse').click(function() {
-      $(this).slideUp()
-    })
-  }
-
-  // Manage toggle all graph rows
-  var detailBtn = $('.detailed-view-btn');
-  detailBtn.click(function() {
-    var graph = $('#graph-' + $(this).data('graph'));
-    if ( $(this).hasClass('js-active') ) {
-      $(this).removeClass('js-active');
-      graph.find(pipelines).slideUp();
-    } else {
-      $(this).addClass('js-active');
-      graph.find(pipelines).slideDown();
-    }
-  });
-
-
   $('iframe[src*="youtube.com"]').each(function() {
     $(this).wrap('<div class="video-wrapper"/>');
+    console.log(this)
   });
 
   // Add superscript tag to any relevant symbols
