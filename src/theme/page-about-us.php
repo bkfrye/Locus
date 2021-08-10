@@ -39,7 +39,7 @@
     </aside>
   </div>
 
-  <section id="careers" class="careers" style="background-image: url('<?php echo get_stylesheet_directory_uri() ?>/img/bg-careers.png')">
+  <section id="careers" class="careers" style="background-image: url('<?php echo get_stylesheet_directory_uri() ?>/img/bg-phage.jpg')">
     <div class="careers-content wrapper">
       <h4>Help us revolutionize the treatment of disease</h4>
       <div class="btn white">
@@ -101,7 +101,7 @@
   </div>
 
   
-  <section class="careers" style="background-image: url('<?php echo get_stylesheet_directory_uri() ?>/img/bg-careers.png')">
+  <section class="careers" style="background-image: url('<?php echo get_stylesheet_directory_uri() ?>/img/bg-phage-2.jpg')">
     <div class="careers-content wrapper">
       <h4>Contact us dolor sit amet, consectetur adipiscing elit.</h4>
       <div class="btn white">
