@@ -4,8 +4,6 @@ include get_template_directory() . '/inc/custom-post-types.php';
 
 function locus_resources()
 {
-
-	// wp_enqueue_style( 'slick-carousel', get_template_directory_uri() . '/slick-carousel.css', null, false, false );
 	wp_enqueue_style('style', get_stylesheet_uri(), array(), filemtime(get_theme_file_path('/style.css')), false);
 	wp_enqueue_script('header_js', get_template_directory_uri() . '/js/header-bundle.js', array('jquery'), false, false);
 }
@@ -155,23 +153,23 @@ function convertToAnchor($string) {
 // }
 
 
-function blog_scripts() {
-    // Register the script
-    wp_register_script( 'custom-script', get_stylesheet_directory_uri(). '/js/footer-bundle.js', array('jquery'), false, true );
+// function blog_scripts() {
+//     // Register the script
+//     wp_register_script( 'custom-script', get_stylesheet_directory_uri(). '/js/footer-bundle.js', array('jquery'), false, true );
 
-    // Localize the script with new data
-    $script_data_array = array(
-      'ajaxurl' => admin_url( 'admin-ajax.php' ),
-      'security' => wp_create_nonce( 'load_more_posts' ),
-      'id' => null,
-      'type' => null,
-    );
-    wp_localize_script( 'custom-script', 'employee', $script_data_array );
+//     // Localize the script with new data
+//     $script_data_array = array(
+//       'ajaxurl' => admin_url( 'admin-ajax.php' ),
+//       'security' => wp_create_nonce( 'load_more_posts' ),
+//       'id' => null,
+//       'type' => null,
+//     );
+//     wp_localize_script( 'custom-script', 'employee', $script_data_array );
 
-    // Enqueued script with localized data.
-    wp_enqueue_script( 'custom-script' );
-}
-add_action( 'wp_enqueue_scripts', 'blog_scripts' );
+//     // Enqueued script with localized data.
+//     wp_enqueue_script( 'custom-script' );
+// }
+// add_action( 'wp_enqueue_scripts', 'blog_scripts' );
 
 
 // cron type script idea 

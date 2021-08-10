@@ -97,6 +97,12 @@
 <section id="features">
   <div class="features-wrapper">
     <h3><?php the_field('mission_title'); ?></h3>
+    <?php 
+      $strategy = get_field('mission_image');
+      if ($strategy) :
+    ?>
+      <img <?php responsive_image( $strategy['id'],'device','1440px'); ?> alt="<?php echo $strategy['title']; ?>">
+    <?php endif; ?>
   </div>
   <div class="link-wrapper">
     <?php $mission_links = get_field('mission_links'); ?>
