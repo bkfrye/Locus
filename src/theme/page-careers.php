@@ -18,10 +18,6 @@
         <?php echo __('Hear from the team'); ?>
       </div>
     </div>
-
-    <div class="btn white">
-      <a href="#listing">View our openings</a>
-    </div>
   </div>
 </div>
 

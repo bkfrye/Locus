@@ -43,7 +43,7 @@
     <div class="careers-content wrapper">
       <h4>Help us revolutionize the treatment of disease</h4>
       <div class="btn white">
-        <a href="<?php the_field('careers_link'); ?>">Our Current Openings</a>
+        <a href="<?php echo site_url() . '/careers' ?>">Our Current Openings</a>
       </div>
     </div>
   </section>
