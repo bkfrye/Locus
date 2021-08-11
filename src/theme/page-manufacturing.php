@@ -32,7 +32,6 @@
   <section id="platform" class="our-platform">
     <div class="wrapper">
       <article>
-        <h2>Our Facility</h2>
         <h3><?php the_field('facility_headline'); ?></h3>
       </article>
     </div>

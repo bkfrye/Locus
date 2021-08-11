@@ -1,4 +1,5 @@
 <section id="our-team" class="our-team">
+  <a name="our-team"></a>
   <div class="our-team-wrapper">
     <article>
       <h2><?php echo __('Meet The Team'); ?></h2>

@@ -310,7 +310,10 @@
   }
 }
 
-
+.learn-more-manufacturing,
+.learn-more-technology {
+  padding: 0 1rem;
+}
 
 .end-section {
   padding: 0 0 54px;

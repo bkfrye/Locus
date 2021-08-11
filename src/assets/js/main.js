@@ -45,6 +45,15 @@ document.addEventListener("DOMContentLoaded", () => {
   			}
   		}
   	});
+  
+  $('.menu-item-has-children').click( function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  });
+
+  $('.sub-menu .menu-item').click( function(e) {
+    e.stopPropagation();
+  });
 
   const logo = $('.logo-wrapper');
   const menu = $('#header .main-menu');

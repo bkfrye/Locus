@@ -7,7 +7,7 @@
   <?php endif; ?>
     <div class="hero-wrapper">
       <div class="hero-content">
-        <h1>Precision Technology</h1>
+        <h1>Precision Therapeutics Platform</h1>
         <p><?php the_field('tech_sub_headline'); ?></p>
         <?php if ( get_field('tech_video_link') ) : ?>
           <div class="btn white play">
@@ -107,6 +107,7 @@
   <?php get_template_part('template_parts/atlas'); ?>
 
   <section class="cas3-cas9">
+    <a name="gene-editing"></a>
     <div class="cas3-cas9-wrapper">
       <h2>CRISPR-Cas3 Gene Editing Platform</h2>
       <h3><?php the_field('platform_title'); ?></h3>
@@ -131,6 +132,7 @@
   </section>
 
   <section class="our-pipeline">
+    <a name="pipeline"></a>
     <div class="wrapper">
       <h2>Our Pipeline</h2>
       <h3><?php the_field('pipeline_title'); ?></h3>
