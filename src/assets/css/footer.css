@@ -190,6 +190,10 @@
 
   & .main-menu {
     text-transform: uppercase;
+
+    & .sub-menu {
+      display: none;
+    }
   }
 }
 
