@@ -192,7 +192,9 @@
   }
 
   & li:hover > .sub-menu {
-    display: block;
+    @media (width > 1020px) {
+      display: block;
+    }
   }
 }
 
