@@ -98,11 +98,22 @@
   }
 
   & li {
+    align-items: center;
+    display: flex;
     list-style-type: none;
+    height: 60px;
     margin: 2em 0;
 
     @media (width > 1020px) {
       margin: 0 0 0 1.75em;
+    }
+  }
+
+  & .menu-item-has-children {
+    position: relative;
+
+    & a:before {
+      display: none;
     }
   }
 
@@ -122,7 +133,7 @@
     &:before {
       @media (width > 1020px) {
         background-color: white;
-        bottom: -21px;
+        bottom: -15px;
         content: '';
         left: 0;
         height: 0;
@@ -136,8 +147,42 @@
     &:hover:before {
       height: 2px;
     }
+  }
 
+  & .sub-menu {
+    background-color: var(--darkBlue);
+    display: none;
+    margin: 0;
+    min-width: 200px;
+    padding: 0;
+    position: absolute;
+    top: 60px;
+    z-index: 5;
 
+    & li {
+      height: auto;
+      margin: 0;
+
+      &:hover {
+        background-color: var(--blue);
+      }
+    }
+
+    & a {
+      margin: 0;
+      padding: 10px;
+      white-space: nowrap;
+
+      &:hover {
+        &:before {
+          display: none;
+        }
+      }
+    }
+  }
+
+  & li:hover > .sub-menu {
+    display: block;
   }
 }
 
