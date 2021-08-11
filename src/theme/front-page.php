@@ -101,7 +101,9 @@
       $strategy = get_field('mission_image');
       if ($strategy) :
     ?>
-      <img <?php responsive_image( $strategy['id'],'device','1440px'); ?> alt="<?php echo $strategy['title']; ?>">
+      <div class="features-img">
+        <img <?php responsive_image( $strategy['id'],'device','1440px'); ?> alt="<?php echo $strategy['title']; ?>">
+      </div>
     <?php endif; ?>
   </div>
   <div class="link-wrapper">
@@ -128,6 +130,7 @@
 <section id="partners" class="partners">
   <div class="partners-wrapper">
     <h2>Our Investors & Academic Partners</h2>
+    <h3>Our Platform and Execution Prowess Drive Industry Leading Partnerships</h3>
     <ul class="partner-list top">
       <?php $logosTop = get_field('logos_top'); ?>
       <?php if ( $logosTop ): ?>
@@ -138,6 +141,22 @@
         <?php endforeach; ?>
       <?php endif; ?>
     </ul>
+  </div>
+</section>
+
+
+<section id="careers" class="careers" style="background-image: url('<?php echo get_stylesheet_directory_uri() ?>/img/bg-careers.png')">
+  <div class="careers-content wrapper">
+    <h4>Discover what it’s like to partner with us</h4>
+    <div class="btn white">
+      <a href="<?php echo site_url() . '/about-us#partnering' ?>">Partner With Us</a>
+    </div>
+  </div>
+</section>
+
+<section class="partners">
+  <div class="partners-wrapper">
+    <h2>Our Investors & Academic Partners</h2>
     <ul class="partner-list middle">
       <?php $logosMiddle = get_field('logos_middle');?>
 
@@ -159,16 +178,6 @@
         <?php endforeach; ?>
       <?php endif; ?>
     </ul>
-  </div>
-</section>
-
-
-<section id="careers" class="careers" style="background-image: url('<?php echo get_stylesheet_directory_uri() ?>/img/bg-careers.png')">
-  <div class="careers-content wrapper">
-    <h4>Discover what it’s like to partner with us</h4>
-    <div class="btn white">
-      <a href="<?php echo site_url() . '/about-us#partnering' ?>">Partner With Us</a>
-    </div>
   </div>
 </section>
 

@@ -78,7 +78,7 @@
 
   <section class="our-facility">
     <div class="wrapper">
-      <h2>Our Facility</h2>
+      <h2>Quality</h2>
       <div class="our-facility-content">
         <h3><?php the_field('facility_content') ;?></h3>
         <div class="image">
