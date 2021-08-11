@@ -76,7 +76,9 @@ Header & Footer JavaScript Boundles
 -------------------------------------------------------------------------------------------------- */
 const headerJS = [ 
 	'./node_modules/jquery/dist/jquery.js',
-	'./node_modules/slick-carousel/slick/slick.min.js' 
+	'./node_modules/slick-carousel/slick/slick.min.js',
+	'./node_modules/@lottiefiles/lottie-player/dist/lottie-player.js',
+	'./node_modules/@lottiefiles/lottie-interactivity/dist/lottie-interactivity.min.js' 
 ];
 
 const footerJS = [ './src/assets/js/**' ];

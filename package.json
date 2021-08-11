@@ -40,6 +40,8 @@
 	"dependencies": {
 		"@babel/core": "^7.13.15",
 		"@babel/preset-env": "^7.13.15",
+		"@lottiefiles/lottie-interactivity": "^1.0.0",
+		"@lottiefiles/lottie-player": "^1.1.1",
 		"autoprefixer": "^10.2.5",
 		"beeper": "^2.1.0",
 		"browser-sync": "^2.26.14",
@@ -58,6 +60,7 @@
 		"gulp-uglify": "^3.0.2",
 		"gulp-vinyl-zip": "^2.2.1",
 		"jquery": "^3.6.0",
+		"lottie-web": "^5.7.12",
 		"postcss": "^8.2.10",
 		"postcss-easy-import": "^3.0.0",
 		"postcss-mixins": "^7.0.3",
