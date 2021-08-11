@@ -16,7 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   videos.each(function() {
-    console.log(this)
     var id = YouTubeGetID( $(this).data( 'url' ) );
     var poster = 'https://img.youtube.com/vi/' + id + '/hqdefault.jpg';
     $(this).css({'background-image' : 'url(' + poster + ')'});
