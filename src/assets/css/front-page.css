@@ -155,18 +155,22 @@
   padding: 4rem 1rem;
 
   & .features-wrapper {
-    margin: 0;
+    margin: 0 auto;
     max-width: 1140px;
-
-    @media ( width > 640px) {
-      width: 75%;
-    }
-
-    @media ( width > 1080px) {
-      margin: 0 auto;
-      width: 50%;
-    }
+    width: 100%;
   }
+
+  & h3 {
+    margin: 0 auto;
+    max-width: 540px;
+    text-align: center;
+  }
+
+  & .features-img {
+    margin: 0 auto;
+    max-width: 420px;
+  }
+  
 }
 
 .partners {
