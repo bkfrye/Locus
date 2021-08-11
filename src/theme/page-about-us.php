@@ -13,12 +13,9 @@
 <section id="about" class="about-us">
   <div class="about-us-wrapper">
     <article>
-      <h2><?php echo __('Our Vision'); ?></h2>
       <h3><?php the_field('about_headline'); ?></h3>
       <?php the_field('about_content'); ?>
-
     </article>
-
     <aside>
       <div>
         <?php $about_video = get_field('about_video'); ?>
@@ -76,8 +73,13 @@
       </div>
     </aside>
   </div>
-  <div class="wrapper">
-    <!-- lottie -->
+  <div id="lottie-wrapper" class="wrapper">
+    <lottie-player
+      id="lottie-anim"
+      mode="normal"
+      src="https://assets9.lottiefiles.com/private_files/lf30_kjfrdrzx.json"
+      style="width: 100%"
+    ></lottie-player>
   </div>
 
   <a name="stewardship"></a>

@@ -139,4 +139,23 @@ document.addEventListener("DOMContentLoaded", () => {
     $('.global-news-banner').css('display', 'none');
   }
 
+
+  LottieInteractivity.create({
+    mode: 'scroll',
+    player: '#lottie-anim',
+    container: "#lottie-wrapper",
+    actions: [
+      {
+        visibility: [0, 0.3],
+        type: 'stop',
+      },
+      {
+        visibility: [0.3, 1],
+        type: 'play',
+      }
+    ]
+  });
+
+  
+
 });
