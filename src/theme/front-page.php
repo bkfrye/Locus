@@ -129,7 +129,7 @@
 
 <section id="partners" class="partners">
   <div class="partners-wrapper">
-    <h2>Our Investors & Academic Partners</h2>
+    <h2>Our Strategic Partners</h2>
     <h3>Our Platform and Execution Prowess Drive Industry Leading Partnerships</h3>
     <ul class="partner-list top">
       <?php $logosTop = get_field('logos_top'); ?>
