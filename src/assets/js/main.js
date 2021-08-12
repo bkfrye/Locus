@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(function() {
       $('body').removeClass('js-no-transition');
-
       $('.js-open').removeClass('js-open');
     }, 250);
 
@@ -57,15 +56,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const logo = $('.logo-wrapper');
   const menu = $('#header .main-menu');
+  const header = $('#header');
   $('#menu-btn').click( function() {
 
     if ( $('#menu-btn').hasClass('js-open') ) {
+      $('body').css({'overflow' : 'inherit'});
       $(this).removeClass('js-open');
       menu.removeClass('js-open');
       logo.removeClass('js-open');
+      header.removeClass('js-open');
     } else {
+      $('body').css({'overflow' : 'hidden'});
       menu.addClass('js-open');
       logo.addClass('js-open');
+      header.addClass('js-open');
 
       setTimeout(function() {
         $('#menu-btn').addClass('js-open');
@@ -97,7 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   $('iframe[src*="youtube.com"]').each(function() {
     $(this).wrap('<div class="video-wrapper"/>');
-    console.log(this)
   });
 
   // Add superscript tag to any relevant symbols

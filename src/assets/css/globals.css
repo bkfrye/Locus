@@ -283,7 +283,11 @@ section .anchor-link {
   margin-bottom: 24px;
   margin-right: 24px;
   padding: 44px;
-  width: 75%;
+  width: 100%;
+
+  @media (width > 720px) {
+    width: 75%;
+  }
 
   @media (width > 910px) {
     width: 33%;

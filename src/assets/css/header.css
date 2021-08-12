@@ -30,7 +30,9 @@
   & svg {
     display: block;
     fill: white;
+    position: relative;
     transition: fill 333ms ease-in-out;
+    z-index: 5;
   }
 
   &.js-open {
@@ -40,13 +42,28 @@
   }
 }
 
+.logo-wrapper.js-open {
+  &:after {
+    background-color: #fff;
+    content: '';
+    bottom: -15px;
+    left: -10px;
+    position: absolute;
+    top: -20px;
+    right: -10px;
+    z-index: 0;
+    width: 100vw;
+  }
+}
+
 #header nav.main-menu {
-  align-items: center;
-  bottom: 0;
+  align-items: flex-start;
   display: flex;
   left: 0;
   justify-content: center;
+  height: 100%;
   opacity: 0;
+  padding-top: 60px;
   position: fixed;
   top: 0;
   transition: all 333ms ease-in-out;
@@ -66,18 +83,20 @@
 
   &.js-open {
     opacity: 1;
+    overflow-y: scroll;
     visibility: visible;
     z-index: 1;
   }
 }
 
-#header .js-open.main-menu:before {
+#header.js-open:before {
   background-color: white;
   bottom: 0;
   content: '';
   left: 0;
+  height: 100%;
   opacity: 0.95;
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
 
@@ -89,22 +108,23 @@
 #menu-main-menu {
   margin: 0;
   opacity: 0;
-  padding: 0;
+  padding: 0 0 3rem 0;
 
   @media (width > 1020px) {
     display: flex;
     justify-content: flex-end;
+    padding: 0;
     opacity: 1;
   }
 
   & li {
-    align-items: center;
-    display: flex;
     list-style-type: none;
-    height: 60px;
-    margin: 2em 0;
+    margin: 1em 0;
 
     @media (width > 1020px) {
+      align-items: center;
+      display: flex;
+      height: 60px;
       margin: 0 0 0 1.75em;
     }
   }
@@ -125,12 +145,10 @@
     }
   }
 
-
-
   & a {
     color: var(--blue);
     font-family: 'museo_sans700';
-    font-size: 28px;
+    font-size: 21px;
     position: relative;
     text-decoration: none;
     text-transform: uppercase;
@@ -160,25 +178,31 @@
   }
 
   & .sub-menu {
-    background-color: var(--darkBlue);
-    display: none;
     margin: 0;
     min-width: 200px;
     padding: 0;
-    position: absolute;
     top: 60px;
     z-index: 5;
+
+    @media (width > 1020px) {
+      background-color: var(--darkBlue);
+      display: none;
+      position: absolute;
+    }
 
     & li {
       height: auto;
       margin: 0;
 
       &:hover {
-        background-color: var(--blue);
+        @media (width > 1020px) {
+          background-color: var(--blue);
+        }
       }
     }
 
     & a {
+      font-size: 14px;
       margin: 0;
       padding: 10px;
       white-space: nowrap;
@@ -187,6 +211,11 @@
         &:before {
           display: none;
         }
+      }
+
+      @media (width > 1020px) {
+        display: none;
+        position: absolute;
       }
     }
   }
@@ -208,7 +237,7 @@
   cursor: pointer;
   height: 60px;
   position: absolute;
-  right: 15px;
+  right: 10px;
   top: 0;
   width: 41px;
   z-index: 5;
