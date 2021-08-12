@@ -156,6 +156,18 @@ document.addEventListener("DOMContentLoaded", () => {
     ]
   });
 
+  // open and close contact form 
+  $( '#contact-form' ).click( function(e) {
+    $('#contact-form-wrapper').addClass('js-show-form');
+    $('body').css({'overflow' : 'hidden'});
+  } );
+
+  // Close video box
+  $('#close-form').click( function() {
+    $('#contact-form-wrapper').removeClass('js-show-form');
+    $('body').css({'overflow' : 'inherit'});
+  } );
+
   
 
 });

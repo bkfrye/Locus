@@ -271,6 +271,10 @@ section .anchor-link {
   }
 }
 
+#features .card h3 {
+  margin: 0;
+  text-align: left;
+}
 
 .card {
   background-color: var(--kindaWhite);

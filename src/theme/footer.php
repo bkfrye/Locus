@@ -90,6 +90,7 @@
 </footer>
 
 <?php get_template_part('template_parts/video-box'); ?>
+<?php get_template_part('template_parts/contact-form'); ?>
 
 <?php wp_footer(); ?>
 </body>

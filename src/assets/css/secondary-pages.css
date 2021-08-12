@@ -26,17 +26,6 @@
   }
 }
 
-.our-platform {
-  margin: 0 auto;
-  max-width: 1280px;
-  padding: 104px 12px;
-  text-align: center;
-
-  & .wrapper {
-    max-width: 800px;
-  }
-}
-
 .featured-items {
   background-color: var(--mediumBlue);
   color: white;
@@ -65,9 +54,11 @@
       color: white;
       font-family: 'museo_sans700';
       font-size: 13px;
-      line-height: 23px;
+      line-height: 1.2;
+      margin-bottom: 23px;
       text-decoration: none;
       text-transform: uppercase;
+      width: 66.6%;
 
       &:hover {
         text-decoration: underline;
@@ -260,6 +251,10 @@
     text-align: center;
   }
 
+  & h3 {
+    text-align: center;
+  }
+
   & .cas3-cas9-wrapper {
     margin: 0 auto;
 
@@ -276,7 +271,8 @@
   max-width: 1140px;
   width: 100%;
 
-  & h2 {
+  & h2,
+  & h3 {
     text-align: center;
   }
 
@@ -290,7 +286,7 @@
 }
 
 .our-facility {
-  margin-bottom: 6rem;
+  margin: 6rem 0;
 
   & .our-facility-content {
     @media (width > 960px) {

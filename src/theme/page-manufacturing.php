@@ -28,12 +28,16 @@
       </div>
     </div>
   </section>
-
-  <section id="platform" class="our-platform">
+  
+  <section class="our-facility">
     <div class="wrapper">
-      <article>
-        <h3><?php the_field('facility_headline'); ?></h3>
-      </article>
+      <div class="our-facility-content">
+        <h3><?php the_field('facility_content') ;?></h3>
+        <div class="image">
+          <?php $image = get_field('facility_award_image');?>
+          <img <?php responsive_image( $image['id'],'device','1440px'); ?> alt="<?php echo $image['title']; ?>">
+        </div>
+      </div>
     </div>
   </section>
 
@@ -74,20 +78,6 @@
   <?php get_template_part('template_parts/flexibility'); ?>
 
   <?php get_template_part('template_parts/control'); ?>
-
-  <section class="our-facility">
-    <div class="wrapper">
-      <h2>Quality</h2>
-      <div class="our-facility-content">
-        <h3><?php the_field('facility_content') ;?></h3>
-        <div class="image">
-          <?php $image = get_field('facility_award_image');?>
-          <img <?php responsive_image( $image['id'],'device','1440px'); ?> alt="<?php echo $image['title']; ?>">
-        </div>
-      </div>
-      
-    </div>
-  </section>
 
   <div class="learn-more-manufacturing">
     <div class="wrapper">

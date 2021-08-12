@@ -89,7 +89,6 @@
           </div>
         </div>
       <?php endif; ?>
-      <h4><a href="<?php echo site_url(); ?>/technology">LEARN MORE ABOUT US</a></h4>
     </div>
   </div>
 </section>

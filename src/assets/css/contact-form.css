@@ -1,0 +1,43 @@
+#contact-form-wrapper {
+  align-items: center;
+  background-color: rgba(4,42,74,0.95);
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  left: 0;
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  transition: opacity 333ms ease-in-out;
+  right: 0;
+  width: 100%;
+  visibility: none;
+  z-index: -5;
+
+  &.js-show-form {
+    opacity: 1;
+    visibility: visible;
+    z-index: 10;
+  }
+
+  @media (width > 840px) {
+    padding: 104px;
+  }
+}
+
+.contact-form {
+  background-color: #fff;
+  font-family: 'museo_sans500', sans-serif;
+  padding: 3rem 1rem 1rem;
+  position: relative;
+  width: 50%;
+}
+
+#close-form {
+  cursor: pointer;
+  height: 21px;
+  position: absolute;
+  right: 0;
+  top: -24px;
+  width: 21px;
+}

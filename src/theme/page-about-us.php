@@ -91,12 +91,11 @@
     </div>
   </div>
 
-  
   <section class="careers" style="background-image: url('<?php echo get_stylesheet_directory_uri() ?>/img/bg-people.jpg')">
     <div class="careers-content wrapper">
-      <h4>Contact us dolor sit amet, consectetur adipiscing elit.</h4>
+      <h4>Contact us to learn how we can work together</h4>
       <div class="btn white">
-        <a href="#">Contact Us</a>
+        <a id="contact-form" name="contact-form">Contact Us</a>
       </div>
     </div>
   </section>
