@@ -146,7 +146,8 @@
     }
   }
 
-  & a {
+  & a,
+  & .false-link {
     color: var(--blue);
     font-family: 'museo_sans700';
     font-size: 21px;
@@ -176,6 +177,10 @@
     &:hover:before {
       height: 2px;
     }
+  }
+
+  .false-link {
+    cursor: default;
   }
 
   & .sub-menu {
@@ -212,11 +217,6 @@
         &:before {
           display: none;
         }
-      }
-
-      @media (width > 1020px) {
-        display: none;
-        position: absolute;
       }
     }
   }

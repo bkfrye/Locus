@@ -45,6 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
   		}
   	});
   
+  
   $('.menu-item-has-children').click( function(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -52,6 +53,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   $('.sub-menu .menu-item').click( function(e) {
     e.stopPropagation();
+  });
+
+  // convert hash (false) links to div element
+  var $convertLinks = $("a[href='#']");
+  $convertLinks.each( function () {
+    this.replaceWith("<div class='false-link'>" + this.innerHTML + '</div>')
+  });
+
+
+  $('iframe[src*="youtube.com"]').each(function() {
+    $(this).wrap('<div class="video-wrapper"/>');
   });
 
   const logo = $('.logo-wrapper');
@@ -99,10 +111,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  $('iframe[src*="youtube.com"]').each(function() {
-    $(this).wrap('<div class="video-wrapper"/>');
-  });
-
   // Add superscript tag to any relevant symbols
   $('body :not(script)').contents().filter(function() {
     return this.nodeType === 3;
@@ -142,22 +150,24 @@ document.addEventListener("DOMContentLoaded", () => {
     $('.global-news-banner').css('display', 'none');
   }
 
-
-  LottieInteractivity.create({
-    mode: 'scroll',
-    player: '#lottie-anim',
-    container: "#lottie-wrapper",
-    actions: [
-      {
-        visibility: [0, 0.3],
-        type: 'stop',
-      },
-      {
-        visibility: [0.3, 1],
-        type: 'play',
-      }
-    ]
-  });
+  if ( $('#lottie-wrapper').length > 0 ) {
+    // console.log('test')
+    LottieInteractivity.create({
+      mode: 'scroll',
+      player: '#lottie-anim',
+      container: "#lottie-wrapper",
+      actions: [
+        {
+          visibility: [0, 0.3],
+          type: 'stop',
+        },
+        {
+          visibility: [0.3, 1],
+          type: 'play',
+        }
+      ]
+    });
+  }
 
   // open and close contact form 
   $( '#contact-form' ).click( function(e) {
