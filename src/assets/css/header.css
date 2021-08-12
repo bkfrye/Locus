@@ -179,7 +179,7 @@
     }
   }
 
-  .false-link {
+  & .false-link {
     cursor: default;
   }
 
