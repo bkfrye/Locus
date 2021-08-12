@@ -70,9 +70,9 @@
         </div>
       </div>
       <div class="footer-main-right-col">
-        <?php if ( has_nav_menu( 'main-menu' ) ) : ?>
+        <?php if ( has_nav_menu( 'secondary-menu' ) ) : ?>
           <?php wp_nav_menu( array(
-            'theme_location' => 'main-menu',
+            'theme_location' => 'secondary-menu',
             'container' => 'nav',
             'container_class' => 'main-menu',
             'container_id' => false,
