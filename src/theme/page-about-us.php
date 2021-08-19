@@ -36,7 +36,7 @@
     </aside>
   </div>
 
-  <section id="careers" class="careers" style="background-image: url('<?php echo get_stylesheet_directory_uri() ?>/img/bg-working.jpg')">
+  <section id="careers" class="careers" style="background-image: url('<?php echo get_stylesheet_directory_uri() ?>/img/bg_working_dark-blue.jpg')">
     <div class="careers-content wrapper">
       <h4>Help us revolutionize the treatment of disease</h4>
       <div class="btn white">
@@ -77,7 +77,7 @@
     <lottie-player
       id="lottie-anim"
       mode="normal"
-      src="https://assets9.lottiefiles.com/private_files/lf30_kjfrdrzx.json"
+      src="<?php echo site_url(); ?>/wp-content/lottie-data/animation.json"
       style="width: 100%"
     ></lottie-player>
   </div>
@@ -88,10 +88,26 @@
       <h2>Locus Stewardship</h2>
       <h3><?php the_field('stewardship_title'); ?></h3>
       <p><?php the_field('stewardship_content'); ?></p>
+      <?php if ( get_field('stewardship_video') ) : ?>
+        <div class="btn white play">
+          <div class="btn-content" data-url="<?php the_field('stewardship_video'); ?>">
+            <span style="margin-right: 9px;margin-bottom: -2px;display: block;">
+              <svg width="12px" height="14px" viewBox="0 0 12 14">
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g transform="translate(-673.000000, -525.000000)" fill="#FFFFFF">
+                    <polygon id="Triangle" transform="translate(679.000000, 532.000000) rotate(-270.000000) translate(-679.000000, -532.000000) " points="679 526 686 538 672 538"></polygon>
+                  </g>
+                </g>
+              </svg>
+            </span>
+            <?php echo __('Play Video'); ?>
+          </div>
+        </div>
+      <?php endif; ?>
     </div>
   </div>
 
-  <section class="careers" style="background-image: url('<?php echo get_stylesheet_directory_uri() ?>/img/bg-people.jpg')">
+  <section class="careers" style="background-image: url('<?php echo get_stylesheet_directory_uri() ?>/img/bg_people_dark-blue.jpg')">
     <div class="careers-content wrapper">
       <h4>Contact us to learn how we can work together</h4>
       <div class="btn white">
