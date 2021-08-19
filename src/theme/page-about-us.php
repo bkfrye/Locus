@@ -89,7 +89,7 @@
       <h3><?php the_field('stewardship_title'); ?></h3>
       <p><?php the_field('stewardship_content'); ?></p>
       <?php if ( get_field('stewardship_video') ) : ?>
-        <div class="btn white play">
+        <div class="btn play" style="margin: 0 auto;">
           <div class="btn-content" data-url="<?php the_field('stewardship_video'); ?>">
             <span style="margin-right: 9px;margin-bottom: -2px;display: block;">
               <svg width="12px" height="14px" viewBox="0 0 12 14">

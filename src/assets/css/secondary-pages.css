@@ -118,6 +118,10 @@
   }
 }
 
+#platform {
+  padding-top: 3rem;
+  text-align: center;
+}
 
 .tech-info {
   overflow: hidden;
@@ -264,7 +268,6 @@
   }
 }
 
-.our-pipeline,
 .manufacturing-sciences {
   padding: 4rem 1rem;
   margin: 0 auto;

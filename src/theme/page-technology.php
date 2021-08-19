@@ -131,36 +131,6 @@
     </div>
   </section>
 
-  <section class="our-pipeline">
-    <a name="pipeline"></a>
-    <div class="wrapper">
-      <h2>Our Pipeline</h2>
-      <h3><?php the_field('pipeline_title'); ?></h3>
-    </div>
-    <?php 
-      $image = get_field('pipeline_image');
-      if ($image) :
-    ?>
-      <img <?php responsive_image( $image['id'],'device','1440px'); ?> class="desktop-img" alt="<?php echo $image['title']; ?>">
-    <?php endif; ?>
-    <?php 
-      $mobile_image = get_field('pipeline_image_mobile');
-      if ($mobile_image) :
-    ?>
-      <img <?php responsive_image( $mobile_image['id'],'device','1440px'); ?> class="mobile-img" alt="<?php echo $mobile_image['title']; ?>">
-    <?php endif; ?>
-  </section>
-
-  <section class="manufacturing-sciences">
-    <div class="wrapper">
-      <h2>Manufacturing Sciences</h2>
-      <h3><?php the_field('manufacturing_title'); ?></h3>
-      <div class="btn">
-        <a href="<?php the_field('manufacturing_link'); ?>">Learn More</a>
-      </div>
-    </div>
-  </section>
-
   <div class="learn-more-technology">
     <div class="wrapper">
       <h4>Learn more</h4>

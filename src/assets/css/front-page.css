@@ -151,7 +151,7 @@
   }
 }
 
-#features {
+/* #features {
   padding: 4rem 1rem;
 
   & .features-wrapper {
@@ -171,6 +171,26 @@
     max-width: 420px;
   }
   
+} */
+
+.our-pipeline {
+  padding: 4rem 1rem;
+  margin: 0 auto;
+  max-width: 1140px;
+  width: 100%;
+
+  & h2,
+  & h3 {
+    text-align: center;
+  }
+
+  & .wrapper {
+    margin: 0 auto;
+    
+    @media (width > 960px) {
+      max-width: 67.5%;
+    }
+  }
 }
 
 .partners {

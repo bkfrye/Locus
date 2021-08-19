@@ -93,38 +93,58 @@
   </div>
 </section>
 
-<section id="features">
-  <div class="features-wrapper">
-    <h3><?php the_field('mission_title'); ?></h3>
+<section class="our-pipeline">
+    <a name="pipeline"></a>
+    <div class="wrapper">
+      <h2>Our Pipeline</h2>
+      <h3><?php the_field('pipeline_title'); ?></h3>
+    </div>
     <?php 
-      $strategy = get_field('mission_image');
-      if ($strategy) :
+      $image = get_field('pipeline_image');
+      if ($image) :
+    ?>
+      <img <?php responsive_image( $image['id'],'device','1440px'); ?> class="desktop-img" alt="<?php echo $image['title']; ?>">
+    <?php endif; ?>
+    <?php 
+      $mobile_image = get_field('pipeline_image_mobile');
+      if ($mobile_image) :
+    ?>
+      <img <?php responsive_image( $mobile_image['id'],'device','1440px'); ?> class="mobile-img" alt="<?php echo $mobile_image['title']; ?>">
+    <?php endif; ?>
+  </section>
+
+<!-- <section id="features">
+  <div class="features-wrapper">
+    <h3><?php //the_field('mission_title'); ?></h3>
+    <?php 
+      // $strategy = get_field('mission_image');
+      // if ($strategy) :
     ?>
       <div class="features-img">
-        <img <?php responsive_image( $strategy['id'],'device','1440px'); ?> alt="<?php echo $strategy['title']; ?>">
+        <img <?php //responsive_image( $strategy['id'],'device','1440px'); ?> alt="<?php //echo $strategy['title']; ?>">
       </div>
-    <?php endif; ?>
+    <?php //endif; ?>
   </div>
   <div class="link-wrapper">
-    <?php $mission_links = get_field('mission_links'); ?>
-    <?php if ( $mission_links ): ?>
-      <?php foreach ($mission_links as $link) : ?>
+    <?php //$mission_links = get_field('mission_links'); ?>
+    <?php //if ( $mission_links ): ?>
+      <?php //foreach ($mission_links as $link) : ?>
         <div class="card">
-          <h3><?php echo $link['title']; ?></h3>
-          <p><?php echo $link['content']; ?></p>
+          <h3><?php //echo $link['title']; ?></h3>
+          <p><?php //echo $link['content']; ?></p>
 
           <div class="inline-link">
-            <a href="<?php echo site_url() . $link['link']; ?>">More
+            <a href="<?php //echo site_url() . $link['link']; ?>">More
               <span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><g fill="none"><g fill="#1E5CE5"><path d="M7 1.7L7.7 1C8.1 0.7 8.6 0.7 8.9 1L15.3 7.4C15.7 7.7 15.7 8.3 15.3 8.6L8.9 15C8.6 15.3 8.1 15.3 7.7 15L7 14.3C6.7 14 6.7 13.5 7 13.2L11 9.3 1.5 9.3C1 9.3 0.7 9 0.7 8.5L0.7 7.5C0.7 7 1 6.7 1.5 6.7L11 6.7 7 2.8C6.7 2.5 6.7 2 7 1.7Z"/></g></g></svg>
               </span>
             </a>
           </div>
         </div>
-      <?php endforeach; ?>
-    <?php endif; ?>
+      <?php //endforeach; ?>
+    <?php //endif; ?>
   </div>
-</section>
+</section> -->
 
 <section id="partners" class="partners">
   <div class="partners-wrapper">
