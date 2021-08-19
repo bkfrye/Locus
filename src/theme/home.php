@@ -3,20 +3,43 @@
   <div class="media-hero">
     <div class="media-hero-wrapper">
       <div class="featured-news">
-
         <?php
-          $post_link = get_field('featured_link_post', get_option('page_for_posts'));
-          if( $post_link ): $link = $post_link; setup_postdata( $link );
+          $sticky = get_option( 'sticky_posts' );
+          $args = array(
+                  'posts_per_page' => 1,
+                  'post__in' => $sticky,
+                  'ignore_sticky_posts' => 1
+          );
+          $query = new WP_Query( $args );
+
+          if ( isset( $sticky[0] ) ) :
         ?>
-            <h1>Featured News</h1>
-              <div class="featured-news-content">
-              	<h2 class="featured-headline"><?php echo $link->post_title; ?></h2>
-                <div class="btn white">
-                  <a href="<?php echo $post_link -> news_url ?>" target="_blank">Read More</a>
-                </div>
-              </div>
-          <?php wp_reset_postdata(); ?>
-        <?php endif; ?>
+          <section id="featured-news-callout">
+            <div class="callout-wrapper">
+              <h2>Featured news</h2>
+              <?php
+                  echo '<div>';
+                  if ( $query->have_posts() ) : while ( $query->have_posts() ) : $query->the_post();
+                    echo '<h3>' . get_the_title() . '</h3>';
+                    echo '<div class="btn"><a href="' . get_the_permalink() . '">Learn More</a></div>';
+                  endwhile; endif;
+                  echo '</div>';
+              ?>
+            </div>
+          </section>
+        <?php 
+          else:
+
+            query_posts('posts_per_page=1');
+            if ( have_posts() ) :
+              while ( have_posts() ) :
+                the_post();
+                get_template_part( 'content-featured', get_post_format() );
+              endwhile;
+            endif;
+          endif;
+          wp_reset_postdata();
+        ?>
       </div>
       <div class="media-kit">
         <h3>Media Kit</h3>
@@ -32,18 +55,19 @@
 
 		<section class="news-link-wrapper">
 			<?php
+      query_posts('posts_per_page=10&offset=1');
 			if ( have_posts() ) :
 				while ( have_posts() ) :
 					the_post();
 					get_template_part( 'content', get_post_format() );
 				endwhile;
-				?>
+      ?>
 		</section>
 
 		<?php
-		else :
-			get_template_part( 'content', 'none' );
-		endif;
+      else :
+        get_template_part( 'content', 'none' );
+      endif;
 		?>
 
 		<div class="pagination">
