@@ -14,7 +14,6 @@
 						?>
 					</div>
 					<div>
-						<p class="employee-role"><?php echo str_replace('_', ' ', $type);?></p>
 						<?php the_title('<h3 class="employee-name">','</h3>'); ?>
 						<p class="employee-title">
 							<?php the_field('role');?>
