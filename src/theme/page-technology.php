@@ -1,33 +1,8 @@
 <?php get_header(); ?>
-<div id="secondary-page">
-  <?php if ( get_field('background_image') ) : ?>
-    <section id="top" class="hero" style="background-image: url('<?php the_field('background_image'); ?>')">
-  <?php else : ?>
-    <section id="top" class="hero" style="background-color: gray;">
-  <?php endif; ?>
+<div id="secondary-page" class="technology">
+  <section id="top" class="hero"">
     <div class="hero-wrapper">
-      <div class="hero-content">
-        <h1>Precision Therapeutics Platform</h1>
-        <p><?php the_field('tech_sub_headline'); ?></p>
-        <?php if ( get_field('tech_video_link') ) : ?>
-          <div class="btn white play">
-            <div class="btn-content" data-url="<?php the_field('tech_video_link'); ?>">
-              <span style="margin-right: 9px;margin-bottom: -2px;display: block;">
-                <svg width="12px" height="14px" viewBox="0 0 12 14">
-                  <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                    <g transform="translate(-673.000000, -525.000000)" fill="#FFFFFF">
-                      <polygon id="Triangle" transform="translate(679.000000, 532.000000) rotate(-270.000000) translate(-679.000000, -532.000000) " points="679 526 686 538 672 538"></polygon>
-                    </g>
-                  </g>
-                </svg>
-              </span>
-              <?php echo __('Play Video'); ?>
-            </div>
-          </div>
-        <?php endif; ?>
-
-        <?php //global $wp; $currentURL = home_url( $wp->request ); ?>
-      </div>
+      <h1>Precision Therapeutics Platform</h1>
     </div>
   </section>
 
@@ -50,7 +25,25 @@
     ?>
       <img <?php responsive_image( $mobile_image['id'],'device','1440px'); ?> class="mobile-img" alt="<?php echo $mobile_image['title']; ?>">
     <?php endif; ?>
+
+    <?php if ( get_field('tech_video_link') ) : ?>
+      <div class="btn play">
+        <div class="btn-content" data-url="<?php the_field('tech_video_link'); ?>">
+          <span style="margin-right: 9px;margin-bottom: -2px;display: block;">
+            <svg width="12px" height="14px" viewBox="0 0 12 14">
+              <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g transform="translate(-673.000000, -525.000000)" fill="#FFFFFF">
+                  <polygon id="Triangle" transform="translate(679.000000, 532.000000) rotate(-270.000000) translate(-679.000000, -532.000000) " points="679 526 686 538 672 538"></polygon>
+                </g>
+              </g>
+            </svg>
+          </span>
+          <?php echo __('Play Video'); ?>
+        </div>
+      </div>
+    <?php endif; ?>
   </section>
+  
 
   <section class="featured-items">
     <div class="featured-items-wrapper">

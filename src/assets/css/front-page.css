@@ -95,83 +95,14 @@
   }
 }
 
-
-#cr-phage {
-  background-color: #001937;
-  background: linear-gradient(180deg, #00203F 0%, #001937 90%, #001937 100%);
-  background-size: cover;
-  background-position: 60% center;
-  background-repeat: no-repeat;
-  padding: 0;
-
-  @media (width >= 800px) {
-    background-position: right center;
-  }
-
-  & .cr-phage-wrapper {
-    color: white;
-    padding: 0 12px ;
-    @media (width >= 1000px) {
-      display: flex;
-    }
-  }
-
-  & .cr-phage-content {
-    padding: 130px 0;
-    width: 70%;
-    @media (width >= 1000px) {
-      padding: 200px 0;
-      width: 50%;
-    }
-
-    & h2 {
-      color: white;
-      font-size: 60px;
-      line-height: 68px;
-    }
-  
-    & p {
-      font-size: 24px;
-    }
-  
-    & h4 a {
-      color: white;
-  
-      &:visited {
-        color: white;
-      }
-    }
-  }
-
-  & .wrapper {
-    display: none;
-    @media (width > 910px) {
-      display: flex;
-    }
-  }
-}
-
-/* #features {
-  padding: 4rem 1rem;
-
-  & .features-wrapper {
-    margin: 0 auto;
-    max-width: 1140px;
-    width: 100%;
-  }
+.introduction {
+  background-color: #f4f4f4;
+  padding: 3rem 1rem;
 
   & h3 {
-    margin: 0 auto;
-    max-width: 540px;
     text-align: center;
   }
-
-  & .features-img {
-    margin: 0 auto;
-    max-width: 420px;
-  }
-  
-} */
+}
 
 .our-pipeline {
   padding: 4rem 1rem;
@@ -179,11 +110,20 @@
   max-width: 1140px;
   width: 100%;
 
-  & h2,
-  & h3 {
+  & h2 {
+    color: var(--textColor);
+    font-family: 'museo_sans500';
+    line-height: 32px;
+    font-size: 26px;
+    font-weight: normal;
     text-align: center;
+  
+    @media ( width >=840px ) {
+      font-size: 36px;
+      line-height: 48px;
+    }
   }
-
+  
   & .wrapper {
     margin: 0 auto;
     
@@ -198,7 +138,7 @@
   text-align: center;
 
   @media (width > 840px) {
-    padding: 104px 20px;
+    padding: 54px 20px;
   }
 
   & .partners-wrapper {

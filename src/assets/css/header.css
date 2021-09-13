@@ -179,8 +179,8 @@
     }
   }
 
-  & .false-link {
-    cursor: default;
+  & .menu-item {
+    cursor: pointer;
   }
 
   & .sub-menu {
@@ -222,6 +222,12 @@
   }
 
   & li:hover > .sub-menu {
+    @media (width > 1020px) {
+      /* display: block; */
+    }
+  }
+
+  & li.menu-item-has-children.js-active .sub-menu {
     @media (width > 1020px) {
       display: block;
     }

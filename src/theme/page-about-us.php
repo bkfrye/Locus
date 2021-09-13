@@ -82,31 +82,6 @@
     ></lottie-player>
   </div>
 
-  <a name="stewardship"></a>
-  <div class="stewardship">
-    <div class="wrapper">
-      <h2>Locus Stewardship</h2>
-      <h3><?php the_field('stewardship_title'); ?></h3>
-      <p><?php the_field('stewardship_content'); ?></p>
-      <?php if ( get_field('stewardship_video') ) : ?>
-        <div class="btn play" style="margin: 0 auto;">
-          <div class="btn-content" data-url="<?php the_field('stewardship_video'); ?>">
-            <span style="margin-right: 9px;margin-bottom: -2px;display: block;">
-              <svg width="12px" height="14px" viewBox="0 0 12 14">
-                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                  <g transform="translate(-673.000000, -525.000000)" fill="#FFFFFF">
-                    <polygon id="Triangle" transform="translate(679.000000, 532.000000) rotate(-270.000000) translate(-679.000000, -532.000000) " points="679 526 686 538 672 538"></polygon>
-                  </g>
-                </g>
-              </svg>
-            </span>
-            <?php echo __('Play Video'); ?>
-          </div>
-        </div>
-      <?php endif; ?>
-    </div>
-  </div>
-
   <section class="careers" style="background-image: url('<?php echo get_stylesheet_directory_uri() ?>/img/bg_people_dark-blue.jpg')">
     <div class="careers-content wrapper">
       <h4>Contact us to learn how we can work together</h4>

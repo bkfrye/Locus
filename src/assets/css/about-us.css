@@ -68,30 +68,6 @@
     margin: 4rem -20px;
     width: calc(100% + 40px);
   }
-
-  & .stewardship {
-    padding: 4rem 0;
-
-    & h2 {
-      text-align: center;
-    }
-
-    & h3 {
-      text-align: center;
-    }
-
-    & .wrapper {
-      margin: 0 auto;
-      padding: 4rem 0rem;
-      max-width: 840px;
-      width: 100%;
-  
-  
-      @media (width > 910px) {
-        width: 66.6%;
-      }
-    }
-  }
 }
 
 .learn-more {
@@ -103,8 +79,6 @@
     }
   }
 }
-
-
 
 .our-team {
   padding: 104px 0;

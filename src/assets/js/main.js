@@ -49,10 +49,20 @@ document.addEventListener("DOMContentLoaded", () => {
   $('.menu-item-has-children').click( function(e) {
     e.preventDefault();
     e.stopPropagation();
+    if ($('.menu-item-has-children').hasClass('js-active')) { 
+      $('.menu-item-has-children').removeClass('js-active') 
+    }
+    $(this).addClass('js-active');
   });
 
   $('.sub-menu .menu-item').click( function(e) {
     e.stopPropagation();
+  });
+
+  $(document).on('click', function (e) {
+    if ($('.menu-item-has-children').hasClass('js-active')) { 
+      $('.menu-item-has-children').removeClass('js-active') 
+    }
   });
 
   // convert hash (false) links to div element

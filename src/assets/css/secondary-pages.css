@@ -26,6 +26,59 @@
   }
 }
 
+
+#secondary-page.technology {
+
+  & .hero {
+    display: flex;
+    height: 100%;
+    min-height: 200px;
+    padding: 0 1rem;
+
+    & h1,
+    & p {
+      color: var(--textColor);
+    }
+  }
+}
+
+#secondary-page.manufacturing {
+  & .hero {
+    min-height: 200px;
+    text-align: left;
+
+    & h1,
+    & p {
+      color: var(--textColor);
+    }
+
+    & .hero-wrapper {
+      flex-direction: column;
+
+      @media (width > 840px) {
+        flex-direction: row;
+      }
+    }
+
+    & .hero-content {
+      margin: 0;
+      padding-right: 2rem;
+      padding-top: 2rem;
+
+      @media (width > 840px) {
+        max-width: 50%;
+      }
+    }
+
+    & .hero-image {
+      @media (width > 840px) {
+        max-width: 50%;
+      }
+    }
+
+  }
+}
+
 .featured-items {
   background-color: var(--mediumBlue);
   color: white;
@@ -119,8 +172,26 @@
 }
 
 #platform {
-  padding-top: 3rem;
+  padding: 3rem 1rem;
   text-align: center;
+  
+  & h2 {
+    color: var(--textColor);
+    font-family: 'museo_sans500';
+    line-height: 32px;
+    font-size: 26px;
+    font-weight: normal;
+    text-align: center;
+  
+    @media ( width >=840px ) {
+      font-size: 36px;
+      line-height: 48px;
+    }
+  }
+
+  & .btn {
+    margin-top: -4rem;
+  }
 }
 
 .tech-info {
@@ -255,7 +326,8 @@
     text-align: center;
   }
 
-  & h3 {
+  & h3,
+  & p {
     text-align: center;
   }
 
@@ -288,26 +360,7 @@
   }
 }
 
-.our-facility {
-  margin: 6rem 0;
 
-  & .our-facility-content {
-    @media (width > 960px) {
-      display: flex;
-      justify-content: space-between;
-    }
-  }
-
-  & h3 {
-    @media (width > 960px) {
-      max-width: 66.6%;
-    }
-  }
-
-  & .image {
-    text-align: center;
-  }
-}
 
 .learn-more-manufacturing,
 .learn-more-technology {

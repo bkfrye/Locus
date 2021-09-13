@@ -1,10 +1,6 @@
 <?php get_header(); ?>
-<div id="secondary-page">
-  <?php if ( get_field('background_image') ) : ?>
-    <section id="top" class="hero" style="background-image: url('<?php the_field('background_image'); ?>')">
-  <?php else : ?>
-    <section id="top" class="hero" style="background-color: gray;">
-  <?php endif; ?>
+<div id="secondary-page" class="manufacturing">
+  <section id="top" class="hero">
     <div class="hero-wrapper">
       <div class="hero-content">
         <h1>Locus Manufacturing</h1>
@@ -26,16 +22,10 @@
           </div>
         <?php endif; ?>
       </div>
-    </div>
-  </section>
-  
-  <section class="our-facility">
-    <div class="wrapper">
-      <div class="our-facility-content">
-        <h3><?php the_field('facility_content') ;?></h3>
-        <div class="image">
-          <?php $image = get_field('facility_award_image');?>
-          <img <?php responsive_image( $image['id'],'device','1440px'); ?> alt="<?php echo $image['title']; ?>">
+      <div class="hero-image">
+      <div class="image">
+        <?php $hero_image = get_field('hero_image');?>
+        <img <?php responsive_image( $hero_image['id'],'device','1440px'); ?> alt="<?php echo $hero_image['title']; ?>">
         </div>
       </div>
     </div>
