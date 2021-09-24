@@ -9,8 +9,7 @@
   <section id="platform" class="our-platform">
     <div class="wrapper">
       <article>
-        <h2>crPhage & ePhage Platforms</h2>
-        <h3><?php the_field('platform_headline'); ?></h3>
+        <h2><?php the_field('platform_headline'); ?></h2>
       </article>
     </div>
     <?php 
