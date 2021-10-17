@@ -81,7 +81,7 @@
 
 .careers-listing {
   @mixin maxWidth;
-  padding-top: 84px;
+  padding: 84px 0;
 
   & .accordion {
     padding: 0;
@@ -206,4 +206,3 @@
     }
   }
 }
-
