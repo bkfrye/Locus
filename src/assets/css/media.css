@@ -35,6 +35,10 @@
   min-height: 400px;
 }
 
+.paged .media-hero {
+  display: none;
+}
+
 .media-hero-wrapper {
   @mixin maxWidth;
   position: relative;
