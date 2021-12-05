@@ -29,14 +29,13 @@
           </section>
         <?php 
           else:
-
-            query_posts('posts_per_page=1');
-            if ( have_posts() ) :
-              while ( have_posts() ) :
-                the_post();
-                get_template_part( 'content-featured', get_post_format() );
-              endwhile;
-            endif;
+            $recent_posts = wp_get_recent_posts(array(
+              'numberposts' => 1,
+              'post_status' => 'publish'
+            ));
+            foreach( $recent_posts as $recent_post ) :
+              get_template_part( 'content-featured', get_post_format() );
+            endforeach;
           endif;
           wp_reset_postdata();
         ?>
@@ -53,14 +52,32 @@
 
 	<div class="site-content wrapper">
 
+
 		<section class="news-link-wrapper">
 			<?php
-      query_posts('posts_per_page=10&offset=1');
-			if ( have_posts() ) :
-				while ( have_posts() ) :
-					the_post();
-					get_template_part( 'content', get_post_format() );
-				endwhile;
+      $current_page = get_query_var('paged');
+      $current_page = max( 1, $current_page );
+
+      $per_page = 10;
+      $offset_start = 1;
+      $offset = ( $current_page - 1 ) * $per_page + $offset_start;
+
+      $post_list = new WP_Query(array(
+          'posts_per_page' => $per_page,
+          'paged'          => $current_page,
+          'offset'         => $offset,
+          'ignore_sticky_posts' => 1
+      ));
+
+      $total_rows = max( 0, $post_list->found_posts - $offset_start );
+      $total_pages = ceil( $total_rows / $per_page );
+
+
+      if ( $post_list->have_posts() ) :
+        while ( $post_list->have_posts() ):
+          $post_list->the_post();
+          get_template_part( 'content', get_post_format() );
+        endwhile;
       ?>
 		</section>
 
@@ -68,10 +85,16 @@
       else :
         get_template_part( 'content', 'none' );
       endif;
+      
 		?>
 
 		<div class="pagination">
-			<?php echo paginate_links(); ?>
+			<?php echo paginate_links( array(
+        'total'   => $total_pages,
+        'current' => $current_page,
+      )); 
+      wp_reset_postdata();
+      ?>
 		</div>
 	</div>
 </div>
