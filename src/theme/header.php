@@ -15,7 +15,8 @@
 	<link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/img/favicon.png" type="image/png">
 </head>
 
-<body>
+<body <?php if (is_paged()) : echo 'class="paged"'; endif; ?>>
+  
   <header id="header" class="header">
   	<div class="header-content">
       <div class="logo-wrapper">
