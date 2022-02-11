@@ -22,40 +22,40 @@
 </div>
 
 <div class="careers-page-content">
-    <section id="listing" class="careers-listing">
-      <h2>Current Openings</h2>
-      <?php
-        $args = array(
-          'post_type' => 'careers',
-          'post_status' => 'publish',
-          'posts_per_page' => -1,
-          'order' => 'ASC',
-          'cat' => 'home',
-        );
-        $loop = new WP_Query( $args );
-      ?>
-      <ul class="accordion">
-      <?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
-        <li class="job-item">
-          <a href="<?php the_permalink(); ?>" class="job-item-link" target="_blank">
-            <div class="click-block">
-              <div class="list-item-content">
-                <h3><?php the_title(); ?></h3>
-                <div class="job-info">
-                  <p>Type: <span><?php the_field('type'); ?></span></p>
-                  <p>Location: <span><?php the_field('location'); ?></span></p>
-                </div>
-              </div>
-              <div class="list-item-link">
-                <div class="inline-link">
-                  <p>Read More</p>
-                </div>
-              </div>
-            </div>
-          </a>
-        </li>
-      <?php endwhile; wp_reset_postdata(); ?>
-    </ul>
-    </section>
-  </div>
+  <section id="listing" class="careers-listing">
+    <div id="recruitee-careers" class="careers-listing"></div>
+  </section>
+</div>
+<script type="text/javascript">
+  var rtscript = document.createElement('script');
+  rtscript.type = 'text/javascript';
+  rtscript.onload = function() {
+    var widget = new RTWidget({
+      "companies": [
+        69330
+      ],
+      "detailsMode": "overlay",
+      "language": "en",
+      "departmentsFilter": [],
+      "themeVars": {
+        "primary": "#0d2b4a",
+        "secondary": "#8497b0",
+        "text": "#0d2b4a",
+        "textDark": "#0d2b4a",
+        "baseFontSize": "16px"
+      },
+      "flags": {
+        "showLocation": true,
+        "showCountry": true,
+        "showCity": true,
+        "groupByLocation": false,
+        "groupByDepartment": true,
+        "groupByCompany": false
+      }
+    })
+  };
+
+  rtscript.src = 'https://d10zminp1cyta8.cloudfront.net/widget.js';
+  document.body.appendChild(rtscript);
+</script>
 <?php get_footer(); ?>
