@@ -124,6 +124,12 @@
     }
   }
 
+  & .employee-list-item[data-type=board_of_directors] {
+    @media (min-width: 1080px) {
+      flex-basis: 33%;
+    }
+  }
+
   & .image-wrapper {
     position: relative;
     overflow: hidden;
